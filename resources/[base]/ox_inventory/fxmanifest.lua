@@ -1,13 +1,11 @@
---[[ FX Information ]] --
 fx_version 'cerulean'
 use_experimental_fxv2_oal 'yes'
 lua54 'yes'
 game 'gta5'
 
---[[ Resource Information ]] --
 name 'ox_inventory'
 author 'Overextended'
-version '2.32.1'
+version '2.32.2'
 repository 'https://github.com/overextended/ox_inventory'
 description 'Slot-based inventory with item metadata support'
 
@@ -20,6 +18,12 @@ dependencies {
 }
 
 shared_script '@ox_lib/init.lua'
+
+ox_libs {
+    'locale',
+    'table',
+    'math',
+}
 
 server_scripts {
 	'@oxmysql/lib/MySQL.lua',

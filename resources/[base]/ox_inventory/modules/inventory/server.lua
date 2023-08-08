@@ -62,12 +62,12 @@ end
 function OxInventory:syncSlotsWithClients(slots, syncOwner)
 	for playerId in pairs(self.openedBy) do
 		if self.id ~= playerId then
-			TriggerClientEvent('ox_inventory:updateSlots', playerId, slots, Inventories[playerId].weight)
-		end
-	end
+            local target = Inventories[playerId]
 
-	if syncOwner and self.player then
-		TriggerClientEvent('ox_inventory:updateSlots', self.id, slots, self.weight)
+            if target then
+			    TriggerClientEvent('ox_inventory:updateSlots', playerId, slots, target.weight)
+            end
+		end
 	end
 end
 
@@ -589,7 +589,7 @@ function Inventory.Create(id, label, invType, slots, weight, maxWeight, owner, i
 	end
 
 	if not items then
-		self.items, self.weight = Inventory.Load(self.dbId, invType, owner)
+		self.items, self.weight = Inventory.Load(self.dbId or self.id, invType, owner)
 	elseif weight == 0 and next(items) then
 		self.weight = Inventory.CalculateWeight(items)
 	end
@@ -609,6 +609,16 @@ function Inventory.Remove(inv)
 		elseif inv.player then
 			activeIdentifiers[inv.owner] = nil
 		end
+
+		for playerId in pairs(inv.openedBy) do
+            if inv.id ~= playerId then
+                local target = Inventories[playerId]
+
+                if target then
+                    target:closeInventory()
+                end
+            end
+        end
 
 		Inventories[inv.id] = nil
 	end
@@ -783,8 +793,6 @@ function Inventory.Load(id, invType, owner)
 
 	return returnData, weight
 end
-
-local table = lib.table
 
 local function assertMetadata(metadata)
 	if metadata and type(metadata) ~= 'table' then
@@ -2217,7 +2225,12 @@ local function prepareInventorySave(inv, buffer, time)
     return 4, { data, inv.owner and tostring(inv.owner) or '', inv.dbId }
 end
 
-local function saveInventories(manual)
+local isSaving = false
+
+local function saveInventories(clearInventories)
+	if isSaving then return end
+
+	isSaving = true
 	local time = os.time()
 	local parameters = { {}, {}, {}, {} }
 	local size = { 0, 0, 0, 0 }
@@ -2234,7 +2247,9 @@ local function saveInventories(manual)
 
 	db.saveInventories(parameters[1], parameters[2], parameters[3], parameters[4])
 
-    if manual then return end
+	isSaving = false
+
+    if not clearInventories then return end
 
     for _, inv in pairs(Inventories) do
         if not inv.open and not inv.player then
@@ -2247,29 +2262,35 @@ local function saveInventories(manual)
 end
 
 lib.cron.new('*/5 * * * *', function()
-    saveInventories()
+    saveInventories(true)
 end)
 
-function Inventory.SaveInventories(lock)
+function Inventory.SaveInventories(lock, clearInventories)
 	Inventory.Lock = lock or nil
 
 	Inventory.CloseAll()
-    saveInventories(true)
+    saveInventories(clearInventories)
 end
 
 AddEventHandler('playerDropped', function()
 	if GetNumPlayerIndices() == 0 then
-		Inventory.SaveInventories()
+		Inventory.SaveInventories(true, true)
 	end
 end)
 
 AddEventHandler('txAdmin:events:serverShuttingDown', function()
-	Inventory.SaveInventories(true)
+	Inventory.SaveInventories(true, false)
+end)
+
+AddEventHandler('txAdmin:events:scheduledRestart', function(eventData)
+    if eventData.secondsRemaining ~= 60 then return end
+
+	Inventory.SaveInventories(true, true)
 end)
 
 AddEventHandler('onResourceStop', function(resource)
 	if resource == shared.resource then
-		Inventory.SaveInventories(true)
+		Inventory.SaveInventories(true, false)
 	end
 end)
 

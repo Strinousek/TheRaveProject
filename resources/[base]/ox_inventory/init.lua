@@ -173,16 +173,14 @@ function data(name)
 end
 
 if not lib then
-	return spamError('ox_inventory requires the ox_lib resource, refer to the documentation.')
+    return spamError('ox_inventory requires the ox_lib resource, refer to the documentation.')
 end
 
-local success, msg = lib.checkDependency('oxmysql', '2.4.0')
-
-if not success then return spamError(msg) end
-
-success, msg = lib.checkDependency('ox_lib', '3.2.0')
-
-if not success then spamError(msg) end
+if not lib.checkDependency('oxmysql', '2.7.3', true)
+    or not lib.checkDependency('ox_lib', '3.8.1', true)
+then
+    return
+end
 
 if not LoadResourceFile(shared.resource, 'web/build/index.html') then
 	return spamError('UI has not been built, refer to the documentation or download a release build.\n	^3https://overextended.github.io/docs/ox_inventory/^0')
