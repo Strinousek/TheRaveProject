@@ -16,7 +16,6 @@ TunningZones = {
         label = "Star Screamers",
         coords = vector3(731.74468994141, -1088.7290039063, 22.169044494629),
         society = "starscreamers",
-        test = false,
         societyCut = 0.20,
     },
 }
