@@ -18,6 +18,7 @@ TunningZones = {
         society = "starscreamers",
         societyCut = 0.20,
     },
+    dsdfs
 }
 
 MaxTicketsPerVehicle = 3
