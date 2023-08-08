@@ -6,6 +6,8 @@ LoadLocale = function(lang)
     Locales = loadHandle()
 end
 
+-- random komentář
+
 LoadLocale("cs")
 
 
