@@ -1,0 +1,156 @@
+local PhoneNumbers = {}
+local StrinJobs = exports.strin_jobs
+local DistressJobs = StrinJobs:GetDistressJobs()
+
+-- PhoneNumbers = {
+--   ambulance = {
+--     type  = "ambulance",
+--     sources = {
+--        ['1'] = true
+--     }
+--   }
+-- }
+function notifyAlertSMS(number, alert, listSrc)
+    if PhoneNumbers[number] ~= nil then
+        print(json.encode(alert))
+        local mess = 'Číslo #' .. alert.numero .. ' : ' .. alert.message
+        if alert.coords ~= nil then
+            mess = mess .. ' ' .. alert.coords.x .. ', ' .. alert.coords.y
+        end
+        if(lib.table.contains(DistressJobs, number)) then
+            TriggerEvent('wf-alerts:svNotify911', alert.message, alert.numero, vector3(alert.coords.x, alert.coords.y, alert.coords.z))
+        end
+        for k, _ in pairs(listSrc) do
+            getPhoneNumber(tonumber(k), function(n)
+                if n ~= nil then
+                    TriggerEvent('gcPhone:_internalAddMessage', number, n, mess,
+                                 0, function(smsMess)
+                        TriggerClientEvent("gcPhone:receiveMessage",
+                                           tonumber(k), smsMess)
+                    end)
+                end
+            end)
+        end
+    end
+end
+
+AddEventHandler('esx_phone:registerNumber', function(number, type, sharePos, hasDispatch, hideNumber, hidePosIfAnon)
+    print('= INFO = Registrace telefonniho cisla ' .. number .. ' => ' .. type)
+    local hideNumber = hideNumber or false
+    local hidePosIfAnon = hidePosIfAnon or false
+
+    PhoneNumbers[number] = {type = type, sources = {}, alerts = {}}
+    local xPlayers = ESX.GetExtendedPlayers("job", number)
+    for _, xPlayer in pairs(xPlayers) do
+        PhoneNumbers[number].sources[tostring(xPlayer.source)] = true
+    end
+end)
+
+AddEventHandler('esx:setJob', function(source, job, lastJob)
+    if PhoneNumbers[lastJob.name] ~= nil then
+        TriggerEvent('esx_addons_gcphone:removeSource', lastJob.name, source)
+    end
+
+    if PhoneNumbers[job.name] ~= nil then
+        TriggerEvent('esx_addons_gcphone:addSource', job.name, source)
+    end
+end)
+
+AddEventHandler('esx_addons_gcphone:addSource', function(number, source)
+    PhoneNumbers[number].sources[tostring(source)] = true
+end)
+
+AddEventHandler('esx_addons_gcphone:removeSource', function(number, source)
+    PhoneNumbers[number].sources[tostring(source)] = nil
+end)
+
+RegisterNetEvent('gcPhone:sendMessage', function(number, message)
+    local sourcePlayer = tonumber(source)
+    if PhoneNumbers[number] ~= nil then
+        getPhoneNumber(source, function(phone)
+            notifyAlertSMS(number, {message = message, numero = phone}, PhoneNumbers[number].sources)
+        end)
+    end
+end)
+
+RegisterNetEvent('esx_addons_gcphone:startCall', function(number, message, coords)
+    local source = source
+    if PhoneNumbers[number] ~= nil then
+        getPhoneNumber(source, function(phone)
+            notifyAlertSMS(number, {
+                message = message,
+                coords = coords,
+                numero = phone
+            }, PhoneNumbers[number].sources)
+        end)
+    end
+end)
+
+
+AddEventHandler('esx_addons_gcphone:startCallWithIdentifier', function(identifier, number, message, coords)
+    if PhoneNumbers[number] ~= nil then
+        getPhoneNumberFromIdentifier(identifier, function(phone)
+            notifyAlertSMS(number, {
+                message = message,
+                coords = coords,
+                numero = phone
+            }, PhoneNumbers[number].sources)
+        end)
+    end
+end)
+
+AddEventHandler('esx:playerLoaded', function(source)
+    local xPlayer = ESX.GetPlayerFromId(source)
+	local phoneNumber = MySQL.scalar.await("SELECT `phone_number` FROM users WHERE `identifier` = ?", {
+		xPlayer.identifier
+	})
+	xPlayer.set('phone_number', phoneNumber)
+
+	if PhoneNumbers[xPlayer.job.name] ~= nil then
+		TriggerEvent('esx_addons_gcphone:addSource', xPlayer.job.name, source)
+	end
+end)
+
+AddEventHandler('esx:playerDropped', function(source)
+    local source = source
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if PhoneNumbers[xPlayer.job.name] ~= nil then
+        TriggerEvent('esx_addons_gcphone:removeSource', xPlayer.job.name, source)
+    end
+end)
+
+function getPhoneNumberFromIdentifier(identifier, callback)
+    local xPlayer = ESX.GetPlayerFromIdentifier(identifier)
+    if xPlayer == nil then
+		callback(nil)
+	end
+	local phoneNumber = MySQL.scalar.await("SELECT `phone_number` FROM users WHERE `identifier` = ?", {
+		xPlayer.identifier
+	})
+	callback(phoneNumber)
+end
+
+function getPhoneNumber(source, callback)
+    local xPlayer = ESX.GetPlayerFromId(source)
+    if xPlayer == nil then
+		callback(nil)
+	end
+	local phoneNumber = MySQL.scalar.await("SELECT `phone_number` FROM users WHERE `identifier` = ?", {
+		xPlayer.identifier
+	})
+	callback(phoneNumber)
+end
+
+RegisterServerEvent('esx_phone:send')
+AddEventHandler('esx_phone:send', function(number, message, _, coords)
+    local source = source
+    if PhoneNumbers[number] ~= nil then
+        getPhoneNumber(source, function(phone)
+            notifyAlertSMS(number, {
+                message = message,
+                coords = coords,
+                numero = phone
+            }, PhoneNumbers[number].sources)
+        end)
+    end
+end)

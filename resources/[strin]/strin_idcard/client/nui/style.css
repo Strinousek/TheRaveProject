@@ -1,0 +1,82 @@
+body {
+    position: relative;
+}
+
+* {
+    color: black;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+#card-container {
+    display: none;
+    position: absolute;
+    background-repeat: no-repeat;
+    background: url("./images/dl0.png");
+    background-size: cover;
+    width: 434px;
+    height: 272px;
+    right: 25px;
+}
+
+.card-property {
+    position: absolute;
+    font-size: 11px;
+}
+
+#firstname {
+    top: 7.65rem;
+    left: 10.75rem;
+}
+
+#lastname {
+    top: 6.65rem;
+    left: 10.75rem;
+}
+
+#dob {
+    top: 10.25rem;
+    left: 11.3rem;
+}
+
+.first-line {
+    top: 13.55rem;
+}
+
+#sex {
+    left: 14rem;
+}
+
+#hair {
+    left: 18.5rem;
+    top: 13.5rem;
+}
+
+#eyes {
+    left: 23.3rem;
+    top: 13.5rem;
+}
+
+.second-line {
+    top: 14.35rem;
+}
+
+#height {
+    left: 14rem;
+}
+
+#weight {
+    left: 18.5rem;
+}
+
+#creation-date {
+    top: 15.5rem;
+    left: 22.75rem;
+}
+
+#classes {
+    display: none;
+    top: 4.65rem;
+    left: 22.45rem;
+}

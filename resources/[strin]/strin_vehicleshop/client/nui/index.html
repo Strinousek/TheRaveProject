@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fontawesome/all.css">
+    <title>STRIN VEHICLESHOP</title>
+</head>
+<body>
+    <div id="vehicle-shop-container" style="display: none">
+        <div id="vehicle-shop-front-container">
+            <div id="vehicle-shop-front-title">Premium Deluxe Motorsport</div>
+            <div id="vehicle-shop-front-controls-container">
+                <div id="vehicle-shop-front-inner-controls-container">
+                    <div id="vehicle-shop-front-subtitle">
+                        To nejlepší na trhu pouze a jedině u nás!
+                    </div>
+                    <input id="vehicle-search-input" type="text" placeholder="Hledat...">
+                    <div id="vehicle-shop-front-controls">
+                        <button id="price-sort-button" class="vehicle-shop-filter-button">
+                            Seřadit podle ceny
+                            <div id="sorting-type">
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                        </button>
+                        <button id="category-button" class="vehicle-shop-filter-button">
+                            Výběr kategorie
+                        </button>
+                    </div>
+                </div>
+                
+                <div id="vehicle-category-menu" stlye="display: none">
+                </div>
+            </div>
+        </div>
+        <div id="vehicle-shop-vehicles-container">
+            <div id="vehicle-shop-car-selection">
+                <!--<div class="vehicle-row">
+                    <div class="vehicle">
+                        <div class="vehicle-image"></div>
+                        <div class="vehicle-info">
+                            <div class="vehicle-label">Zentorno</div>
+                            <div class="vehicle-price">80.000$</div>
+                        </div>
+                    </div>
+                </div>-->
+            </div>
+        </div>
+    </div>
+    <script src="index.js" type="text/javascript"></script>
+</body>
+</html>

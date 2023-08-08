@@ -6,9 +6,6 @@ db
 /*.json
 /*.lua
 
-/resources/**/*
-!/resources/\[rave\]
-!/resources/\[strin\]
-!/resources/\[base\]
-!/resources/\[cars\]
-!/resources/\[interiors\]
+/resources/\[_kokotiny\]/*
+/resources/\[cars\]/*
+/resources/\[interiors\]/*

@@ -1,0 +1,227 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+* {
+    font-family: "Montserrat";
+    font-weight: 500;
+}
+
+html {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#vehicle-shop-container {
+    position: relative;
+    width: 90%;
+    height: 90%;
+    background-color: #ecf0f1;
+}
+
+#vehicle-shop-front-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 33.3%;
+    background-image: url("images/pdm.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+#vehicle-shop-front-title {
+    font-size: 64px;
+    color: white;
+    text-transform: uppercase;
+    text-align: center;
+    font-weight: 800;
+    text-shadow: 0px 0px 11px #000000, 0px 0px 11px #000000;
+}
+
+#vehicle-shop-front-controls-container {
+    position: absolute;
+    width: 95%;
+    background: rgb(227,171,5);
+    background: linear-gradient(0deg, rgba(227,171,5,1) 0%, rgba(202,162,26,1) 100%);
+    padding: 8px;
+    bottom: -20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-box-shadow: 0px 8px 15px 5px rgba(0,0,0,0.43); 
+    box-shadow: 0px 8px 15px 5px rgba(0,0,0,0.43);
+    flex-direction: column;
+}
+
+#vehicle-shop-front-inner-controls-container {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+}
+
+#vehicle-shop-front-controls {
+    display: flex;
+}
+
+#vehicle-shop-front-subtitle {
+    font-weight: 800;
+}
+
+.vehicle-shop-filter-button {
+    display: flex;
+    padding: 8px 32px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    background-color: black;
+    border: none;
+    cursor: pointer;
+}
+
+#vehicle-search-input {
+    height: 35px;
+    padding: 0 8px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: white;
+    text-align: center;
+    background-color: black;
+    border: none;
+    cursor: pointer;
+}
+
+.vehicle-shop-filter-button:first-of-type {
+    margin-right: 16px;
+}
+
+#vehicle-shop-vehicles-container {
+    height: 66.7%;
+    display: flex;
+    justify-content: center;
+}
+
+#vehicle-shop-car-selection {
+    margin-top: 48px;
+    width: 80%;
+    /*background-color: black;*/
+    color: white;
+    overflow-y: hidden;
+    overflow: scroll;
+    max-height: 90%;
+    -webkit-box-shadow: 0px 8px 15px 5px rgba(0,0,0,0.43); 
+    box-shadow: 0px 8px 15px 5px rgba(0,0,0,0.43);
+}
+
+#vehicle-shop-car-selection::-webkit-scrollbar {
+    display: none;
+}
+
+.vehicle-row {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.vehicle {
+    margin: 16px;
+    flex-grow: 1;
+    max-width: 30%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    -webkit-box-shadow: 0px 8px 15px 5px rgba(0,0,0,0.43); 
+    box-shadow: 0px 8px 15px 5px rgba(0,0,0,0.43);
+    transition: 0.5s all;
+}
+
+.vehicle > .vehicle-image {
+    filter: grayscale(50%);
+}
+
+.vehicle:hover > .vehicle-image {
+    filter: grayscale(0%);
+}
+
+.vehicle-image {
+    width: 100%;
+    min-height: 180px;
+    flex-grow: 1;
+    background-image: url("images/pdm.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.vehicle-info {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+}
+
+.vehicle-label {
+    padding-left: 8px;
+    text-transform: capitalize;
+}
+
+.vehicle-price {
+    padding: 8px 16px;
+    min-width: 20%;
+    max-width: 50%;
+    font-weight: 800;
+    background: rgb(227,171,5);
+    background: linear-gradient(0deg, rgba(227,171,5,1) 0%, rgba(202,162,26,1) 100%);
+    text-align: center;
+}
+
+#sorting-type {
+    font-size: 16px;
+    color: white;
+    margin-left: 8px;
+}
+
+#vehicle-category-menu {
+    display: flex;
+    -webkit-box-shadow: 0px 8px 15px 5px rgba(0,0,0,0.43); 
+    box-shadow: 0px 8px 15px 5px rgba(0,0,0,0.43);
+}
+
+.vehicle-category {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    font-weight: 800;
+    width: 72px;
+    text-align: center;
+    color: black;
+    background: rgb(227,171,5);
+    background: linear-gradient(0deg, rgba(227,171,5,1) 0%, rgba(202,162,26,1) 100%);
+    transition: 0.2s all;
+}
+
+.vehicle-category:hover {
+    background: rgb(213, 161, 6);
+    background: linear-gradient(0deg, rgb(216, 163, 6) 0%, rgb(174, 137, 17) 100%);
+}

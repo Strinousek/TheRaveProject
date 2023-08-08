@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+* {
+    font-family: "Montserrat";
+    font-weight: 500;
+    color: white;
+}
+
+body {
+    --main-old-bg-color: rgba(41, 128, 185,0.6);
+    --main-bg-color: rgba(28, 28, 28, 0.6);
+    --main-submit-color: rgba(230, 126, 34,0.5);
+    --main-submit-hover-color: rgba(211, 84, 0,0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#container {
+    display: none;
+    min-width: 800px;
+    max-width: 650px;
+    padding: 24px;
+    max-height: 900px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--main-bg-color);
+    border-radius: 4px;
+    position: relative;
+    -webkit-box-shadow: 0px 0px 25px 0px #000000; 
+    box-shadow: 0px 0px 25px 0px #000000;
+}
+
+.input-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    width: 100%;
+}
+
+.input-row:not(:last-of-type) {
+    margin-bottom: 32px;
+}
+
+.data-input {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 16px;
+}
+
+#dateofbirth {
+    width: 100%;
+    text-align: center;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    color: white;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+}
+
+
+input::placeholder {
+    color: rgba(236, 240, 241,0.6);
+}
+
+select {
+    width: 256px;
+    padding: 8px;
+    color: white;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+}
+
+option {
+    background-color: var(--main-submit-hover-color);
+    padding: 16px;
+    border-radius: 16px;
+    font-weight: 600;
+}
+
+option:disabled {
+    background-color: var(--main-bg-color);
+    color: rgba(236, 240, 241,1.0);
+}
+
+.input-row-label {
+    width: 100%;
+    text-align: center;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    font-size: 16px;
+    font-weight: 800;
+}
+
+input[type=number] {
+    width: 100%;
+}
+
+#submit-button {
+    background-color: var(--main-submit-color);
+    color: white;
+    padding: 16px;
+    width: 90%;
+    border-radius: 8px;
+    font-weight: 800;
+    margin-top: 8px;
+    text-transform: uppercase;
+    -webkit-box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.48); 
+    box-shadow: 0px 0px 25px 0px rgba(0,0,0,0.48);
+    transition: 0.2s all;
+    cursor: pointer;
+}
+
+#submit-button:hover {
+    background-color: var(--main-submit-hover-color);
+    padding-left: 32px;
+}
+
+.veh {
+    margin-top: 8px;
+    object-fit: cover;
+    width: 256px;
+    max-height: 128px;
+    border-radius: 10px;
+    filter: grayscale(90%);
+}
+
+.selected-veh {
+    filter: grayscale(0%);
+}

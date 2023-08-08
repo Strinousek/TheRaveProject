@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
+
+@font-face {
+  font-family: ignis;
+  src: url('../fonts/ignis.ttf');
+}
+
+*{
+  font-family: 'Montserrat', sans-serif;
+}
+
+.menu {
+ 
+  position   : absolute;
+  left       : 50%;
+  top        : 50%;
+  transform  : translate(-50%, -50%);
+  box-shadow : 0px 0px 50px 0px #000;
+  border-radius: 5px;
+  overflow-y : auto;
+  max-height : 90%; 
+  background-color: rgba(0, 0, 0, 0.507);  
+}
+
+.menu button {
+
+}
+
+.menu > table {
+  border          : 1px transparent;
+  border-spacing  : 0;
+  min-width       : 400px;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.menu > table > thead {
+  background: rgba(101, 237, 255, 0.4);
+  font-weight     : 700;
+  text-align      : center;
+  border-radius   : 10px;
+  line-height     : 30px;
+  color           : rgb(255, 255, 255);
+}
+
+.menu td {
+  text-align: center;
+  padding   : 8px;
+}
+
+.menu tbody tr:nth-child(even) {
+    background: rgba(101, 237, 255, 0.4);
+    color: white;
+}
+
+.menu tbody tr:nth-child(odd) {
+    background-color: rgba(0, 0, 0, 0.25);
+    color: #fff;    
+}
+
+::selection {
+  background: #000; /* WebKit/Blink Browsers */
+}
+
+.button {
+  display: inline-block;
+  font-weight: 500;
+  border-radius: 4px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  font-size: 19px;
+  transition: all 0.5s;
+
+}
+
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+outline: none;
+
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+outline: none;
+
+}
+
+.button:hover span {
+  padding-right: 25px;
+  outline: none;
+
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
+outline: none;
+
+}

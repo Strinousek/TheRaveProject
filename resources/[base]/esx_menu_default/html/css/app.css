@@ -1,0 +1,181 @@
+
+/* MADE BY SLIZZARN - DISCORD: slizzarn#1144 GITHUB: https://github.com/slizzarn-fivem */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
+
+@font-face {
+	font-family: chalet;
+	src: url('../fonts/chalet.ttf');
+}
+
+/** {
+  font-family: 'Righteous'; 
+}*/
+
+.menu {
+  font-family: 'Montserrat', sans-serif;
+	min-width: 330px;
+  max-width: 660px;
+	color: #fff;
+	position: absolute;
+  padding: 8px;
+  
+  background: rgba(31, 31, 31, 0.596);
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  /* Add? 
+  box-shadow: 0 0 1px transparent;
+	transform: perspective(900px) rotateY(20deg); */
+}
+
+.head {
+  text-transform: uppercase;
+  text-align: center;
+  overflow: hidden;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.menu .head {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 900;
+  text-align: center;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  color: #d8d8d8;
+  font-size: 30px;
+}
+
+.menu .menu-items {
+  max-height: 525px;
+  
+	overflow-y: auto;
+}
+
+.menu .menu-items .menu-item {
+	display: block;
+  padding: 7px;
+  
+  font-size: 12.5px;
+	text-align: left;
+  text-indent: 5px;
+  margin-top: 5px;
+  font-weight: 500;
+  /*background: linear-gradient(to left, rgba(151, 64, 252, 0.2), rgba(255, 239, 19, 0.2), rgba(255, 115, 21, 0.2), rgba(129, 19, 255, 0.2) ); */
+  color: #bdbdbd;
+}
+
+.menu .menu-items .menu-item.selected {
+  /*border: 1.5px solid #ffffff; */
+  
+  font-size: 16px;
+  text-align: left;
+  font-weight: 700;
+  background-image: linear-gradient(90deg, rgba(255, 173, 101, 0.2), rgba(255, 182, 129, 0.2), rgba(255, 255, 255, 0.01));
+  /*background-color: white;*/
+  /* background: linear-gradient(to left, rgba(151, 64, 252, 0.3), rgba(255, 239, 19, 0.3), rgba(255, 115, 21, 0.3), rgba(129, 19, 255, 0.3) ); */
+  color: #e0dfdf;
+}
+
+.head > span {
+  position: relative;
+  display: inline-block;
+}
+
+.head > span::before,
+.head > span::after {
+  content: "";
+  position: absolute;
+  top: 52%;
+  width: 9999px;
+  height: 0.5px;
+}
+
+.head > span::before {
+  right: 105%;
+  margin-right: 15px;
+}
+
+.head > span::after {
+  left: 105%;
+  margin-left: 15px;
+}
+
+
+
+.menu.align-left {
+  left: 20;
+  top : 285; 
+
+}
+
+.menu.align-top-left {
+  left: 20;
+  top : 285; 
+  min-width: 600px;
+}
+
+.menu.align-main {
+  left: 20;
+  top : 285;
+  min-width  : 400px;
+  max-width: 500px;  
+  text-align: left; 
+}
+
+.menu.align-top {
+  left: 20;
+  top : 285; 
+}
+
+.menu.align-top-right {
+  left: 20;
+  top : 285; 
+}
+
+.menu.align-right {
+  left: 20;
+  top : 285; 
+}
+
+.menu.align-bottom-right {
+  left: 20;
+  top : 285; 
+}
+
+.menu.align-bottom {
+  left: 20;
+  top : 285; 
+}
+
+.menu.align-bottom-left {
+  left: 20;
+  top : 285; 
+}
+.menu.align-center {
+  left: 20;
+  top : 285;  
+
+}
+
+/* WebKit scrollbar properties */
+::-webkit-scrollbar {
+  width: 8px;
+  border-left: 4px solid #272733;
+}
+::-webkit-scrollbar-track {
+  background: #272733;
+  border-left: 4px solid #272733;
+}
+::-webkit-scrollbar-thumb {
+  background: #1a242d;
+  border-left: 4px solid #272733;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #1a242d;
+  border-left: 4px solid #272733;
+}
+
+*{
+  overflow: hidden;
+}
+/* MADE BY SLIZZARN - DISCORD: slizzarn#1144 GITHUB: https://github.com/slizzarn-fivem */

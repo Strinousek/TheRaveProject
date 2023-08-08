@@ -1,0 +1,14 @@
+{
+  "name": "image_compresser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "sharp": "^0.32.2"
+  }
+}

@@ -1,0 +1,48 @@
+@font-face {
+    font-family: "Share Tech Mono";
+    src: url("vhs.ttf") format("truetype");
+}
+
+* {
+    font-family: 'Share Tech Mono';
+    text-transform: uppercase;
+    color: white;
+}
+
+body {
+    position: relative;
+    overflow: hidden;
+}
+
+#axon-container {
+    display: flex;
+    position: absolute;
+    border-radius: 5px;
+    padding: 8px 0;
+    padding-left: 20px;
+    top: 20px;
+    right: 0px;
+    font-size: 28px;
+    text-align: center!important;
+}
+
+#axon-text-container {
+    margin-top: 8px;
+    margin-right: -16px;
+}
+
+.axon-text-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#axon-code {
+    margin-left: 12px;
+}
+
+#axon-logo {
+    object-fit: cover;
+    width: 152px;
+    max-height: 80px;
+}

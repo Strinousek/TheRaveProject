@@ -1,0 +1,46 @@
+notLoaded, currentStreetName, intersectStreetName, lastStreet, speedlimit, nearbyPeds, isPlayerWhitelisted, playerPed, playerCoords, job, rank, firstname, lastname, phone = true
+playerIsDead = false
+
+RegisterNetEvent('esx:playerLoaded')
+AddEventHandler('esx:playerLoaded', function()
+	GetPlayerInfo()
+end)
+
+RegisterNetEvent("strin_characters:characterCreated", function()
+	GetPlayerInfo()
+end)
+
+RegisterNetEvent("strin_characters:characterSwitched", function()
+	GetPlayerInfo()
+end)
+
+RegisterNetEvent('esx:setJob')
+AddEventHandler('esx:setJob', function(job)
+    job = ESX.PlayerData.job.name
+    rank = ESX.PlayerData.job.grade_label
+    isPlayerWhitelisted = refreshPlayerWhitelisted()
+end)
+
+function GetPlayerInfo()
+	lib.callback('linden_outlawalert:getCharData', false, function(chardata)
+        firstname = chardata.firstname
+        lastname = chardata.lastname
+        phone = chardata.phone_number
+        if firstname == nil then Citizen.Wait(1000) end
+    end)
+	job = ESX.PlayerData.job.name
+    rank = ESX.PlayerData.job.grade_label
+    isPlayerWhitelisted = refreshPlayerWhitelisted()
+end
+
+AddEventHandler('esx:onPlayerDeath', function(data)
+	playerIsDead = true
+end)
+
+AddEventHandler('esx:onPlayerSpawn', function(data)
+	playerIsDead = false
+end)
+
+AddEventHandler('playerSpawned', function(data)
+	playerIsDead = false
+end)

@@ -1,0 +1,188 @@
+Garages = {
+    {
+        coords = vector3(214.29829406738,-791.56994628906,30.84778213501),
+        label = "Hlavní garáže",
+        showBlip = true,
+        heading = 156.93,
+    },
+    {
+        coords = vector3(47.38969039917,-2563.4912109375,6.0037560462952),
+        label = "Star Screamers",
+        showBlip = false,
+        heading = 355.43,
+    },
+    {
+        coords = vector3(12.289439201355,548.54864501953,176.06044006348),
+        label = "Franklin House",
+        showBlip = false,
+        heading = 312.26,
+    },
+    {
+        coords = vector3(1181.44140625,2657.4411621094,37.903949737549),
+        label = "Apolyon Customs",
+        showBlip = false,
+        heading = 86.21,
+    },
+    {
+        coords = vector3(-188.03291320801,-1285.4205322266,31.249307632446),
+        label = "Original Motorworks",
+        showBlip = false,
+        heading = 264.84,
+    },
+    {
+        coords = vector3(-800.97961425781,331.45791625977,85.700416564941),
+        label = "Eclipse Towers",
+        showBlip = false,
+        heading = 198.0,
+    },
+    {
+        coords = vector3(-944.69818115234,-178.24670410156,41.877674102783),
+        label = "Rockford Hills",
+        showBlip = true,
+        heading = 3.76,
+    },
+    {
+        coords = vector3(119.02613067627,6602.1518554688,31.991235733032),
+        label = "Paleto Bay",
+        showBlip = true,
+        heading = 295.1,
+    },
+    {
+        coords = vector3(1980.9405517578,3829.1179199219,32.403400421143),
+        label = "Sandy Shores",
+        showBlip = true,
+        heading = 293.17,
+    },
+    {
+        coords = vector3(15.082781791687,-1070.3439941406,38.152137756348),
+        label = "Pillbox Hill",
+        showBlip = true,
+        heading = 57.07,
+    },
+    {
+        coords = vector3(-977.80352783203,-2707.6252441406,13.86780834198),
+        label = "Los Santos International Airport",
+        showBlip = true,
+        heading = 16.53,
+    },
+    {
+        coords = vector3(327.49908447266,-205.73123168945,54.086296081543),
+        label = "Pinkcage Motel",
+        showBlip = true,
+        heading = 158.0,
+    },
+    {
+        coords = vector3(-1805.1047363281,456.53207397461,128.28370666504),
+        label = "Vinewood Hills Mansion",
+        showBlip = false,
+        heading = 94.47,
+    },
+    {
+        coords = vector3(-2057.2355957031,-454.14431762695,11.448294639587),
+        label = "Galdin Quay",
+        showBlip = false,
+        heading = 336.24,
+    },
+    {
+        coords = vector3(-553.0732421875,304.96682739258,83.283966064453),
+        label = "Tequila-la",
+        showBlip = false,
+        heading = 266.94,
+    },
+    {
+        coords = vector3(-813.25598144531,160.20318603516,71.352333068848),
+        label = "De Santa Residence",
+        showBlip = false,
+        heading = 106.68,
+    },
+    {
+        coords = vector3(-1629.3802490234,-3001.9201660156,-78.143684387207),
+        label = "Galaxy Club - Garáž",
+        showBlip = false,
+        heading = 357.98,
+    },
+    {
+        coords = vector3(-37.160194396973,214.17575073242,106.55335998535),
+        label = "West Vinewood",
+        showBlip = false,
+        heading = 250.24,
+    },
+    {
+        coords = vector3(404.60668945312,-1634.7998046875,29.292058944702),
+        label = "Los Santos Police Department",
+        isPolice = true,
+        showBlip = false,
+        heading = 209.79,
+    },
+    {
+        coords = vector3(-1097.6508789062,360.98428344727,68.55443572998),
+        label = "Rockford Hills #2",
+        showBlip = false,
+        heading = 5.79,
+    },
+    {
+        coords = vector3(-1268.8059082031,504.37173461914,97.082176208496),
+        label = "Vinewood Hills #2",
+        showBlip = false,
+        heading = 5.79,
+    },
+    {
+        coords = vector3(971.95062255859,-1021.2369995117,40.956169128418),
+        label = "X&X Automotive",
+        showBlip = false,
+        heading = 283.69,
+    },
+    {
+        coords = vector3(-1191.9228515625,-1492.7366943359,4.3796653747559),
+        label = "Garáž u posilky",
+        showBlip = false,
+        heading = 221.9,
+    },
+    {
+        coords = vector3(-529.6318359375,-326.17065429688,35.038120269775),
+        label = "Mount Zonah Hospital",
+        showBlip = false,
+        heading = 33.83,
+    },
+    {
+        coords = vector3(285.96505737305,-1985.3719482422,21.155269622803),
+        label = "Rancho / Jamestown St",
+        showBlip = false,
+        heading = 225.44,
+    },
+    {
+        coords = vector3(294.92120361328,-1789.4945068359,27.960187911987),
+        label = "Rancho / Roy Lowenstein Blvd",
+        showBlip = false,
+        heading = 227.12,
+    },
+    {
+        coords = vector3(327.73370361328,-2034.4859619141,21.021070480347),
+        label = "Rancho / Jamestown St #3",
+        showBlip = false,
+        heading = 48.26,
+    },
+    {
+        coords = vector3(407.23455810547,-1862.0366210938,26.814264297485),
+        label = "Rancho / Jamestown St #2",
+        showBlip = false,
+        heading = 222.68,
+    },
+    {
+        coords = vector3(703.35217285156, -1082.5717773438, 22.390235900879),
+        label = "LS Customs",
+        showBlip = false,
+        heading = 269.94
+    },
+    {
+        coords = vector3(292.9391784668, -611.06488037109, 43.37691116333),
+        label = "Pillbox Hospital - Parkoviště",
+        heading = 59.13,
+    }, 
+    {
+        coords = vector3(290.55194091797, -588.74462890625, 43.187828063965),
+        label = "Pillbox Hospital - Garáž",
+        heading = 156.31,
+        jobs = { "ambulance" }
+    }
+}

@@ -1,0 +1,185 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
+* {
+    font-family: "Montserrat";
+    font-weight: 500;
+}
+
+:root {
+    --main-color: rgba(52, 73, 94,1.0);
+    --trans-main-color: rgba(85, 85, 85, 0.4);
+    --trans-second-color: rgba(80, 44, 44, 0.8);
+    --more-trans-second-color: rgba(10, 10, 10, 0.545);
+    --active-trans-second-color: rgba(80, 44, 44, 0.85);
+    --trans-green-color: rgba(39, 174, 96,0.8);
+    --trans-red-color: rgba(231, 76, 60,0.8);
+    --trans-gray-color: rgba(189, 195, 199,0.8);
+}
+
+body {
+    display: flex;
+    align-items: center;
+}
+
+#camera-view {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 91;
+    overflow: hidden;
+}
+#camera-view::-webkit-scrollbar {
+    display: none;
+}
+
+#camera-view {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+#menu-container {
+    min-width: 475px;
+    max-width: 500px;
+    padding: 20px 16px;
+    max-height: 916px;
+    background-color: var(--trans-main-color);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+    z-index: 99;
+}
+
+#menu-title-container {
+    font-size: 24px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: white;
+}
+
+#menu-confirm-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+#menu-view-buttons-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+.menu-view-button {
+    width: 48px;
+    height: 48px;
+    color: white;
+    border-bottom: 3px solid var(--more-trans-second-color);
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 16px;
+    cursor: pointer;
+    transition: 0.5s all;
+}
+
+.menu-view-button:hover, .menu-confirm-button:hover {
+    background-color: var(--more-trans-second-color);
+}
+
+.menu-confirm-button {
+    width: 48px;
+    height: 48px;
+    border-top: 3px var(--more-trans-second-color);
+    border-left: 3px var(--more-trans-second-color);
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    color: white;
+    margin: 0 16px;
+    cursor: pointer;
+    transition: 0.5s all;
+}
+
+#menu-skin-parts-container {
+    max-height: 95%;
+    min-width: 95%;
+    max-width: 97.5%;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+#menu-skin-parts-container::-webkit-scrollbar {
+    display: none;
+}
+
+.skin-part {
+    display: block;
+    transition: 0.5s all;
+}
+.skin-part:not(:last-of-type) {
+    margin-bottom: 8px;
+}
+
+.skin-part-label {
+    width: 100%;
+    padding: 8px;
+    color: white;
+    border-left: 3px solid var(--more-trans-second-color);
+    text-shadow: 0px 0px 7px #000000;
+}
+
+.menu-skin-parts-input-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 8px;
+    transition: 0.5s all;
+    width: 100%;
+}
+
+.skin-part-value {
+    outline: none;
+    border: none;
+    color: white;
+    text-align: center;
+    background-color: transparent;
+    text-shadow: 0px 0px 7px #000000;
+    font-weight: 800;
+    width: 100%;
+    font-size: 20px;
+    padding: 7px;
+    transition: 0.5s all;
+}
+
+.skin-part-focused {
+  background-color: var(--more-trans-second-color);
+  transition: 0.5s all;
+}
+
+.skin-part-button {
+  font-size: 32px;
+  font-weight: 800;
+  color: white;
+  cursor: pointer;
+  margin: 0 8px;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

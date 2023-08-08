@@ -1,0 +1,24 @@
+
+{
+    "name": "Bank",
+    "fr_FR__name": "Wallet",
+    "en_US__name": "Wallet",
+    "cs_CZ__name": "Wallet",
+    "de_DE__name": "Wallet",
+    "pl_PL__name": "Wallet",
+    "es_ES__name": "Wallet",
+    "icons": "/html/static/img/icons_app/banco.png",
+    "routeName": "bank",
+    "inHomePage": false
+  },
+  {
+    "name": "Bourse",
+    "fr_FR__name": "Bourse",
+    "cs_CZ__name": "Burza",
+    "en_US__name": "Stock Market",
+    "de_DE__name": "Börse",
+    "es_ES__name": "Bolsa",
+    "icons": "/html/static/img/icons_app/bourse1.png",
+    "routeName": "bourse",
+    "enabled": true
+  },

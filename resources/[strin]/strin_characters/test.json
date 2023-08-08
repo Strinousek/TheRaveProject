@@ -1,0 +1,28 @@
+[
+  {
+    "metadata": {
+      "ammo": 0,
+      "components": [],
+      "serial": "233807YQJ391663",
+      "registered": "Abraham Lincoln",
+      "durability": 98.7
+    },
+    "count": 1,
+    "name": "WEAPON_APPISTOL",
+    "slot": 1
+  },
+  {
+    "metadata": {
+      "type": "Abraham Lincoln",
+      "description": "Pohlaví: Muž  \nDatum narození: 02/10/1993"
+    },
+    "count": 1,
+    "name": "identification",
+    "slot": 3
+  },
+  {
+    "count": 99710,
+    "name": "money",
+    "slot": 4
+  }
+]

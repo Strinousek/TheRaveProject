@@ -1,0 +1,368 @@
+[
+    {
+        "name": "des_jewel_cab_start",
+        "size": "medium",
+        "coords": {
+            "x": -619.9662475585938,
+            "y": -226.197998046875,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring",
+            "watch"
+        ]
+    },
+    {
+        "name": "des_jewel_cab_start",
+        "size": "medium",
+        "coords": {
+            "x": -620.1763916015625,
+            "y": -230.78652954101563,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring",
+            "watch"
+        ]
+    },
+    {
+        "name": "des_jewel_cab_start",
+        "size": "medium",
+        "coords": {
+            "x": -626.5438842773438,
+            "y": -233.60470581054688,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring",
+            "watch"
+        ]
+    },
+    {
+        "name": "des_jewel_cab_start",
+        "size": "medium",
+        "coords": {
+            "x": -627.5945434570313,
+            "y": -234.36776733398438,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring",
+            "watch"
+        ]
+    },
+    {
+        "name": "des_jewel_cab_start",
+        "size": "medium",
+        "coords": {
+            "x": -619.8483276367188,
+            "y": -234.9137420654297,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring",
+            "watch"
+        ]
+    },
+    {
+        "name": "des_jewel_cab_start",
+        "size": "medium",
+        "coords": {
+            "x": -622.6159057617188,
+            "y": -232.5635986328125,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring",
+            "watch"
+        ]
+    },
+    {
+        "name": "des_jewel_cab2_start",
+        "size": "medium",
+        "coords": {
+            "x": -617.0855712890625,
+            "y": -230.16268920898438,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab2_start",
+        "size": "medium",
+        "coords": {
+            "x": -626.324951171875,
+            "y": -239.0508575439453,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab2_start",
+        "size": "medium",
+        "coords": {
+            "x": -623.6146850585938,
+            "y": -228.62472534179688,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab2_start",
+        "size": "medium",
+        "coords": {
+            "x": -619.2030639648438,
+            "y": -227.24819946289063,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab3_start",
+        "size": "medium",
+        "coords": {
+            "x": -618.7984008789063,
+            "y": -234.1509246826172,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab3_start",
+        "size": "medium",
+        "coords": {
+            "x": -625.3299560546875,
+            "y": -227.3697052001953,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab3_start",
+        "size": "medium",
+        "coords": {
+            "x": -627.2114868164063,
+            "y": -234.89422607421876,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab3_start",
+        "size": "medium",
+        "coords": {
+            "x": -617.8491821289063,
+            "y": -229.11276245117188,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab3_start",
+        "size": "medium",
+        "coords": {
+            "x": -625.275146484375,
+            "y": -238.28814697265626,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab3_start",
+        "size": "medium",
+        "coords": {
+            "x": -621.5175170898438,
+            "y": -228.9473876953125,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab4_start",
+        "size": "medium",
+        "coords": {
+            "x": -620.5214233398438,
+            "y": -232.88229370117188,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab4_start",
+        "size": "medium",
+        "coords": {
+            "x": -626.1613159179688,
+            "y": -234.13148498535157,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab4_start",
+        "size": "medium",
+        "coords": {
+            "x": -623.955810546875,
+            "y": -230.7262725830078,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "des_jewel_cab4_start",
+        "size": "medium",
+        "coords": {
+            "x": -624.2796020507813,
+            "y": -226.60655212402345,
+            "z": 37.64522552490234
+        },
+        "content": [
+            "ring"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -628.1244506835938,
+            "y": -226.657958984375,
+            "z": 37.90004348754883
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -627.9912719726563,
+            "y": -225.1247100830078,
+            "z": 37.90004348754883
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -627.05078125,
+            "y": -223.9077911376953,
+            "z": 37.90004348754883
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -616.0143432617188,
+            "y": -234.87042236328126,
+            "z": 37.90004730224609
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -616.1475830078125,
+            "y": -236.4036865234375,
+            "z": 37.90004730224609
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -617.0880737304688,
+            "y": -237.62059020996095,
+            "z": 37.90004730224609
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -618.5360107421875,
+            "y": -238.13902282714845,
+            "z": 37.90004730224609
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -620.0354614257813,
+            "y": -237.79193115234376,
+            "z": 37.89984512329101
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -625.602783203125,
+            "y": -223.38937377929688,
+            "z": 37.90004348754883
+        },
+        "content": [
+            "necklace"
+        ]
+    },
+    {
+        "name": "prop_jewel_glass",
+        "size": "small",
+        "coords": {
+            "x": -624.1033935546875,
+            "y": -223.73646545410157,
+            "z": 37.90004348754883
+        },
+        "content": [
+            "necklace"
+        ]
+    }
+]
