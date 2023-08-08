@@ -6,10 +6,7 @@ LoadLocale = function(lang)
     Locales = loadHandle()
 end
 
--- random komentář
-
 LoadLocale("cs")
-
 
 -- esx standard function naming for locale loading, so why not here right?
 _U = function(entry, ...)
