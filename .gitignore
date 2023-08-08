@@ -1,0 +1,14 @@
+cache
+db
+.node_modules
+.replxx_history
+/*.bin
+/*.json
+/*.lua
+
+/resources/**/*
+!/resources/\[rave\]
+!/resources/\[strin\]
+!/resources/\[base\]
+!/resources/\[cars\]
+!/resources/\[interiors\]
