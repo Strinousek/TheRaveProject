@@ -102,6 +102,10 @@ RegisterNetEvent("strin_characters:requestCharacterCreator", function()
     if(not xPlayer) then
         return
     end
+    if(DisabledMultichars[xPlayer.identifier]) then
+        xPlayer.showNotification("Postavy si nelze aktuálně vytvářet!", { type = "error" })
+        return
+    end
     local slots = GetCharacterSlots(xPlayer.identifier)
     local characters = GetCharacters(xPlayer.identifier)
     local slot = GetAvailableSlot(slots, characters)
@@ -119,6 +123,10 @@ RegisterNetEvent("strin_characters:updateCharacter", function(characterId, mode)
     end
     local _source = tonumber(source)
     local xPlayer = ESX.GetPlayerFromId(_source)
+    if(DisabledMultichars[xPlayer.identifier]) then
+        xPlayer.showNotification("Postavy teď nelze měnit!", { type = "error" })
+        return
+    end
     local currentCharacterId = xPlayer.get("char_id")
     if(not currentCharacterId) then
         return
