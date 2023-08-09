@@ -2,29 +2,32 @@ import { CronJob } from "cron";
 import mysqldump from "mysqldump";
 import fs from "fs/promises";
 import dayjs, { Dayjs } from "dayjs";
-import FormData from "form-data";
+// import FormData from "form-data";
 
 dayjs.locale("cs");
 
 //const DatabaseBackupWebhook = "https://discord.com/api/webhooks/1138619585462026310/I6QS79fmOKVh_3N2r_UbXfI3GByUkjMDJ3liXmdXoKQyVGSwKc5M0XfT2n5hnuSygXZp";
 
-async () => {
+const EnsureDatabaseDumpFolder = async () => {
     try {
+        // this goes from the absolute root (server-data)
         await fs.mkdir("./database_dumps");
         console.log("Created a new database dump folder.");
     } catch(err) {
         console.log("Database dump folder already exists, skipping creation.");
     }
-}
+};
 
 /*async function CreateBlobFromFile(path: string): Promise<Blob> {
     const file = await fs.readFile(path);
     return new Blob([file]);
 }*/
 
-const DatabaseBackupJob: CronJob = new CronJob(
-    //`0 0 */1 * * *`,
-    `0 0 */2 * * *`,
+EnsureDatabaseDumpFolder();
+
+const DatabaseDumpJob: CronJob = new CronJob(
+    `*/5 * * * * *`,
+    //`0 0 */2 * * *`,
     async () => {
         const date: Dayjs = dayjs();
         const fileName = `${date.format("YYYY-MM-DDTHH-mm-ss")}.sql`

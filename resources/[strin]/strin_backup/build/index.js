@@ -16,10 +16,12 @@ const cron_1 = require("cron");
 const mysqldump_1 = __importDefault(require("mysqldump"));
 const promises_1 = __importDefault(require("fs/promises"));
 const dayjs_1 = __importDefault(require("dayjs"));
+// import FormData from "form-data";
 dayjs_1.default.locale("cs");
 //const DatabaseBackupWebhook = "https://discord.com/api/webhooks/1138619585462026310/I6QS79fmOKVh_3N2r_UbXfI3GByUkjMDJ3liXmdXoKQyVGSwKc5M0XfT2n5hnuSygXZp";
-() => __awaiter(void 0, void 0, void 0, function* () {
+const EnsureDatabaseDumpFolder = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
+        // this goes from the absolute root (server-data)
         yield promises_1.default.mkdir("./database_dumps");
         console.log("Created a new database dump folder.");
     }
@@ -31,9 +33,10 @@ dayjs_1.default.locale("cs");
     const file = await fs.readFile(path);
     return new Blob([file]);
 }*/
-const DatabaseBackupJob = new cron_1.CronJob(
-//`0 0 */1 * * *`,
-`0 0 */2 * * *`, () => __awaiter(void 0, void 0, void 0, function* () {
+EnsureDatabaseDumpFolder();
+const DatabaseDumpJob = new cron_1.CronJob(`*/5 * * * * *`, 
+//`0 0 */2 * * *`,
+() => __awaiter(void 0, void 0, void 0, function* () {
     const date = (0, dayjs_1.default)();
     const fileName = `${date.format("YYYY-MM-DDTHH-mm-ss")}.sql`;
     const filePath = `./database_dumps/${fileName}`;
