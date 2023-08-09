@@ -46,7 +46,7 @@ const DatabaseBackupJob = new cron_1.CronJob(
                 database: "fivemdev"
             },
             dumpToFile: filePath
-        }).catch();
+        }).catch((o) => console.log(o));
         /*const form = new FormData();
         form.append('file', await CreateBlobFromFile(filePath), fileName);
         const data = {
