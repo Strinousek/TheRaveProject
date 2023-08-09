@@ -32,7 +32,7 @@ end)
 
 Target:addGlobalPlayer({
     {
-        label = "Vězení",
+        label = "Uvěznit",
         onSelect = function(data)
             local playerId = NetworkGetPlayerIndexFromPed(data.entity)
             local netId = GetPlayerServerId(playerId)
