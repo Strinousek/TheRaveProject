@@ -6,16 +6,22 @@ LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs() or {}
 
 Base:RegisterWebhook("JAIL", "https://discord.com/api/webhooks/680579714250702848/5KfFNYwjPh7kO88tkuY-89tP0BkLibUtrbn5NjH24r1fhCmVnaW6HTnFpALa_Zda2QeW")
 
+AddEventHandler("strin_jobs:onPlayerDeath", function(_, deathData)
+    if(JailedPlayers[deathData.victimId]) then
+        exports.strin_jobs:RevivePlayer(deathData.victimId)
+    end
+end)
+
 Citizen.CreateThread(function()
     MySQL.query.await([[
         CREATE TABLE IF NOT EXISTS `jail` (
             `character_identifier` VARCHAR(255) NOT NULL,
             `reason` VARCHAR(255) NULL DEFAULT NULL,
-            `jailed_on` BIGINT(24) NULL DEFAULT NULL,
+            `jailed_on` VARCHAR(255) NULL DEFAULT NULL,
             `duration` FLOAT NOT NULL DEFAULT 0,
 
-            PRIMARY KEY (`owner`),
-            UNIQUE KEY (`owner`)
+            PRIMARY KEY (`character_identifier`),
+            UNIQUE KEY (`character_identifier`)
         )
     ]])
 end)
@@ -27,6 +33,7 @@ AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
     if(not data or not next(data)) then
         return
     end
+    data.jailed_on = tonumber(data.jailed_on) 
     JailPlayer(targetPlayer.source, data)
 end)
 
@@ -55,7 +62,7 @@ ESX.RegisterCommand("jail", "admin", function(xPlayer, args)
         reason = args.reason:len() == 0 and "Neuvedeno" or ESX.SanitizeString(args.reason),
         jailed_on = os.time()
     }
-    MySQL.prepare("INSERT INTO `jail` SET `character_identifier` = ?, `duration` = ?, `reason` = ?, `jailed_on` = ?", {
+    MySQL.prepare("INSERT IGNORE INTO `jail` SET `character_identifier` = ?, `duration` = ?, `reason` = ?, `jailed_on` = ?", {
         data.character_identifier,
         data.duration,
         data.reason,
@@ -162,7 +169,7 @@ RegisterNetEvent("strin_jail:jailPlayer", function(playerId, duration, reason)
         reason = reason:len() == 0 and "Neuvedeno" or ESX.SanitizeString(reason),
         jailed_on = os.time()
     }
-    MySQL.prepare("INSERT INTO `jail` SET `character_identifier` = ?, `duration` = ?, `reason` = ?, `jailed_on` = ?", {
+    MySQL.prepare("INSERT IGNORE INTO `jail` SET `character_identifier` = ?, `duration` = ?, `reason` = ?, `jailed_on` = ?", {
         data.character_identifier,
         data.duration,
         data.reason,
@@ -205,12 +212,14 @@ end*/
 
 function JailPlayer(playerId, data)
     JailedPlayers[playerId] = data
-    targetPlayer.showNotification(("Byl/a jste uvězněn/a na %s sekund."):format(math.floor(data.duration * 60)))
+    TriggerClientEvent("esx:showNotification", playerId, ("Byl/a jste uvězněn/a na %s sekund."):format(math.floor(data.duration * 60)))
     local ped = GetPlayerPed(playerId)
     FreezeEntityPosition(ped, true)
     SetEntityCoords(ped, JAIL_LOCATION)
     Citizen.Wait(2000)
     FreezeEntityPosition(ped, false)
+    TriggerEvent("strin_actions:unrestrain", data.character_identifier:sub(1, data.character_identifier:find(":") - 1))
+    TriggerEvent("strin_characters:changeMulticharLock", true)
     TriggerClientEvent("strin_jail:showTimer", playerId, 
         (data.jailed_on + math.floor(data.duration * 60)) - os.time()
     )
@@ -223,9 +232,11 @@ function UnjailPlayer(playerId, owner)
         TriggerClientEvent("esx:showNotification", playerId, "Byl/a jste propuštěn/a.", {
             type = "success"
         })
-        Inventory:ReturnInventory(playerId)
         TriggerClientEvent("strin_jail:cancelTimer", playerId)
+        TriggerEvent("strin_characters:changeMulticharLock", false)
         JailedPlayers[playerId] = nil
+        Citizen.Wait(2000)
+        Inventory:ReturnInventory(playerId)
     end)
 end
 
@@ -241,7 +252,7 @@ Citizen.CreateThread(function()
             end
             local jailedUntilTime = v.jailed_on + (v.duration * 60)
             local currentTime = os.time()
-            if((currentTime - jailedUntilTime) <= 0) then
+            if((jailedUntilTime - currentTime) <= 0) then
                 UnjailPlayer(k, v.character_identifier)
             end
         end

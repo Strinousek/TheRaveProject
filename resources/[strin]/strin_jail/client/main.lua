@@ -57,7 +57,7 @@ Target:addGlobalPlayer({
             end, function(data, menu)
                 menu.close()
             end)
-        end
+        end,
         canInteract = function()
             return lib.table.contains(LawEnforcementJobs, ESX.PlayerData?.job?.name)
         end,

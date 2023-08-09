@@ -1,6 +1,7 @@
 cache
 db
 node_modules/
+database_dumps
 .replxx_history
 /*.bin
 /*.json
