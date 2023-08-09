@@ -1,0 +1,22 @@
+{
+  "name": "database_backup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/cron": "^2.4.0",
+    "@types/node": "^20.4.9",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "cron": "^2.4.0",
+    "dayjs": "^1.11.9",
+    "form-data": "^4.0.0",
+    "mysqldump": "^3.2.0"
+  }
+}
