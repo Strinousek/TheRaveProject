@@ -34,9 +34,9 @@ const EnsureDatabaseDumpFolder = () => __awaiter(void 0, void 0, void 0, functio
     return new Blob([file]);
 }*/
 EnsureDatabaseDumpFolder();
-const DatabaseDumpJob = new cron_1.CronJob(`*/5 * * * * *`, 
-//`0 0 */2 * * *`,
-() => __awaiter(void 0, void 0, void 0, function* () {
+const DatabaseDumpJob = new cron_1.CronJob(
+//`*/5 * * * * *`,
+`0 0 */2 * * *`, () => __awaiter(void 0, void 0, void 0, function* () {
     const date = (0, dayjs_1.default)();
     const fileName = `${date.format("YYYY-MM-DDTHH-mm-ss")}.sql`;
     const filePath = `./database_dumps/${fileName}`;

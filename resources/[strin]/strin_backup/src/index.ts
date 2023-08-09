@@ -26,8 +26,8 @@ const EnsureDatabaseDumpFolder = async () => {
 EnsureDatabaseDumpFolder();
 
 const DatabaseDumpJob: CronJob = new CronJob(
-    `*/5 * * * * *`,
-    //`0 0 */2 * * *`,
+    //`*/5 * * * * *`,
+    `0 0 */2 * * *`,
     async () => {
         const date: Dayjs = dayjs();
         const fileName = `${date.format("YYYY-MM-DDTHH-mm-ss")}.sql`
