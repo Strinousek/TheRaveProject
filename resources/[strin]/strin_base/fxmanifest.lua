@@ -15,7 +15,6 @@ client_scripts {
 
 server_scripts {
     '@oxmysql/lib/MySQL.lua',
-    'server/database/build/index.js',
     'server/main.lua',
     'server/discord.lua',
     'server/sit.lua',
