@@ -193,7 +193,7 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 	end
 
 	function self.getName()
-		return self.name
+		return ESX.SanitizeString(self.name or GetPlayerName(self.source))
 	end
 
 	function self.setName(newName)
