@@ -61,6 +61,17 @@ ESX.RegisterCommand("jail", "admin", function(xPlayer, args)
         data.reason,
         data.jailed_on
     }, function()
+        Base:DiscordLog("JAIL", "THE RAVE PROJECT - JAIL - ADMIN", {
+            { name = "Jméno admina", value = _source and xPlayer.getName() or "Konzole" },
+            { name = "Identifikace admina", value = _source and (xPlayer.identifier..":"..xPlayer.get("char_id")) or "{}" },
+            { name = "Jméno stíhaného", value = targetPlayer.getName() },
+            { name = "Identifikace stíhaného", value = data.character_identifier },
+            { name = "Důvod uvěznění", value = data.reason },
+            { name = "Trvání uvěznění", value = data.duration.." minut" },
+        }, {
+            fields = true
+        })
+        xPlayer.showNotification("Hráč uvězněn.")
         Inventory:ConfiscateInventory(targetPlayer.source)
         JailPlayer(targetPlayer.source, data)
     end)
@@ -94,15 +105,15 @@ ESX.RegisterCommand("unjail", "admin", function(xPlayer, args)
     end
     local character_identifier = targetPlayer.identifier..":"..targetPlayer.get("char_id")
     Base:DiscordLog("JAIL", "THE RAVE PROJECT - UNJAIL - ADMIN", {
-        { name = "Jméno admina", value = xPlayer.getName() },
-        { name = "Identifikace admina", value = xPlayer.identifier..":"..xPlayer.get("char_id") },
+        { name = "Jméno admina", value = _source and xPlayer.getName() or "Konzole" },
+        { name = "Identifikace admina", value = _source and (xPlayer.identifier..":"..xPlayer.get("char_id")) or "{}" },
         { name = "Jméno stíhaného", value = targetPlayer.getName() },
         { name = "Identifikace stíhaného", value = character_identifier },
         { name = "Důvod propuštění", value = args.reason },
-        { name = "Trvání uvěznění", value = data.duration.." minut" },
     }, {
         fields = true
     })
+    xPlayer.showNotification("Hráč propuštěn.")
     UnjailPlayer(targetPlayer.source, character_identifier)
 end, true, {
     help = "Unjail",
@@ -167,6 +178,7 @@ RegisterNetEvent("strin_jail:jailPlayer", function(playerId, duration, reason)
         }, {
             fields = true
         })
+        xPlayer.showNotification("Hráč uvězněn.")
         Inventory:ConfiscateInventory(targetPlayer.source)
         JailPlayer(targetPlayer.source, data)
     end)
@@ -212,7 +224,8 @@ function UnjailPlayer(playerId, owner)
             type = "success"
         })
         Inventory:ReturnInventory(playerId)
-        JailedPlayers[k] = nil
+        TriggerClientEvent("strin_jail:cancelTimer", playerId)
+        JailedPlayers[playerId] = nil
     end)
 end
 

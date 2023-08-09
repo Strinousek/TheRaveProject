@@ -1,12 +1,22 @@
 local Target = exports.ox_target
 local LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
 
+local IsTimerDisplayed = false
+
+RegisterNetEvent("strin_jail:cancelTimer", function()
+    if(source == "" or GetInvokingResource() ~= nil) then
+        return
+    end
+    IsTimerDisplayed = false
+end)
+
 RegisterNetEvent("strin_jail:showTimer", function(remainingSeconds)
     if(source == "" or GetInvokingResource() ~= nil) then
         return
     end
+    IsTimerDisplayed = true
     local lastGameTimer = GetGameTimer()
-    while true do
+    while IsTimerDisplayed do
         if(GetGameTimer() - lastGameTimer >= 1000) then
             remainingSeconds -= 1
             lastGameTimer = GetGameTimer()
