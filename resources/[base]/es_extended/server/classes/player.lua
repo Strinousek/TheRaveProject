@@ -201,6 +201,10 @@ function CreateExtendedPlayer(playerId, identifier, group, accounts, inventory, 
 		Player(self.source).state:set("name", self.name, true)
 	end
 
+	function self.getCharacterIdentifier()
+		return self.identifier..":"..self.variables.char_id
+	end
+
 	function self.setAccountMoney(accountName, money, reason)
 		reason = reason or 'unknown'
 		if not tonumber(money) then 

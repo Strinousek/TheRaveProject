@@ -96,7 +96,7 @@ ESX.RegisterCommand("unjail", "admin", function(xPlayer, args)
     Base:DiscordLog("JAIL", "THE RAVE PROJECT - UNJAIL - ADMIN", {
         { name = "Jméno admina", value = xPlayer.getName() },
         { name = "Identifikace admina", value = xPlayer.identifier..":"..xPlayer.get("char_id") },
-        { name = "Jméno stíhaného", value = targetPlayer.get("fullname") },
+        { name = "Jméno stíhaného", value = targetPlayer.getName() },
         { name = "Identifikace stíhaného", value = character_identifier },
         { name = "Důvod propuštění", value = args.reason },
         { name = "Trvání uvěznění", value = data.duration.." minut" },
