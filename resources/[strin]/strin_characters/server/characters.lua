@@ -1,5 +1,6 @@
 local ActionCooldowns = {}
 local Base = exports.strin_base
+local Motels = exports.strin_motels
 
 Base:RegisterWebhook("CHARACTER_CREATE", "https://discord.com/api/webhooks/1137079351842721812/L8tP-2ThcZT9JX7xgm0A512jMB6rglF795TxlxPolnrwva3FCHL0i_wzhW9ol9al_vyx")
 Base:RegisterWebhook("CHARACTER_SWITCH", "https://discord.com/api/webhooks/1137079795923030077/05pQWPjrXQQ_SjQREkcupo1uvOU3YEY3I_44FF_c8hgmUHzSLVl8lGIVlWhovgIXv0v9")
@@ -56,6 +57,10 @@ ESX.RegisterCommand("multichar", "user", function(xPlayer, args)
         xPlayer.showNotification("Menu postav momentálně není dostupné!", { type = "error" })
         return
     end
+    if(not Motels:IsPlayerInMotelRoom(xPlayer.source)) then
+        xPlayer.showNotification("Menu postav lze otevřít pouze v motelu!", { type = "error" })
+        return
+    end
     --xPlayer.showNotification("Multichar je aktuálně nedostupný.", {type = "error"})
     local characters = GetCharacters(xPlayer.identifier)
     if(not characters or #characters <= 0) then
@@ -82,10 +87,10 @@ AddEventHandler("strin_characters:createCharacter", function(character, playerId
         end
     end
 
-    if(not characters or #characters >= slots) then
+    /*if(not characters or #characters >= slots) then
         xPlayer.showNotification("Nemůžete si vytvořit postavu, když máte plné sloty!", {type = "error"})
         return
-    end
+    end*/
 
     local availableSlot = GetAvailableSlot(slots, characters)
     if(not availableSlot) then
@@ -106,6 +111,10 @@ RegisterNetEvent("strin_characters:requestCharacterCreator", function()
         xPlayer.showNotification("Postavy si nelze aktuálně vytvářet!", { type = "error" })
         return
     end
+    if(not Motels:IsPlayerInMotelRoom(xPlayer.source)) then
+        xPlayer.showNotification("Postavy lze tvořit pouze v motelu!", { type = "error" })
+        return
+    end
     local slots = GetCharacterSlots(xPlayer.identifier)
     local characters = GetCharacters(xPlayer.identifier)
     local slot = GetAvailableSlot(slots, characters)
@@ -124,7 +133,11 @@ RegisterNetEvent("strin_characters:updateCharacter", function(characterId, mode)
     local _source = tonumber(source)
     local xPlayer = ESX.GetPlayerFromId(_source)
     if(DisabledMultichars[xPlayer.identifier]) then
-        xPlayer.showNotification("Postavy teď nelze měnit!", { type = "error" })
+        xPlayer.showNotification("Postavy teď nelze měnit / smazat!", { type = "error" })
+        return
+    end
+    if(not Motels:IsPlayerInMotelRoom(xPlayer.source)) then
+        xPlayer.showNotification("Postavy lze měnit / smazat pouze v motelu!", { type = "error" })
         return
     end
     local currentCharacterId = xPlayer.get("char_id")
