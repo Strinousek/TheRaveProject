@@ -79,9 +79,83 @@ local DEALER_LOCATIONS = {
 
 local DEALER_STOCK_ROTATIONS = {
     {
-        { name = "WEAPON_COMBATPISTOL", price = 1000, count = { 3, 5 } },
-        { name = "WEAPON_PISTOL", price = 1000, count = { 2, 7 } },
-        { name = "WEAPON_SNSPISTOL", price = 1000, count = { 1, 3 } },
+        { name = "WEAPON_SWITCHBLADE", price = 500, count = 5 },
+        { name = "WEAPON_PISTOL", price = 3800, count = 15 },
+  
+        { name = "weapon_microsmg", price = 26000, count = {1 , 3} },
+        { name = "weapon_pistol50", price = 9500, count = {2 , 6} },
+        { name = "weapon_heavypistol", price = 9500, count = {2 , 6} },
+  
+        { name = "ammo-9", price = 50, count = 2500 },
+        { name = "ammo-50", price = 80, count = 500 },
+        { name = "ammo-rifle", price = 50, count = 900 },
+        { name = "ammo-shotgun", price = 50, count = 300 },
+        { name = "ammo-45", price = 50, count = 100 },
+    },
+    --#################VIETNAMSKÝ TÝDEN############################
+    {
+        { name = "WEAPON_SWITCHBLADE", price = 500, count = 5 },
+        { name = "WEAPON_PISTOL", price = 3800, count = 10 },
+  
+        { name = "weapon_mg", price = 65000, count = 1 },
+        { name = "weapon_minismg", price = 26500, count = {1 , 3} },
+        { name = "weapon_revolver_mk2", price = 10500, count = {2 , 4} },
+        { name = "weapon_tacticalrifle", price = 35000, count = {1 , 2} },
+  
+        { name = "ammo-9", price = 50, count = 2500 },
+        { name = "ammo-50", price = 80, count = 500 },
+        { name = "ammo-rifle", price = 50, count = 900 },
+        { name = "ammo-shotgun", price = 50, count = 300 },
+        { name = "ammo-45", price = 50, count = 100 },
+    },
+    --#####################TÝDEN TEROSITY########################
+    {
+        { name = "WEAPON_SWITCHBLADE", price = 500, count = 20 },
+        { name = "WEAPON_PISTOL", price = 3800, count = 20 },
+  
+        { name = "weapon_machinepistol", price = 20500, count = {1 , 3} },
+        { name = "weapon_sns", price = 1850, count = {5 , 10} },
+        { name = "weapon_compactrifle", price = 35000, count = 1 },
+        { name = "weapon_assaultrifle", price = 35500, count = {1 , 2} },
+  
+        { name = "ammo-9", price = 50, count = 2500 },
+        { name = "ammo-50", price = 80, count = 500 },
+        { name = "ammo-rifle", price = 50, count = 900 },
+        { name = "ammo-shotgun", price = 50, count = 300 },
+        { name = "ammo-45", price = 50, count = 100 },
+    },
+     --################TÝDEN RÁDOBY POLICISTY######################
+    {
+        { name = "WEAPON_SWITCHBLADE", price = 500, count = 20 },
+        { name = "WEAPON_PISTOL", price = 3800, count = 20 },
+  
+        { name = "weapon_nightstick", price = 320, count = {1, 10} },
+        { name = "weapon_smg", price = 26000, count = {1, 3} },
+        { name = "weapon_pistol_mk2", price = 6500, count = {2, 6} },
+        { name = "weapon_carbinerifle", price = 40000, count = {1, 2} },
+  
+        { name = "ammo-9", price = 50, count = 2500 },
+        { name = "ammo-50", price = 80, count = 500 },
+        { name = "ammo-rifle", price = 50, count = 900 },
+        { name = "ammo-shotgun", price = 50, count = 300 },
+        { name = "ammo-45", price = 50, count = 100 },
+    },
+       --###################MAFIÁNSKÝ TÝDEN##################
+    {
+        { name = "WEAPON_SWITCHBLADE", price = 500, count = 20 },
+        { name = "WEAPON_PISTOL", price = 3800, count = 20 },
+  
+        { name = "weapon_bat", price = 200, count = {1, 10} },
+        { name = "weapon_vintagepistol", price = 6500, count = {2, 6} },
+        { name = "weapon_dbshotgun", price = 35000, count = {1, 2} },
+        { name = "weapon_gusenberg", price = 30000, count = {1, 3} },
+        --{ name = "weapon_molotov", price = 1000, count = {1, 16} },
+  
+        { name = "ammo-9", price = 50, count = 2500 },
+        { name = "ammo-50", price = 80, count = 500 },
+        { name = "ammo-rifle", price = 50, count = 900 },
+        { name = "ammo-shotgun", price = 50, count = 300 },
+        { name = "ammo-45", price = 50, count = 100 },
     },
 }
 
