@@ -96,11 +96,45 @@ return {
 		blip = {
 			id = 110, colour = 69, scale = 0.8
 		}, inventory = {
-			{ name = 'ammo-9', price = 5, },
-			{ name = 'WEAPON_KNIFE', price = 200 },
-			{ name = 'WEAPON_BAT', price = 300 },
-			{ name = 'WEAPON_HATCHET', price = 500 },
-			{ name = 'WEAPON_COMBATPISTOL', price = 3500, metadata = { registered = true } }
+			{ name = 'ammo-9', price = 50 },
+			{ name = 'ammo-45', price = 40 },
+			{ name = 'ammo-38', price = 40 },
+			{ name = 'ammo-44', price = 40 },
+			{ name = 'ammo-50', price = 40, license = "fsc" },
+			{ name = 'ammo-shotgun', price = 130, license = "fsc" },
+
+			-- KRABIČKY DODAT
+			/*
+				{ name = "ammobox-9", price = 410 }, -- 12 nábojů
+				{ name = "ammobox-45", price = 330 }, -- 12 nábojů
+				{ name = "ammobox-shotgun", price = 840 }, -- 8 nábojů
+			*/
+			
+			{ name = 'WEAPON_BATTLEAXE', price = 370 },
+			{ name = 'WEAPON_HATCHET', price = 370 },
+			{ name = 'WEAPON_WRENCH', price = 370 },
+
+			{ name = 'WEAPON_FLASHLIGHT', price = 120 },
+
+			{ name = 'WEAPON_KNIFE', price = 240 },
+			{ name = 'WEAPON_MACHETE', price = 320 },
+			{ name = 'WEAPON_BAT', price = 320 },
+
+			{ name = 'WEAPON_FLAREGUN', price = 700 },
+			{ name = 'WEAPON_STUNGUN', price = 810 },
+
+			{ name = 'WEAPON_PISTOL', price = 3200, metadata = { registered = true }, license = "ccw" }
+			{ name = 'WEAPON_DOUBLEACTION', price = 5600, metadata = { registered = true }, license = "ccw" }
+			{ name = 'WEAPON_COMBATPISTOL', price = 4100, metadata = { registered = true }, license = "ccw" }
+			{ name = 'WEAPON_HEAVYPISTOL', price = 4600, metadata = { registered = true }, license = "ccw" }
+			{ name = 'WEAPON_SNSPISTOL', price = 1800, metadata = { registered = true }, license = "ccw" }
+			{ name = 'WEAPON_SNSPISTOL_MK2', price = 2700, metadata = { registered = true }, license = "ccw" }
+			{ name = 'WEAPON_PISTOL_MK2', price = 4400, metadata = { registered = true }, license = "ccw" }
+
+			{ name = 'WEAPON_PISTOL50', price = 11400, metadata = { registered = true }, license = "fsc" }
+			{ name = 'WEAPON_PUMPSHOTGUN', price = 24000, metadata = { registered = true }, license = "fsc" }
+			{ name = 'WEAPON_REVOLVER', price = 8500, metadata = { registered = true }, license = "fsc" }
+			{ name = 'WEAPON_REVOLVER_MK2', price = 9300, metadata = { registered = true }, license = "fsc" }
 		}, locations = {
 			vec3(-662.180, -934.961, 21.829),
 			vec3(810.25, -2157.60, 29.62),
