@@ -57,7 +57,8 @@ end
 
 ---@diagnostic disable-next-line: duplicate-set-field
 function server.hasLicense(inv, name)
-	return MySQL.scalar.await('SELECT 1 FROM `user_licenses` WHERE `type` = ? AND `owner` = ?', { name, inv.owner })
+	--return MySQL.scalar.await('SELECT 1 FROM `user_licenses` WHERE `type` = ? AND `owner` = ?', { name, inv.owner })
+	return exports.strin_licenses:CheckLicense(inv.owner, name)
 end
 
 ---@diagnostic disable-next-line: duplicate-set-field
