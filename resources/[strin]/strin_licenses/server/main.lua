@@ -38,6 +38,8 @@ function GetLicenses(identifier, characterId)
     return licenses
 end
 
+exports("GetLicenses", GetLicenses)
+
 function CheckLicense(identifier, licenseType, characterId)
     local licenses = GetLicenses(identifier, characterId)
     local licenseFound = false

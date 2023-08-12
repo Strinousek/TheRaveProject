@@ -62,12 +62,12 @@ end
 function OxInventory:syncSlotsWithClients(slots, syncOwner)
 	for playerId in pairs(self.openedBy) do
 		if self.id ~= playerId then
-            local target = Inventories[playerId]
-
-            if target then
-			    TriggerClientEvent('ox_inventory:updateSlots', playerId, slots, target.weight)
-            end
+			TriggerClientEvent('ox_inventory:updateSlots', playerId, slots, Inventories[playerId].weight)
 		end
+	end
+
+	if syncOwner and self.player then
+		TriggerClientEvent('ox_inventory:updateSlots', self.id, slots, self.weight)
 	end
 end
 

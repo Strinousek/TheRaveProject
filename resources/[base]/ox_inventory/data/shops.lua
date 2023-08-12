@@ -123,18 +123,19 @@ return {
 			{ name = 'WEAPON_FLAREGUN', price = 700 },
 			{ name = 'WEAPON_STUNGUN', price = 810 },
 
-			{ name = 'WEAPON_PISTOL', price = 3200, metadata = { registered = true }, license = "ccw" }
-			{ name = 'WEAPON_DOUBLEACTION', price = 5600, metadata = { registered = true }, license = "ccw" }
-			{ name = 'WEAPON_COMBATPISTOL', price = 4100, metadata = { registered = true }, license = "ccw" }
-			{ name = 'WEAPON_HEAVYPISTOL', price = 4600, metadata = { registered = true }, license = "ccw" }
-			{ name = 'WEAPON_SNSPISTOL', price = 1800, metadata = { registered = true }, license = "ccw" }
-			{ name = 'WEAPON_SNSPISTOL_MK2', price = 2700, metadata = { registered = true }, license = "ccw" }
-			{ name = 'WEAPON_PISTOL_MK2', price = 4400, metadata = { registered = true }, license = "ccw" }
+			{ name = 'WEAPON_PISTOL', price = 3200, metadata = { registered = true }, license = "ccw" },
+			{ name = 'WEAPON_DOUBLEACTION', price = 5600, metadata = { registered = true }, license = "ccw" },
+			{ name = 'WEAPON_COMBATPISTOL', price = 4100, metadata = { registered = true }, license = "ccw" },
+			{ name = 'WEAPON_HEAVYPISTOL', price = 4600, metadata = { registered = true }, license = "ccw" },
+			{ name = 'WEAPON_SNSPISTOL', price = 1800, metadata = { registered = true }, license = "ccw" },
+			{ name = 'WEAPON_SNSPISTOL_MK2', price = 2700, metadata = { registered = true }, license = "ccw" },
+			{ name = 'WEAPON_PISTOL_MK2', price = 4400, metadata = { registered = true }, license = "ccw" },
 
-			{ name = 'WEAPON_PISTOL50', price = 11400, metadata = { registered = true }, license = "fsc" }
-			{ name = 'WEAPON_PUMPSHOTGUN', price = 24000, metadata = { registered = true }, license = "fsc" }
-			{ name = 'WEAPON_REVOLVER', price = 8500, metadata = { registered = true }, license = "fsc" }
-			{ name = 'WEAPON_REVOLVER_MK2', price = 9300, metadata = { registered = true }, license = "fsc" }
+			{ name = 'WEAPON_PISTOL50', price = 11400, metadata = { registered = true }, license = "fsc" },
+			{ name = 'WEAPON_PUMPSHOTGUN', price = 24000, metadata = { registered = true }, license = "fsc" },
+			{ name = 'WEAPON_REVOLVER', price = 8500, metadata = { registered = true }, license = "fsc" },
+			{ name = 'WEAPON_REVOLVER_MK2', price = 9300, metadata = { registered = true }, license = "fsc" },
+			
 		}, locations = {
 			vec3(-662.180, -934.961, 21.829),
 			vec3(810.25, -2157.60, 29.62),

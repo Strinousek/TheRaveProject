@@ -33,6 +33,7 @@ CashRegistersPayOut = { 3000, 4000 }
 -- JeweleryRobberyTime = 1200 * 1000 -- 1200 * 1000
 JeweleryRefreshTime = 60 * 60000 -- 30 * 60000 
 JeweleryRequiredCops = 4 -- 4
+--JeweleryRequiredCops = 0 -- 4
 JeweleryCaseRobTime = 3 * 1000
 
 /*JeweleryCaseTypes = {

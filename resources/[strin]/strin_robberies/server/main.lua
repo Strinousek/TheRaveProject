@@ -31,6 +31,7 @@ function CheckBasicRobberyAvailability(requiredCops)
     end
 
     return isAvailable, message
+    --return true, nil
 end
 
 /*

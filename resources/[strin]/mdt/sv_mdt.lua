@@ -60,9 +60,15 @@ end)
 RegisterServerEvent("mdt:getOffenderDetails")
 AddEventHandler("mdt:getOffenderDetails", function(offender)
 	local usource = source
+	GetLicenses(offender.identifier, offender.char_id, function(licenses) offender.licenses = licenses end)
+	local start = GetGameTimer()
+	while offender.licenses == nil do
+		if(GetGameTimer() - start >= 5000) then
+			break
+		end
+		Citizen.Wait(0)
+	end
 	offender.licenses = {}
-	--GetLicenses(offender.identifier, function(licenses) offender.licenses = licenses end)
-	--while offender.licenses == nil do Citizen.Wait(0) end
 
 	local result = MySQL.Sync.fetchAll('SELECT * FROM `user_mdt` WHERE `char_id` = @id', {
 		['@id'] = offender.id
@@ -160,8 +166,14 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_id)
 		return
 	end
 
-	--GetLicenses(offender.identifier, function(licenses) offender.licenses = licenses end)
-	--while offender.licenses == nil do Citizen.Wait(0) end
+	GetLicenses(offender.identifier, offender.char_id, function(licenses) offender.licenses = licenses end)
+	local start = GetGameTimer()
+	while offender.licenses == nil do
+		if(GetGameTimer() - start >= 5000) then
+			break
+		end
+		Citizen.Wait(0)
+	end
 	offender.licenses = {}
 
 	local result = MySQL.Sync.fetchAll('SELECT * FROM `user_mdt` WHERE `char_id` = @id', {
@@ -271,13 +283,13 @@ AddEventHandler("mdt:saveOffenderChanges", function(id, changes, identifier)
 				['@bail'] = changes.bail
 			})
 		end
-		for i = 1, #changes.licenses_removed do
-			/*local license = changes.licenses_removed[i]
+		/*for i = 1, #changes.licenses_removed do
+			local license = changes.licenses_removed[i]
 			MySQL.Async.execute('DELETE FROM `user_licenses` WHERE `type` = @type AND `owner` = @identifier', {
 				['@type'] = license.type,
 				['@identifier'] = identifier
-			})*/
-		end
+			})
+		end*/
 
 		if changes.convictions ~= nil then
 			for conviction, amount in pairs(changes.convictions) do	
@@ -628,42 +640,10 @@ AddEventHandler("mdt:saveVehicleChanges", function(data)
 	end)
 end)
 
-function GetLicenses(identifier, cb)
-	/*MySQL.Async.fetchAll('SELECT * FROM user_licenses WHERE owner = @owner', {
-		['@owner'] = identifier
-	}, function(result)
-		local licenses   = {}
-		local asyncTasks = {}
-
-		for i=1, #result, 1 do
-
-			local scope = function(type)
-				table.insert(asyncTasks, function(cb)
-					MySQL.Async.fetchAll('SELECT * FROM licenses WHERE type = @type', {
-						['@type'] = type
-					}, function(result2)
-						table.insert(licenses, {
-							type  = type,
-							label = result2[1].label
-						})
-
-						cb()
-					end)
-				end)
-			end
-
-			scope(result[i].type)
-
-		end
-
-		Async.parallel(asyncTasks, function(results)
-			if #licenses == 0 then licenses = false end
-			cb(licenses)
-		end)
-
-	end)*/
-	cb({})
-	return {}
+function GetLicenses(identifier, characterId, cb)
+	local licenses = exports.strin_license:GetLicenses(identifier, characterId)
+	cb(licenses)
+	return licenses
 end
 
 function GetCharacterName(source)

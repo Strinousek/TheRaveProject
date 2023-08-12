@@ -11,7 +11,7 @@ local ListeningResources = {}
 
 */
 
-exports("RegisterItemListener", function(item, cb, options)
+function RegisterItemListener(item, cb, options)
     local options = options or { event = "all" }
     if(not options.event) then
         options.event = "all"
@@ -48,7 +48,27 @@ exports("RegisterItemListener", function(item, cb, options)
             cb = cb,
         })
     end
-end)
+end
+
+local AMMO_BOXES = { 
+    ["9"] = 12, 
+    ["45"] = 12, 
+    ["44"] = 12, 
+    ["shotgun"] = 8
+}
+
+do
+    local Inventory = exports.ox_inventory 
+    for ammoType,ammoAmount in pairs(AMMO_BOXES) do
+        RegisterItemListener("ammobox-"..ammoType, function(item, inventory, slot, data)
+            Inventory:AddItem(inventory?.id, "ammo-"..ammoType, ammoAmount)
+        end, {
+            event = "usedItem"
+        })
+    end
+end
+
+exports("RegisterItemListener", RegisterItemListener)
 
 exports("use_item", function(event, item, inventory, slot, data)
     for resource,listeners in pairs(ListeningResources) do
