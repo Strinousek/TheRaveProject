@@ -44,12 +44,13 @@ RegisterServerEvent("mdt:performOffenderSearch")
 AddEventHandler("mdt:performOffenderSearch", function(query)
 	local usource = source
 	local matches = {}
-	MySQL.Async.fetchAll("SELECT * FROM `characters` WHERE LOWER(`firstname`) LIKE @query OR LOWER(`lastname`) LIKE @query OR CONCAT(LOWER(`firstname`), ' ', LOWER(`lastname`)) LIKE @query OR `phone_number` LIKE @query2", {
+	MySQL.Async.fetchAll("SELECT * FROM `characters` WHERE LOWER(`char_identifier`) LIKE @query OR LOWER(`firstname`) LIKE @query OR LOWER(`lastname`) LIKE @query OR CONCAT(LOWER(`firstname`), ' ', LOWER(`lastname`)) LIKE @query OR `phone_number` LIKE @query2", {
 		['@query'] = string.lower('%'..query..'%'), -- % wildcard, needed to search for all alike results
 		['@query2'] = string.lower(query..'%')
 	}, function(result)
 
 		for index, data in ipairs(result) do
+			data.id = data.char_identifier
 			table.insert(matches, data)
 		end
 
@@ -152,11 +153,11 @@ AddEventHandler("mdt:getOffenderDetails", function(offender)
 end)
 
 RegisterServerEvent("mdt:getOffenderDetailsById")
-AddEventHandler("mdt:getOffenderDetailsById", function(char_id)
+AddEventHandler("mdt:getOffenderDetailsById", function(char_identifier)
 	local usource = source
 
-	local result = MySQL.Sync.fetchAll('SELECT * FROM `characters` WHERE `id` = @id', {
-		['@id'] = char_id
+	local result = MySQL.Sync.fetchAll('SELECT * FROM `characters` WHERE `char_identifier` = @id', {
+		['@id'] = char_identifier
 	})
 	local offender = result[1]
 
@@ -177,7 +178,7 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_id)
 	offender.licenses = {}
 
 	local result = MySQL.Sync.fetchAll('SELECT * FROM `user_mdt` WHERE `char_id` = @id', {
-		['@id'] = offender.id
+		['@id'] = offender.char_identifier
 	})
 	offender.notes = ""
 	offender.mugshot_url = ""
@@ -189,7 +190,7 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_id)
 	end
 
 	local convictions = MySQL.Sync.fetchAll('SELECT * FROM `user_convictions` WHERE `char_id` = @id', {
-		['@id'] = offender.id
+		['@id'] = offender.char_identifier
 	}) 
 	if convictions[1] then
 		offender.convictions = {}
@@ -200,7 +201,7 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_id)
 	end
 
 	local warrants = MySQL.Sync.fetchAll('SELECT * FROM `mdt_warrants` WHERE `char_id` = @id', {
-		['@id'] = offender.id
+		['@id'] = offender.char_identifier
 	})
 	if warrants[1] then
 		offender.haswarrant = true
@@ -283,13 +284,17 @@ AddEventHandler("mdt:saveOffenderChanges", function(id, changes, identifier)
 				['@bail'] = changes.bail
 			})
 		end
-		/*for i = 1, #changes.licenses_removed do
+		local characterId
+		if(#changes.licenses_removed > 0) then
+			characterId = MySQL.scalar.await("SELECT `char_id` FROM `characters` WHERE `char_identifier` = ?", { id })
+		end
+		for i = 1, #changes.licenses_removed do
 			local license = changes.licenses_removed[i]
 			MySQL.Async.execute('DELETE FROM `user_licenses` WHERE `type` = @type AND `owner` = @identifier', {
 				['@type'] = license.type,
-				['@identifier'] = identifier
+				['@identifier'] = identifier..":"..characterId
 			})
-		end*/
+		end
 
 		if changes.convictions ~= nil then
 			for conviction, amount in pairs(changes.convictions) do	
@@ -337,7 +342,7 @@ AddEventHandler("mdt:submitNewReport", function(data)
 	charges = json.encode(data.charges)
 	data.date = os.date('%m-%d-%Y %H:%M:%S', os.time())
 	MySQL.Async.insert('INSERT INTO `mdt_reports` (`char_id`, `title`, `incident`, `charges`, `author`, `name`, `date`) VALUES (@id, @title, @incident, @charges, @author, @name, @date)', {
-		['@id']  = data.char_id,
+		['@id']  = data.char_identifier,
 		['@title'] = data.title,
 		['@incident'] = data.incident,
 		['@charges'] = charges,
@@ -352,17 +357,17 @@ AddEventHandler("mdt:submitNewReport", function(data)
 	for offense, count in pairs(data.charges) do
 		MySQL.Async.fetchAll('SELECT * FROM `user_convictions` WHERE `offense` = @offense AND `char_id` = @id', {
 			['@offense'] = offense,
-			['@id'] = data.char_id
+			['@id'] = data.char_identifier
 		}, function(result)
 			if result[1] then
 				MySQL.Async.execute('UPDATE `user_convictions` SET `count` = @count WHERE `offense` = @offense AND `char_id` = @id', {
-					['@id']  = data.char_id,
+					['@id']  = data.char_identifier,
 					['@offense'] = offense,
 					['@count'] = count + 1
 				})
 			else
 				MySQL.Async.insert('INSERT INTO `user_convictions` (`char_id`, `offense`, `count`) VALUES (@id, @offense, @count)', {
-					['@id']  = data.char_id,
+					['@id']  = data.char_identifier,
 					['@offense'] = offense,
 					['@count'] = count
 				})
@@ -448,7 +453,7 @@ AddEventHandler("mdt:getVehicle", function(vehicle)
 	})
 	if result[1] then
 		vehicle.owner = result[1].firstname .. ' ' .. result[1].lastname
-		vehicle.owner_id = result[1].id
+		vehicle.owner_id = result[1].char_identifier
 	end
 
 	local data = MySQL.Sync.fetchAll('SELECT * FROM `vehicle_mdt` WHERE `plate` = @plate', {
@@ -498,7 +503,7 @@ AddEventHandler("mdt:submitNewWarrant", function(data)
 	data.date = os.date('%m-%d-%Y %H:%M:%S', os.time())
 	MySQL.Async.insert('INSERT INTO `mdt_warrants` (`name`, `char_id`, `report_id`, `report_title`, `charges`, `date`, `expire`, `notes`, `author`) VALUES (@name, @char_id, @report_id, @report_title, @charges, @date, @expire, @notes, @author)', {
 		['@name']  = data.name,
-		['@char_id'] = data.char_id,
+		['@char_id'] = data.char_identifier,
 		['@report_id'] = data.report_id,
 		['@report_title'] = data.report_title,
 		['@charges'] = data.charges,
@@ -641,7 +646,7 @@ AddEventHandler("mdt:saveVehicleChanges", function(data)
 end)
 
 function GetLicenses(identifier, characterId, cb)
-	local licenses = exports.strin_license:GetLicenses(identifier, characterId)
+	local licenses = exports.strin_licenses:GetLicenses(identifier, characterId)
 	cb(licenses)
 	return licenses
 end

@@ -21,15 +21,6 @@ return {
 		}
 	},
 
-	['identification_card'] = {
-		label = 'Identifikační karta',
-		consume = 0,
-		stack = false,
-		server = {
-			export = "strin_base.use_item"
-		}
-	},
-
 	['toolkit'] = {
 		label = 'Sada nářadí',
 		weight = 500,
@@ -83,6 +74,15 @@ return {
 		label = 'Řidičský průkaz',
 		stack = false,
 		consume = 0,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	['identification_card'] = {
+		label = 'Identifikační karta',
+		consume = 0,
+		stack = false,
 		server = {
 			export = "strin_base.use_item"
 		}
@@ -199,6 +199,16 @@ return {
 		client = {
 			anim = { dict = 'clothingshirt', clip = 'try_shirt_positive_d' },
 			usetime = 3500
+		}
+	},
+
+	["ammobox"] = {
+		label = 'Krabice s náboji',
+		weight = 100,
+		stack = false,
+		consume = 0,
+		server = {
+			export = "strin_base.use_item"
 		}
 	},
 

@@ -1,3 +1,9 @@
+AddEventHandler("strin_characters:characterDeleted", function(identifier, characterId)
+    MySQL.query.await("DELETE FROM `user_licenses` WHERE `owner` = ?", {
+        identifier..":"..characterId
+    })
+end)
+
 function AddLicense(identifier, licenseType, characterId)
     if(not characterId) then
        characterId = MySQL.scalar.await("SELECT `char_id` FROM `users` WHERE `identifier` = ?", { identifier })

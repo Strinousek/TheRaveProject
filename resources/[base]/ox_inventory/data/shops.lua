@@ -97,18 +97,23 @@ return {
 			id = 110, colour = 69, scale = 0.8
 		}, inventory = {
 			{ name = 'ammo-9', price = 50 },
-			{ name = 'ammo-45', price = 40 },
-			{ name = 'ammo-38', price = 40 },
-			{ name = 'ammo-44', price = 40 },
-			{ name = 'ammo-50', price = 40, license = "fsc" },
-			{ name = 'ammo-shotgun', price = 130, license = "fsc" },
+			{ name = "ammobox", price = 410, metadata = { ammoType = "9"} }, -- 12 nábojů
 
-			-- KRABIČKY DODAT
-			/*
-				{ name = "ammobox-9", price = 410 }, -- 12 nábojů
-				{ name = "ammobox-45", price = 330 }, -- 12 nábojů
-				{ name = "ammobox-shotgun", price = 840 }, -- 8 nábojů
-			*/
+			{ name = 'ammo-45', price = 40 },
+			{ name = "ammobox", price = 330, metadata = { ammoType = "45"} }, -- 12 nábojů
+
+			{ name = 'ammo-38', price = 40 },
+			{ name = "ammobox", price = 330, metadata = { ammoType = "38"} },
+
+			{ name = 'ammo-44', price = 40 },
+			{ name = "ammobox", price = 330, metadata = { ammoType = "44"} },
+
+			{ name = 'ammo-50', price = 40, license = "fsc" },
+			{ name = "ammobox", price = 330, metadata = { ammoType = "50"}, license = "fsc" },
+
+			{ name = 'ammo-shotgun', price = 130, license = "fsc" },
+			{ name = "ammobox", price = 840, metadata = { ammoType = "shotgun"}, license = "fsc" }, -- 8 nábojů
+			
 			
 			{ name = 'WEAPON_BATTLEAXE', price = 370 },
 			{ name = 'WEAPON_HATCHET', price = 370 },

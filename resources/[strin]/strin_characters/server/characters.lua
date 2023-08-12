@@ -23,7 +23,7 @@ local UsersTable = {
 }
 
 local CharactersTable = {
-    "identifier", "job", "job_grade", "other_jobs", 
+    "char_identifier", "identifier", "job", "job_grade", "other_jobs", 
     "accounts", "firstname", "lastname", "dateofbirth", 
     "skin", "sex", "height", "weight", 
     /*"hair_color", "eyes",*/ "inventory", "phone_number", "char_type", 
@@ -171,6 +171,10 @@ function CreateCharacter(identifier, slot, character, characters)
     end
     local job = xPlayer.getJob()
     local charactersQueryParameters = {
+        Base:GenerateUniqueIdentifier({
+            join = true,
+            maxLength = 10,
+        }),
         xPlayer.identifier,
         job.name,
         job.grade,
@@ -302,7 +306,7 @@ end
 
 function SetxPlayerVariables(xPlayer, character, characterId)
     local columns = {
-        "firstname", "lastname", "dateofbirth", "height", "weight",
+        "char_identifier", "firstname", "lastname", "dateofbirth", "height", "weight",
         "phone_number", "char_type", "char_id", "fullname"
     }
     for _,v in pairs(columns) do
@@ -586,7 +590,7 @@ end
 function GenerateCharactersUpdateQuery(identifier, slot)
     local expressions = {}
     for _,column in pairs(CharactersTable) do
-        if(not (column:find("char_id") or column:find("char_type") or column:find("identifier"))) then
+        if(not (column:find("char_id") or column:find("char_type") or column:find("identifier") or column:find("char_identifier"))) then
             expressions[#expressions+1] = "`"..column.."` = ?"
         end
     end

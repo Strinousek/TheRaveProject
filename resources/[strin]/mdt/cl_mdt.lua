@@ -92,7 +92,7 @@ RegisterNUICallback("performReportSearch", function(data, cb)
 end)
 
 RegisterNUICallback("getOffender", function(data, cb)
-    TriggerServerEvent("mdt:getOffenderDetailsById", data.char_id)
+    TriggerServerEvent("mdt:getOffenderDetailsById", data.char_identifier)
     cb('ok')
 end)
 

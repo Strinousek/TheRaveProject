@@ -1,3 +1,4 @@
+local Inventory = exports.ox_inventory
 local ListeningResources = {}
 
 /*
@@ -53,20 +54,42 @@ end
 local AMMO_BOXES = { 
     ["9"] = 12, 
     ["45"] = 12, 
-    ["44"] = 12, 
+    ["44"] = 12,
     ["shotgun"] = 8
 }
 
-do
-    local Inventory = exports.ox_inventory 
-    for ammoType,ammoAmount in pairs(AMMO_BOXES) do
-        RegisterItemListener("ammobox-"..ammoType, function(item, inventory, slot, data)
-            Inventory:AddItem(inventory?.id, "ammo-"..ammoType, ammoAmount)
-        end, {
-            event = "usedItem"
-        })
+Citizen.CreateThread(function()
+    while GetResourceState("ox_inventory") ~= "started" do
+        Citizen.Wait(0)
     end
-end
+    local items = Inventory:Items()
+    local ammoPrefix = "ammo-"
+    for k,v in pairs(items) do
+        if(k:find(ammoPrefix)) then
+            local ammoType = k:sub(ammoPrefix:len() + 1)
+            if(not AMMO_BOXES[ammoType]) then
+                AMMO_BOXES[ammoType] = 8
+            end
+        end
+    end
+    RegisterItemListener("ammobox", function(item, inventory, slot, data)
+        local slotData = Inventory:GetSlot(inventory?.id, slot)
+        if(item.name ~= slotData.name) then
+            return
+        end
+
+        local ammoType = tostring(slotData?.metadata?.ammoType)
+
+        if(not Inventory:CanCarryItem(inventory?.id, ammoPrefix..ammoType, AMMO_BOXES[ammoType])) then
+            return
+        end
+
+        Inventory:AddItem(inventory?.id, ammoPrefix..tostring(slotData?.metadata?.ammoType), AMMO_BOXES[tostring(slotData?.metadata?.ammoType)])
+        Inventory:RemoveItem(inventory?.id, "ammobox", 1, slotData.metadata, slot)
+    end, {
+        event = "usingItem"
+    })
+end)
 
 exports("RegisterItemListener", RegisterItemListener)
 
@@ -75,10 +98,10 @@ exports("use_item", function(event, item, inventory, slot, data)
         for listenerId, listener in pairs(listeners) do
             if(listener?.item == item.name and (listener?.event == event or listener?.event == "all")) then
                 if(listener?.event == "all") then
-                    listener?.cb(event, item, inventory, slot, data)
-                else
-                    listener?.cb(item, inventory, slot, data)
+                    return listener?.cb(event, item, inventory, slot, data)
                 end
+
+                return listener?.cb(item, inventory, slot, data)
             end
         end
     end

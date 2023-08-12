@@ -8,6 +8,10 @@ Citizen.CreateThread(function()
     AddTextEntryByHash(`BLIP_OTHPLYR`, "<FONT FACE='Righteous'>Hráči~w~</FONT>")
     AddTextEntryByHash(`BLIP_PROPCAT`, "<FONT FACE='Righteous'>Nemovitosti~w~</FONT>")
     AddTextEntryByHash(`BLIP_APARTCAT`, "<FONT FACE='Righteous'>Vlastněná nemovitost~w~</FONT>")
+    while GetResourceState("ox_inventory") ~= "started" do
+        Citizen.Wait(0)
+    end
+    exports.ox_inventory:displayMetadata("ammoType", "Typ nábojů")
 end)
 
 SetRelationshipBetweenGroups(1, `AMBIENT_GANG_HILLBILLY`, `PLAYER`)

@@ -12,7 +12,7 @@ end
 loadPlayer = loadPlayer .. ' FROM `users` WHERE identifier = ?'*/
 
 local loadPlayer = [[
-  SELECT users.*, characters.char_type FROM `users` 
+  SELECT users.*, characters.char_type, characters.char_identifier FROM `users` 
   LEFT JOIN `characters` ON (users.identifier = characters.identifier AND users.char_id = characters.char_id)
   WHERE users.identifier = ?
 ]]
@@ -265,9 +265,13 @@ function loadESXPlayer(identifier, playerId, isNew)
     if result.char_type then
         userData.char_type = result.char_type
     end
+    if result.char_identifier then
+        userData.char_identifier = result.char_identifier
+    end
   end
 
   userData.char_type = userData.char_type or 1
+  userData.char_identifier = userData.char_identifier or "none"
 
   if result.metadata and result.metadata ~= '' then
     local metadata = json.decode(result.metadata)
@@ -298,6 +302,9 @@ function loadESXPlayer(identifier, playerId, isNew)
     if(userData.char_type) then
       xPlayer.set("char_type", userData.char_type)
     end
+    if(userData.char_identifier) then
+      xPlayer.set("char_identifier", userData.char_identifier)
+    end
   end
 
   --print(json.encode(xPlayer.variables))
@@ -321,6 +328,7 @@ function loadESXPlayer(identifier, playerId, isNew)
       height = xPlayer.get("height") or 120,
       char_type = xPlayer.get("char_type") or 1,
       char_id = xPlayer.get("char_id") or 1,
+      char_identifier = xPlayer.get("char_identifier") or "none",
       dead = false,
       metadata = xPlayer.getMeta()
     }, isNew,
