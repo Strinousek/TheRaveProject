@@ -25,6 +25,18 @@ local function DoIdentifiersMatch(playerIdentifiers, desiredIdentifiers)
     return identifiersMatch
 end
 
+local function GenerateUUID()
+    Citizen.Wait(100)
+    math.randomseed(tonumber(tostring(os.nanotime()):reverse():sub(1, 9)))
+    local template ='xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'
+    return string.gsub(template, '[xy]', function (c)
+        local v = (c == 'x') and math.random(0, 0xf) or math.random(8, 0xb)
+        return string.format('%x', v)
+    end)
+end
+
+exports("GenerateUUID", GenerateUUID)
+
 AddEventHandler("playerConnecting", function(playerName, setCallback, deferrals)
     deferrals.defer()
     local _source = source
