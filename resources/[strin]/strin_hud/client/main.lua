@@ -28,16 +28,24 @@ end
 
 local MinimapWidth = GetMinimapAnchor()?.width
 
+local PlayerId = PlayerId
+local PlayerPedId = PlayerPedId
+
 Citizen.CreateThread(function()
+    local sleep = 500
     while true do
         DisplayRadar(false)
-        if showHud then
-            local ped = PlayerPedId()
-            local player = PlayerId()
+        if not showHud then
+            sleep = 1000
+        end
+        if(showHud) then
+            sleep = 500
+            local ped = cache.ped
+            local player = cache.playerId
             local health = GetEntityHealth(ped)
             local maxHealth = GetEntityMaxHealth(ped)
-            local isInVehicle = IsPedInAnyVehicle(ped, false)
-            local isUnderwater = IsPedSwimmingUnderWater(ped)
+            local vehicle = cache.vehicle
+            local breath = GetPlayerUnderwaterTimeRemaining(player)
             local data = {
                 action = "updateData",
                 health = health,
@@ -46,19 +54,18 @@ Citizen.CreateThread(function()
                 energy = 100 - GetPlayerSprintStaminaRemaining(player),
                 minimapWidth = MinimapWidth,
             }
-            if(isUnderwater) then
+            if(breath < 10.0) then
                 data.isUnderwater = true
-                data.breath = GetPlayerUnderwaterTimeRemaining(player)
+                data.breath = breath
             else
                 data.isUnderwater = false
             end
-            if(isInVehicle) then
+            if(vehicle) then
                 DisplayRadar(true)
-                local pos = GetEntityCoords(ped)
-                local vehicle = GetVehiclePedIsIn(ped, false)
+                local pos = cache.coords
                 local speed = roundNum(GetEntitySpeed(vehicle) * 2.236936)
                 local fuel = roundNum(Entity(vehicle).state?.fuel or 100)
-                local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
+                local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
                 local currentZone = GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z))
                 data.inVehicle = true
                 data.speed = speed
@@ -71,10 +78,8 @@ Citizen.CreateThread(function()
                 data.inVehicle = false
             end
             SendNUIMessage(data)
-            Citizen.Wait(500)
-        else
-            Citizen.Wait(1000)
         end
+        Citizen.Wait(sleep)
     end
 end)
 
@@ -212,7 +217,7 @@ AddEventHandler("strin_hud:openHud", function()
     })
 end)
 
-RegisterCommand("shud", function(source, args)
+RegisterCommand("hud", function(source, args)
     showHud = not showHud
     if(showHud == false) then
         SendNUIMessage({
@@ -236,7 +241,7 @@ RegisterCommand("edithud", function(source, args)
     })
 end)
 
-RegisterCommand("slimit", function(source, args)
+RegisterCommand("limit", function(source, args)
     local ped = PlayerPedId()
     if(args[1] ~= nil and args[1] ~= "" and args[1] ~= 0) then
         if(IsPedInAnyVehicle(ped)) then

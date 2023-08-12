@@ -185,7 +185,7 @@ $(() => {
             }
         }
         if(data.isUnderwater == true) {
-            setPercentage("breath", data.breath);
+            setPercentage("breath", Math.floor(data.breath * 10));
             $("#breath-info").fadeIn();
         } else {
             $("#breath-info").fadeOut();

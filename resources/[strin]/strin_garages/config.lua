@@ -68,7 +68,7 @@ Garages = {
     {
         coords = vector3(327.49908447266,-205.73123168945,54.086296081543),
         label = "Pinkcage Motel",
-        showBlip = true,
+        showBlip = false,
         heading = 158.0,
     },
     {

@@ -20,7 +20,7 @@ RECEPTIONS = {
             },
             {
                 label = "CCW Permit",
-                event = "strin_receptions:requestCCWPermitTest",
+                event = "strin_receptions:openCCWPermitMenu",
             },
             {
                 label = "FSC Permit",
@@ -28,7 +28,7 @@ RECEPTIONS = {
             },
             {
                 label = "Veřejná LSPD aplikace",
-                serverEvent = "strin_receptions:copyLSPDDiscord",
+                event = "strin_receptions:copyLSPDDiscord",
             },
         },
     }

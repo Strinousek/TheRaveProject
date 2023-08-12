@@ -69,7 +69,9 @@ AddEventHandler("mdt:getOffenderDetails", function(offender)
 		end
 		Citizen.Wait(0)
 	end
-	offender.licenses = {}
+	if(offender.licenses == nil) then
+		offender.licenses = {}
+	end
 
 	local result = MySQL.Sync.fetchAll('SELECT * FROM `user_mdt` WHERE `char_id` = @id', {
 		['@id'] = offender.id
@@ -175,7 +177,9 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_identifier)
 		end
 		Citizen.Wait(0)
 	end
-	offender.licenses = {}
+	if(offender.licenses == nil) then
+		offender.licenses = {}
+	end
 
 	local result = MySQL.Sync.fetchAll('SELECT * FROM `user_mdt` WHERE `char_id` = @id', {
 		['@id'] = offender.char_identifier

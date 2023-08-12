@@ -12,6 +12,8 @@ function AddLicense(identifier, licenseType, characterId)
 	return MySQL.insert.await('INSERT INTO `user_licenses` SET `owner` = ?, `type` = ?', { owner, licenseType })
 end
 
+exports("AddLicense", AddLicense)
+
 function RemoveLicense(identifier, licenseType, characterId)
     if(not characterId) then
         characterId = MySQL.scalar.await("SELECT `char_id` FROM `users` WHERE `identifier` = ?", { identifier })
@@ -20,12 +22,16 @@ function RemoveLicense(identifier, licenseType, characterId)
 	return MySQL.update.await('DELETE FROM `user_licenses` WHERE `owner` = ? AND `type` = ?', { owner, licenseType })
 end
 
+exports("RemoveLicense", RemoveLicense)
+
 function GetLicense(licenseType, cb)
     cb({
         type = licenseType,
         label = LICENSES[licenseType]
     })
 end
+
+exports("GetLicense", GetLicense)
 
 function GetLicenses(identifier, characterId)
     if(not characterId) then
@@ -39,7 +45,7 @@ function GetLicenses(identifier, characterId)
     local owner = identifier..":"..characterId
 	local licenses = MySQL.query.await('SELECT `type` FROM `user_licenses` WHERE `owner` = ?', { owner })
     for k,v in pairs(licenses) do
-        licenses.label = LICENSES[v.type]
+        licenses[k].label = LICENSES[v.type]
     end
     return licenses
 end
@@ -57,6 +63,15 @@ function CheckLicense(identifier, licenseType, characterId)
     end
     return licenseFound
 end
+
+lib.callback.register("strin_licenses:hasLicense", function(source, licenseType, characterId)
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer) then
+        return false
+    end
+    return CheckLicense(xPlayer.identifier, licenseType, characterId or xPlayer.get("char_id"))
+end)
 
 exports("CheckLicense", CheckLicense)
 
