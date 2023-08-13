@@ -12,9 +12,20 @@ const yarnBuildTask = {
 			const resourcePath = GetResourcePath(resourceName);
 			
 			const packageJson = path.resolve(resourcePath, 'package.json');
+			const fxmanifestPath = path.resolve(resourcePath, "fxmanifest.lua");
 			const yarnLock = path.resolve(resourcePath, '.yarn.installed');
 			
 			const packageStat = fs.statSync(packageJson);
+			const fxManifest = fs.readFileSync(fxmanifestPath, "utf8");
+
+			if (fxManifest) {
+				const pattern = /skipYarn\s*['"](yes|true)['"]/i;
+
+				const skipYarn = pattern.test(fxManifest);
+				if (skipYarn) {
+					return false;
+				}
+			}
 			
 			try {
 				const yarnStat = fs.statSync(yarnLock);

@@ -50,12 +50,12 @@ end
 */
 
 AddEventHandler("strin_receptions:copyLSPDDiscord", function()
-    local discord = "https://discord.gg/xxx"
+    local discord = "https://dsc.gg/lspdonline"
     lib.setClipboard(discord)
     ESX.ShowNotification("LSPD Discord zkopírován. CTRL + V pro použití.")
 end)
 
-RegisterNetEvent("strin_receptions:openCCWPermitMenu", function()
+RegisterNetEvent("strin_receptions:openPermitsMenu", function()
     local hasCCWPermit = lib.callback.await("strin_licenses:hasLicense", false, "ccw")
     local elements = {}
     if(not hasCCWPermit) then
@@ -65,9 +65,15 @@ RegisterNetEvent("strin_receptions:openCCWPermitMenu", function()
     else
         table.insert(elements, { label = [[<div style="display: flex; justify-content: space-between; align-items: center;">
             CCW Permit - Karta<div style="color: #2ecc71;">]]..ESX.Math.GroupDigits(5000)..[[$</div>
-        </div>]], value = "card"})
+        </div>]], value = "ccw_card"})
     end
-    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "ccw_permit_menu", {
+    local hasFSCPermit = lib.callback.await("strin_licenses:hasLicense", false, "fsc")
+    if(hasFSCPermit) then
+        table.insert(elements, { label = [[<div style="display: flex; justify-content: space-between; align-items: center;">
+            FSC - Karta<div style="color: #2ecc71;">]]..ESX.Math.GroupDigits(5000)..[[$</div>
+        </div>]], value = "fsc_card"})
+    end
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "permits_menu", {
         title = "CCW Permit",
         align = "center",
         elements = elements,
@@ -75,12 +81,20 @@ RegisterNetEvent("strin_receptions:openCCWPermitMenu", function()
         menu.close()
         if(data.current.value == "test") then
             RequestCCWPermitTestMenu()
-        elseif(data.current.value == "card") then
+        elseif(data.current.value == "ccw_card") then
             TriggerServerEvent("strin_receptions:requestCCWCard")
+        elseif(data.current.value == "fsc_card") then
+            TriggerServerEvent("strin_receptions:requestFSCCard")
         end
     end, function(data, menu)
         menu.close()
     end)
+end)
+
+RegisterNetEvent("strin_receptions:reportCrime", function()
+    ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "report_crime_dialog", {
+        
+    }, submit, cancel, change, close)
 end)
 
 function RequestCCWPermitTestMenu()

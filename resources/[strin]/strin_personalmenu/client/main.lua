@@ -60,11 +60,25 @@ AddEventHandler("esx:exitedVehicle", function()
     end
 end)
 
+local function CountVehicleExtras(vehicle)
+    local vehicleExtrasCount = 0
+    for i=0, 15 do
+        if DoesExtraExist(vehicle, i) then
+            vehicleExtrasCount += 1
+        end
+    end
+    return vehicleExtrasCount
+end
+
 function OpenVehicleMenu(vehicle)
     local elements = {}
     if(GetEntityHealth(vehicle) >= GetEntityMaxHealth(vehicle)) then
-        table.insert(elements, {label = "Livery", value = "liveries"})
-        table.insert(elements, {label = "Extras", value = "extras"})
+        if(GetVehicleLiveryCount(vehicle) ~= -1) then
+            table.insert(elements, {label = "Livery", value = "liveries"})
+        end
+        if(CountVehicleExtras(vehicle) > 0) then
+            table.insert(elements, {label = "Extras", value = "extras"})
+        end
     end
     table.insert(elements, {label = "Dveře", value = "doors"})
     if(not IsVehicleEngineStarting(vehicle) and not GetIsVehicleEngineRunning(vehicle)) then

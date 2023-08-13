@@ -19,12 +19,12 @@ RECEPTIONS = {
                 event = "strin_receptions:reportCrime", --
             },
             {
-                label = "CCW Permit",
-                event = "strin_receptions:openCCWPermitMenu",
+                label = "CCW Permit / FSC Karta",
+                event = "strin_receptions:openPermitsMenu",
             },
             {
-                label = "FSC Permit",
-                event = "strin_receptions:requestFSCPermit", -- 
+                label = "Vyžádání FSC",
+                event = "strin_receptions:requestFSCPermit", 
             },
             {
                 label = "Veřejná LSPD aplikace",

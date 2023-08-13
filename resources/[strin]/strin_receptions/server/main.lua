@@ -1,4 +1,5 @@
 local RecentlyCalledOfficerTime = nil
+local RecentlyCalledSupervisorTime = nil
 local LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
 
 local OngoingTests = {}
@@ -202,7 +203,7 @@ RegisterNetEvent("strin_receptions:callOfficer", function()
     end
 
     if(RecentlyCalledOfficerTime) then
-        local remainingSeconds = math.floor((RecentlyCalledOfficer + (5 * 60)) - os.time())
+        local remainingSeconds = math.floor((RecentlyCalledOfficerTime + (5 * 60)) - os.time())
         if(remainingSeconds > 0) then
             xPlayer.showNotification(("Officer byl už nedávno vyžádán, vyčkejte %s sekund."):format(
                 remainingSeconds
@@ -223,6 +224,45 @@ RegisterNetEvent("strin_receptions:callOfficer", function()
     local data = {
         displayCode = 'MRPD',
         description = "Vyžádání Officera",
+        isImportant = 0,
+        recipientList = LawEnforcementJobs, 
+        length = '20000',
+        infoM = 'fa-info-circle',
+        info = xPlayer.get("fullname"),
+    }
+    local dispatchData = { dispatchData = data, caller = 'Fero', coords = RECEPTIONS["mrpd"].coords}
+    TriggerEvent('wf-alerts:svNotify', dispatchData)
+end)
+
+RegisterNetEvent("strin_receptions:callSupervisor", function()
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer) then
+        return
+    end
+
+    if(RecentlyCalledSupervisorTime) then
+        local remainingSeconds = math.floor((RecentlyCalledSupervisorTime + (5 * 60)) - os.time())
+        if(remainingSeconds > 0) then
+            xPlayer.showNotification(("Supervisor byl už nedávno vyžádán, vyčkejte %s sekund."):format(
+                remainingSeconds
+            ))
+            return
+        else
+            RecentlyCalledSupervisorTime = nil
+        end
+    end
+
+    local distance = #(GetEntityCoords(GetPlayerPed(_source)) - RECEPTIONS["mrpd"].coords)
+    if(distance > 10.0) then
+        xPlayer.showNotification("Od recepce jste moc daleko!", { type = "error" })
+        return
+    end
+
+    RecentlyCalledSupervisorTime = os.time()
+    local data = {
+        displayCode = 'MRPD',
+        description = "Vyžádání Supervisora",
         isImportant = 0,
         recipientList = LawEnforcementJobs, 
         length = '20000',
@@ -264,6 +304,28 @@ RegisterNetEvent("strin_receptions:requestCCWCard", function()
     xPlayer.removeMoney(5000)
     local time = os.date("%d/%m/%Y")
     exports.ox_inventory:AddItem(_source, "ccw_permit", 1, {
+        holder = xPlayer.get("fullname"),
+        issuedOn = time,
+    })
+end)
+
+RegisterNetEvent("strin_receptions:requestFSCCard", function()
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer) then
+        return
+    end
+    if(not exports.strin_licenses:CheckLicense(xPlayer.identifier, "fsc", xPlayer.get("char_id"))) then
+        xPlayer.showNotification("Nemáte zaregistrované FSC povolení!", { type = "error" })
+        return
+    end
+    if((xPlayer.getMoney() - 5000) < 0) then
+        xPlayer.showNotification("Nemáte dostatek peněz!", { type = "error" })
+        return
+    end
+    xPlayer.removeMoney(5000)
+    local time = os.date("%d/%m/%Y")
+    exports.ox_inventory:AddItem(_source, "fsc_card", 1, {
         holder = xPlayer.get("fullname"),
         issuedOn = time,
     })

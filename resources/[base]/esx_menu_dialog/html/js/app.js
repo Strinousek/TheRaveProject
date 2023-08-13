@@ -3,9 +3,10 @@
 	let MenuTpl =
 		'<div id="menu_{{_namespace}}_{{_name}}" class="dialog {{#isBig}}big{{/isBig}}">' +
 			'{{#isDefault}}<input type="text" name="value" placeholder="{{title}}" id="inputText"/>{{/isDefault}}' +
+			'<div class="controls-wrapper">' +
 				'{{#isBig}}<textarea name="value"/>{{/isBig}}' +
-				'<button type="button" name="submit">ANO</button>' +
-				'<button type="button" name="cancel">NE</button>'
+				'<button type="button" name="submit">POTVRDIT</button>' +
+				'<button type="button" name="cancel">ZRUŠIT</button>' +
 			'</div>' +
 		'</div>'
 	;
