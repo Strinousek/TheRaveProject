@@ -62,7 +62,7 @@ Citizen.CreateThread(function()
             end
             if(vehicle) then
                 DisplayRadar(true)
-                local pos = cache.coords
+                local pos = cache.coords or GetEntityCoords(vehicle)
                 local speed = roundNum(GetEntitySpeed(vehicle) * 2.236936)
                 local fuel = roundNum(Entity(vehicle).state?.fuel or 100)
                 local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)

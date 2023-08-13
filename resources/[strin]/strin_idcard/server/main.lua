@@ -1,6 +1,16 @@
 local Base = exports.strin_base
 local Inventory = exports.ox_inventory
 
+local CHARACTER_DATA_TYPES = { 
+	["firstname"] = "string",
+	["lastname"] = "string",
+	["sex"] = { "M", "F" },
+	["dateofbirth"] = "string",
+	["height"] = "number",
+	["weight"] = "number",
+	["char_type"] = { 1, 2, 3 },
+}
+
 /*RegisterCommand("idcard", function(source)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
@@ -61,6 +71,80 @@ function ShowCard(__type, cardId, playerId)
 end
 
 RegisterNetEvent("strin_idcard:showCard", ShowCard)
+
+RegisterNetEvent("strin_idcard:requestCard", function(cardType)
+    if(not lib.table.contains(CARDS, cardType)) then
+        return
+    end
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer) then
+        return
+    end
+
+    if((xPlayer.getMoney() - CARD_RENEWAL_PRICE) < 0) then
+        xPlayer.showNotification("Nemáte dostatek peněz!", { type = "error" })
+        return
+    end
+
+    local ped = GetPlayerPed(_source)
+    local coords = GetEntityCoords(ped)
+
+    local nearestDistance = 15000.0
+    for _,v in pairs(CITY_HALLS) do
+        local distance = #(coords - v.coords)
+        if(distance < nearestDistance) then
+            nearestDistance = distance
+        end
+    end
+
+    if(nearestDistance > 15.0) then
+        xPlayer.showNotification("Nejste poblíž žádnému úřadu!", { type = "error" })
+        return
+    end
+
+    local characterData = {
+        --xPlayer.identifier..":"..xPlayer.get("char_id"),
+        xPlayer.get("firstname"),
+        xPlayer.get("lastname"),
+        xPlayer.get("sex"),
+        xPlayer.get("height"),
+        xPlayer.get("weight"),
+    }
+    
+    local characterDataId = MySQL.scalar.await([[SELECT `id` FROM `character_data` WHERE (
+        `firstname` = ? AND `lastname` = ? AND `sex` = ? AND `height` = ? AND `weight` = ?
+    )]], {
+        table.unpack(characterData)
+    })
+
+    if(not characterDataId) then
+        local parameters = {}
+        for k,v in pairs(CHARACTER_DATA_TYPES) do
+            parameters[k] = xPlayer.get(k)
+        end
+        parameters["owner"] = xPlayer.identifier..":"..xPlayer.get("char_id")
+        local expressions = {}
+        for k,v in pairs(parameters) do
+            table.insert(expressions, "`"..k.."` = @"..k)
+        end
+        characterDataId = MySQL.insert.await(("INSERT INTO `character_data` SET %s"):format(
+            table.concat(expressions, ",")
+        ), parameters)
+    end
+
+	local time = os.date("%d/%m/%Y")
+    local cardMetadata = {
+        holder = xPlayer.get("fullname"),
+        id = characterDataId,
+        issuedOn = time,
+    }
+    if(cardType == "driving_license") then
+        cardMetadata.classes = { "C" }
+    end
+    Inventory:AddItem(_source, cardType, 1, cardMetadata)
+    xPlayer.removeMoney(CARD_RENEWAL_PRICE)
+end)
 
 Base:RegisterItemListener(CARDS, function(item, inventory, slot, data)
     local _source = inventory.id

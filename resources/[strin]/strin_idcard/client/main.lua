@@ -3,6 +3,7 @@ CardDisplayed = false
 
 local Target = exports.ox_target
 local Inventory = exports.ox_inventory
+local Base = exports.strin_base
 
 function GenerateTargetOption(label, __type)
     return {
@@ -26,10 +27,65 @@ function GenerateTargetOption(label, __type)
     }
 end
 
-Target:addGlobalPlayer({
-    GenerateTargetOption("Ukázat ID kartu", "identification_card"),
-    GenerateTargetOption("Ukázat řidičský průkaz", "driving_license")
-})
+Citizen.CreateThread(function()
+    Target:addGlobalPlayer({
+        GenerateTargetOption("Ukázat ID kartu", "identification_card"),
+        GenerateTargetOption("Ukázat řidičský průkaz", "driving_license")
+    })
+
+    for k,v in pairs(CITY_HALLS) do
+        v.blip = Base:CreateBlip({
+            coords = v.coords,
+            sprite = 525,
+            colour = 28,
+            scale = 0.8,
+            label = "Úřad",
+            id = "city_hall_"..k
+        })
+        Target:addSphereZone({
+            coords = v.coords,
+            radius = 5.0,
+            options = {
+                {
+                    label = "Úřad",
+                    distance = 2.0,
+                    onSelect = function()
+                        OpenCityHallMenu()
+                    end
+                }
+            }
+        })
+    end
+end)
+
+function OpenCityHallMenu()
+    local elements = {}
+    table.insert(elements, {
+        label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
+            Identifikační karta<div style="color: #2ecc71;">%s$</div>
+        </div>]]):format(ESX.Math.GroupDigits(CARD_RENEWAL_PRICE)),
+        value = "identification_card"
+    })
+    local hasDrivingLicense = lib.callback.await("strin_licenses:hasLicense", false, "drive")
+    if(hasDrivingLicense) then
+        table.insert(elements, {
+            label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
+                Řidičský průkaz<div style="color: #2ecc71;">%s$</div>
+            </div>]]):format(ESX.Math.GroupDigits(CARD_RENEWAL_PRICE)),
+            value = "driving_license"
+        })
+    end
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "city_hall", {
+        title = "Úřad",
+        align = "center",
+        elements = elements,
+    }, function(data, menu)
+        menu.close()
+        TriggerServerEvent("strin_idcard:requestCard", data.current.value)
+    end, function(data, menu)
+        menu.close()
+    end)
+end
 
 /*
     -- Debug Stuff
@@ -100,6 +156,16 @@ end)
 RegisterNUICallback("hideCard", function(data, cb)
     CardDisplayed = false
     cb("ok")
+end)
+
+AddEventHandler("onResourceStop", function(resourceName)
+    if(GetCurrentResourceName() == resourceName) then
+        for k,v in pairs(CITY_HALLS) do
+            if(v.blip) then
+                Base:DeleteBlip("city_hall_"..k)
+            end
+        end
+    end
 end)
 
 AddEventHandler("onResourceStart", function(resourceName)

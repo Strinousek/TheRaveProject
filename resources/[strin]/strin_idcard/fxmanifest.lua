@@ -7,6 +7,7 @@ ui_page "client/nui/index.html"
 shared_scripts {
     "@es_extended/imports.lua",
     "@ox_lib/init.lua",
+    "config.lua"
 }
 
 client_scripts {

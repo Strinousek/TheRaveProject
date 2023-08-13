@@ -59,7 +59,7 @@ end)
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		DisableControlAction(0, 26, true)
+		--DisableControlAction(0, 26, true)
 		DisableControlAction(0, 36, true)
 	end
 end)
@@ -181,10 +181,8 @@ RegisterCommand("crouch", function()
 	end
 end)
 
-RegisterKeyMapping('crouch', '<FONT FACE="Righteous">Skrčit se</FONT>', 'KEYBOARD', "C")
-
+RegisterKeyMapping('crouch', '<FONT FACE="Righteous">Skrčit se</FONT>', 'KEYBOARD', "LCONTROL")
 RegisterKeyMapping("handsup", "<FONT FACE='Righteous'>Zvednout ruce (LSHIFT +)~</FONT>", "keyboard", "X")
-
 RegisterKeyMapping("cancelanim", "<FONT FACE='Righteous'>Ukoncit animaci~</FONT>", "keyboard", "X")
 
 
