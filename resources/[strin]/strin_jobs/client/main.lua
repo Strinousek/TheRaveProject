@@ -178,6 +178,31 @@ Citizen.CreateThread(function()
                 return HasAccessToAction(ESX.PlayerData?.job?.name, "medical") and IsEntityDead(entity)
             end,
         },
+        {
+            label = "Skenovat otisky prstů", 
+            onSelect = function(data)
+                local entity = data.entity
+                local playerId = NetworkGetPlayerIndexFromPed(entity)
+                local netId = GetPlayerServerId(playerId)
+                if(lib.progressBar({
+                    label = "Skenování otisků",
+                    duration = 10000,
+                    canCancel = true,
+                })) then
+                    lib.callback("strin_jobs:scanFingerprints", false, function(scan)
+                        if(not scan) then
+                            ESX.ShowNotification("Skenování se nezdařilo!", { type = "error" })
+                            return
+                        end
+                        lib.setClipboard(scan)
+                        ESX.ShowNotification(("Scan: %s - Zkopírováno!"):format(scan))
+                    end, netId)
+                end
+            end,
+            canInteract = function()
+                return lib.table.contains(LawEnforcementJobs, ESX?.PlayerData?.job?.name)
+            end
+        }
     })
     -- Mechanic
     Target:addGlobalVehicle({

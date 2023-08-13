@@ -68,6 +68,33 @@ lib.callback.register("strin_jobs:useLockpick", function(source)
     return lockpickRemoved
 end)
 
+lib.callback.register("strin_jobs:scanFingerprints", function(source, targetId)
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer) then
+        return false
+    end
+
+    local job = xPlayer.getJob()
+    if(not lib.table.contains(LawEnforcementJobs, job.name)) then
+        return false
+    end
+
+    local targetPlayer = ESX.GetPlayerFromId(targetId)
+    if(not targetPlayer) then
+        return false
+    end
+
+    local ped = GetPlayerPed(_source)
+    local targetPed = GetPlayerPed(targetPlayer.source)
+
+    if(#(GetEntityCoords(ped) - GetEntityCoords(targetPed)) > 7.5) then
+        return false
+    end
+
+    return targetPlayer.get("char_identifier")
+end)
+
 RegisterNetEvent("strin_jobs:requestStash", function(jobName, stashType)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
