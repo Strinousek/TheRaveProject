@@ -15,6 +15,7 @@ local AmmunationHookId = Inventory:registerHook("buyItem", function(payload)
                 DiscordLog("AMMUNATION", "Ammu-nation", {
                     { name = "Jméno kupujícího", value = xPlayer.get("fullname") },
                     { name = "DOB kupujícího", value = xPlayer.get("dateofbirth") },
+                    { name = "CitizenID", value = xPlayer.get("char_identifier") },
                     { name = "Zakoupená střelná zbraň", value = Items[payload?.itemName].label },
                     { name = "Sériové číslo", value = payload?.metadata.serial }
                 }, {

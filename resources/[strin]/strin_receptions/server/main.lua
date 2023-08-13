@@ -1,7 +1,8 @@
 local RecentlyCalledOfficerTime = nil
 local RecentlyCalledSupervisorTime = nil
 local LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
-
+local Base = exports.strin_base
+Base:RegisterWebhook("PERMIT_REQUEST", "https://discord.com/api/webhooks/1136613719556751390/_vKBcwyMMbZg67FBM5jbyW5MRYBBFGw6_w5V0SptLee0G10Bht0aufodCYWvsOjWw0iE")
 local OngoingTests = {}
 
 local CCW_TEST_PRESETS = {
@@ -286,6 +287,28 @@ function GenerateTest()
     end
     return preset
 end
+
+local Cooldowns = {}
+
+RegisterNetEvent("strin_receptions:requestFSCPermit", function()
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer or Cooldowns[_source]) then
+        return
+    end
+
+    Base:DiscordLog("PERMIT_REQUEST", "MRPD - Vyžádání FSC", {
+        { name = "Jméno žádajícího", value = xPlayer.get("fullname") },
+        { name = "DOB žádajícího", value = xPlayer.get("dateofbirth") },
+        { name = "CitizenID", value = xPlayer.get("char_identifier") },
+    }, {
+        fields = true,
+    })
+    Cooldowns[_source] = true
+    SetTimeout(1500, function()
+        Cooldowns[_source] = nil
+    end)
+end)
 
 RegisterNetEvent("strin_receptions:requestCCWCard", function()
     local _source = source

@@ -210,6 +210,9 @@
                     <br />
 
                     <div class="left-side" style="max-height: 450px;">
+                        <h3>CITIZEN ID</h3>
+                        <h4 v-if="offender_selected.id"> {{ offender_selected.id }} </h4>
+                        <h4 v-else-if="offender_selected.id == null"> ... </h4>
                         <h3>JMÉNO</h3>
                         <h4 v-if="offender_selected.firstname"> {{ offender_selected.firstname }} {{ offender_selected.lastname }} </h4>
                         <h4 v-else-if="offender_selected.name == null"> ... </h4>

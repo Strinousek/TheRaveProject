@@ -71,7 +71,7 @@ return {
 	},
 
 	['driving_license'] = {
-		label = 'Řidičský průkaz',
+		label = 'Řidičská Licence',
 		stack = false,
 		consume = 0,
 		server = {
@@ -80,12 +80,30 @@ return {
 	},
 
 	['identification_card'] = {
-		label = 'Identifikační karta',
+		label = 'Identifikační Karta',
 		consume = 0,
 		stack = false,
 		server = {
 			export = "strin_base.use_item"
 		}
+	},
+
+	['ccw_permit'] = {
+		label = 'CCW Permit',
+		consume = 0,
+		stack = false,
+		/*server = {
+			export = "strin_base.use_item"
+		}*/
+	},
+
+	['fsc_card'] = {
+		label = 'FSC Karta',
+		consume = 0,
+		stack = false,
+		/*server = {
+			export = "strin_base.use_item"
+		}*/
 	},
 
 	['handcuffs'] = {

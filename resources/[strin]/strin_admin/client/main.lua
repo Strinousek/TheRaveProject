@@ -585,8 +585,11 @@ function OpenVehicleOptionsMenu()
     local ped = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(ped)
     local vehicleState = Entity(vehicle).state
-    if(vehicleState and vehicleState.spawnedByAdmin) then
+    if(vehicleState and vehicleState?.spawnedByAdmin) then
         recentlySpawnedVehicle = vehicle
+    end
+    if(not vehicleState or not vehicleState?.spawnedByAdmin) then
+        table.insert(elements, { label = "Tagnout vozidlo", value = "convert_vehicle" })
     end
     if(vehicle ~= 0) then
         table.insert(elements, { label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
@@ -594,7 +597,6 @@ function OpenVehicleOptionsMenu()
         </div>]]):format(math.floor(GetEntityHealth(vehicle)), math.floor(GetEntityMaxHealth(vehicle))), value = "xxx" })
         table.insert(elements, { label = "Opravit vozidlo", value = "repair_vehicle" })
         table.insert(elements, { label = "Umýt vozidlo", value = "wash_vehicle" })
-        table.insert(elements, { label = "Opravit vozidlo", value = "repair_vehicle" })
         table.insert(elements, { label = "Doplnit palivo", value = "fuel_vehicle" })
         if(not IsVehicleOnAllWheels(vehicle)) then
             table.insert(elements, { label = "Otočit vozidlo", value = "flip_vehicle" })
@@ -615,6 +617,8 @@ function OpenVehicleOptionsMenu()
             local vehicleRotation = GetEntityRotation(vehicle, 2)
             SetEntityRotation(vehicle, vehicleRotation[1], 0, vehicleRotation[3], 2, true)
             SetVehicleOnGroundProperly(vehicle)
+        elseif(data.current.value == "convert_vehicle") then
+            Entity(vehicle).state.spawnedByAdmin = true
         elseif(data.current.value == "wash_vehicle") then
             SetVehicleDirtLevel(vehicle, 0.0)
         elseif(data.current.value == "repair_vehicle") then

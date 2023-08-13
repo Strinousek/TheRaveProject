@@ -93,8 +93,37 @@ end)
 
 RegisterNetEvent("strin_receptions:reportCrime", function()
     ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "report_crime_dialog", {
-        
-    }, submit, cancel, change, close)
+        title = "Zločin"
+    }, function(data, menu)
+        menu.close()
+        if(not data.value or data.value:len() == 0) then
+            return
+        end
+        ExecuteCommand("911 "..data.value)
+    end, function(data, menu)
+        menu.close()
+    end)
+end)
+
+RegisterNetEvent("strin_receptions:fileComplain", function()
+    local complainLink = "https://forms.gle/BGFkBpz7mxc5Ur1XA"
+    local elements = {}
+    table.insert(elements, { label = "Zavolat supervisora", value = "call_supervisor"})
+    table.insert(elements, { label = "Odkaz na formulář", value = "complain_link"})
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "complain_menu", {
+        title = "Stížnost",
+        align = "center",
+        elements = elements,
+    }, function(data, menu)
+        menu.close()
+        if(data.current.value == "call_supervisor") then
+            TriggerServerEvent("strin_receptions:callSupervisor")
+        elseif(data.current.value == "complain_link") then
+            lib.setClipboard(complainLink)
+        end
+    end, function(data, menu)
+        menu.close()
+    end)
 end)
 
 function RequestCCWPermitTestMenu()
