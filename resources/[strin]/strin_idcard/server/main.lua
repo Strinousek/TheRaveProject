@@ -141,6 +141,9 @@ RegisterNetEvent("strin_idcard:requestCard", function(cardType)
     }
     if(cardType == "driving_license") then
         cardMetadata.classes = { "C" }
+        if(not exports.strin_licenses:CheckLicense(xPlayer.identifier, "drive", xPlayer.get("char_id"))) then
+            exports.strin_licenses:AddLicense(xPlayer.identifier, "drive", xPlayer.get("char_id"))
+        end
     end
     Inventory:AddItem(_source, cardType, 1, cardMetadata)
     xPlayer.removeMoney(CARD_RENEWAL_PRICE)

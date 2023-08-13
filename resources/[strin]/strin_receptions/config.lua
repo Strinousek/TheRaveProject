@@ -12,11 +12,11 @@ RECEPTIONS = {
             },
             {
                 label = "Podat stížnost",
-                event = "strin_receptions:fileComplain",
+                event = "strin_receptions:fileComplain", --
             },
             {
                 label = "Nahlásit zločin",
-                event = "strin_receptions:reportCrime",
+                event = "strin_receptions:reportCrime", --
             },
             {
                 label = "CCW Permit",
@@ -24,7 +24,7 @@ RECEPTIONS = {
             },
             {
                 label = "FSC Permit",
-                event = "strin_receptions:requestFSCPermit",
+                event = "strin_receptions:requestFSCPermit", -- 
             },
             {
                 label = "Veřejná LSPD aplikace",

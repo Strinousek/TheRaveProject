@@ -66,15 +66,15 @@ function OpenCityHallMenu()
         </div>]]):format(ESX.Math.GroupDigits(CARD_RENEWAL_PRICE)),
         value = "identification_card"
     })
-    local hasDrivingLicense = lib.callback.await("strin_licenses:hasLicense", false, "drive")
-    if(hasDrivingLicense) then
+    --local hasDrivingLicense = lib.callback.await("strin_licenses:hasLicense", false, "drive")
+    --if(hasDrivingLicense) then
         table.insert(elements, {
             label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
                 Řidičský průkaz<div style="color: #2ecc71;">%s$</div>
             </div>]]):format(ESX.Math.GroupDigits(CARD_RENEWAL_PRICE)),
             value = "driving_license"
         })
-    end
+    --end
     ESX.UI.Menu.Open("default", GetCurrentResourceName(), "city_hall", {
         title = "Úřad",
         align = "center",
