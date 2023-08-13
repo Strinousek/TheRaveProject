@@ -10,7 +10,7 @@ return {
 
 	['command_open'] = "Otevře rozhraní vysílačky",
 	['command_clear'] = "Smaže všechny uložené předvolby",
-	['keymap_open'] = "Otevřít vysílačku",
+	['keymap_open'] = "<FONT FACE='Righteous'>Otevřít vysílačku~</FONT>",
 
 	['channel_join'] = "Připojil ses na frekvenci %s MHz",
 	['channel_unavailable'] = "Tato frekvence je nedostupná",
