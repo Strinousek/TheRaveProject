@@ -6,15 +6,20 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
     for k,v in pairs(Jobs) do
-        if(not v.Society or not next(v.Society) or lib.table.contains(LawEnforcementJobs, k) or lib.table.contains(DistressJobs, k)) then
+        if(not v.Society or not next(v.Society)) then
             goto skipLoop
         end
-        Society:CreateNewSociety(k, v.Society?.label or k, 0, v.Society?.grades or {
-            { label = "Nováček" },
-            { label = "Pokročilý" },
-            { label = "Zkušený" },
-            { name = "boss", label = "Šéf" },
-        })
+        if(not v.Society.dutySystem) then
+            Society:CreateNewSociety(k, v.Society?.label or k, 0, v.Society?.grades or {
+                { label = "Nováček" },
+                { label = "Pokročilý" },
+                { label = "Zkušený" },
+                { name = "boss", label = "Šéf" },
+            })
+        else
+            Society:CreateNewSociety(k, v.Society?.label, 0, v.Society?.grades)
+            Society:CreateNewSociety("off_"..k, v.Society?.label.." - OFF DUTY", 0, v.Society?.grades)
+        end
         ::skipLoop::
     end
 end)

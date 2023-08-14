@@ -1,7 +1,7 @@
 RegisteredPaychecks = {}
 
 local FreePayouts = {
-    "police", "fire", "unemployed"
+    "police", "fire", "ambulance", "unemployed"
 }
 
 StartPaycheck = function()
@@ -16,7 +16,7 @@ StartPaycheck = function()
                             local job = xPlayer.getJob()
                             local society = GetSociety(job.name)
                             local salary = society?.grades[job.grade].salary
-                            if(not lib.table.contains(FreePayouts, job.name)) then
+                            if(not lib.table.contains(FreePayouts, job.name) and not lib.table.contains(FreePayouts, "off_"..job.name)) then
                                 if(not totalPayouts[job.name]) then
                                     totalPayouts[job.name] = 0
                                 end
@@ -27,11 +27,11 @@ StartPaycheck = function()
                                 else
                                     xPlayer.showNotification(("Společnost nemá na Vaší výplatu."), {type = "inform"})
                                 end
-                                RegisteredPaychecks[identifier] = os.time() + (60 * 60000)
+                                RegisteredPaychecks[identifier] = os.time() + (60 * 60)
                             else
                                 xPlayer.addAccountMoney('bank', salary)
                                 xPlayer.showNotification(("Společnost Vám vyplatila %s$."):format(salary), {type = "inform"})
-                                RegisteredPaychecks[identifier] = os.time() + (60 * 60000)
+                                RegisteredPaychecks[identifier] = os.time() + (60 * 60)
                             end
                         end
                     else
@@ -72,7 +72,7 @@ ESX.RegisterCommand("vyplata", "user", function(xPlayer)
 end)
 
 RegisterNetEvent("esx:playerLoaded", function(playerId, xPlayer)
-    RegisteredPaychecks[xPlayer.identifier] = os.time() + (60 * 60000)
+    RegisteredPaychecks[xPlayer.identifier] = os.time() + (60 * 60)
 end)
 
 RegisterNetEvent("playerDropped", function()
@@ -88,7 +88,7 @@ AddEventHandler("onResourceStart", function(resourceName)
     if(GetCurrentResourceName() == resourceName) then
         local xPlayers = ESX.GetExtendedPlayers()
         for _, xPlayer in pairs(xPlayers) do
-            RegisteredPaychecks[xPlayer.identifier] = os.time() + (60 * 60000)
+            RegisteredPaychecks[xPlayer.identifier] = os.time() + (60 * 60)
         end
     end
 end)

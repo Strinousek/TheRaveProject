@@ -14,6 +14,23 @@ ShopLabels = {
 
 Jobs = {
     ["police"] = {
+        Society = {
+            label = "LSPD",
+            dutySystem = true,
+            grades = {
+                { label = "Police Officer I" },
+                { label = "Police Officer II" },
+                { label = "Police Officer III" },
+                { label = "Police Officer III+1" },
+                { label = "Detective I" },
+                { label = "Detective II" },
+                { label = "Sergeant I" },
+                { label = "Detective III" },
+                { label = "Sergeant II", name = "manager" },
+                { label = "Lieutenant", name = "manager" },
+                { label = "Captain", name = "boss" },
+            }
+        },
         Zones = {
             Storages = {
                 vector3(456.20928955078, -979.27709960938, 30.68957901001),
@@ -77,6 +94,16 @@ Jobs = {
         }
     },
     ["ambulance"] = {
+        Society = {
+            label = "EMS",
+            dutySystem = true,
+            grades = {
+                { label = "Záchranář" },
+                { label = "Doktor" },
+                { label = "Primář" },
+                { label = "Ředitel", name = "boss" },
+            },
+        },
         Zones = {
             Storages = {
                 vector3(309.2922668457, -602.89489746094, 43.291839599609),
@@ -122,6 +149,6 @@ Jobs = {
         Society = {
             label = "Star Screamers",
         },
-        Actions = { "billing", "medical", "mechanic" },
+        Actions = { "billing", "mechanic" },
     }
 }
