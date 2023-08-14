@@ -209,6 +209,13 @@ function OpenEmployeesMenu(job, employees, pageNumber, onSubmit)
     local startIndex = (pageNumber == 1) and 1 or ((pageSize * (pageNumber - 1)) + 1)
     local endIndex = pageNumber * pageSize
 
+    if(pageNumber == 1 and not onSubmit) then
+        table.insert(elements, {
+            label = "Nabrat nového zaměstnance",
+            value = "hire"
+        })
+    end
+
     if(pageNumber > 1) then
         table.insert(elements, {
             label = '<span style="color: #e74c3c"> << Předchozí stránka </span>',
@@ -253,6 +260,44 @@ function OpenEmployeesMenu(job, employees, pageNumber, onSubmit)
         end
         if(data.current.value == "previous_page") then
             OpenEmployeesMenu(job, employees, pageNumber - 1, onSubmit)
+            return
+        end
+        if(data.current.value == "hire") then
+            local nearbyPlayers = lib.getNearbyPlayers(GetEntityCoords(ped), 15.0, false)
+            if(not next(nearbyPlayers)) then
+                ESX.ShowNotification("V okolí nejsou žádní hráči!", {
+                    type = "error"
+                })
+                OpenEmployeesMenu(job, employees, pageNumber, onSubmit)
+                return
+            end
+            local playerElements = {}
+            for i=1, #nearbyPlayers do
+                nearbyPlayers[i].serverId = GetPlayerServerId(nearbyPlayers[i].id)
+                table.insert(playerElements, {
+                    label = ESX.SanitizeString(GetPlayerName(nearbyPlayers[i].id)).." - #"..nearbyPlayers[i].serverId,
+                    value = nearbyPlayers[i].serverId
+                })
+            end
+            ESX.UI.Menu.Open("default", GetCurrentResourceName(), "hire_players_menu", {
+                title = "Nabírací menu",
+                align = "center",
+                elements = playerElements,
+            }, function(data2, menu2)
+                menu2.close()
+                lib.callback("strin_jobs:hireEmployee", false, function(success, errorMessage)
+                    if(not success) then
+                        ESX.ShowNotification(errorMessage, { type = "error" })
+                        OpenEmployeesMenu(job, employees, pageNumber, onSubmit)
+                        return
+                    end
+                    TriggerServerEvent("strin_jobs:requestBossOffice", ESX?.PlayerData?.job?.name)
+                    ESX.ShowNotification("Zaměstnanec registrován.")
+                end, data2.current.value)
+            end, function(data2, menu2)
+                OpenEmployeesMenu(job, employees, pageNumber, onSubmit)
+                menu2.close()
+            end)
             return
         end
         if(onSubmit) then

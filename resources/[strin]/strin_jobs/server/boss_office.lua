@@ -6,6 +6,9 @@ Base:RegisterWebhook("BOSS_EMPLOYEE", "https://discord.com/api/webhooks/11377857
 Base:RegisterWebhook("BOSS_UPDATE", "https://discord.com/api/webhooks/777279695267037235/elBRknk8Qqw3ZRcCccSxQ15TIXQ20aC6ntlsP5wJNMkpRlk1eW-q3pxHqFVlJgsIYkeE")
 Base:RegisterWebhook("BOSS_VEHICLES", "https://discord.com/api/webhooks/1137788527082483782/pIpzr4s4Sh7LziqO7MgSox8vVTYuwOIQTIbnOKRVYmMqxDUByZH42Jd66uv34Q6NQzNl")
 
+local GetEntityCoords = GetEntityCoords
+local GetPlayerPed = GetPlayerPed 
+
 RegisterNetEvent("strin_jobs:requestBossOffice", function(jobName)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
@@ -131,6 +134,32 @@ RegisterNetEvent("strin_jobs:updateEmployee", function(jobName, identifier, char
         fields = true
     })*/
     xPlayer.showNotification("Zaměstnanci byla změněna hodnost.", { type = "success" })
+end)
+
+lib.callback.register("strin_jobs:hireEmployee", function(source, targetId)
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer) then
+        return false, "Hráč nenalezen!"
+    end
+
+    local job = xPlayer.getJob()
+    if(job.grade_name ~= "boss" and job.grade_name ~= "manager" and (not job.name:find("off_"))) then
+        return false, "Nedostatečné oprávnění!"
+    end
+
+    local targetPlayer = ESX.GetPlayerFromId(targetId)
+    if(not targetPlayer) then
+        return false, "Hráč nenalezen!"
+    end
+
+    local targetId = targetPlayer.source
+    local distance = #(GetEntityCoords(GetPlayerPed(_source)) - GetEntityCoords(GetPlayerPed(targetId)))
+    if(distance > 15.00) then
+        return false, "Hráč je moc daleko!"
+    end
+
+    return Society:HireSocietyEmployee(job.name, targetPlayer.identifier, 1), "Neznámá chyba. Zkuste později. Kontaktujte dev. tým v případě, že problém přetrvává."
 end)
 
 RegisterNetEvent("strin_jobs:attachEmployeeToVehicle", function(vehicleId, identifier, characterId)
