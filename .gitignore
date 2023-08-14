@@ -2,6 +2,7 @@ cache
 db
 node_modules/
 database_dumps
+rave_server.cfg
 .replxx_history
 /*.bin
 /*.json
