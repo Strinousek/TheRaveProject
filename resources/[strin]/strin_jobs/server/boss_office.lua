@@ -74,7 +74,7 @@ RegisterNetEvent("strin_jobs:fireEmployee", function(jobName, identifier, charac
         return
     end
 
-    local success = Society:FireSocietyEmployee(jobName, identifier, characterId)
+    local success = Society:FireSocietyEmployee(jobName, ESX.SanitizeString(identifier), characterId)
     if(not success) then
         xPlayer.showNotification("Nastala chyba při vyhazování zaměstnance.", { type = "error" })
         return
@@ -116,7 +116,7 @@ RegisterNetEvent("strin_jobs:updateEmployee", function(jobName, identifier, char
         return
     end
 
-    local success = Society:UpdateSocietyEmployee(jobName, identifier, characterId, grade)
+    local success = Society:UpdateSocietyEmployee(jobName, ESX.SanitizeString(identifier), characterId, grade)
     if(not success) then
         xPlayer.showNotification("Nastala chyba při změně hodnosti.", { type = "error" })
         return

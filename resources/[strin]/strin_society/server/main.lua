@@ -235,18 +235,18 @@ function FireSocietyEmployee(societyName, identifier, characterId)
     local currentCharacter = Characters:GetCurrentCharacter(identifier)
     if(not currentCharacter.char_id == characterId) then
         local employeeCharacter = Characters:GetSpecificCharacter(identifier, characterId)
-        if(employeeCharacter.job == societyName) then
+        if(employeeCharacter.job == societyName or employeeCharacter.job == ("off_"..societyName)) then
             local result = MySQL.update.await("UPDATE characters SET `job` = ?, `job_grade` = ? WHERE `identifier` = ? AND `char_id` = ?", {
                 "unemployed",
                 1,
                 identifier,
                 characterId
             })
-            return
+            return true
         end
         local otherJobs = {}
         for job,grade in pairs(employeeCharacter.other_jobs) do
-            if(job ~= societyName) then
+            if(job ~= societyName and job ~= ("off_"..societyName)) then
                 otherJobs[job] = grade
             end
         end
@@ -258,10 +258,10 @@ function FireSocietyEmployee(societyName, identifier, characterId)
         return true
     end
 
-    if(currentCharacter.job ~= societyName) then
+    if(currentCharacter.job ~= societyName and currentCharacter.job ~= ("off_"..societyName)) then
         local otherJobs = {}
         for job,grade in pairs(currentCharacter.other_jobs) do
-            if(job ~= societyName) then
+            if(job ~= societyName and job ~= ("off_"..societyName)) then
                 otherJobs[job] = grade
             end
         end
@@ -347,7 +347,7 @@ function UpdateSocietyEmployee(societyName, identifier, characterId, grade)
         return
     end
 
-    if(employeeCharacter.job ~= societyName) then
+    if(employeeCharacter.job ~= societyName and employeeCharacter.job ~= "off_"..societyName) then
         local otherJobs = {}
         if(employeeCharacter.other_jobs) then
             local oldOtherJobs = json.decode(employeeCharacter.other_jobs or "{}")
@@ -355,10 +355,14 @@ function UpdateSocietyEmployee(societyName, identifier, characterId, grade)
                 otherJobs[otherJob] = otherGrade
             end
         end
-        if(not otherJobs[societyName]) then
+        if(not otherJobs[societyName] and not otherJobs["off_"..societyName]) then
             return
         end
-        otherJobs[societyName] = grade
+        if(otherJobs["off_"..societyName]) then
+            otherJobs["off_"..societyName] = grade
+        else
+            otherJobs[societyName] = grade
+        end
         local activeCharId = MySQL.scalar.await("SELECT `char_id` FROM users WHERE `identifier` = ?", {
             identifier
         })
@@ -376,15 +380,22 @@ function UpdateSocietyEmployee(societyName, identifier, characterId, grade)
     
     local employeePlayer = ESX.GetPlayerFromIdentifier(identifier)
     if(not employeePlayer) then
+        local job = MySQL.scalar.await("SELECT `job` FROM `users` WHERE `identifier` = ?", {
+            identifier
+        })
+        
         MySQL.update.await("UPDATE users SET `job` = ?, `job_grade` = ? WHERE `identifier` = ?", {
-            societyName,
+            (job:find("off_") and "off_" or "")..societyName,
             grade,
             identifier
         })
         return true
     end
-    
-    employeePlayer.setJob(societyName, grade)
+    if(employeePlayer.getJob().name:find("off_")) then
+        employeePlayer.setJob("off_"..societyName, grade)
+    else
+        employeePlayer.setJob(societyName, grade)
+    end
     return true
 end
 
@@ -433,14 +444,14 @@ function SelectEmployees(societyName, characters, condition)
         for i=1, #characters do
             local character = characters[i]
             local isEmployee = false
-            if(character.job == societyName) then
+            if(character.job == societyName or character.job == "off_"..societyName) then
                 characterGrade = character.job_grade
                 isEmployee = true
             end
             if(not isEmployee) then
                 local otherJobs = json.decode(character.other_jobs or "{}")
                 for job,grade in pairs(otherJobs) do
-                    if(job == societyName) then
+                    if(job == societyName and job == ("off_"..societyName)) then
                         characterGrade = grade
                         isEmployee = true
                     end
