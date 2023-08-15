@@ -13,7 +13,7 @@ window.onload = () => {
             time--;
             if(time <= 0) {
                 clearInterval(DeathscreenInterval);
-                control.innerHTML = 'držte <span class="deathscreen-colored-text">[E]</span> pro respawn.'
+                control.innerHTML = 'Držte <span class="deathscreen-colored-text">[E]</span> pro respawn.'
                 return;
             }
             //timer.textContent = time;
@@ -42,7 +42,7 @@ window.onload = () => {
         HideDistress();
     };
 
-    //ShowDeathscreen(30);
+    ShowDeathscreen(30);
     window.addEventListener("message", (e) => {
         const {action, time, lockDistress} = e.data;
         if(action == "show") {
