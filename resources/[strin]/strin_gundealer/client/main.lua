@@ -21,22 +21,6 @@ local PHONE_BOOTHS_MODELS = {
 
 AddTextEntry("STRIN_GUNDEALER:INTERACT", "<FONT FACE='Righteous'>~g~<b>[E]</b>~s~ Dealer zbraní</FONT>")
 
--- https://alloc8or.re/gta5/doc/enums/eTaskTypeIndex.txt
--- nvm nefunguje to asi? 
-/*local DealerRestrictedTasks = {
-	CTaskShockingEventWatch = 80,
-	CTaskShockingEventGoto = 82,
-	CTaskShockingEventHurryAway = 83,
-	CTaskShockingEventReactToAircraft = 84,
-	CTaskShockingEventReact = 85,
-	CTaskShockingEventBackAway = 86,
-	CTaskShockingPoliceInvestigate = 87,
-	CTaskShockingEventStopAndStare = 88,
-	CTaskShockingNiceCarPicture = 89,
-	CTaskShockingEventThreatResponse = 90,
-	CTaskReactToGunAimedAt = 144,
-}*/
-
 RegisterNetEvent("strin_gundealer:receiveData", function(data, playerId)
     if(source == "" or GetInvokingResource() ~= nil) then
         return
@@ -203,11 +187,11 @@ function OpenGunDealerStocks()
         table.insert(elements, {
             label = ([[
                 %s - %s$
-            ]]):format(Items[v.name].label, ESX.Math.GroupDigits(v.price)),
+            ]]):format(Items[v?.name].label, ESX.Math.GroupDigits(v?.price)),
             min = 0,
             value = 0,
-            max = v.count,
-            stockName = v.name,
+            max = v?.count,
+            stockName = v?.name,
             type = "slider",
         })
     end

@@ -20,8 +20,6 @@ RegisterCommand('mdt', function()
     end
 end, false)
 
---RegisterKeyMapping('mdt', 'Police MDT', 'keyboard', 'delete')
-
 TriggerServerEvent("mdt:getOffensesAndOfficer")
 
 RegisterNetEvent("mdt:toggleVisibilty")

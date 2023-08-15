@@ -22,7 +22,7 @@ return {
 	},
 
 	['toolkit'] = {
-		label = 'Sada nářadí',
+		label = 'Toolkit',
 		weight = 500,
 	},
 
@@ -71,7 +71,7 @@ return {
 	},
 
 	['driving_license'] = {
-		label = 'Řidičská Licence',
+		label = 'Driving License',
 		stack = false,
 		consume = 0,
 		server = {
@@ -80,7 +80,7 @@ return {
 	},
 
 	['identification_card'] = {
-		label = 'Identifikační Karta',
+		label = 'Identification Card',
 		consume = 0,
 		stack = false,
 		server = {
@@ -98,7 +98,7 @@ return {
 	},
 
 	['fsc_card'] = {
-		label = 'FSC Karta',
+		label = 'Firearms Safety Certificate',
 		consume = 0,
 		stack = false,
 		/*server = {

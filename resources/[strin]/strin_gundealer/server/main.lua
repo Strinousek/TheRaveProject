@@ -234,7 +234,9 @@ function GenerateDealerStocks()
     math.randomseed(GetGameTimer() + math.random(1, 99999))
     local stocks = lib.table.deepclone(DEALER_STOCK_ROTATIONS[math.random(1, #DEALER_STOCK_ROTATIONS)])
     for k,v in pairs(stocks) do
-        v.name = v.name:upper()
+        if(not v.name:find("ammo")) then
+            v.name = v.name:upper()
+        end
         math.randomseed(os.time() + math.random(1, 99999))
         v.count = type(v.count) == "table" and math.random(v.count[1], v.count[2]) or v.count
     end

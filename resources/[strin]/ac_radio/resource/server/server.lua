@@ -54,11 +54,20 @@ for frequency, allowed in pairs(ac.restrictedChannels) do
 		end
 
 		if type(allowed) == 'table' then
-			for name, rank in pairs(allowed) do
-				local groupRank = groups[name]
-				if groupRank and groupRank >= (rank or 0) then
-					TriggerClientEvent('ac_radio:notify', source, 'success', locale('channel_join', frequency))
-					return true
+			if(allowed[1] == "string") then
+				for _,name in pairs(allowed) do
+					if groups[name] then
+						TriggerClientEvent('ac_radio:notify', source, 'success', locale('channel_join', frequency))
+						return true
+					end
+				end
+			else
+				for name, rank in pairs(allowed) do
+					local groupRank = groups[name]
+					if groupRank and groupRank >= (rank or 0) then
+						TriggerClientEvent('ac_radio:notify', source, 'success', locale('channel_join', frequency))
+						return true
+					end
 				end
 			end
 		else

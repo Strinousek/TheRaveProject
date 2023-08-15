@@ -56,6 +56,17 @@ Citizen.CreateThread(function()
             }
         })
     end
+
+    while GetResourceState("ox_inventory") ~= "started" do
+        Citizen.Wait(0)
+    end
+    Citizen.Wait(500)
+
+    Inventory:displayMetadata({
+        holder = "Držitel",
+        issuedOn = "Datum vydání",
+        classes = "Třídy"
+    })
 end)
 
 function OpenCityHallMenu()
@@ -165,16 +176,5 @@ AddEventHandler("onResourceStop", function(resourceName)
                 Base:DeleteBlip("city_hall_"..k)
             end
         end
-    end
-end)
-
-AddEventHandler("onResourceStart", function(resourceName)
-    if(GetCurrentResourceName() == resourceName) then
-        Citizen.Wait(1000)
-        Inventory:displayMetadata({
-            holder = "Držitel",
-            issuedOn = "Datum vydání",
-            classes = "Třídy"
-        })
     end
 end)

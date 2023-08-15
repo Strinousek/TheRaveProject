@@ -16,7 +16,8 @@ lib.callback.register("strin_personalmenu:getCharacterData", function(source)
         weight = xPlayer.get("weight"),
         job = xPlayer.getJob(),
         money = xPlayer.getMoney(),
-        bank = xPlayer.getAccount('bank').money
+        bank = xPlayer.getAccount('bank').money,
+        char_identifier = xPlayer.get("char_identifier")
     }
 end)
 

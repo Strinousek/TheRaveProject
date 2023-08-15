@@ -146,16 +146,22 @@ end, true, {
     }
 })
 
-function GetPlayerIdentifiersTable(playerId)
+function GetPlayerIdentifiersTable(playerId, exclude)
     local playerIdentifiers = GetPlayerIdentifiers(playerId)
     local identifiers = {}
     local foundIdentifiersCount = 0
     for k, v in pairs(playerIdentifiers) do
         local separatorIndex = string.find(v, "%:")
         local identifierKey = string.sub(v, 1, separatorIndex - 1)
+        if(exclude) then
+            if(exclude == identifierKey or (type(exclude) == "table" and lib.table.contains(exclude, identifierKey))) then
+                goto skipLoop
+            end
+        end 
         local identifierValue = string.sub(v, separatorIndex + 1)
         identifiers[identifierKey] = identifierValue
         foundIdentifiersCount += 1
+        ::skipLoop::
     end
     return identifiers, foundIdentifiersCount
 end
@@ -287,7 +293,9 @@ lib.callback.register("strin_admin:getOnlinePlayers", function(source)
             id = playerId,
             name = ESX.SanitizeString(GetPlayerName(playerId)),
             coords = GetEntityCoords(GetPlayerPed(playerId)),
-            identifiers = GetPlayerIdentifiersTable(playerId)
+            identifiers = GetPlayerIdentifiersTable(playerId, {
+                "ip"
+            })
         }
     end
 

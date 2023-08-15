@@ -334,7 +334,7 @@ do
 
     if toggleHotkey then
         function keybind:onPressed()
-            if state.isActive() then
+            if state.isActive() or cache.vehicle then
                 return state.setActive(false)
             end
 

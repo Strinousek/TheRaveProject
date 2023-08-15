@@ -52,10 +52,6 @@ RegisterCommand("accessories", function()
         ESX.ShowNotification("Provádíte akce moc rychle!", { type = "error" })
         return
     end
-    if(not next(playerAccessories)) then
-        ESX.ShowNotification("Nevlástníte žádné doplňky!", { type = "error" })
-        return
-    end
     local totalCount = 0
     for k,v in pairs(playerAccessories) do
         playerAccessories[k] = json.decode(v)

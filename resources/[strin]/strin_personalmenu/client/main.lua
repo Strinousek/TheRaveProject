@@ -1,6 +1,11 @@
 function OpenCharacterInfoMenu()
     local elements = {}
-    local data = lib.callback.await("strin_personalmenu:getCharacterData")
+    local data = lib.callback.await("strin_personalmenu:getCharacterData", false)
+    if(not data or not next(data)) then
+        ESX.ShowNotification("Nastala chyba při načítání dat postavy, zkuste znovu.")
+        return
+    end
+    table.insert(elements, {label = "CitizenID: <span style='float: right;'>"..data.char_identifier.."</span>", value = "xxx"})
     table.insert(elements, {label = "Jméno: <span style='float: right;'>"..data.fullname.."</span>", value = "xxx"})
     table.insert(elements, {label = "Datum narození: <span style='float: right;'>"..data.dateofbirth.."</span>", value = "xxx"})
     table.insert(elements, {label = "Pohlaví: <span style='float: right;'>"..(data.sex:upper() == "M" and "Muž" or "Žena").."</span>", value = "xxx"})

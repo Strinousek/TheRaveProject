@@ -54,16 +54,15 @@ function CheckForFreeHereSpot(registeredHeres)
     for k,v in pairs(registeredHeres) do
         spots[k] = nil
     end
-    if(next(spots) == nil) then
+    if(#spots == 0) then
         return nil
     end
-    table.sort(spots, function(a,b) return a > b end)
-    local spot = nil
-    for k,v in pairs(spots) do
-        spot = v
-        break
+    local sanitizedSpots = {}
+    for _,v in pairs(spots) do
+        table.insert(sanitizedSpots, v)
     end
-    return spot
+    table.sort(sanitizedSpots, function(a,b) return a > b end)
+    return spot[1]
 end
 
 function CreateHere(message, coords, identifier)
@@ -174,7 +173,7 @@ ESX.RegisterCommand("try", "user", function(xPlayer, args)
     local randomIndex = math.random(1,2)
     local messages = {"Ano", "Ne"}
     Base:DiscordLog("RP", "[TRY] - "..xPlayer.getName(), fullName.." - "..messages[randomIndex])
-    TriggerClientEvent("sendProximityMessageDo", -1, xPlayer.source, name.firstname .. " " .. name.lastname, message[random])
+    TriggerClientEvent("sendProximityMessageDo", -1, xPlayer.source, name.firstname .. " " .. name.lastname, messages[random])
 end)
 
 /*ESX.RegisterCommand("3d", "user", function(xPlayer, args)

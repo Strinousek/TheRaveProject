@@ -8,6 +8,16 @@ local WeedPlants = {}
     @property entity number | nil
 */
 
+Citizen.CreateThread(function()
+    while not GetResourceState("ox_inventory") do
+        Citizen.Wait(0)
+    end
+    Citizen.Wait(500)
+    exports.ox_inventory:displayMetadata({
+        state = "Stav"
+    })
+end)
+
 lib.callback.register("strin_drugs:shredWeed", function(count)
     return lib.progressBar({
         label = "Drtíte "..count.."x konopných palic",
@@ -131,6 +141,7 @@ Citizen.CreateThread(function()
                 })
  
                 if not input then
+                    weedBudsDrying = false
                     return
                 end
                 lib.callback("strin_drugs:dryWeedBuds", 500, function(success)

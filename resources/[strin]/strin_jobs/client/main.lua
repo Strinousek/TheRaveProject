@@ -189,13 +189,13 @@ Citizen.CreateThread(function()
                     duration = 10000,
                     canCancel = true,
                 })) then
-                    lib.callback("strin_jobs:scanFingerprints", false, function(scan)
-                        if(not scan) then
+                    lib.callback("strin_jobs:scanFingerprints", false, function(scan, scanName)
+                        if(not scan or not scanName) then
                             ESX.ShowNotification("Skenování se nezdařilo!", { type = "error" })
                             return
                         end
                         lib.setClipboard(scan)
-                        ESX.ShowNotification(("Scan: %s - Zkopírováno!"):format(scan))
+                        ESX.ShowNotification(("Scan: %s - %s - Zkopírováno!"):format(scan, scanName))
                     end, netId)
                 end
             end,
@@ -289,6 +289,18 @@ Citizen.CreateThread(function()
                 return hasAccess and isVehicleLocked and isNotInVehicle
             end
         },
+        {
+            label = "Zkopírovat VIN",
+            onSelect = function(data)
+                local vehicleIdentifier = Entity(entitdata.entity).state.vehicleIdentifier
+                if(not vehicleIdentifier) then
+                    ESX.ShowNotification("Tohle vozidlo má zvláštní sériové číslo. (NPC)", { type = "error" })
+                    return
+                end
+                lib.setClipboard(tostring(vehicleIdentifier))
+                ESX.ShowNotification("Zkopírován VIN kód vozidla - "..tostring(vehicleIdentifier)..".")
+            end
+        }
     })
 end)
 

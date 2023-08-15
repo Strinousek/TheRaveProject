@@ -77,14 +77,16 @@ RegisterNetEvent("strin_scoreboard:requestUpdatePlayers", function()
 end)
 
 function RemovePlayerFromScoreboard(playerId, update)
+	local newPlayers = {}
 	for i=1, #connectedPlayers do
-		local player = connectedPlayers?[i]
-		if(player?.id == playerId) then
-			connectedPlayers[i] = nil
-			break
+		if(connectedPlayers[i]) then
+			local player = connectedPlayers[i]
+			if(player?.id ~= playerId) then
+				table.insert(newPlayers, player)
+			end
 		end
 	end
-
+	connectedPlayers = newPlayers
 	if update then
 		TriggerClientEvent('strin_scoreboard:updatePlayers', -1, connectedPlayers)
 	end

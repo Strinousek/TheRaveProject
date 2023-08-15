@@ -170,12 +170,13 @@ function CreateCharacter(identifier, slot, character, characters)
         return
     end
     local job = xPlayer.getJob()
+    character.char_identifier = tostring(Base:GenerateUniqueIdentifier({
+        join = true,
+        maxLength = 15,
+        type = "number",
+    }))
     local charactersQueryParameters = {
-        tostring(Base:GenerateUniqueIdentifier({
-            join = true,
-            maxLength = 15,
-            type = "number",
-        })),
+        character.char_identifier,
         xPlayer.identifier,
         job.name,
         job.grade,

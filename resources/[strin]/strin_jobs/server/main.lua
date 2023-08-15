@@ -97,7 +97,7 @@ lib.callback.register("strin_jobs:scanFingerprints", function(source, targetId)
         return false
     end
 
-    return targetPlayer.get("char_identifier")
+    return targetPlayer.get("char_identifier"), targetPlayer.get("fullname")
 end)
 
 RegisterNetEvent("strin_jobs:requestStash", function(jobName, stashType)

@@ -21,8 +21,9 @@ window.onload = () => {
     };
 
     const ShowDistress = () => {
-        distress.innerHTML = 'Stiskni <span class="deathscreen-colored-text">[G] (nebo jiné)</span> pro tísňové volání,';
-        control.innerHTML = 'respawn možný za <span id="deathscreen-timer" class="deathscreen-colored-text">937</span> sekund.'
+        //distress.innerHTML = 'Stiskni <span class="deathscreen-colored-text">[G] (nebo jiné)</span> pro tísňové volání,';
+        distress.innerHTML = 'Stiskni <span class="deathscreen-colored-text">[G]</span> pro tísňové volání,';
+        control.innerHTML = 'respawn možný za <span id="deathscreen-timer" class="deathscreen-colored-text">937</span> sekund.';
     };
 
     const ChangeDistress = () => {

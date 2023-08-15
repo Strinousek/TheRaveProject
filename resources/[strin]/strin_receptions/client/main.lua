@@ -119,6 +119,7 @@ RegisterNetEvent("strin_receptions:fileComplain", function()
         if(data.current.value == "call_supervisor") then
             TriggerServerEvent("strin_receptions:callSupervisor")
         elseif(data.current.value == "complain_link") then
+            ESX.ShowNotification("Formulář na podání stížnosti zkopírován. CTRL + V pro použití.")
             lib.setClipboard(complainLink)
         end
     end, function(data, menu)

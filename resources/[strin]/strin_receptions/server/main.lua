@@ -5,6 +5,8 @@ local Base = exports.strin_base
 Base:RegisterWebhook("PERMIT_REQUEST", "https://discord.com/api/webhooks/1136613719556751390/_vKBcwyMMbZg67FBM5jbyW5MRYBBFGw6_w5V0SptLee0G10Bht0aufodCYWvsOjWw0iE")
 local OngoingTests = {}
 
+local FSCCooldowns = {}
+
 local CCW_TEST_PRESETS = {
     {
         {
@@ -293,7 +295,7 @@ local Cooldowns = {}
 RegisterNetEvent("strin_receptions:requestFSCPermit", function()
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
-    if(not xPlayer or Cooldowns[_source]) then
+    if(not xPlayer or Cooldowns[_source] or FSCCooldowns[xPlayer.identifier]) then
         return
     end
 
@@ -305,6 +307,7 @@ RegisterNetEvent("strin_receptions:requestFSCPermit", function()
         fields = true,
     })
     Cooldowns[_source] = true
+    FSCCooldowns[xPlayer.identifier] = true
     SetTimeout(1500, function()
         Cooldowns[_source] = nil
     end)

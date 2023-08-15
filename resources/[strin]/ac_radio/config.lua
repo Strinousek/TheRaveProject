@@ -13,7 +13,7 @@ ac = {
 	useCustomNotify = true,
 
 	-- Whether to use command for opening the radio UI.
-	useCommand = true,
+	useCommand = false,
 
 	-- Default keybind for the '/radio' command.
 	commandKey = '',
