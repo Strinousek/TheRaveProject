@@ -669,7 +669,12 @@ document.onreadystatechange = () => {
                     officers: []
                 }
                 Vue.set(mdtApp.calls, event.data.id, call)
-                mdtApp.calls = mdtApp.calls.sort((a,b) => (a.id - b.id))
+                const callsKeys = Object.keys(mdtApp.calls).sort((a,b) => (a - b))
+                const sortedCalls = {};
+                for(let i=0; i < callsKeys.length; i++) {
+                    sortedCalls[i] = mdtApp.calls[callsKeys[i]]
+                }
+                mdtApp.calls = sortedCalls
             } else if (event.data.type == "newCallAttach") {
                 mdtApp.calls[event.data.call].officers.push(event.data.charname)
             } else if (event.data.type == "newCallDetach") {
