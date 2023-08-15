@@ -122,6 +122,6 @@ function server.isPlayerBoss(playerId)
 	return xPlayer.job.grade_name == 'boss'
 end
 
-MySQL.ready(function()
+/*MySQL.ready(function()
 	MySQL.insert('INSERT IGNORE INTO `licenses` (`type`, `label`) VALUES (?, ?)', { 'weapon', 'Weapon License'})
-end)
+end)*/
