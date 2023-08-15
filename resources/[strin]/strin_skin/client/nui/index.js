@@ -130,12 +130,12 @@ $(() => {
     const FocusPart = (skinPart, isClothe) => {
         $(`.skin-part-focused`).removeClass("skin-part-focused");
         $(`#skin-part-inputs-${skinPart}`).addClass("skin-part-focused");
-        if(!isClothe) {
+        /*if(!isClothe) {
             $(`#skin-part-${skinPart}`)[0]?.scrollIntoView();
         } else {
             const pureName = skinPart.replace("_1", "").replace("_2", "")
             $(`#skin-part-${pureName}`)[0]?.scrollIntoView();
-        }
+        }*/
         focusedPart = skinPart;
     };
 
