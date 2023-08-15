@@ -178,7 +178,7 @@ RegisterNetEvent("strin_actions:putOutOfVehicle", function()
 	end
 
 	local vehicle = GetVehiclePedIsIn(ped, false)
-	TaskLeaveVehicle(ped, vehicle, 16)
+	TaskLeaveVehicle(ped, vehicle, 64)
 end)
 
 /*AddEventHandler("onResourceStop", function(resourceName)

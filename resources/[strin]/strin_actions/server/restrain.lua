@@ -75,6 +75,11 @@ function RestrainPlayer(source, targetNetId, itemName, restrainType)
         return false
     end
 
+    if(GetEntityAttachedTo(entity) ~= 0) then
+        TriggerClientEvent("esx:showNotification", _source, "Hráče již někdo táhne, a proto nemůžete ho osvobodit.", {type = "error"})
+        return false
+    end
+
     if(Inventory:GetItemCount(_source, itemName) <= 0) then
         TriggerClientEvent("esx:showNotification", _source, "Nemáte dostatečný počet předmětu.", {type = "error"})
         return false
