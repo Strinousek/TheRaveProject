@@ -13,7 +13,7 @@ window.onload = () => {
             time--;
             if(time <= 0) {
                 clearInterval(DeathscreenInterval);
-                control.innerHTML = 'Držte <span class="deathscreen-colored-text">[E]</span> pro respawn.'
+                control.innerHTML = '<br/>Držte <span class="deathscreen-colored-text">[E]</span> pro respawn.'
                 return;
             }
             //timer.textContent = time;
@@ -22,7 +22,7 @@ window.onload = () => {
 
     const ShowDistress = () => {
         //distress.innerHTML = 'Stiskni <span class="deathscreen-colored-text">[G] (nebo jiné)</span> pro tísňové volání,';
-        distress.innerHTML = 'Stiskni <span class="deathscreen-colored-text">[G]</span> pro tísňové volání,';
+        distress.innerHTML = '<br/>Stiskni <span class="deathscreen-colored-text">[G]</span> pro tísňové volání.';
         //control.innerHTML = 'respawn možný za <span id="deathscreen-timer" class="deathscreen-colored-text">937</span> sekund.';
     };
 
@@ -42,7 +42,7 @@ window.onload = () => {
         HideDistress();
     };
 
-    ShowDeathscreen(30);
+    //ShowDeathscreen(1);
     window.addEventListener("message", (e) => {
         const {action, time, lockDistress} = e.data;
         if(action == "show") {
