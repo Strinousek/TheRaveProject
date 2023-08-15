@@ -588,10 +588,10 @@ function OpenVehicleOptionsMenu()
     if(vehicleState and vehicleState?.spawnedByAdmin) then
         recentlySpawnedVehicle = vehicle
     end
-    if(not vehicleState or not vehicleState?.spawnedByAdmin) then
-        table.insert(elements, { label = "Tagnout vozidlo", value = "convert_vehicle" })
-    end
     if(vehicle ~= 0) then
+        if(not vehicleState or not vehicleState?.spawnedByAdmin) then
+            table.insert(elements, { label = "Tagnout vozidlo", value = "convert_vehicle" })
+        end
         table.insert(elements, { label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
             Zdraví vozidla<div>%s/%s</div>
         </div>]]):format(math.floor(GetEntityHealth(vehicle)), math.floor(GetEntityMaxHealth(vehicle))), value = "xxx" })
