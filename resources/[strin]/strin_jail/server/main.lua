@@ -27,6 +27,9 @@ Citizen.CreateThread(function()
 end)
 
 AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
+    if(not xPlayer.get("char_id")) then
+        return
+    end
     local characterIdentifier = xPlayer.identifier..":"..xPlayer.get("char_id")
     local data = MySQL.single.await("SELECT * FROM `jail` WHERE `character_identifier` = ?", { characterIdentifier })
 
