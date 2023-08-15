@@ -1,4 +1,4 @@
-cache
+/cache
 db
 node_modules/
 database_dumps
