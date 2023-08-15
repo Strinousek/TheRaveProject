@@ -90,6 +90,15 @@ Citizen.CreateThread(function()
     DefaultVehicleProperties = load(LoadResourceFile("strin_garages", "server/default_properties.lua"))()
 end)
 
+AddEventHandler("entityCreating", function(entity)
+    if(GetEntityType(entity) ~= 2) then
+        return
+    end
+
+    local vehicleIdentifier = GenerateVehicleIdentifier()
+    Entity(entity).state.vehicleIdentifier = "1447"..vehicleIdentifier:sub(5)
+end)
+
 function GenerateVehicle(owner, modelName, vehicleType, job)
     if(not owner and not job) then
         return false
