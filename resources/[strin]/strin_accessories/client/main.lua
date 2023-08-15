@@ -74,10 +74,11 @@ function OpenAccessoriesMenu(accessories)
     local elements = {}
     for k,v in pairs(accessories) do
         if(#v > 0) then
+            local label = Labels[k:gsub("^%l", string.upper)..("s")] or Labels[k:gsub("^%l", string.upper)]
             table.insert(elements, {
                 label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
                     %s<div>%sx</div>
-                </div>]]):format(Labels[string.gsub(k, "^%l", string.upper).."s"], #v),
+                </div>]]):format(label, #v),
                 value = k,
             })
         end
@@ -97,30 +98,41 @@ end
 function OpenAccessoryTypeMenu(accessoryType, accessories)
     local elements = {}
     local skin = SkinChanger:GetSkin()
+    local label = Labels[accessoryType:gsub("^%l", string.upper)..("s")] or Labels[accessoryType:gsub("^%l", string.upper)]
+    /*local textureComponent = {}
+    if(accessoryType:sub(-1) == "s" and not Labels[accessoryType:gsub("^%l", string.upper)..("s")]) then
+        textureComponent = SkinChanger:GetComponent(accessoryType:sub(1, accessoryType:len() - 1).."_2")
+    end*/
+    local sanitizedAccessoryType = accessoryType
+    if(accessoryType:sub(-1) == "s" and not Labels[accessoryType:gsub("^%l", string.upper)..("s")]) then
+        sanitizedAccessoryType = accessoryType:sub(1, accessoryType:len() - 1)
+    end
     for i=1, #accessories do
         local accessory = accessories[i]
         table.insert(elements, {
             label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
                 %s #%s<div>%s:%s</div>%s
             </div>]]):format(
-                accessory.label or Labels[string.gsub(accessoryType, "^%l", string.upper)],
+                accessory.label or label,
                 i,
                 accessory.variation,
                 accessory.texture,
                 ((skin[
-                    accessoryType ~= "arms" and accessoryType.."_1" or accessoryType
-                ] == accessory.variation) and (skin[accessoryType.."_2"] == accessory.texture)) and "<div>Nasazeno</div>" or ""
+                    sanitizedAccessoryType ~= "arms" and sanitizedAccessoryType.."_1" or sanitizedAccessoryType
+                ] == accessory.variation) and (
+                    skin[sanitizedAccessoryType.."_2"] == accessory.texture
+                )) and "<div>Nasazeno</div>" or ""
             ),
             value = i,
         })
     end
     ESX.UI.Menu.Open("default", GetCurrentResourceName(), "accessory_"..accessoryType, {
-        title = "Doplňky - "..Labels[string.gsub(accessoryType, "^%l", string.upper).."s"],
+        title = "Doplňky - "..label,
         align = "center",
         elements = elements
     }, function(data, menu)
         menu.close()
-        OpenAccessoryMenu(accessoryType, data.current.value, accessories[data.current.value])
+        OpenAccessoryMenu(sanitizedAccessoryType, data.current.value, accessories[data.current.value])
     end, function(data, menu)
         menu.close()
     end)
@@ -133,7 +145,7 @@ function OpenAccessoryMenu(accessoryType, accessoryId, accessory)
     local elements = {
         { label = (((skin[
             accessoryType ~= "arms" and accessoryType.."_1" or accessoryType
-        ] ~= variationComponent.value) and (skin[accessoryType.."_2"] ~= textureComponent.value)) and "Sundat" or "Nasadit").." doplněk", value = "wear" },
+        ] ~= variationComponent.value) and (skin[accessoryType.."_2"] ~= textureComponent.value or accessory.texture == textureComponent.value)) and "Sundat" or "Nasadit").." doplněk", value = "wear" },
         { label = "Přejmenovat doplněk", value = "rename" },
         { label = "Smazat doplněk", value = "delete" },
     }
