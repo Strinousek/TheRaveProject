@@ -5,7 +5,7 @@ function OpenCharacterInfoMenu()
         ESX.ShowNotification("Nastala chyba při načítání dat postavy, zkuste znovu.")
         return
     end
-    table.insert(elements, {label = "CitizenID: <span style='float: right;'>"..data.char_identifier.."</span>", value = "xxx"})
+    table.insert(elements, {label = "CitizenID: <span style='float: right;'>"..data.char_identifier.."</span>", value = "char_identifier"})
     table.insert(elements, {label = "Jméno: <span style='float: right;'>"..data.fullname.."</span>", value = "xxx"})
     table.insert(elements, {label = "Datum narození: <span style='float: right;'>"..data.dateofbirth.."</span>", value = "xxx"})
     table.insert(elements, {label = "Pohlaví: <span style='float: right;'>"..(data.sex:upper() == "M" and "Muž" or "Žena").."</span>", value = "xxx"})
@@ -19,7 +19,12 @@ function OpenCharacterInfoMenu()
         title = "Info o postavě",
         align = "center",
         elements = elements
-    }, nil, function(data, menu)
+    }, function(menuData, menu)
+        if(menuData.current.value == "char_identifier") then
+            lib.setClipboard(data.char_identifier)
+            ESX.ShowNotification("Zkopírováno CitizenID - "..data.char_identifier..".")
+        end
+    end, function(menuData, menu)
         menu.close()
         OpenPersonalMenu()
     end)
