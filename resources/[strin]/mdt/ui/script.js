@@ -672,7 +672,7 @@ document.onreadystatechange = () => {
                 const callsKeys = Object.keys(mdtApp.calls).sort((a,b) => (a - b))
                 const sortedCalls = {};
                 for(let i=0; i < callsKeys.length; i++) {
-                    sortedCalls[i] = mdtApp.calls[callsKeys[i]]
+                    sortedCalls[callsKeys[i]] = mdtApp.calls[callsKeys[i]]
                 }
                 mdtApp.calls = sortedCalls
             } else if (event.data.type == "newCallAttach") {
