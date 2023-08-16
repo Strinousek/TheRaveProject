@@ -1,0 +1,1462 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<CDispatchData>
+	<ParoleDuration value="40000"/>
+	<InHeliRadiusMultiplier value="3.0"/>
+	<ImmediateDetectionRange value="35.0"/>
+	<OnScreenImmediateDetectionRange value="45.0"/>
+	<LawSpawnDelayMin>
+		<SLOW value="20.0"/>
+		<MEDIUM value="10.0"/>
+		<FAST value="5.0"/>
+	</LawSpawnDelayMin>
+	<LawSpawnDelayMax>
+		<SLOW value="30.0"/>
+		<MEDIUM value="20.0"/>
+		<FAST value="10.0"/>
+	</LawSpawnDelayMax>
+	<AmbulanceSpawnDelayMin>
+		<SLOW value="40.0"/>
+		<MEDIUM value="20.0"/>
+		<FAST value="20.0"/>
+	</AmbulanceSpawnDelayMin>
+	<AmbulanceSpawnDelayMax>
+		<SLOW value="50.0"/>
+		<MEDIUM value="25.0"/>
+		<FAST value="25.0"/>
+	</AmbulanceSpawnDelayMax>
+	<FireSpawnDelayMin>
+		<SLOW value="20.0"/>
+		<MEDIUM value="15.0"/>
+		<FAST value="10.0"/>
+	</FireSpawnDelayMin>
+	<FireSpawnDelayMax>
+		<SLOW value="30.0"/>
+		<MEDIUM value="25.0"/>
+		<FAST value="20.0"/>
+	</FireSpawnDelayMax>
+	<DispatchOrderDistances>
+		<Item>
+			<DispatchType>DT_PoliceAutomobile</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_PoliceHelicopter</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_SwatHelicopter</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_FireDepartment</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_SwatAutomobile</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_AmbulanceDepartment</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_Gangs</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_PoliceRiders</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<InVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_PoliceVehicleRequest</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_PoliceRoadBlock</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_PoliceBoat</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_ArmyVehicle</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_BikerBackup</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+		<Item>
+			<DispatchType>DT_Assassins</DispatchType>
+			<OnFootOrderDistance value="400.0"/>
+			<MinInVehicleOrderDistance value="350.0"/>
+			<MaxInVehicleOrderDistance value="350.0"/>
+		</Item>
+	</DispatchOrderDistances>
+	<WantedLevelThresholds>
+		<WantedLevelClean value="0"/>
+		<WantedLevel1 value="50"/>
+		<WantedLevel2 value="180"/>
+		<WantedLevel3 value="550"/>
+		<WantedLevel4 value="1200"/>
+		<WantedLevel5 value="3800"/>
+	</WantedLevelThresholds>
+	<SingleplayerWantedLevelRadius>
+		<WantedLevelClean value="0.0"/>
+		<WantedLevel1 value="145.0"/>
+		<WantedLevel2 value="227.5"/>
+		<WantedLevel3 value="340.0"/>
+		<WantedLevel4 value="510.0"/>
+		<WantedLevel5 value="850.0"/>
+	</SingleplayerWantedLevelRadius>
+	<MultiplayerWantedLevelRadius>
+		<WantedLevelClean value="0.0"/>
+		<WantedLevel1 value="217.5"/>
+		<WantedLevel2 value="341.25"/>
+		<WantedLevel3 value="450.0"/>
+		<WantedLevel4 value="645.0"/>
+		<WantedLevel5 value="1275.0"/>
+	</MultiplayerWantedLevelRadius>
+	<HiddenEvasionTimes>
+		<WantedLevelClean value="0"/>
+		<WantedLevel1 value="30000"/>
+		<WantedLevel2 value="37500"/>
+		<WantedLevel3 value="45000"/>
+		<WantedLevel4 value="56250"/>
+		<WantedLevel5 value="82500"/>
+	</HiddenEvasionTimes>
+	<MultiplayerHiddenEvasionTimes>
+		<WantedLevelClean value="0"/>
+		<WantedLevel1 value="30000"/>
+		<WantedLevel2 value="37500"/>
+		<WantedLevel3 value="40500"/>
+		<WantedLevel4 value="50625"/>
+		<WantedLevel5 value="74250"/>
+	</MultiplayerHiddenEvasionTimes>
+	<VehicleSets>
+		<Vehicle>
+			<Name>POLICE_CAR</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriff</Vehicle>
+						<Vehicle>sheriffalamo</Vehicle>
+						<Vehicle>sheriffscoutnew</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_F_Y_Sheriff_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>crusader</Vehicle>
+						<Vehicle>squaddie</Vehicle>
+						<Vehicle>squaddie3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped>
+						<Ped>S_M_Y_Marine_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriff</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_deputy_01</Ped>
+						<Ped>s_m_y_deputy_02</Ped>
+						<Ped>s_f_y_deputy_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>police</Vehicle>
+						<Vehicle>pscout</Vehicle>
+						<Vehicle>pscoutnew</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_F_Y_Cop_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_CAR_UNC</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriffold</Vehicle>
+						<Vehicle>sherifffug</Vehicle>
+						<Vehicle>sheriffscout</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_F_Y_Sheriff_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>insurgent2</Vehicle>
+						<Vehicle>squaddie2</Vehicle>
+						<Vehicle>squaddie3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped>
+						<Ped>S_M_Y_Marine_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriff</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_deputy_01</Ped>
+						<Ped>s_m_y_deputy_02</Ped>
+						<Ped>s_f_y_deputy_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>police</Vehicle>
+						<Vehicle>pscout</Vehicle>
+						<Vehicle>pscoutnew</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_F_Y_Cop_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_CAR_UMK</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>police4</Vehicle>
+						<Vehicle>police42old</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_F_Y_Sheriff_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>insurgent2</Vehicle>
+						<Vehicle>squaddie2</Vehicle>
+						<Vehicle>squaddie3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped>
+						<Ped>S_M_Y_Marine_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriff</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_deputy_01</Ped>
+						<Ped>s_m_y_deputy_02</Ped>
+						<Ped>s_f_y_deputy_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>police4</Vehicle>
+						<Vehicle>police42old</Vehicle>
+						<Vehicle>police3slick</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_F_Y_Cop_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>NOOSE_CAR</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>noosepia</Vehicle>
+						<Vehicle>noosepia2</Vehicle>
+						<Vehicle>noosepia4</Vehicle>
+						<Vehicle>noosepia5</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_noose_01</Ped>
+						<Ped>s_m_y_noose_02</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>insurgent3</Vehicle>
+						<Vehicle>squaddie2</Vehicle>
+						<Vehicle>squaddie3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped>
+						<Ped>S_M_Y_Marine_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>noosebp</Vehicle>
+						<Vehicle>noosebp2</Vehicle>
+						<Vehicle>noosebp3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_noose_01</Ped>
+						<Ped>s_m_y_noose_02</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>noosepia</Vehicle>
+						<Vehicle>noosepia2</Vehicle>
+						<Vehicle>noosepia4</Vehicle>
+						<Vehicle>noosepia5</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_noose_01</Ped>
+						<Ped>s_m_y_noose_02</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>FIB_CAR</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>fibp2</Vehicle>
+						<Vehicle>fibp62</Vehicle>
+						<Vehicle>fibp5</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Fibsec_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>insurgent3</Vehicle>
+						<Vehicle>squaddie2</Vehicle>
+						<Vehicle>squaddie3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped>
+						<Ped>S_M_Y_Marine_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>fibp</Vehicle>
+						<Vehicle>fibp3</Vehicle>
+						<Vehicle>fibp4</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Fibsec_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>fibp2</Vehicle>
+						<Vehicle>fibp62</Vehicle>
+						<Vehicle>fibp5</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Fibsec_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_MOTORCYCLE</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriffthrust</Vehicle>
+						<Vehicle>sheriffenduro</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Hwaycop_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>bcsheriffb</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_bcsheriffb_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>policeb</Vehicle>
+						<Vehicle>lspdb</Vehicle>
+						<Vehicle>polthrust</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Hwaycop_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>SWAT_JEEP</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped> 
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_seb_02</Ped>
+						<Ped>s_m_y_seb_02</Ped>
+						<Ped>s_f_y_seb_02</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped> 
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>NOOSESWAT_JEEP</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>FIBSWAT_JEEP</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Fibsec_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Fibsec_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>fbi2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Fibsec_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_HELI_1</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriffmav</Vehicle>
+						<Vehicle>sheriffbuzzard</Vehicle>
+						<Vehicle>sheriffsparrow</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>annihilator2</Vehicle>
+						<Vehicle>buzzard2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped> 
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>polmav</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_seb_02</Ped>
+						<Ped>s_m_y_seb_02</Ped>
+						<Ped>s_f_y_seb_02</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>polmav</Vehicle>
+						<Vehicle>polbuz</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>NOOSE_HELI_1</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>nooseair</Vehicle>
+						<Vehicle>nooseair2</Vehicle>
+						<Vehicle>nooseair3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>savage</Vehicle>
+						<Vehicle>buzzard2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped> 
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>nooseair</Vehicle>
+						<Vehicle>nooseair2</Vehicle>
+						<Vehicle>nooseair3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>nooseair</Vehicle>
+						<Vehicle>nooseair2</Vehicle>
+						<Vehicle>nooseair3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped> 
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>NOOSE_HELI_2</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>annihilator</Vehicle>
+						<Vehicle>unannihilator</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>valkyrie</Vehicle>
+						<Vehicle>buzzard</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped> 
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>annihilator</Vehicle>
+						<Vehicle>unannihilator</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>annihilator</Vehicle>
+						<Vehicle>unannihilator</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped> 
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>FIB_HELI_1</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>frogger2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>valkyrie2</Vehicle>
+						<Vehicle>buzzard4</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped> 
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>frogger2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>frogger2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped> 
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+        <Vehicle>
+			<Name>AMBULANCE</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<VehicleModels>
+						<Vehicle>ambulance</Vehicle>
+						<Vehicle>ambulance2</Vehicle>
+						<Vehicle>emsnspeedo</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Paramedic_01</Ped> 
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+        <Vehicle>
+			<Name>FIRE_TRUCK</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>firetruk</Vehicle>
+						<Vehicle>firetruk3</Vehicle>
+						<Vehicle>firerescue2</Vehicle>
+						<Vehicle>firehazmat2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Fireman_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>firehazmat</Vehicle>
+						<Vehicle>firerescue</Vehicle>
+						<Vehicle>firetruk2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Fireman_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>firehazmat</Vehicle>
+						<Vehicle>firerescue</Vehicle>
+						<Vehicle>firetruk2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Fireman_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>firetruk</Vehicle>
+						<Vehicle>firetruk3</Vehicle>
+						<Vehicle>firerescue2</Vehicle>
+						<Vehicle>firehazmat2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Fireman_01</Ped> 
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_ROAD_BLOCK_CARS</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriffold</Vehicle>
+						<Vehicle>sheriffslick</Vehicle>
+						<Vehicle>sheriffscout</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_F_Y_Sheriff_01</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>prop_roadcone01a</Object>
+					</ObjectModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>sheriff</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_deputy_01</Ped>
+						<Ped>s_m_y_deputy_02</Ped>
+						<Ped>s_f_y_deputy_01</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>prop_roadcone01a</Object>
+					</ObjectModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>policeold</Vehicle>
+						<Vehicle>policeslick</Vehicle>
+						<Vehicle>polalamoold</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_F_Y_Cop_01</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>prop_roadcone01a</Object>
+					</ObjectModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>NOOSE_ROAD_BLOCK_CARS</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>noosepia</Vehicle>
+						<Vehicle>noosepia6</Vehicle>
+						<Vehicle>noosepia8</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_noose_01</Ped>
+						<Ped>s_m_y_noose_02</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>prop_roadcone01a</Object>
+					</ObjectModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>noosebp4</Vehicle>
+						<Vehicle>noosebp6</Vehicle>
+						<Vehicle>noosebp3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_noose_01</Ped>
+						<Ped>s_m_y_noose_02</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>prop_roadcone01a</Object>
+					</ObjectModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>noosepia</Vehicle>
+						<Vehicle>noosepia6</Vehicle>
+						<Vehicle>noosepia8</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_noose_01</Ped>
+						<Ped>s_m_y_noose_02</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>prop_roadcone01a</Object>
+					</ObjectModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_ROAD_BLOCK_RIOT</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+				</Item>
+				<Item>
+					<IsMutuallyExclusive value="true" />
+					<VehicleModels>
+						<Vehicle>riot</Vehicle>
+						<Vehicle>bcat</Vehicle>
+						<Vehicle>bcat1</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped> 
+					</PedModels>
+					<ObjectModels>
+						<Object>prop_roadcone01a</Object>
+					</ObjectModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_ROAD_BLOCK_SPIKE_STRIP</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<IsMutuallyExclusive value="true" />
+					<VehicleModels>
+						<Vehicle>sheriffrumpo</Vehicle>
+						<Vehicle>sheriffstalker</Vehicle>
+						<Vehicle>sheriff2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_F_Y_Sheriff_01</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>p_ld_stinger_s</Object>
+					</ObjectModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<IsMutuallyExclusive value="true" />
+					<VehicleModels>
+						<Vehicle>insurgent</Vehicle>
+						<Vehicle>barraks</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped>
+						<Ped>S_M_Y_Marine_01</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>p_ld_stinger_s</Object>
+					</ObjectModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<IsMutuallyExclusive value="true" />
+					<VehicleModels>
+						<Vehicle>sheriff</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_deputy_01</Ped>
+						<Ped>s_m_y_deputy_02</Ped>
+						<Ped>s_f_y_deputy_01</Ped>
+					</PedModels>
+					<ObjectModels>
+						<Object>p_ld_stinger_s</Object>
+					</ObjectModels>
+				</Item>
+				<Item>
+					<IsMutuallyExclusive value="true" />
+					<VehicleModels>
+						<Vehicle>policet</Vehicle>
+						<Vehicle>polspeedo</Vehicle>
+						<Vehicle>polnspeedo</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_M_Y_Cop_01</Ped> 
+						<Ped>S_F_Y_Cop_01</Ped> 
+					</PedModels>
+					<ObjectModels>
+						<Object>p_ld_stinger_s</Object>
+					</ObjectModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>GANGS</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<VehicleModels>
+						<Vehicle>manana</Vehicle>
+						<Vehicle>Primo2</Vehicle>
+						<Vehicle>Chino2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>G_M_Y_PoloGoon_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_BOAT</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>predator</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_M_Y_Sheriff_01</Ped>
+						<Ped>S_F_Y_Sheriff_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>patrolboat</Vehicle>
+						<Vehicle>dinghy5</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped>
+						<Ped>S_M_Y_Marine_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>predator</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>s_m_y_deputy_01</Ped>
+						<Ped>s_m_y_deputy_02</Ped>
+						<Ped>s_f_y_deputy_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>predator</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_M_Y_Cop_01</Ped>
+						<Ped>S_F_Y_Cop_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>POLICE_BOAT_2</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<ZoneType>enum_ad76c606_781vcpv</ZoneType>
+					<VehicleModels>
+						<Vehicle>noosesea</Vehicle>
+						<Vehicle>noosesea2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_ARMY_BASE</ZoneType>
+					<VehicleModels>
+						<Vehicle>patrolboat</Vehicle>
+						<Vehicle>dinghy5</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_Marine_01</Ped>
+						<Ped>S_M_Y_Marine_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<ZoneType>VEHICLE_RESPONSE_COUNTRYSIDE</ZoneType>
+					<VehicleModels>
+						<Vehicle>noosesea</Vehicle>
+						<Vehicle>noosesea2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped>
+					</PedModels>
+				</Item>
+				<Item>
+					<VehicleModels>
+						<Vehicle>noosesea</Vehicle>
+						<Vehicle>noosesea2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_Swat_01</Ped> 
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>ARMY</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<VehicleModels>
+						<Vehicle>mesa3</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_BlackOps_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>BIKER</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<VehicleModels>
+						<Vehicle>gburrito</Vehicle>
+						<Vehicle>gburrito2</Vehicle>
+						<Vehicle>slamvan2</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_Y_XMech_02_MP</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+		<Vehicle>
+			<Name>ASSASSINS</Name>
+			<ConditionalVehicleSets>
+				<Item>
+					<VehicleModels>
+						<Vehicle>cog55</Vehicle>
+						<Vehicle>cog552</Vehicle>
+					</VehicleModels>
+					<PedModels>
+						<Ped>S_M_M_HighSec_01</Ped>
+					</PedModels>
+				</Item>
+			</ConditionalVehicleSets>
+		</Vehicle>
+	</VehicleSets>
+	<PedVariations>
+        <Item key="S_M_Y_Cop_01">
+			<ModelVariations>
+				<Item>
+         			<Component>PV_COMP_TASK</Component>
+          			<DrawableId value="2"/>
+					<MinWantedLevel value="3"/>
+					<Armour value="20.0"/>
+				</Item>
+				<Item>
+         			<Component>PV_COMP_ACCS</Component>
+          			<DrawableId value="2"/>
+					<MinWantedLevel value="3"/>
+					<Armour value="20.0"/>
+				</Item>
+			</ModelVariations>
+        </Item>
+        <Item key="S_M_Y_Sheriff_01">
+			<ModelVariations>
+				<Item>
+         			<Component>PV_COMP_TASK</Component>
+          			<DrawableId value="2"/>
+					<MinWantedLevel value="3"/>
+					<Armour value="20.0"/>
+				</Item>
+			</ModelVariations>
+        </Item>
+		<Item key="S_M_Y_SWAT_01">
+			<ModelVariations>
+				<Item>
+         			<Component>PV_COMP_UPPR</Component>
+          			<DrawableId value="0"/>
+					<MinWantedLevel value="1"/>
+					<Armour value="80.0"/>
+				</Item>
+				<Item>
+         			<Component>PV_COMP_UPPR</Component>
+          			<DrawableId value="0"/>
+					<MinWantedLevel value="4"/>
+					<Armour value="100.0"/>
+				</Item>
+			</ModelVariations>
+        </Item>
+		<Item key="S_M_M_FIBSEC_01">
+			<ModelVariations>
+				<Item>
+         			<Component>PV_COMP_HAIR</Component>
+          			<DrawableId value="0"/>
+					<MinWantedLevel value="1"/>
+					<Armour value="50.0"/>
+				</Item>
+			</ModelVariations>
+        </Item>
+		<Item key="S_M_M_HighSec_01">
+			<ModelVariations>
+				<Item>
+         			<Component>PV_COMP_JBIB</Component>
+          			<DrawableId value="0"/>
+				</Item>
+			</ModelVariations>
+		</Item>
+	</PedVariations>
+	<WantedResponses>
+		<WantedLevel1>
+			<DispatchServices>
+				<Item>
+					<DispatchType>DT_PoliceAutomobile</DispatchType>
+					<NumPedsToSpawn value="4"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_CAR</Dispatch>
+						<Dispatch>POLICE_CAR_UNC</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceBoat</DispatchType>
+					<NumPedsToSpawn value="3"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_BOAT</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+			</DispatchServices>
+		</WantedLevel1>
+		<WantedLevel2>
+			<DispatchServices>
+				<Item>
+					<DispatchType>DT_PoliceAutomobile</DispatchType>
+					<NumPedsToSpawn value="10"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_CAR</Dispatch>
+						<Dispatch>POLICE_CAR_UNC</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceBoat</DispatchType>
+					<NumPedsToSpawn value="6"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_BOAT</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+			</DispatchServices>
+		</WantedLevel2>
+		<WantedLevel3>
+			<DispatchServices>
+				<Item>
+					<DispatchType>DT_PoliceAutomobile</DispatchType>
+					<NumPedsToSpawn value="10"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_CAR</Dispatch>
+						<Dispatch>POLICE_CAR_UNC</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_SwatAutomobile</DispatchType>
+					<NumPedsToSpawn value="4"/>
+					<DispatchVehicleSets>
+						<Dispatch>SWAT_JEEP</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceHelicopter</DispatchType>
+					<NumPedsToSpawn value="4"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_HELI_1</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceRoadBlock</DispatchType>
+					<NumPedsToSpawn value="2"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_ROAD_BLOCK_CARS</Dispatch>
+						<Dispatch>POLICE_ROAD_BLOCK_SPIKE_STRIP</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceBoat</DispatchType>
+					<NumPedsToSpawn value="6"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_BOAT</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+			</DispatchServices>
+		</WantedLevel3>
+		<WantedLevel4>
+			<DispatchServices>
+				<Item>
+					<DispatchType>DT_PoliceAutomobile</DispatchType>
+					<NumPedsToSpawn value="8"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_CAR</Dispatch>
+						<Dispatch>POLICE_CAR_UNC</Dispatch>
+						<Dispatch>NOOSE_CAR</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_SwatAutomobile</DispatchType>
+					<NumPedsToSpawn value="8"/>
+					<DispatchVehicleSets>
+						<Dispatch>SWAT_JEEP</Dispatch>
+						<Dispatch>NOOSESWAT_JEEP</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceHelicopter</DispatchType>
+					<NumPedsToSpawn value="4"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_HELI_1</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_SwatHelicopter</DispatchType>
+					<NumPedsToSpawn value="4"/>
+					<DispatchVehicleSets>
+						<Dispatch>NOOSE_HELI_1</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceRoadBlock</DispatchType>
+					<NumPedsToSpawn value="4"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_ROAD_BLOCK_CARS</Dispatch>
+						<Dispatch>NOOSE_ROAD_BLOCK_CARS</Dispatch>
+						<Dispatch>POLICE_ROAD_BLOCK_RIOT</Dispatch>
+						<Dispatch>POLICE_ROAD_BLOCK_SPIKE_STRIP</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceBoat</DispatchType>
+					<NumPedsToSpawn value="6"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_BOAT</Dispatch>
+						<Dispatch>POLICE_BOAT_2</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+			</DispatchServices>
+		</WantedLevel4>
+		<WantedLevel5>
+			<DispatchServices>
+				<Item>
+					<DispatchType>DT_PoliceAutomobile</DispatchType>
+					<NumPedsToSpawn value="10"/>
+					<DispatchVehicleSets>
+						<Dispatch>NOOSE_CAR</Dispatch>
+						<Dispatch>FIB_CAR</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_SwatAutomobile</DispatchType>
+					<NumPedsToSpawn value="12"/>
+					<DispatchVehicleSets>
+						<Dispatch>NOOSESWAT_JEEP</Dispatch>
+						<Dispatch>FIBSWAT_JEEP</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceHelicopter</DispatchType>
+					<NumPedsToSpawn value="4"/>
+					<DispatchVehicleSets>
+						<Dispatch>NOOSE_HELI_1</Dispatch>
+						<Dispatch>FIB_HELI_1</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_SwatHelicopter</DispatchType>
+					<NumPedsToSpawn value="8"/>
+					<DispatchVehicleSets>
+						<Dispatch>NOOSE_HELI_2</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceRoadBlock</DispatchType>
+					<NumPedsToSpawn value="4"/>
+					<DispatchVehicleSets>
+						<Dispatch>NOOSE_ROAD_BLOCK_CARS</Dispatch>
+						<Dispatch>POLICE_ROAD_BLOCK_RIOT</Dispatch>
+						<Dispatch>POLICE_ROAD_BLOCK_SPIKE_STRIP</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+				<Item>
+					<DispatchType>DT_PoliceBoat</DispatchType>
+					<NumPedsToSpawn value="12"/>
+					<DispatchVehicleSets>
+						<Dispatch>POLICE_BOAT_2</Dispatch>
+					</DispatchVehicleSets>
+				</Item>
+			</DispatchServices>
+		</WantedLevel5>
+	</WantedResponses>
+    <EmergencyResponses>
+        <Item>
+            <DispatchType>DT_FireDepartment</DispatchType>
+            <NumPedsToSpawn value="4"/>
+            <DispatchVehicleSets>
+                <Dispatch>FIRE_TRUCK</Dispatch>
+            </DispatchVehicleSets>
+        </Item>
+        <Item>
+            <DispatchType>DT_AmbulanceDepartment</DispatchType>
+            <NumPedsToSpawn value="2"/>
+            <DispatchVehicleSets>
+                <Dispatch>AMBULANCE</Dispatch>
+            </DispatchVehicleSets>
+        </Item>
+        <Item>
+	    <DispatchType>DT_PoliceVehicleRequest</DispatchType>
+            <NumPedsToSpawn value="2"/>
+            <DispatchVehicleSets>
+				<Dispatch>POLICE_CAR</Dispatch>
+				<Dispatch>POLICE_CAR_UNC</Dispatch>
+				<Dispatch>POLICE_CAR_UMK</Dispatch>
+          </DispatchVehicleSets>
+        </Item>
+        <Item>
+	    <DispatchType>DT_PoliceRiders</DispatchType>
+            <NumPedsToSpawn value="1"/>
+            <DispatchVehicleSets>
+				<Dispatch>POLICE_MOTORCYCLE</Dispatch>
+          </DispatchVehicleSets>
+        </Item>
+		<Item>
+			<DispatchType>DT_Gangs</DispatchType>
+			<NumPedsToSpawn value="6"/>
+			<DispatchVehicleSets>
+				<Dispatch>GANGS</Dispatch>
+			</DispatchVehicleSets>
+		</Item>
+		<Item>
+			<DispatchType>DT_ArmyVehicle</DispatchType>
+			<NumPedsToSpawn value="6"/>
+			<DispatchVehicleSets>
+				<Dispatch>ARMY</Dispatch>
+			</DispatchVehicleSets>
+		</Item>
+		<Item>
+			<DispatchType>DT_BikerBackup</DispatchType>
+			<NumPedsToSpawn value="4"/>
+			<DispatchVehicleSets>
+				<Dispatch>BIKER</Dispatch>
+			</DispatchVehicleSets>
+		</Item>
+		<Item>
+			<DispatchType>DT_Assassins</DispatchType>
+			<NumPedsToSpawn value="4"/>
+			<DispatchVehicleSets>
+				<Dispatch>ASSASSINS</Dispatch>
+			</DispatchVehicleSets>
+		</Item>
+	</EmergencyResponses>
+</CDispatchData>

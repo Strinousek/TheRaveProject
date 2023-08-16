@@ -29,7 +29,12 @@ server_scripts {
 }
 
 files {
-    'peds.meta'
+    'peds.meta',
+	'ambientpedmodelsets.meta',
+	'dispatch.meta',
 }
     
 data_file 'PED_METADATA_FILE' 'peds.meta'
+data_file 'AMBIENTPEDMODELSSET_FILE' 'ambientpedmodelsets.meta'
+data_file 'DISPATCH_FILE' 'dispatch.meta'
+data_file 'PEDS_FILE' 'peds.meta'
