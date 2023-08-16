@@ -292,7 +292,7 @@ Citizen.CreateThread(function()
         {
             label = "Zkopírovat VIN",
             onSelect = function(data)
-                local vehicleIdentifier = Entity(entitdata.entity).state.vehicleIdentifier
+                local vehicleIdentifier = Entity(data.entity).state.vehicleIdentifier
                 if(not vehicleIdentifier) then
                     ESX.ShowNotification("Tohle vozidlo má zvláštní sériové číslo. (NPC)", { type = "error" })
                     return
