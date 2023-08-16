@@ -51,13 +51,12 @@ AddEventHandler("playerDropped", function()
 	CarryInProgress[carryId] = nil
 end)
 
-RegisterServerEvent('strin_base:carry')
-AddEventHandler('strin_base:carry', function(carryType)
+RegisterNetEvent('strin_base:carry', function(carryType)
 	if(not CarryTypes[carryType]) then
 		return
 	end
 	local _source = source
-	local closestPlayer = ESX.OneSync.GetClosestPlayer(_source, 3.0)
+	local closestPlayer = ESX.OneSync.GetClosestPlayer(_source, 10.0)
 	if(not closestPlayer?.id) then
 		TriggerClientEvent("esx:showNotification", _source, "Není žádný hráč poblíž!", { type = "error" })
 		return
@@ -82,8 +81,7 @@ AddEventHandler('strin_base:carry', function(carryType)
 	CarryInProgress[_source] = closestPlayer.id
 end)
 
-RegisterServerEvent('strin_base:stopCarry')
-AddEventHandler('strin_base:stopCarry', function()
+RegisterNetEvent('strin_base:stopCarry', function()
 	local _source = source
 	local carryId, carryType = GetPlayerCarryId(_source)
 	if(not carryId) then
