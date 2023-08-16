@@ -1,4 +1,23 @@
-local JobBlips = {}
+local _JobBlips = {}
+local JobBlips = setmetatable({}, {
+    __index = function(t, k)
+        return _JobBlips[k]
+    end,
+    __newindex = function(t, k, v)
+        _JobBlips[k] = v
+        for i=1, k do
+            if(_JobBlips[i] == nil) then
+                _JobBlips[i] = false
+            end
+        end
+    end,
+    __pairs = function(t)
+        return next, _JobBlips, nil
+    end,
+    __len = function(t)
+        return #_JobBlips
+    end,
+})
 
 AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
     local job = xPlayer.getJob()
@@ -112,9 +131,6 @@ function RefreshBlips(job)
         end
     end
 
-    print(json.encode(blips, { indent = true }))
-    print(json.encode(JobBlips, { indent = true }))
-
     for i=1, #blips do
         local blip = blips[i]
         if(blip) then
@@ -131,7 +147,7 @@ function GetPlayerBlipIndex(playerId)
     end
 end
 
-AddEventHandler("onResourceStart", function(resourceName)
+AddEventHandler("onServerResourceStart", function(resourceName)
     if(GetCurrentResourceName() == resourceName) then
         local xPlayers = ESX.GetExtendedPlayers()
         for _,xPlayer in pairs(xPlayers) do

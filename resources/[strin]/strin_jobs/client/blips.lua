@@ -17,13 +17,23 @@ AddEventHandler("esx:onPlayerSpawn", function()
     playerSpawned = true
 end)
 
+function CountValidBlips(blips)
+    local validBlips = 0
+    for i=1, #blips do
+        if(blips[i]) then
+            validBlips += 1
+        end
+    end
+    return validBlips
+end
+
 RegisterNetEvent("strin_jobs:updateBlips", function(blips)
     --[[if(not blipsSetup or (blipsSetup and next(CachedBlips) and not next(blips))) then
         SetBigmapActive(true, false)
         DisplayPlayerNameTagsOnBlips(true)
         blipsSetup = true
     end]]
-    if(not blips or not next(blips)) then
+    if(CountValidBlips(blips) == 0) then
         for i=1, #CachedBlips do
             local v = CachedBlips[i]
             if(v) then

@@ -2,7 +2,7 @@ local showAxon = false
 
 RegisterNetEvent("esx:playerLoaded", function()
     if(ESX?.PlayerData?.job?.name == "police") then
-        local code = lib.callback.await("strin_axon:getCode")
+        local code = lib.callback.await("strin_axon:getCode", false)
         showAxon = true
         SendNUIMessage({
             display = true,
@@ -15,7 +15,7 @@ RegisterNetEvent('esx:setJob', function(job)
     if(ESX?.PlayerData?.job?.name == "police") then
         showAxon = true
         if(not showAxon) then
-            local code = lib.callback.await("strin_axon:getCode")
+            local code = lib.callback.await("strin_axon:getCode", false)
             showAxon = true
             SendNUIMessage({
                 display = true,
@@ -40,7 +40,7 @@ end)
 RegisterCommand("axon", function()
     if(ESX?.PlayerData?.job?.name == "police") then
         if(not showAxon) then
-            local code = lib.callback.await("strin_axon:getCode")
+            local code = lib.callback.await("strin_axon:getCode", false)
             showAxon = true
             SendNUIMessage({
                 display = true,
