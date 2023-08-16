@@ -28,34 +28,39 @@ SetRelationshipBetweenGroups(1, `FIREMAN`, `PLAYER`)
 SetRelationshipBetweenGroups(1, `MEDIC`, `PLAYER`)
 SetRelationshipBetweenGroups(1, `COP`, `PLAYER`)
 
-AddEventHandler("esx:enteredVehicle", function(plate)
-    while(true) do
-        Citizen.Wait(0)
-        local ped = PlayerPedId()
-        local vehicle = GetVehiclePedIsIn(ped)
-        if(vehicle == 0) then
-            break
+lib.onCache("vehicle", function(value)
+    if(value) then
+        local vehicle = value
+        local vehicleClass = GetVehicleClass(vehicle)
+        if(vehicleClass == 13) then
+            return
         end
-        
-        if(vehicle ~= 0 and IsControlPressed(2, 75) and not IsEntityDead(ped)) then
-            SetVehicleEngineOn(vehicle, true, true, false)
-            TaskLeaveVehicle(ped, vehicle, 0)
-        end
-        local roll = GetEntityRoll(vehicle)
-        if (roll > 75.0 or roll < -75.0) and GetEntitySpeed(vehicle) < 2 then
-            DisableControlAction(2,59,true) -- Disable left/right
-            DisableControlAction(2,60,true) -- Disable up/down
-        end
-
-        local vehicleHealth = GetVehicleEngineHealth(vehicle)
-        if(vehicleHealth > 101) then
-            SetVehicleUndriveable(vehicle, false)
-        elseif(vehicleHealth <= 101) then
-            SetVehicleUndriveable(vehicle, true)
+        while(true) do
+            Citizen.Wait(0)
+            local ped = PlayerPedId()
+            if(not cache.vehicle) then
+                break
+            end
+            
+            if(IsControlPressed(2, 75) and not IsEntityDead(ped)) then
+                SetVehicleEngineOn(vehicle, true, true, false)
+                TaskLeaveVehicle(ped, vehicle, 0)
+            end
+            local roll = GetEntityRoll(vehicle)
+            if (roll > 75.0 or roll < -75.0) and GetEntitySpeed(vehicle) < 2 then
+                DisableControlAction(2,59,true) -- Disable left/right
+                DisableControlAction(2,60,true) -- Disable up/down
+            end
+    
+            local vehicleHealth = GetVehicleEngineHealth(vehicle)
+            if(vehicleHealth > 101) then
+                SetVehicleUndriveable(vehicle, false)
+            elseif(vehicleHealth <= 101) then
+                SetVehicleUndriveable(vehicle, true)
+            end
         end
     end
 end)
-
 
 local DENSITY_MULTIPLIER = 0.5
 Citizen.CreateThread(function()
