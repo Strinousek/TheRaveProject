@@ -384,6 +384,8 @@ $(() => {
         };
     };
 
+    openHud();
+
     window.addEventListener("message", (e) => {
         let data = e.data
         if(data.action == "openHud") {
