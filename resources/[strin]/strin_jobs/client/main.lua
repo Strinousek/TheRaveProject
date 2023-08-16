@@ -292,13 +292,18 @@ Citizen.CreateThread(function()
         {
             label = "Zkopírovat VIN",
             onSelect = function(data)
-                local vehicleIdentifier = Entity(data.entity).state.vehicleIdentifier
-                if(not vehicleIdentifier) then
-                    ESX.ShowNotification("Tohle vozidlo má zvláštní sériové číslo. (NPC)", { type = "error" })
-                    return
-                end
-                lib.setClipboard(tostring(vehicleIdentifier))
-                ESX.ShowNotification("Zkopírován VIN kód vozidla - "..tostring(vehicleIdentifier)..".")
+                local netId = NetworkGetNetworkIdFromEntity(data.entity)
+                lib.callback("strin_garages:getVehicleIdentifier", false, function(vehicleIdentifier)
+                    if(not vehicleIdentifier) then
+                        ESX.ShowNotification("Tohle vozidlo má zvláštní sériové číslo. (Neexistuje)", { type = "error" })
+                        return
+                    end
+                    lib.setClipboard(tostring(vehicleIdentifier))
+                    ESX.ShowNotification("Zkopírován VIN kód vozidla - "..tostring(vehicleIdentifier)..".")
+                end, netId)
+            end,
+            canInteract = function(entity)
+                return NetworkGetEntityIsNetworked(entity)
             end
         }
     })

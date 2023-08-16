@@ -90,17 +90,6 @@ Citizen.CreateThread(function()
     DefaultVehicleProperties = load(LoadResourceFile("strin_garages", "server/default_properties.lua"))()
 end)
 
-AddEventHandler("entityCreated", function(entity)
-    if(GetEntityType(entity) ~= 2) then
-        return
-    end
-
-    if(not Entity(entity).state.vehicleIdentifier) then
-        local vehicleIdentifier = GenerateVehicleIdentifier()
-        Entity(entity).state.vehicleIdentifier = "1447"..vehicleIdentifier:sub(5)
-    end
-end)
-
 function GenerateVehicle(owner, modelName, vehicleType, job)
     if(not owner and not job) then
         return false
@@ -246,15 +235,18 @@ function GeneratePlate()
 end
 
 function GenerateVehicleIdentifier()
-    return (
-        GetRandomLetter(2)..
-        GetRandomLetter(2)..
-        GetRandomNumber(2)..
-        GetRandomNumber(2)..
-        GetRandomLetter(2)..
+    local identifierParts = {
+        GetRandomLetter(2),
+        GetRandomLetter(2),
+        GetRandomNumber(2),
+        GetRandomNumber(2),
+        GetRandomLetter(2),
         GetRandomLetter(2)
-    ):upper()
+    }
+    return table.concat(identifierParts, ""):upper()
 end
+
+exports("GenerateVehicleIdentifier", GenerateVehicleIdentifier)
 
 local NumberCharset = {}
 local Charset = {}
@@ -268,18 +260,17 @@ function GetRandomNumber(length)
     Citizen.Wait(100)
     math.randomseed(GetGameTimer() + math.random(10000, 99999))
     if length > 0 then
-        return GetRandomNumber(length - 1) .. NumberCharset[math.random(1, #NumberCharset)]
+        return (GetRandomNumber(length - 1) .. NumberCharset[math.random(1, #NumberCharset)])
     else
-        return ''
+        return ("")
     end
 end
 
 function GetRandomLetter(length)
-    Citizen.Wait(100)
     math.randomseed(GetGameTimer() + math.random(10000, 99999))
     if length > 0 then
-        return GetRandomLetter(length - 1) .. Charset[math.random(1, #Charset)]
+        return (GetRandomLetter(length - 1) .. Charset[math.random(1, #Charset)])
     else
-        return ''
+        return ("")
     end
 end

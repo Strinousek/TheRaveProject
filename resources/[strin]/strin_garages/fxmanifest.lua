@@ -16,4 +16,5 @@ server_scripts {
     "@oxmysql/lib/MySQL.lua",
     "server/main.lua",
     "server/hook.lua",
+    "server/civilian_vehicles.lua",
 }
