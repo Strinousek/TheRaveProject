@@ -99,8 +99,8 @@ function RefreshBlips(job)
     local blips = {}
     for i=1, #authorizedJobs do
         local authorizedJob = authorizedJobs[i]
-        for i=1, #JobBlips do
-            local jobBlip = JobBlips[i]
+        for j=1, #JobBlips do
+            local jobBlip = JobBlips[j]
             if(jobBlip?.job == authorizedJob or not jobBlip) then
                 blips[i] = jobBlip
             elseif(jobBlip?.job ~= authorizedJob) then
