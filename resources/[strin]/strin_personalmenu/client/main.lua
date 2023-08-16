@@ -161,6 +161,32 @@ function OpenVehicleMenu(vehicle)
     end)
 end
 
+RegisterCommand("engine", function()
+    if(not cache.vehicle) then
+        ESX.ShowNotification("Nejste ve vozidle!", { type = "error" })
+        return
+    end
+    local vehicle = cache.vehicle
+    if(not IsVehicleEngineStarting(vehicle) and not GetIsVehicleEngineRunning(vehicle)) then
+        ESX.ShowNotification("Motor zapnut.")
+        SetVehicleEngineOn(vehicle, true, false, false)
+        SetPedConfigFlag(PlayerPedId(), 429, false)
+    else
+        ESX.ShowNotification("Motor vypnut.")
+        SetVehicleEngineOn(vehicle, false, false, false)
+        SetPedConfigFlag(PlayerPedId(), 429, true)
+        while (not GetIsVehicleEngineRunning(vehicle) and not IsVehicleEngineStarting(vehicle)) do
+            SetVehicleUndriveable(vehicle, true)
+            SetVehicleEngineOn(vehicle, false, false, false)
+            if(not cache.vehicle) then
+                SetPedConfigFlag(PlayerPedId(), 429, false)
+                break
+            end
+            Citizen.Wait(0)
+        end
+    end
+end)
+
 lib.onCache("vehicle", function(value)
     if(not value) then
         SetPedConfigFlag(PlayerPedId(), 429, false)
