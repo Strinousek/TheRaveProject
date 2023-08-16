@@ -100,7 +100,13 @@ exports('editDoor', function(id, data)
 	end
 end)
 
-local sounds = require 'server.utils'.getFilesInDirectory('web/build/sounds', '%.ogg')
+local soundDirectory = Config.NativeAudio and 'audio/dlc_oxdoorlock/oxdoorlock' or 'web/build/sounds'
+local fileFormat = Config.NativeAudio and '%.wav' or '%.ogg'
+local sounds = require 'server.utils'.getFilesInDirectory(soundDirectory, fileFormat)
+
+lib.callback.register('ox_doorlock:getSounds', function()
+	return sounds
+end)
 
 local function createDoor(id, door, name)
 	local double = door.doors
@@ -252,7 +258,7 @@ local function setDoorState(id, state, lockpick)
 	state = (state == 1 or state == 0) and state or (state and 1 or 0)
 
 	if door then
-		local authorised = source == '' or isAuthorised(source, door, lockpick)
+		local authorised = not source or source == '' or isAuthorised(source, door, lockpick)
 
 		if authorised then
 			door.state = state

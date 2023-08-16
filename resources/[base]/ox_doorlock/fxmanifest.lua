@@ -6,7 +6,7 @@ game         'gta5'
 
 --[[ Resource Information ]]--
 name         'ox_doorlock'
-version      '1.13.1'
+version      '1.14.1'
 license      'GPL-3.0-or-later'
 author       'Overextended'
 repository   'https://github.com/overextended/ox_doorlock'
@@ -34,8 +34,13 @@ ui_page 'web/build/index.html'
 files {
 	'web/build/index.html',
 	'web/build/**/*',
-	'locales/*.json'
+	'locales/*.json',
+	'audio/data/oxdoorlock_sounds.dat54.rel',
+	'audio/dlc_oxdoorlock/oxdoorlock.awc',
 }
+
+data_file 'AUDIO_WAVEPACK' 'audio/dlc_oxdoorlock'
+data_file 'AUDIO_SOUNDDATA' 'audio/data/oxdoorlock_sounds.dat'
 
 dependencies {
 	'oxmysql',
