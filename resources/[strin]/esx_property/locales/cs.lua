@@ -80,15 +80,15 @@ Locales['cs'] = {
 		["exit_office_error"] = "~r~Nemůžeš~s~ opusti kancelář!",
 		["realestate_textui"] = "Zmáčkni ~b~[E]~s~ pro přístup ~b~%s",
 
-	------------Command Strings-----------------------
-		["refresh_name"] = "majetek:obnovit",
-		["refresh_desc"] = "Obnovení do stavu spuštění serveru",
-		["save_name"] = "majetek:uložení",
-		["save_desc"] = "Vynucení uložení majetku",
-		["create_name"] = "majetek:vytvoření",
-		["create_desc"] = "Vytvoření nového majetku",
-		["admin_name"] = "majetek:admin",
-		["admin_desc"] = "Správa/náhled veškerého majetku",
+		------------Command Strings-----------------------
+		["refresh_name"] = "property:refresh",
+		["refresh_desc"] = "Refresh to Server Start State",
+		["save_name"] = "property:save",
+		["save_desc"] = "Force Save Properties",
+		["create_name"] = "property:create",
+		["create_desc"] = "Create A New Property",
+		["admin_name"] = "property:admin",
+		["admin_desc"] = "Manage/view all properties",
 
 
 		---------- Property Actions Menu  -------------------------
