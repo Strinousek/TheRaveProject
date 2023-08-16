@@ -98,8 +98,14 @@ local DENSITY_MULTIPLIER = 0.5
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		DisableControlAction(0, 26, true)
+		if(not cache.vehicle) then
+            DisableControlAction(0, 26, true)
+        end
 		--DisableControlAction(0, 36, true)
+        
+		if IsControlPressed(0, 25) then
+            DisableControlAction(0, 22, true)
+        end
 
 	    SetVehicleDensityMultiplierThisFrame(DENSITY_MULTIPLIER)
 	    SetPedDensityMultiplierThisFrame(DENSITY_MULTIPLIER)
