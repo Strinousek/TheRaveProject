@@ -61,4 +61,4 @@ RegisterCommand("crosshands", function()
     end
 end)
 
-RegisterKeyMapping('crosshands', '<FONT FACE="Righteous">Skřížit ruce~</FONT>', 'KEYBOARD', "G")
+--RegisterKeyMapping('crosshands', '<FONT FACE="Righteous">Skřížit ruce~</FONT>', 'KEYBOARD', "G")
