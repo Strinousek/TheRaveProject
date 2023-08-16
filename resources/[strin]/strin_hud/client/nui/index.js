@@ -90,14 +90,17 @@ $(() => {
         if(settings != undefined) {
             currentSettings = JSON.parse(settings);
             setColorInputValues();
-            if(currentSettings.enableEnergy != true) {
+            /*if(currentSettings.enableEnergy != true) {
                 $("#stamina-input").prop('checked', false);
                 $("#energy-info").fadeOut();
-            };
+            };*/
             if(currentSettings.border == true) {
                 $("#border-input").prop('checked', true);
             };
-            if(currentSettings.stackBars == false) {
+            if(currentSettings.stackBars == true) {
+                $("#stack-input").prop('checked', true);
+                $("#player-main").css("display", "block")
+            } else {
                 $("#stack-input").prop('checked', false);
                 $("#player-main").css("display", "flex")
             };
@@ -197,10 +200,10 @@ $(() => {
             if(data.isSeatbeltAvailable) {
                 $("#seatbelt").show();
                 if(data.hasSeatbelt == true) {
-                    $("#seatbelt").html(`<i class="fas fa-bell"></i>`);
+                    //$("#seatbelt").html(`<i class="fas fa-bell"></i>`);
                     $("#seatbelt").css("color", "#2ecc71");
                 } else {
-                    $("#seatbelt").html(`<i class="fas fa-bell-slash"></i>`);
+                    //$("#seatbelt").html(`<i class="fas fa-bell-slash"></i>`);
                     $("#seatbelt").css("color", "#e74c3c");
                 };
             } else {
@@ -249,7 +252,7 @@ $(() => {
         if(isChecked) {
             currentSettings.stackBars = true;
             $("#player-main").css("display", "block");
-        } else if(!isChecked) {
+        } else {
             currentSettings.stackBars = false;
             $("#player-main").css("display", "flex");
         }
@@ -332,11 +335,11 @@ $(() => {
     $("#reset-input").on('click', () => {
         currentSettings = {...defaultSettings};
         $("#energy-info").fadeIn();
-        $("#stamina-input").prop("checked", true);
-        $("#stack-input").prop("checked", true);
-        $("#border-input").prop("checked", false);
-        $("#street-input").prop("checked", false);
-        $("#player-main").css("display", "block");
+        //$("#stamina-input").prop("checked", true);
+        $("#stack-input").prop("checked", currentSettings.stackBars == true);
+        $("#border-input").prop("checked", currentSettings.border == true);
+        $("#street-input").prop("checked", currentSettings.showStreets == true);
+        $("#player-main").css("display", currentSettings.stackBars == true ? "block" : "flex");
         setColorInputValues();
         setBackgroundColors();
         setDefaultPositions();
@@ -389,7 +392,16 @@ $(() => {
         };
     };
 
-    openHud();
+    /*openHud();
+    updateData({
+        action: "updateData",
+        health: 200,
+        maxHealth: 200,
+        armor: 30,
+        energy: 100 - 10,
+        minimapWidth: 0.2,
+    });
+    editHud()*/
 
     window.addEventListener("message", (e) => {
         let data = e.data

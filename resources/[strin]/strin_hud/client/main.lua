@@ -62,22 +62,24 @@ Citizen.CreateThread(function()
             end
             if(vehicle) then
                 DisplayRadar(true)
-                local pos = cache.coords or GetEntityCoords(vehicle)
-                local speed = roundNum(GetEntitySpeed(vehicle) * 2.236936)
-                local fuel = roundNum(Entity(vehicle).state?.fuel or 100)
-                local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
-                local currentZone = GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z))
                 local vehicleClass = GetVehicleClass(vehicle)
-                data.inVehicle = true
-                data.speed = speed
-                data.fuel = fuel
-                data.isSeatbeltAvailable = vehicleClass ~= 8 and vehicleClass ~= 13
-                if(data.isSeatbeltAvailable) then
-                    data.hasSeatbelt = hasSeatbelt
+                if(vehicleClass ~= 13) then
+                    local pos = cache.coords or GetEntityCoords(vehicle)
+                    local speed = roundNum(GetEntitySpeed(vehicle) * 2.236936)
+                    local fuel = roundNum(Entity(vehicle).state?.fuel or 100)
+                    local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+                    local currentZone = GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z))
+                    data.inVehicle = true
+                    data.speed = speed
+                    data.fuel = fuel
+                    data.isSeatbeltAvailable = vehicleClass ~= 8
+                    if(data.isSeatbeltAvailable) then
+                        data.hasSeatbelt = hasSeatbelt
+                    end
+                    data.street1 = GetStreetNameFromHashKey(street1)
+                    data.street2 = GetStreetNameFromHashKey(street2)
+                    data.zone = currentZone
                 end
-                data.street1 = GetStreetNameFromHashKey(street1)
-                data.street2 = GetStreetNameFromHashKey(street2)
-                data.zone = currentZone
             else
                 data.inVehicle = false
             end

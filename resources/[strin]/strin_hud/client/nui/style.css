@@ -26,7 +26,7 @@ body {
 
 #vehicle-container {
     position: absolute;
-    top: 52.5rem;
+    top: 52.2rem;
     left: 1.2rem;
     color: white;
     /*background-color: rgba(44, 62, 80,0.6);*/
@@ -56,8 +56,12 @@ body {
 
 #player-container {
     position: absolute;
-    top: 53.5rem;
-    left: 20rem;
+    top: 65.375rem;
+    left: 1.313rem;
+    display: flex;
+}
+
+#player-main {
     display: flex;
 }
 
@@ -111,8 +115,8 @@ body {
 
 #option-container {
     position: absolute;
-    top: 0;
-    left: 40rem;
+    top: 2rem;
+    left: 50%;
     color: white;
     background-color: rgba(44, 62, 80,0.6);
     padding: 16px;
