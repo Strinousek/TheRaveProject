@@ -73,7 +73,7 @@ Citizen.CreateThread(function()
             for _,here in pairs(heres) do
                 for _,v in pairs(here) do
                     local distance = #(coords - v.coords)
-                    if(distance < 2) then
+                    if(distance < 10.0) then
                         drawHereText(v.coords, v.message)
                     end
                 end
