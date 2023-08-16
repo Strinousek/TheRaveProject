@@ -29,6 +29,28 @@ SetRelationshipBetweenGroups(1, `FIREMAN`, `PLAYER`)
 SetRelationshipBetweenGroups(1, `MEDIC`, `PLAYER`)
 SetRelationshipBetweenGroups(1, `COP`, `PLAYER`)
 
+
+IsShuffleDisabled = true
+
+function SetShuffDisabled(flag)
+	IsShuffleDisabled = flag
+end
+
+RegisterNetEvent("strin_base:seatShuffle", function()
+	if cache.vehicle then
+		SetShuffDisabled(false)
+		Citizen.Wait(5000)
+		SetShuffDisabled(true)
+	else
+        ESX.ShowNotification("Nejste ve vozidle!", { type = "error" })
+		CancelEvent()
+	end
+end)
+
+RegisterCommand("shuff", function(source, args)
+    TriggerEvent("strin_base:seatShuffle")
+end, false)
+
 lib.onCache("vehicle", function(value)
     if(value) then
         local vehicle = value
@@ -42,7 +64,16 @@ lib.onCache("vehicle", function(value)
             if(not cache.vehicle) then
                 break
             end
-            
+
+            if(IsShuffleDisabled) then
+                local passenger = GetPedInVehicleSeat(vehicle, 0) 
+                if passenger == ped then
+                    if GetIsTaskActive(ped, 165) then
+                        SetPedIntoVehicle(ped, vehicle, 0)
+                    end
+                end
+            end
+
             if(IsControlPressed(2, 75) and not IsEntityDead(ped)) then
                 SetVehicleEngineOn(vehicle, true, true, false)
                 TaskLeaveVehicle(ped, vehicle, 0)
