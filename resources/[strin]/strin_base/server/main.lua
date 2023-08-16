@@ -1,3 +1,31 @@
+local SavedPlayers = {}
+
+AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
+    if(SavedPlayers[xPlayer.identifier]) then
+        local ped = GetPlayerPed(playerId)
+        SetEntityHealth(ped, SavedPlayers[xPlayer.identifier].health)
+        SetPedArmour(ped, SavedPlayers[xPlayer.identifier].armour)
+    end
+end)
+
+AddEventHandler("playerDropped", function()
+    local _source = source
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer) then
+        return
+    end
+    local ped = GetPlayerPed(_source)
+    local health = GetEntityHealth(ped)
+    if(health < 5) then
+        return
+    end
+    local armour = GetPedArmour(ped)
+    SavedPlayers[xPlayer.identifier] = {
+        health = health,
+        armour = armour
+    }
+end)
+
 /*ESX.RegisterCommand("showentity", "admin", function(xPlayer, args)
     local id = tonumber(args[1]) or 1
     if(id and (id == 1 or id == 2)) then
