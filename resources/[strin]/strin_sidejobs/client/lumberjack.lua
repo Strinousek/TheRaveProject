@@ -121,8 +121,10 @@ RegisterNetEvent("strin_sidejobs:attachLogToPed", function(logNetId)
         DisplayHelpTextThisFrame("STRIN_SIDEJOBS:LUMBERJACK_DROP_LOG")
         if(IsControlJustReleased(0, 73) or IsDead) then
             DetachEntity(LogEntity)
+            Target:removeEntity(logNetId, { "strin_sidejobs:takeWoodLog" })
             Target:addEntity(logNetId, {
                 {
+                    name = "strin_sidejobs:takeWoodLog",
                     label = "Vzít kládu",
                     onSelect = function(data)
                         TriggerEvent("strin_sidejobs:attachLogToPed", logNetId)
