@@ -248,20 +248,10 @@ RegisterCommand("limit", function(source, args)
             local limit = tonumber(args[1])
             local vehicle = cache.vehicle
             local maxSpeed = GetVehicleHandlingFloat(vehicle, "CHandlingData","fInitialDriveMaxFlatVel")
-            if(ShouldUseMetricMeasurements()) then
-                type= "KPH"
-            end
             if(type == "MPH") then
                 if((limit * 2.237) <= maxSpeed) then
                     SetEntityMaxSpeed(vehicle, limit / 2.237)
                     ESX.ShowNotification("Tachometr nastaven na "..limit.." (MPH)", {type = "success"})
-                else
-                    ESX.ShowNotification("Tento limit převršuje maximální rychlost vozidla!", {type = "error"})
-                end
-            elseif(type == "KPH") then
-                if((limit * 3.6) <= maxSpeed) then
-                    SetEntityMaxSpeed(vehicle, limit / 3.6)
-                    ESX.ShowNotification("Tachometr nastaven na "..limit.." (KPH)", {type = "success"})
                 else
                     ESX.ShowNotification("Tento limit převršuje maximální rychlost vozidla!", {type = "error"})
                 end
