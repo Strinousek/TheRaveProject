@@ -84,7 +84,7 @@ function SpawnSideJobVehicle(sideJobName)
                 end
             )
         end
-    end)
+    end, sideJobName)
 end
 function CreateJobCenterBlip(coords)
     local blip = AddBlipForCoord(coords)

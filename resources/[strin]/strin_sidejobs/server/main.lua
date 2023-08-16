@@ -65,7 +65,7 @@ ESX.RegisterCommand("cancelsidejob", "user", function(xPlayer)
     TriggerClientEvent("strin_sidejobs:cancelSideJob", _source, WorkingPlayers[_source].type)
 end)
 
-lib.callback.register("strin_sidejobs:canBorrowVehicle", function(source)
+lib.callback.register("strin_sidejobs:canBorrowVehicle", function(source, sideJobName)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
     if(not xPlayer) then
@@ -78,21 +78,23 @@ lib.callback.register("strin_sidejobs:canBorrowVehicle", function(source)
         return false
     end
 
-    local items = Inventory:GetInventoryItems(_source)
-    local hasAxe = false
-    for k,v in pairs(items) do
-        if(v.name:find("WEAPON_")) then
-            local weaponHash = GetHashKey(v.name)
-            if(lib.table.contains(LUMBERJACK_LOG_AXES, weaponHash)) then
-                hasAxe = true
-                break
+    if(sideJobName == "lumberjack") then
+        local items = Inventory:GetInventoryItems(_source)
+        local hasAxe = false
+        for k,v in pairs(items) do
+            if(v.name:find("WEAPON_")) then
+                local weaponHash = GetHashKey(v.name)
+                if(lib.table.contains(LUMBERJACK_LOG_AXES, weaponHash)) then
+                    hasAxe = true
+                    break
+                end
             end
         end
-    end
 
-    if(not hasAxe) then
-        xPlayer.showNotification("Nemáte sekeru na kácení stromů! Zajděte si jí nejprve koupit!", { type = "error" })
-        return false
+        if(not hasAxe) then
+            xPlayer.showNotification("Nemáte sekeru na kácení stromů! Zajděte si jí nejprve koupit!", { type = "error" })
+            return false
+        end
     end
 
     xPlayer.removeMoney(JOB_CENTER_VEHICLE_BORROW_PRICE)
