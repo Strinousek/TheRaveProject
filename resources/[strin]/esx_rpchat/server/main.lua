@@ -62,7 +62,7 @@ function CheckForFreeHereSpot(registeredHeres)
         table.insert(sanitizedSpots, v)
     end
     table.sort(sanitizedSpots, function(a,b) return a > b end)
-    return spot[1]
+    return sanitizedSpots[1]
 end
 
 function CreateHere(message, coords, identifier)
@@ -169,11 +169,11 @@ end)
 ESX.RegisterCommand("try", "user", function(xPlayer, args)
     local name = getIdentity(xPlayer.source)
     local fullName = name.fullname
-    math.randomseed(os.time());
+    math.randomseed(os.time())
     local randomIndex = math.random(1,2)
     local messages = {"Ano", "Ne"}
     Base:DiscordLog("RP", "[TRY] - "..xPlayer.getName(), fullName.." - "..messages[randomIndex])
-    TriggerClientEvent("sendProximityMessageDo", -1, xPlayer.source, name.firstname .. " " .. name.lastname, messages[random])
+    TriggerClientEvent("sendProximityMessageDo", -1, xPlayer.source, name.firstname .. " " .. name.lastname, messages[randomIndex])
 end)
 
 /*ESX.RegisterCommand("3d", "user", function(xPlayer, args)
