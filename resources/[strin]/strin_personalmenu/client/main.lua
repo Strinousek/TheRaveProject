@@ -114,6 +114,10 @@ function OpenVehicleMenu(vehicle)
         elseif(data.current.value == "engine_turn_off") then
             SetVehicleEngineOn(vehicle, false, false, false)
             OpenVehicleMenu(vehicle)
+            while (not GetIsVehicleEngineRunning(vehicle) and not IsVehicleEngineStarting(vehicle)) do
+                SetVehicleUndriveable(vehicle, true)
+                Citizen.Wait(0)
+            end
         end
         /*if engine == true then
             SetVehicleEngineOn(veh, false, false, false)
