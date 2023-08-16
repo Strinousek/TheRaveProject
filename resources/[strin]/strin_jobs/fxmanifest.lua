@@ -24,5 +24,6 @@ server_scripts {
     "server/medical.lua",
     "server/billing.lua",
     "server/shops.lua",
+    "server/panic.lua",
     "server/blips.lua"
 }
