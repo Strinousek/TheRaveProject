@@ -55,14 +55,17 @@ function ShowCard(__type, cardId, playerId)
         return
     end
 
-    local card = Inventory:GetSlotWithItem(_source, __type, cardId and {
-        id = cardId
-    } or nil)
+    local searchCardMetadata = nil
+    if(cardId) then
+        searchCardMetadata = { id = cardId }
+    end
+    local card = Inventory:GetSlotWithItem(_source, __type, searchCardMetadata)
     if(not card) then
         xPlayer.showNotification("Daná karta neexistuje!", { type = "error" })
         return
     end
     local data = MySQL.single.await("SELECT * FROM `character_data` WHERE `id` = ?", { card.metadata?.id })
+    print(json.encode(data))
     data.issuedOn = card.metadata?.issuedOn
     if(__type == "driving_license") then
         data.classes = card.metadata?.classes
