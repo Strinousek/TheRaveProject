@@ -47,7 +47,7 @@ Target:addGlobalPlayer({
                     title = "Doba uvěznění (v minutách)",
                 }, function(data2, menu2)
                     menu2.close()
-                    if(tonumber(data2.value)) then
+                    if(not tonumber(data2.value)) then
                         return
                     end
                     TriggerServerEvent("strin_jail:jailPlayer", netId, data.value, tonumber(data2.value))
