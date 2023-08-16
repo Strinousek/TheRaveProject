@@ -101,11 +101,14 @@ function RefreshBlips(job)
         local authorizedJob = authorizedJobs[i]
         for j=1, #JobBlips do
             local jobBlip = JobBlips[j]
-            if(jobBlip?.job == authorizedJob or not jobBlip) then
-                blips[i] = jobBlip
-            elseif(jobBlip?.job ~= authorizedJob) then
-                blips[i] = false
+            if(not jobBlip or jobBlip?.job ~= authorizedJob) then
+                blips[j] = false
+                goto skipLoop
             end
+            if(jobBlip.job == authorizedJob) then
+                blips[j] = jobBlip
+            end
+            ::skipLoop::
         end
     end
 

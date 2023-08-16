@@ -45,12 +45,13 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
                 goto skipLoop
             end
         end
-        blip.distant = GetPlayerFromServerId(blip.playerId) == -1 and true or false
         if(not cachedBlip and blip) then
+            blip.distant = GetPlayerFromServerId(blip.playerId) == -1 and true or false
             CachedBlips[i] = blip
             CachedBlips[i].blip = CreateJobBlip(blip)
         end
         if(cachedBlip and blip) then
+            blip.distant = GetPlayerFromServerId(blip.playerId) == -1 and true or false
             cachedBlip.coords = blip.coords
             if((not blip.distant and cachedBlip.distant) or (blip.distant and not cachedBlip.distant)) then 
                 if(DoesBlipExist(cachedBlip.blip)) then

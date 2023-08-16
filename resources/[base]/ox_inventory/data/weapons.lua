@@ -343,7 +343,13 @@ return {
 		},
 
 		['WEAPON_BRIEFCASE'] = {
-			label = 'Kufr',
+			label = 'Plastový kufr',
+			weight = 300,
+			durability = 0.1,
+		},
+
+		['WEAPON_BRIEFCASE_02'] = {
+			label = 'Kožený kufr',
 			weight = 300,
 			durability = 0.1,
 		},
