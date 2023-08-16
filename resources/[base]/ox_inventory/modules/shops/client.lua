@@ -162,7 +162,7 @@ local function refreshShops()
 							onExit = onExitShop,
 							shopDistance = target.distance,
 						})
-					else then
+					else
 						if not hasShopAccess(shop) then goto nextShop end
 
 						id += 1
