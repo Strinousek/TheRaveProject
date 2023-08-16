@@ -47,10 +47,8 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
     Citizen.Wait(500)
-    exports.ox_inventory:displayMetadata({
-        { "category", "Kategorie" },
-        { "plate",  "SPZ" },
-    })
+    exports.ox_inventory:displayMetadata("category", "Kategorie")
+    exports.ox_inventory:displayMetadata("plate", "SPZ")
     while true do
         local sleep = 1000
         if(IsInMenu or RequestedServer) then

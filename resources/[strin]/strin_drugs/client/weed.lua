@@ -13,9 +13,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
     Citizen.Wait(500)
-    exports.ox_inventory:displayMetadata({
-        { "state", "Stav"}
-    })
+    exports.ox_inventory:displayMetadata("state", "Stav")
 end)
 
 lib.callback.register("strin_drugs:shredWeed", function(count)

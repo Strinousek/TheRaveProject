@@ -61,12 +61,9 @@ Citizen.CreateThread(function()
         Citizen.Wait(0)
     end
     Citizen.Wait(500)
-
-    Inventory:displayMetadata({
-        { "holder", "Držitel" },
-        { "issuedOn", "Datum vydání" },
-        { "classes", "Třídy" }
-    })
+    Inventory:displayMetadata("holder", "Držitel")
+    Inventory:displayMetadata("issuedOn", "Datum vydání")
+    Inventory:displayMetadata("classes", "Třídy")
 end)
 
 function OpenCityHallMenu()
