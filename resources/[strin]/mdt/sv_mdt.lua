@@ -40,8 +40,10 @@ AddEventHandler("mdt:getOffensesAndOfficer", function()
 	end)
 end)
 
-Citizen.CreateThread(function()
-	local query = "abraham"
+RegisterServerEvent("mdt:performOffenderSearch")
+AddEventHandler("mdt:performOffenderSearch", function(query)
+	local usource = source
+	local matches = {}
 	MySQL.Async.fetchAll([[
 		SELECT characters.*, users.phone_number FROM `characters`
 		LEFT JOIN `users` ON (characters.identifier = users.identifier AND characters.char_id = users.char_id)
@@ -51,25 +53,6 @@ Citizen.CreateThread(function()
 		CONCAT(LOWER(characters.firstname), ' ', LOWER(characters.lastname)) LIKE @query OR 
 		users.phone_number LIKE @query2
 	]], {
-		['@query'] = string.lower('%'..query..'%'), -- % wildcard, needed to search for all alike results
-		['@query2'] = string.lower(query..'%')
-	}, function(result)
-		print(result, json.encode(result, { indent = true }))
-	end)
-end)
-
-RegisterServerEvent("mdt:performOffenderSearch")
-AddEventHandler("mdt:performOffenderSearch", function(query)
-	local usource = source
-	local matches = {}
-	MySQL.Async.fetchAll([[
-			SELECT characters.*, users.phone_number FROM `characters` 
-			WHERE LOWER(`char_identifier`) LIKE @query OR 
-			LOWER(`firstname`) LIKE @query OR 
-			LOWER(`lastname`) LIKE @query OR 
-			CONCAT(LOWER(`firstname`), ' ', LOWER(`lastname`)) LIKE @query OR 
-			`phone_number` LIKE @query2
-		]], {
 		['@query'] = string.lower('%'..query..'%'), -- % wildcard, needed to search for all alike results
 		['@query2'] = string.lower(query..'%')
 	}, function(result)
