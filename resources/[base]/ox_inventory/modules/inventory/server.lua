@@ -624,6 +624,10 @@ function Inventory.Remove(inv)
             end
         end
 
+		if not inv.datastore and inv.changed then
+            Inventory.Save(inv)
+        end
+
 		Inventories[inv.id] = nil
 	end
 end
@@ -669,22 +673,34 @@ exports('UpdateVehicle', Inventory.UpdateVehicle)
 function Inventory.Save(inv)
 	inv = Inventory(inv) --[[@as OxInventory]]
 
-	if inv then
-		local items = json.encode(minimal(inv))
-		inv.changed = false
+	if not inv or inv.datastore then return end
 
-		if inv.player then
-			db.savePlayer(inv.owner, items)
-		else
-			if inv.type == 'trunk' then
-				db.saveTrunk(inv.dbId, items)
-			elseif inv.type == 'glovebox' then
-				db.saveGlovebox(inv.dbId, items)
-			else
-				db.saveStash(inv.owner, inv.dbId, items)
-			end
-		end
-	end
+    local buffer, n = {}, 0
+
+    for k, v in pairs(inv.items) do
+        if not Items.UpdateDurability(inv, v, Items(v.name), nil, os.time()) then
+            n += 1
+            buffer[n] = {
+                name = v.name,
+                count = v.count,
+                slot = k,
+                metadata = next(v.metadata) and v.metadata or nil
+            }
+        end
+    end
+
+    local data = next(buffer) and json.encode(buffer) or nil
+    inv.changed = false
+
+    if inv.player then
+        return shared.framework ~= 'esx' and db.savePlayer(inv.owner, data)
+    elseif inv.type == 'trunk' then
+        return db.saveTrunk(inv.dbId, data)
+    elseif inv.type == 'glovebox' then
+        return db.saveGlovebox(inv.dbId, data)
+    end
+
+    return db.saveStash(inv.owner, inv.dbId, data)
 end
 
 local function randomItem(loot, items, size)
