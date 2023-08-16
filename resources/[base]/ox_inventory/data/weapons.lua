@@ -1,5 +1,6 @@
 return {
 	Weapons = {
+		
 		['WEAPON_TECPISTOL'] = {
 			label = 'Tactical SMG',
 			weight = 1500,
@@ -337,6 +338,12 @@ return {
 
 		['WEAPON_KNIFE'] = {
 			label = 'Knife',
+			weight = 300,
+			durability = 0.1,
+		},
+
+		['WEAPON_BRIEFCASE'] = {
+			label = 'Kufr',
 			weight = 300,
 			durability = 0.1,
 		},
