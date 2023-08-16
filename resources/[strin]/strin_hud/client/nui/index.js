@@ -194,13 +194,18 @@ $(() => {
             $("#vehicle-container").show();
             $("#fuel").text(data.fuel);
             $("#speed").text(data.speed);
-            if(data.hasSeatbelt == true) {
-                $("#seatbelt").html(`<i class="fas fa-bell"></i>`);
-                $("#seatbelt").css("color", "#2ecc71");
+            if(data.isSeatbeltAvailable) {
+                $("#seatbelt").show();
+                if(data.hasSeatbelt == true) {
+                    $("#seatbelt").html(`<i class="fas fa-bell"></i>`);
+                    $("#seatbelt").css("color", "#2ecc71");
+                } else {
+                    $("#seatbelt").html(`<i class="fas fa-bell-slash"></i>`);
+                    $("#seatbelt").css("color", "#e74c3c");
+                };
             } else {
-                $("#seatbelt").html(`<i class="fas fa-bell-slash"></i>`);
-                $("#seatbelt").css("color", "#e74c3c");
-            };
+                $("#seatbelt").hide();
+            }
             if(currentSettings.showStreets) {
                 $("#street-container").show();
                 if(data.street2 != "" && data.street2 != undefined) {
@@ -376,10 +381,10 @@ $(() => {
 
     const updateSeatbelt = (data) => {
         if(data.hasSeatbelt == true) {
-            $("#seatbelt").html(`<i class="fas fa-bell"></i>`);
+            //$("#seatbelt").html(`<i class="fas fa-bell"></i>`);
             $("#seatbelt").css("color", "#2ecc71");
         } else {
-            $("#seatbelt").html(`<i class="fas fa-bell-slash"></i>`);
+            //$("#seatbelt").html(`<i class="fas fa-bell-slash"></i>`);
             $("#seatbelt").css("color", "#e74c3c");
         };
     };

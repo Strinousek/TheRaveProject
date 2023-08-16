@@ -67,10 +67,14 @@ Citizen.CreateThread(function()
                 local fuel = roundNum(Entity(vehicle).state?.fuel or 100)
                 local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
                 local currentZone = GetLabelText(GetNameOfZone(pos.x, pos.y, pos.z))
+                local vehicleClass = GetVehicleClass(vehicle)
                 data.inVehicle = true
                 data.speed = speed
                 data.fuel = fuel
-                data.hasSeatbelt = hasSeatbelt
+                data.isSeatbeltAvailable = vehicleClass ~= 8 and vehicleClass ~= 13
+                if(data.isSeatbeltAvailable) then
+                    data.hasSeatbelt = hasSeatbelt
+                end
                 data.street1 = GetStreetNameFromHashKey(street1)
                 data.street2 = GetStreetNameFromHashKey(street2)
                 data.zone = currentZone
@@ -125,16 +129,7 @@ end)
 end)]]
 
 RegisterCommand("seatbelt", function()
-    local ped = PlayerPedId()
-    local isInVehicle = IsPedInAnyVehicle(ped)
-    if(isInVehicle) then
-        hasSeatbelt = not hasSeatbelt
-        if not hasSeatbelt then
-           TriggerEvent("strin_hud:seatbelt", false)
-       else
-           TriggerEvent("strin_hud:seatbelt", true)
-       end
-    end
+    TriggerEvent("strin_hud:seatbelt")
 end)
 
 AddEventHandler("esx:enteredVehicle", function()
@@ -184,33 +179,35 @@ end)
 
 RegisterKeyMapping('seatbelt', '<FONT FACE="Righteous">Bezpečnostní pás~</FONT>', 'KEYBOARD', "B")
 
-RegisterNetEvent("strin_hud:seatbelt")
-AddEventHandler("strin_hud:seatbelt", function(toggle)
-    if toggle == nil then
-        hasSeatbelt = not hasSeatbelt
-        SendNUIMessage({
-            action = "updateSeatbelt",
-            hasSeatbelt = hasSeatbelt
-        })
-    else
-        hasSeatbelt = toggle
-        SendNUIMessage({
-            action = "updateSeatbelt",
-            hasSeatbelt = toggle,
-        })
+RegisterNetEvent("strin_hud:seatbelt", function(toggle)
+    local vehicle = cache.vehicle
+    if(not vehicle) then
+        return
     end
+    local vehicleClass = GetVehicleClass(vehicle)
+    if(vehicleClass ~= 8 and vehicleClass ~= 13) then
+        if(toggle ~= nil) then
+            hasSeatbelt = toggle
+        else
+            hasSeatbelt = not hasSeatbelt
+        end
+    else
+        hasSeatbelt = false
+    end
+    SendNUIMessage({
+        action = "updateSeatbelt",
+        hasSeatbelt = hasSeatbelt
+    })
 end)
 
-RegisterNetEvent("strin_hud:closeHud")
-AddEventHandler("strin_hud:closeHud", function()
+RegisterNetEvent("strin_hud:closeHud", function()
     showHud = false
     SendNUIMessage({
         action = "closeHud",
     })
 end)
 
-RegisterNetEvent("strin_hud:openHud")
-AddEventHandler("strin_hud:openHud", function()
+RegisterNetEvent("strin_hud:openHud", function()
     showHud = true
     SendNUIMessage({
         action = "openHud",
@@ -244,11 +241,11 @@ end)
 RegisterCommand("limit", function(source, args)
     local ped = PlayerPedId()
     if(args[1] ~= nil and args[1] ~= "" and args[1] ~= 0) then
-        if(IsPedInAnyVehicle(ped)) then
+        if(cache.vehicle) then
             local type = "MPH"
             local limit = tonumber(args[1])
-            local vehicle = GetVehiclePedIsIn(ped)
-            local maxSpeed = GetVehicleHandlingFloat(vehicle,"CHandlingData","fInitialDriveMaxFlatVel")
+            local vehicle = cache.vehicle
+            local maxSpeed = GetVehicleHandlingFloat(vehicle, "CHandlingData","fInitialDriveMaxFlatVel")
             if(ShouldUseMetricMeasurements()) then
                 type= "KPH"
             end
@@ -271,8 +268,8 @@ RegisterCommand("limit", function(source, args)
             ESX.ShowNotification("Tachometr můžete nastavit pouze ve vozidle!", {type = "error"})
         end
     else
-        if(IsPedInAnyVehicle(ped)) then
-            local vehicle = GetVehiclePedIsIn(ped)
+        if(cache.vehicle) then
+            local vehicle = cache.vehicle
             local maxSpeed = GetVehicleHandlingFloat(vehicle,"CHandlingData","fInitialDriveMaxFlatVel")
             SetEntityMaxSpeed(vehicle, maxSpeed)
             ESX.ShowNotification("Tachometr resetován.", {type = "success"})
