@@ -50,7 +50,7 @@ Target:addGlobalPlayer({
                     if(not tonumber(data2.value)) then
                         return
                     end
-                    TriggerServerEvent("strin_jail:jailPlayer", netId, data.value, tonumber(data2.value))
+                    TriggerServerEvent("strin_jail:jailPlayer", netId, tonumber(data2.value), data.value)
                 end, function(data2, menu2)
                     menu2.close()
                 end)

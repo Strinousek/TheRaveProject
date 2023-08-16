@@ -41,7 +41,7 @@ function OpenCloakroomMenu(cloakroomId, cloakroom)
             label = ([[<div style="display: flex; justify-content: space-between; align-items: center">
                 Obchod<div style="color: %s;">%s$</div>
             </div>]]):format(
-                ((ESX.PlayerData.money - OutfitPrice) >= 0) and "#2ecc71" or "#e74c3c",
+                ((exports.ox_inventory:GetItemCount("money") - OutfitPrice) >= 0) and "#2ecc71" or "#e74c3c",
                 OutfitPrice
             ),
             value = "shop"
@@ -50,7 +50,7 @@ function OpenCloakroomMenu(cloakroomId, cloakroom)
             label = ([[<div style="display: flex; justify-content: space-between; align-items: center">
                 Uložit aktuální oblek<div style="color: %s;">%s$</div>
             </div>]]):format(
-                ((ESX.PlayerData.money - OutfitPrice) >= 0) and "#2ecc71" or "#e74c3c",
+                ((exports.ox_inventory:GetItemCount("money") - OutfitPrice) >= 0) and "#2ecc71" or "#e74c3c",
                 OutfitPrice
             ),
             value = "shop_save_current"
@@ -73,7 +73,7 @@ function OpenCloakroomMenu(cloakroomId, cloakroom)
     }, function(data, menu)
         menu.close()
         if(data.current.value == "shop") then
-            if((ESX.PlayerData.money - OutfitPrice) >= 0) then
+            if((exports.ox_inventory:GetItemCount("money") - OutfitPrice) >= 0) then
                 OpenClotheShopMenu()
             else
                 ESX.ShowNotification("Nemáte peníze na zakoupení nového outfitu!", { type = "error " })
@@ -85,7 +85,7 @@ function OpenCloakroomMenu(cloakroomId, cloakroom)
                 ESX.ShowNotification("Nevlastníte žádné outfity!", { type = "error" })
             end
         elseif(data.current.value == "shop_save_current") then
-            if((ESX.PlayerData.money - OutfitPrice) >= 0) then
+            if((exports.ox_inventory:GetItemCount("money") - OutfitPrice) >= 0) then
                 SaveCurrentOutfit()
             else
                 ESX.ShowNotification("Nemáte peníze na zakoupení nového outfitu!", { type = "error " })
