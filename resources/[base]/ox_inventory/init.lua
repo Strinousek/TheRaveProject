@@ -76,7 +76,7 @@ else
 		keys = json.decode(GetConvar('inventory:keys', '')) or { 'F2', 'K', 'TAB' },
 		enablekeys = json.decode(GetConvar('inventory:enablekeys', '[249]')),
 		aimedfiring = GetConvarInt('inventory:aimedfiring', 0) == 1,
-		giveplayerlist = GetConvarInt('inventory:giveplayerlist', 0) == 1,
+		giveplayerlist = GetConvarInt('inventory:giveplayerlist', 1) == 1,
 		weaponanims = GetConvarInt('inventory:weaponanims', 1) == 1,
 		itemnotify = GetConvarInt('inventory:itemnotify', 1) == 1,
 		imagepath = GetConvar('inventory:imagepath', 'nui://ox_inventory/web/images'),
