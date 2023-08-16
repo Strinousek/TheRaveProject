@@ -20,7 +20,7 @@ end)
 ESX.RegisterCommand("report", "user", function(xPlayer, args)
     local message = table.concat(args, " ")
 
-    local name = ESX.SanitizeString(xPlayer.source)
+    local name = ESX.SanitizeString(GetPlayerName(xPlayer.source))
     TriggerClientEvent('chat:addMessage', xPlayer.source, {
         template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} - {1}</b></div>',
         args = { name, message }
@@ -52,7 +52,7 @@ ESX.RegisterCommand("reply", "admin", function(xPlayer, args)
 
     local message = table.concat(args, " "):sub(args[1]:len() + 1)
 
-    local name = ESX.SanitizeString(xPlayer.source)
+    local name = ESX.SanitizeString(GetPlayerName(xPlayer.source))
     TriggerClientEvent('chat:addMessage', xTarget.source, {
         template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} - {1} [{2}]</b></div>',
         args = { name, message, targetId }
