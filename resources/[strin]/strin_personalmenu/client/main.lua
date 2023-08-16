@@ -114,8 +114,14 @@ function OpenVehicleMenu(vehicle)
         elseif(data.current.value == "engine_turn_off") then
             SetVehicleEngineOn(vehicle, false, false, false)
             OpenVehicleMenu(vehicle)
+            SetPedConfigFlag(PlayerPedId(), 429, true)
             while (not GetIsVehicleEngineRunning(vehicle) and not IsVehicleEngineStarting(vehicle)) do
                 SetVehicleUndriveable(vehicle, true)
+                SetVehicleEngineOn(vehicle, false, false, false)
+                if(not cache.vehicle) then
+                    SetPedConfigFlag(PlayerPedId(), 429, false)
+                    break
+                end
                 Citizen.Wait(0)
             end
         end
@@ -154,6 +160,12 @@ function OpenVehicleMenu(vehicle)
         OpenPersonalMenu()
     end)
 end
+
+lib.onCache("vehicle", function(value)
+    if(not value) then
+        SetPedConfigFlag(PlayerPedId(), 429, false)
+    end
+end)
 
 function OpenVehicleExtrasMenu(vehicle)
     local elements = {}
