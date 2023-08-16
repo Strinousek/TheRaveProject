@@ -1,5 +1,6 @@
 local TattooShopBlips = {}
 local CurrentPreviewTattoos = {}
+local StaticTattoos = {}
 local Base = exports.strin_base
 /*
     ["mpbeach_overlays"] = {
@@ -46,8 +47,8 @@ end)
 function OpenTattooShopMenu(tattooShopId)
     local elements = {}
     local ped = PlayerPedId()
-    local decorations = GetPedDecorations(ped)
-    if(decorations and (#decorations > 0)) then
+    local currentCharacterTattoos = GetCharacterTattoos()
+    if(currentCharacterTattoos and next(currentCharacterTattoos)) then
         table.insert(elements, {
             label = "<span style='color: #e74c3c;'>Odstranit tetování</span> - "..TattoosRemovalPrice.."$",
             value = "remove",
@@ -82,6 +83,10 @@ function OpenTattooShopMenu(tattooShopId)
         SetEntityInvincible(ped, true)
         PreviewCurrentPedDecorations(ped)
     end
+
+    ClearPedDecorations(ped)
+    ApplyPreviewTattoos()
+
     if(next(CurrentPreviewTattoos)) then
         local price, count = CalculatePriceAndCount()
         if((count > 0) and (price > 0)) then
@@ -270,8 +275,6 @@ function PreviewCurrentPedDecorations(ped)
     end
 end
 
-local StaticTattoos = {}
-
 AddEventHandler("skinchanger:modelLoaded", function()
     if(next(StaticTattoos)) then
         local ped = PlayerPedId()
@@ -312,7 +315,7 @@ end
 exports("LoadCharacterTattoos", LoadCharacterTattoos)
 
 function GetCharacterTattoos()
-    return lib.callback.await("strin_tattoos:getTattoos", 500)
+    return lib.callback.await("strin_tattoos:getTattoos", false)
 end
 exports("GetCharacterTattoos", GetCharacterTattoos)
 
