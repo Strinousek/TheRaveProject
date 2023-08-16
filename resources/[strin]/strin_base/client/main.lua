@@ -67,8 +67,8 @@ local DENSITY_MULTIPLIER = 0.5
 Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(0)
-		--DisableControlAction(0, 26, true)
-		DisableControlAction(0, 36, true)
+		DisableControlAction(0, 26, true)
+		--DisableControlAction(0, 36, true)
 
 	    SetVehicleDensityMultiplierThisFrame(DENSITY_MULTIPLIER)
 	    SetPedDensityMultiplierThisFrame(DENSITY_MULTIPLIER)
@@ -195,7 +195,7 @@ RegisterCommand("crouch", function()
 	end
 end)
 
-RegisterKeyMapping('crouch', '<FONT FACE="Righteous">Skrčit se</FONT>', 'KEYBOARD', "LCONTROL")
+RegisterKeyMapping('crouch', '<FONT FACE="Righteous">Skrčit se</FONT>', 'KEYBOARD', "C")
 RegisterKeyMapping("handsup", "<FONT FACE='Righteous'>Zvednout ruce (LSHIFT +)~</FONT>", "keyboard", "X")
 RegisterKeyMapping("cancelanim", "<FONT FACE='Righteous'>Ukoncit animaci~</FONT>", "keyboard", "X")
 
