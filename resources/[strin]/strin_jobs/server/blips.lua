@@ -1,14 +1,5 @@
 local JobBlips = {}
 
-/*
-    [1] = {
-        playerId = 1,
-        fullname = "Abraham Nigger",
-        job = "police",
-        coords = vector3(0, 0, 0)
-    }
-*/
-
 AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
     local job = xPlayer.getJob()
     if(not Jobs[job.name] or not Jobs[job.name].Blips) then
@@ -17,12 +8,12 @@ AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
 
     local ped = GetPlayerPed(playerId)
     local coords = GetEntityCoords(ped)
-    table.insert(JobBlips, {
+    JobBlips[playerId] = {
         playerId = playerId,
         job = job.name,
         fullname = xPlayer.get("fullname"),
         coords = coords,
-    })
+    }
     
     RefreshBlips(job.name)
 end)
@@ -32,7 +23,7 @@ AddEventHandler("esx:setJob", function(playerId, job, lastJob)
     local blipId = GetPlayerBlipIndex(playerId)
     if(blipId) then
         local job = JobBlips[blipId].job
-        JobBlips[blipId] = nil
+        JobBlips[blipId] = false
         TriggerClientEvent("strin_jobs:updateBlips", playerId, {})
         RefreshBlips(job)
     end
@@ -45,12 +36,12 @@ AddEventHandler("esx:setJob", function(playerId, job, lastJob)
 
     local ped = GetPlayerPed(playerId)
     local coords = GetEntityCoords(ped)
-    table.insert(JobBlips, {
+    JobBlips[playerId] = {
         playerId = playerId,
         job = job.name,
         fullname = xPlayer.get("fullname"),
         coords = coords,
-    })
+    }
 
     RefreshBlips(job.name)
 end)
@@ -60,7 +51,7 @@ AddEventHandler("playerDropped", function()
     local blipId = GetPlayerBlipIndex(_source)
     if(blipId) then
         local job = JobBlips[blipId].job
-        JobBlips[blipId] = nil
+        JobBlips[blipId] = false
         RefreshBlips(job)
     end
 end)
@@ -68,27 +59,29 @@ end)
 Citizen.CreateThread(function()
     while true do
         local startTime = GetGameTimer()
-        for _,v in pairs(JobBlips) do
-            if(v) then
-                local ped = GetPlayerPed(v.playerId)
-                if(ped ~= 0) then
-                    v.coords = GetEntityCoords(ped)
-                end
-            end
-        end
+
         /*
             tohle je mega hnusný
             update může přijít několikrát pro jednoho člověka
             protože je v canSee a zároveň má svoje blipy
         */
+
         local jobs = {}
-        for _,v in pairs(JobBlips) do
-            if(v?.job and not lib.table.contains(jobs, v?.job)) then
-                table.insert(jobs, v?.job) 
+        for i=1, #JobBlips do
+            local v = JobBlips[i]
+            if(v) then
+                local ped = GetPlayerPed(v.playerId)
+                if(ped ~= 0) then
+                    v.coords = GetEntityCoords(ped)
+                end
+                if(v.job and not lib.table.contains(jobs, v.job)) then
+                    table.insert(jobs, v.job) 
+                end
             end
         end
-        for _, job in pairs(jobs) do
-            RefreshBlips(job)
+        
+        for i=1, #jobs do
+            RefreshBlips(jobs[i])
         end
         local endTime = GetGameTimer()
         Citizen.Wait(5000 - (endTime - startTime))
@@ -98,34 +91,38 @@ end)
 function RefreshBlips(job)
     local authorizedJobs = {}
     for k, v in pairs(Jobs) do
-        if(v.Blips and (k == job or lib.table.contains(v.Blips.canSee or {}, job))) then
+        if(v.Blips and (k == job or lib.table.contains(v.Blips?.canSee or {}, job))) then
             table.insert(authorizedJobs, k)
         end
     end
     
     local blips = {}
-    for _,authorizedJob in pairs(authorizedJobs) do
-        for blipId, blip in pairs(JobBlips) do
-            if(blip.job == authorizedJob) then
-                blips[blipId] = blip
+    for i=1, #authorizedJobs do
+        local authorizedJob = authorizedJobs[i]
+        for i=1, #JobBlips do
+            local jobBlip = JobBlips[i]
+            if(jobBlip?.job == authorizedJob or not jobBlip) then
+                blips[i] = jobBlip
+            elseif(jobBlip?.job ~= authorizedJob) then
+                blips[i] = false
             end
         end
     end
-    
-    for _,v in pairs(blips) do
-        TriggerClientEvent("strin_jobs:updateBlips", v.playerId, blips)
+
+    for i=1, #blips do
+        local blip = blips[i]
+        if(blip) then
+            TriggerClientEvent("strin_jobs:updateBlips", blip.playerId, blips)
+        end
     end
 end
 
 function GetPlayerBlipIndex(playerId)
-    local index = nil
-    for k,v in pairs(JobBlips) do
-        if(v?.playerId == playerId) then
-            index = k
-            break
-        end
+    if(not JobBlips[playerId]) then
+        return nil
+    else
+        return playerId
     end
-    return index
 end
 
 AddEventHandler("onResourceStart", function(resourceName)
@@ -136,12 +133,12 @@ AddEventHandler("onResourceStart", function(resourceName)
             if(Jobs[job.name].Blips and next(Jobs[job.name].Blips)) then
                 local ped = GetPlayerPed(xPlayer.source)
                 local coords = GetEntityCoords(ped)
-                table.insert(JobBlips, {
+                JobBlips[xPlayer.source] = {
                     playerId = xPlayer.source,
                     job = job.name,
                     fullname = xPlayer.get("fullname"),
                     coords = coords,
-                })
+                }
             end
         end
     end

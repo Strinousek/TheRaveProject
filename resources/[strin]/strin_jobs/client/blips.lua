@@ -24,49 +24,48 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
         blipsSetup = true
     end]]
     if(not blips or not next(blips)) then
-        for k,v in pairs(CachedBlips) do
-            if(DoesBlipExist(v.blip)) then
-                RemoveBlip(v.blip)
+        for i=1, #CachedBlips do
+            local v = CachedBlips[i]
+            if(v) then
+                if(DoesBlipExist(v.blip)) then
+                    RemoveBlip(v.blip)
+                end
             end
         end
         CachedBlips = {}
         return
     end
-    for blipId,blip in pairs(blips) do
-        blip.distant = GetPlayerFromServerId(blip.playerId) == -1 and true or false
-        local cachedBlip = CachedBlips[blipId]
+    for i=1, #blips do
+        local blip = blips[i]
+        local cachedBlip = CachedBlips[i]
         if(cachedBlip and not blip) then
             if(DoesBlipExist(cachedBlip.blip)) then
                 RemoveBlip(cachedBlip.blip)
-                CachedBlips[blipId] = nil
+                CachedBlips[i] = false
+                goto skipLoop
             end
         end
+        blip.distant = GetPlayerFromServerId(blip.playerId) == -1 and true or false
         if(not cachedBlip and blip) then
-            if(blip.playerId == GetPlayerServerId(PlayerId())) then
-                if(playerSpawned) then            
-                    CachedBlips[blipId] = blip
-                    CachedBlips[blipId].blip = CreateJobBlip(blip)
-                end
-            else
-                CachedBlips[blipId] = blip
-                CachedBlips[blipId].blip = CreateJobBlip(blip)
-            end
+            CachedBlips[i] = blip
+            CachedBlips[i].blip = CreateJobBlip(blip)
         end
         if(cachedBlip and blip) then
-            CachedBlips[blipId].coords = blip.coords
+            cachedBlip.coords = blip.coords
             if((not blip.distant and cachedBlip.distant) or (blip.distant and not cachedBlip.distant)) then 
                 if(DoesBlipExist(cachedBlip.blip)) then
                     RemoveBlip(cachedBlip.blip)
-                    CachedBlips[blipId].blip = nil
+                    cachedBlip.blip = nil
                 end
-                CachedBlips[blipId].blip = CreateJobBlip(blip)
-                return
+                cachedBlip.blip = CreateJobBlip(blip)
+                goto skipLoop
             end
             if(cachedBlip.distant and blip.distant) then
                 UpdateJobBlip(cachedBlip.blip, blip)
-                return
+                goto skipLoop
             end
         end
+        ::skipLoop::
     end
 end)
 
