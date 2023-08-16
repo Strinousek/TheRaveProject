@@ -46,9 +46,10 @@ Citizen.CreateThread(function()
     while GetResourceState("ox_inventory") ~= "started" do
         Citizen.Wait(0)
     end
+    Citizen.Wait(500)
     exports.ox_inventory:displayMetadata({
-        category = "Kategorie",
-        plate = "SPZ",
+        { "category", "Kategorie" },
+        { "plate",  "SPZ" },
     })
     while true do
         local sleep = 1000

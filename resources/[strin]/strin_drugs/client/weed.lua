@@ -14,7 +14,7 @@ Citizen.CreateThread(function()
     end
     Citizen.Wait(500)
     exports.ox_inventory:displayMetadata({
-        state = "Stav"
+        { "state", "Stav"}
     })
 end)
 

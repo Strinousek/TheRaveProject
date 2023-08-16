@@ -63,9 +63,9 @@ Citizen.CreateThread(function()
     Citizen.Wait(500)
 
     Inventory:displayMetadata({
-        holder = "Držitel",
-        issuedOn = "Datum vydání",
-        classes = "Třídy"
+        { "holder", "Držitel" },
+        { "issuedOn", "Datum vydání" },
+        { "classes", "Třídy" }
     })
 end)
 
