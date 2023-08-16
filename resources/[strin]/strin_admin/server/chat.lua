@@ -9,6 +9,19 @@ ESX.RegisterCommand("streamermode", "admin", function(xPlayer, args)
     end
 end)
 
+ESX.RegisterCommand("at", "admin", function(xPlayer, args)
+    local message = table.concat(args, " ")
+    local xAdmins = ESX.GetExtendedPlayers("group", "admin")
+    for _,xAdmin in pairs(xAdmins) do
+        if(not StreamerModes[xAdmin.identifier]) then
+            TriggerClientEvent('chat:addMessage', xAdmin.source, {
+                template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b>ACHAT: {0} - {1}</b></div>',
+                args = { name, message }
+            })
+        end
+    end
+end)
+
 ESX.RegisterCommand("announce", "admin", function(xPlayer, args)
     local message = table.concat(args, " ")
     TriggerClientEvent('chat:addMessage', -1, {
@@ -53,10 +66,10 @@ ESX.RegisterCommand("reply", "admin", function(xPlayer, args)
     local message = table.concat(args, " "):sub(args[1]:len() + 1)
 
     local name = ESX.SanitizeString(GetPlayerName(xPlayer.source))
-    TriggerClientEvent('chat:addMessage', xTarget.source, {
+    /*TriggerClientEvent('chat:addMessage', xTarget.source, {
         template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} - {1} [{2}]</b></div>',
         args = { name, message, targetId }
-    })
+    })*/
     
     local xAdmins = ESX.GetExtendedPlayers("group", "admin")
     for _,xAdmin in pairs(xAdmins) do
