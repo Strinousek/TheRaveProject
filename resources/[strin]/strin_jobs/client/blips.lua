@@ -35,7 +35,6 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
         CachedBlips = {}
         return
     end
-    print(json.encode(blips, { indent = true }))
     for i=1, #blips do
         local blip = blips[i]
         local cachedBlip = CachedBlips[i]

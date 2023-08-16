@@ -669,7 +669,7 @@ document.onreadystatechange = () => {
                     officers: []
                 }
                 Vue.set(mdtApp.calls, event.data.id, call)
-                const callsKeys = Object.keys(mdtApp.calls).sort((a,b) => (a - b))
+                const callsKeys = Object.keys(mdtApp.calls).sort((a,b) => (a + b))
                 const sortedCalls = {};
                 for(let i=0; i < callsKeys.length; i++) {
                     sortedCalls[callsKeys[i]] = mdtApp.calls[callsKeys[i]]

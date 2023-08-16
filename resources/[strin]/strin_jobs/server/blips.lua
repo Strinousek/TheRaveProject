@@ -105,12 +105,15 @@ function RefreshBlips(job)
                 blips[j] = false
                 goto skipLoop
             end
-            if(jobBlip.job == authorizedJob) then
+            if(jobBlip?.job == authorizedJob) then
                 blips[j] = jobBlip
             end
             ::skipLoop::
         end
     end
+
+    print(json.encode(blips, { indent = true }))
+    print(json.encode(JobBlips, { indent = true }))
 
     for i=1, #blips do
         local blip = blips[i]
