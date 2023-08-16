@@ -18,4 +18,5 @@ server_scripts {
     "server/main.lua",
     "server/bans.lua",
     "server/honeypot.lua",
+    "server/chat.lua"
 }
