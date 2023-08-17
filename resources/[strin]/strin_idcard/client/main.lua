@@ -70,7 +70,7 @@ function OpenCityHallMenu()
     local elements = {}
     table.insert(elements, {
         label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
-            Identifikační karta<div style="color: #2ecc71;">%s$</div>
+            Identification Card<div style="color: #2ecc71;">%s$</div>
         </div>]]):format(ESX.Math.GroupDigits(CARD_RENEWAL_PRICE)),
         value = "identification_card"
     })
@@ -78,7 +78,7 @@ function OpenCityHallMenu()
     --if(hasDrivingLicense) then
         table.insert(elements, {
             label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
-                Řidičský průkaz<div style="color: #2ecc71;">%s$</div>
+                Driving License<div style="color: #2ecc71;">%s$</div>
             </div>]]):format(ESX.Math.GroupDigits(CARD_RENEWAL_PRICE)),
             value = "driving_license"
         })

@@ -40,14 +40,11 @@ end)
 AddEventHandler("esx:setJob", function(playerId, job, lastJob)
 
     local blipId = GetPlayerBlipIndex(playerId)
-    if(blipId) then
-        local job = JobBlips[blipId].job
+    if(blipId and (not Jobs[job.name] or not Jobs[job.name].Blips)) then
+        local registeredJob = JobBlips[blipId].job
         JobBlips[blipId] = false
         TriggerClientEvent("strin_jobs:updateBlips", playerId, {})
-        RefreshBlips(job)
-    end
-
-    if(not Jobs[job.name] or not Jobs[job.name].Blips) then
+        RefreshBlips(registeredJob)
         return
     end
 

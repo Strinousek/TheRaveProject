@@ -64,8 +64,12 @@ function ShowCard(__type, cardId, playerId)
         xPlayer.showNotification("Daná karta neexistuje!", { type = "error" })
         return
     end
+
     local data = MySQL.single.await("SELECT * FROM `character_data` WHERE `id` = ?", { card.metadata?.id })
-    
+    if(not data) then
+        xPlayer.showNotification("K této kartě neexistují data.", { type = "error" })
+        return
+    end
     data.issuedOn = card.metadata?.issuedOn
     if(__type == "driving_license") then
         data.classes = card.metadata?.classes
