@@ -618,7 +618,11 @@ local NonStaticProperties = {
     "windows", "bodyHealth", "oilLevel", "fuelLevel", "wheelSize",
     "extras", "tyres", "bulletProofTyres", "tankHealth", "wheelWidth",
     "dirtLevel", "modRoofLivery", "engineHealth", "doors", "modLightbar",
-    "modLivery", "driftTyres" -- these need to adjust
+    "modLivery",
+    -- these need to adjust
+    "driftTyres",
+    "paintType1",
+    "paintType2",
 }
 
 function AreVehicleChangesValid(changes)
