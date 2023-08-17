@@ -485,7 +485,7 @@ lib.callback.register("strin_jobs:getTotalCost", function(source, jobName)
     if(not Jobs[jobName] or not society) then
         return -1
     end
-    local users = MySQL.query.await("SELECT `identifier`, `job`, `job_grade` FROM users`")
+    local users = MySQL.query.await("SELECT `identifier`, `job`, `job_grade` FROM `users`")
     if(not users or not next(users)) then
         return -1
     end
