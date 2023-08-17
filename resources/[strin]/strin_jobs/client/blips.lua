@@ -33,6 +33,7 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
         DisplayPlayerNameTagsOnBlips(true)
         blipsSetup = true
     end]]
+
     if(CountValidBlips(blips) == 0) then
         for i=1, #CachedBlips do
             local v = CachedBlips[i]
@@ -45,17 +46,22 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
         CachedBlips = {}
         return
     end
+    
     for i=1, #blips do
         local blip = blips[i]
         local cachedBlip = CachedBlips[i]
         if(cachedBlip and not blip) then
             if(DoesBlipExist(cachedBlip.blip)) then
                 RemoveBlip(cachedBlip.blip)
+            end
+            CachedBlips[i] = false
+            goto skipLoop
+        end
+        if(not cachedBlip and blip) then
+            if(blip.playerId == cache.serverId and not playerSpawned) then
                 CachedBlips[i] = false
                 goto skipLoop
             end
-        end
-        if(not cachedBlip and blip) then
             if(GetPlayerFromServerId(blip.playerId) == -1) then
                 blip.distant = true
             else
@@ -63,6 +69,7 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
             end
             CachedBlips[i] = blip
             CachedBlips[i].blip = CreateJobBlip(blip)
+            goto skipLoop
         end
         if(cachedBlip and blip) then
             if(GetPlayerFromServerId(blip.playerId) == -1) then
@@ -83,6 +90,10 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
                 UpdateJobBlip(cachedBlip.blip, blip)
                 goto skipLoop
             end
+        end
+        if(not cachedBlip and not blip) then
+            CachedBlips[i] = false
+            goto skipLoop
         end
         ::skipLoop::
     end
@@ -119,10 +130,13 @@ end
 
 AddEventHandler("onResourceStop", function(resourceName)
     if(GetCurrentResourceName() == resourceName) then
-        DisplayPlayerNameTagsOnBlips(false)
-        for _,v in pairs(CachedBlips) do
-            if(DoesBlipExist(v.blip)) then
-                RemoveBlip(v.blip)
+        --DisplayPlayerNameTagsOnBlips(false)
+        for i=1, #CachedBlips do
+            local v = CachedBlips[i]
+            if(v) then
+                if(DoesBlipExist(v.blip)) then
+                    RemoveBlip(v.blip)
+                end
             end
         end
     end

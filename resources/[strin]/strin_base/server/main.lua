@@ -3,7 +3,7 @@ local SavedPlayers = {}
 AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
     if(SavedPlayers[xPlayer.identifier]) then
         local ped = GetPlayerPed(playerId)
-        SetEntityHealth(ped, SavedPlayers[xPlayer.identifier].health)
+        lib.callback("strin_jobs:setHealth", xPlayer.source, function() end, SavedPlayers[xPlayer.identifier].health)
         SetPedArmour(ped, SavedPlayers[xPlayer.identifier].armour)
     end
 end)

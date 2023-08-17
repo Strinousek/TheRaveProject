@@ -133,7 +133,7 @@ function OnResourceStart(resourceName)
         local xPlayers = ESX.GetExtendedPlayers()
         for _,xPlayer in pairs(xPlayers) do
             local job = xPlayer.getJob()
-            if(Jobs[job.name].Blips and next(Jobs[job.name].Blips)) then
+            if(Jobs?[job?.name]?.Blips and next(Jobs?[job?.name]?.Blips or {})) then
                 local ped = GetPlayerPed(xPlayer.source)
                 local coords = GetEntityCoords(ped)
                 AddPlayerBlip({
