@@ -33,7 +33,6 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
         DisplayPlayerNameTagsOnBlips(true)
         blipsSetup = true
     end]]
-    DebugPrint(CountValidBlips(blips))
     if(CountValidBlips(blips) == 0) then
         for i=1, #CachedBlips do
             local v = CachedBlips[i]
@@ -85,7 +84,6 @@ RegisterNetEvent("strin_jobs:updateBlips", function(blips)
                 goto skipLoop
             end
         end
-        DebugPrint("yo?")
         ::skipLoop::
     end
 end)

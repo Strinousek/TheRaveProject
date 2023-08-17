@@ -80,7 +80,6 @@ Citizen.CreateThread(function()
         for i=1, #jobs do
             RefreshBlips(jobs[i])
         end
-        DebugPrint(json.encode(JobBlips))
         local endTime = GetGameTimer()
         Citizen.Wait(5000 - (endTime - startTime))
     end
@@ -95,18 +94,12 @@ function RefreshBlips(job)
     end
     
     local blips = {}
-    for i=1, #authorizedJobs do
-        local authorizedJob = authorizedJobs[i]
-        for j=1, #JobBlips do
-            local jobBlip = JobBlips[j]
-            if(not jobBlip or jobBlip?.job ~= authorizedJob) then
-                blips[j] = false
-                goto skipLoop
-            end
-            if(jobBlip?.job == authorizedJob) then
-                blips[j] = jobBlip
-            end
-            ::skipLoop::
+    for i=1, #JobBlips do
+        local jobBlip = JobBlips[i]
+        if(not jobBlip or not lib.table.contains(authorizedJobs, jobBlip?.job)) then
+            blips[i] = false
+        elseif(lib.table.contains(authorizedJobs, jobBlip?.job)) then
+            blips[i] = jobBlip
         end
     end
 
@@ -135,7 +128,7 @@ function GetPlayerBlipIndex(playerId)
     end
 end
 
-AddEventHandler("onServerResourceStart", function(resourceName)
+function OnResourceStart(resourceName)
     if(GetCurrentResourceName() == resourceName) then
         local xPlayers = ESX.GetExtendedPlayers()
         for _,xPlayer in pairs(xPlayers) do
@@ -152,4 +145,10 @@ AddEventHandler("onServerResourceStart", function(resourceName)
             end
         end
     end
-end)
+end
+
+-- Restarted from server
+AddEventHandler("onServerResourceStart", OnResourceStart)
+
+-- Restarted from client
+AddEventHandler("onResourceStart", OnResourceStart)
