@@ -446,6 +446,7 @@ RegisterNetEvent("strin_drugs:requestWeedOffer", function(pedNetId, amount)
             local recipientJobList = LawEnforcementJobs
             local data = {
                 displayCode = '10-14',
+                blipSprite = 469,
                 description = "Nelegální činnost",
                 isImportant = 0,
                 recipientList = recipientJobList, 

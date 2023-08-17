@@ -43,6 +43,8 @@ function NotifyCops(notifyType, message, subtitle, coords)
         local recipientJobList = LawEnforcementJobs
         local data = {
             displayCode = '10-68',
+            blipSprite = 814,
+            blipColour = 84,
             description = message,
             isImportant = 1,
             recipientList = recipientJobList, 

@@ -61,25 +61,25 @@ end
 local dispatchCodes = {
 
 	melee = { displayCode = '10-10', description = _U('melee'), isImportant = 0, recipientList = LawEnforcementJobs or {'police', "sheriff"},
-	blipSprite = 652, blipColour = 84, blipScale = 1.5 },
+	blipSprite = 310, blipColour = 84, blipScale = 1.5 },
 
 	officerdown = {displayCode = '10-99', description = _U('officerdown'), isImportant = 1, recipientList = DistressJobs or {'police', 'ambulance', "sheriff"},
-	blipSprite = 653, blipColour = 84, blipScale = 1.5, infoM = 'fa-portrait'},
+	blipSprite = 161, blipColour = 84, blipScale = 1.5, infoM = 'fa-portrait'},
 
 	persondown = {displayCode = '10-52', description = _U('persondown'), isImportant = 0, recipientList = DistressJobs or {'police', 'ambulance', "sheriff"},
-	blipSprite = 153, blipColour = 84, blipScale = 1.5, infoM = 'fa-portrait'},
+	blipSprite = 310, blipColour = 84, blipScale = 1.5, infoM = 'fa-portrait'},
 
 	autotheft = {displayCode = '10-16', description = _U('autotheft'), isImportant = 0, recipientList = LawEnforcementJobs or {'police', "sheriff"},
-	blipSprite = 651, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
+	blipSprite = 645, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
 
 	speeding = {displayCode = '10-66', description = _U('speeding'), isImportant = 0, recipientList = LawEnforcementJobs or {'police', "sheriff"},
-	blipSprite = 650, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
+	blipSprite = 488, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
 
 	shooting = { displayCode = '10-13', description = _U('shooting'), isImportant = 0, recipientList = LawEnforcementJobs or {'police', "sheriff"}, length = 11000,
-	blipSprite = 648, blipColour = 84, blipScale = 1.5 },
+	blipSprite = 110, blipColour = 84, blipScale = 1.5 },
 
 	driveby = { displayCode = '10-13', description = _U('driveby'), isImportant = 0, recipientList = LawEnforcementJobs or{'police', "sheriff"},
-	blipSprite = 649, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
+	blipSprite = 229, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
 }
 
 
@@ -117,7 +117,11 @@ AddEventHandler('wf-alerts:svNotify', function(pData)
 		if pData.dispatchCode == 'persondown' then
 			pData.caller = getCaller(source)
 		end
-		if not pData.dispatchCode then dispatchData = pData.dispatchData elseif dispatchCodes[pData.dispatchCode] ~= nil then dispatchData = dispatchCodes[pData.dispatchCode] end
+		if not pData.dispatchCode then 
+			dispatchData = pData.dispatchData 
+		elseif dispatchCodes[pData.dispatchCode] ~= nil then 
+			dispatchData = dispatchCodes[pData.dispatchCode] 
+		end
 		if not pData.info then
 			if(dispatchData.info == nil) then
 				pData.info = "Incident "..math.random(10, 100)
@@ -135,9 +139,9 @@ AddEventHandler('wf-alerts:svNotify', function(pData)
 		pData.recipientList = dispatchData.recipientList
 		pData.infoM = dispatchData.infoM
 		pData.infoM2 = dispatchData.infoM2
-		pData.sprite = dispatchData.blipSprite
-		pData.colour = dispatchData.blipColour
-		pData.scale = dispatchData.blipScale
+		pData.sprite = dispatchData.blipSprite or 623
+		pData.colour = dispatchData.blipColour or 84
+		pData.scale = dispatchData.blipScale or 1.5
 		TriggerClientEvent('wf-alerts:clNotify', -1, pData)
 		local n = [[
 
@@ -162,7 +166,7 @@ AddEventHandler('wf-alerts:svNotify911', function(message, caller, coords)
 		pData.infoM = 'fa-phone'
 		pData.info = message
 		pData.coords = vector3(coords.x, coords.y, coords.z)
-		pData.sprite, pData.colour, pData.scale =  480, 84, 2.0 -- radar_vip, blue
+		pData.sprite, pData.colour, pData.scale =  817, 84, 2.0 -- radar_vip, blue
 		if not pData.info then
 			if(message == nil) then
 				pData.info = "Incident "..math.random(10, 100)
