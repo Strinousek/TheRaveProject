@@ -560,10 +560,8 @@ end)
 RegisterServerEvent("mdt:newCall")
 AddEventHandler("mdt:newCall", function(details, caller, coords, sendNotification)
 	call_index = call_index + 1
-	local xPlayers = ESX.GetPlayers()
-	for i= 1, #xPlayers do
-		local source = xPlayers[i]
-		local xPlayer = ESX.GetPlayerFromId(source)
+	local xPlayers = ESX.GetExtendedPlayers()
+	for _,xPlayer in pairs(xPlayers) do
 		if xPlayer.job.name == 'police' then
 			TriggerClientEvent("mdt:newCall", source, details, caller, coords, call_index)
 			if sendNotification ~= false then

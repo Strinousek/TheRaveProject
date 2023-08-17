@@ -1,23 +1,4 @@
-local _JobBlips = {}
-local JobBlips = setmetatable({}, {
-    __index = function(t, k)
-        return _JobBlips[k]
-    end,
-    __newindex = function(t, k, v)
-        _JobBlips[k] = v
-        for i=1, k do
-            if(_JobBlips[i] == nil) then
-                _JobBlips[i] = false
-            end
-        end
-    end,
-    __pairs = function(t)
-        return next, _JobBlips, nil
-    end,
-    __len = function(t)
-        return #_JobBlips
-    end,
-})
+local JobBlips = {}
 
 AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
     local job = xPlayer.getJob()
@@ -27,12 +8,12 @@ AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
 
     local ped = GetPlayerPed(playerId)
     local coords = GetEntityCoords(ped)
-    JobBlips[playerId] = {
-        playerId = playerId,
+    AddPlayerBlip({
+        playerId = xPlayer.source,
         job = job.name,
         fullname = xPlayer.get("fullname"),
         coords = coords,
-    }
+    })
     
     RefreshBlips(job.name)
 end)
@@ -52,12 +33,12 @@ AddEventHandler("esx:setJob", function(playerId, job, lastJob)
 
     local ped = GetPlayerPed(playerId)
     local coords = GetEntityCoords(ped)
-    JobBlips[playerId] = {
-        playerId = playerId,
+    AddPlayerBlip({
+        playerId = xPlayer.source,
         job = job.name,
         fullname = xPlayer.get("fullname"),
         coords = coords,
-    }
+    })
 
     RefreshBlips(job.name)
 end)
@@ -99,6 +80,7 @@ Citizen.CreateThread(function()
         for i=1, #jobs do
             RefreshBlips(jobs[i])
         end
+        DebugPrint(json.encode(JobBlips))
         local endTime = GetGameTimer()
         Citizen.Wait(5000 - (endTime - startTime))
     end
@@ -136,6 +118,15 @@ function RefreshBlips(job)
     end
 end
 
+function AddPlayerBlip(data)
+    JobBlips[data.playerId] = data
+    for i=1, data.playerId do
+        if(JobBlips[i] == nil) then
+            JobBlips[i] = false
+        end
+    end
+end
+
 function GetPlayerBlipIndex(playerId)
     if(not JobBlips[playerId]) then
         return nil
@@ -152,12 +143,12 @@ AddEventHandler("onServerResourceStart", function(resourceName)
             if(Jobs[job.name].Blips and next(Jobs[job.name].Blips)) then
                 local ped = GetPlayerPed(xPlayer.source)
                 local coords = GetEntityCoords(ped)
-                JobBlips[xPlayer.source] = {
+                AddPlayerBlip({
                     playerId = xPlayer.source,
                     job = job.name,
                     fullname = xPlayer.get("fullname"),
                     coords = coords,
-                }
+                })
             end
         end
     end

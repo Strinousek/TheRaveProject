@@ -1,3 +1,5 @@
+DEBUG_PRINT = true
+
 DistressJobs = {"fire", "ambulance", "police", "sheriff"}
 LawEnforcementJobs = {"police", "sheriff"}
 

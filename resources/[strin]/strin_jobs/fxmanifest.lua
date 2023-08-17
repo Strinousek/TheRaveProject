@@ -6,7 +6,8 @@ lua54 "yes"
 shared_scripts {
     "@es_extended/imports.lua",
     "@ox_lib/init.lua",
-    "config.lua"
+    "config.lua",
+    "shared/*.lua",
 }
 
 client_scripts {
