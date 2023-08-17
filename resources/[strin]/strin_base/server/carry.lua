@@ -57,6 +57,7 @@ RegisterNetEvent('strin_base:carry', function(carryType)
 	end
 	local _source = source
 	local closestPlayer = ESX.OneSync.GetClosestPlayer(_source, 10.0)
+	print(json.encode(closestPlayer))
 	if(not closestPlayer?.id) then
 		TriggerClientEvent("esx:showNotification", _source, "Není žádný hráč poblíž!", { type = "error" })
 		return

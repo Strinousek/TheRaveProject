@@ -467,7 +467,7 @@ RegisterNetEvent("strin_jobs:updateGrade", function(jobName, grade, changes)
         { name = "Identifikace hráče", value = xPlayer.identifier },
         { name = "Společnost", value = jobName },
         { name = "Index hodnosti", value = tonumber(grade) },
-        { name = "Změny", value = json.encodes(changes) },
+        { name = "Změny", value = json.encode(changes) },
     }, {
         fields = true
     })
