@@ -63,7 +63,15 @@ DemandConfirmedSkinMenu = function(cb, loadedDefaultModel, lastSkin)
         local onCancel = function()
             DemandConfirmedSkinMenu(cb, true, lastSkin)
         end
-        Skin:OpenSkinMenu(onConfirm, onCancel)
+        Skin:OpenSkinMenu(onConfirm, onCancel, nil, {
+            "bproof_1", "bproof_2",
+            /*"mask_1", "mask_2",
+            "chain_1", "chain_2",
+            "helmet_1", "helmet_2",
+            "glasses_1", "glasses_2",
+            "bracelets_1", "bracelets_2",
+            "bags_1", "bags_2",*/
+        })
     else
         local elements = {}
         local models = ESX.PlayerData.char_type == 2 and Base:GetPedModels() or Base:GetAnimalModels()

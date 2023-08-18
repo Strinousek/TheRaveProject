@@ -1,69 +1,72 @@
-local showAxon = false
+local ShowAxon = false
+local LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
 
 RegisterNetEvent("esx:playerLoaded", function()
-    if(ESX?.PlayerData?.job?.name == "police") then
-        local code = lib.callback.await("strin_axon:getCode", false)
-        showAxon = true
-        SendNUIMessage({
-            display = true,
-            code = code,
-        })
+    if(lib.table.contains(LawEnforcementJobs, ESX?.PlayerData?.job?.name)) then
+        lib.callback("strin_axon:getCode", false, function(code)
+            ShowAxon = true
+            SendNUIMessage({
+                display = true,
+                code = code,
+            })
+        end)
     end
 end)
 
 RegisterNetEvent('esx:setJob', function(job)
-    if(ESX?.PlayerData?.job?.name == "police") then
-        showAxon = true
-        if(not showAxon) then
-            local code = lib.callback.await("strin_axon:getCode", false)
-            showAxon = true
-            SendNUIMessage({
-                display = true,
-                code = code,
-            })
-        else
-            showAxon = false
+    if(not lib.table.contains(LawEnforcementJobs, ESX?.PlayerData?.job?.name)) then
+        if(ShowAxon) then
+            ShowAxon = false
             SendNUIMessage({
                 display = false,
             })
         end
-    else
-        if(showAxon) then
-            showAxon = false
-            SendNUIMessage({
-                display = false,
-            })
-        end
+        return
     end
+    lib.callback("strin_axon:getCode", false, function(code)
+        ShowAxon = true
+        SendNUIMessage({
+            display = true,
+            code = code,
+        })
+    end)
 end)
 
 RegisterCommand("axon", function()
-    if(ESX?.PlayerData?.job?.name == "police") then
-        if(not showAxon) then
-            local code = lib.callback.await("strin_axon:getCode", false)
-            showAxon = true
-            SendNUIMessage({
-                display = true,
-                code = code,
-            })
-        else
-            showAxon = false
-            SendNUIMessage({
-                display = false,
-            })
-        end
+    if(not lib.table.contains(LawEnforcementJobs, ESX?.PlayerData?.job?.name)) then
+        ESX.ShowNotification("Nejste součástí LEO!", { type = "error" })
+        return
     end
+    if(ShowAxon) then
+        ShowAxon = false
+        SendNUIMessage({
+            display = false,
+        })
+        return
+    end
+
+    lib.callback("strin_axon:getCode", false, function(code)
+        ShowAxon = true
+        SendNUIMessage({
+            display = true,
+            code = code,
+        })
+    end)
 end)
 
 AddEventHandler("onResourceStart", function(resourceName)
-    if(GetCurrentResourceName() == resourceName) then
-        if(ESX?.PlayerData?.job?.name == "police") then
-            local code = lib.callback.await("strin_axon:getCode")
-            showAxon = true
-            SendNUIMessage({
-                display = true,
-                code = code,
-            })
-        end
+    if(GetCurrentResourceName() ~= resourceName) then
+        return
     end
+    if(not lib.table.contains(LawEnforcementJobs, ESX?.PlayerData?.job?.name)) then
+        return
+    end
+    
+    lib.callback("strin_axon:getCode", false, function(code)
+        ShowAxon = true
+        SendNUIMessage({
+            display = true,
+            code = code,
+        })
+    end)
 end)

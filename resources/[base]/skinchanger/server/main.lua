@@ -19,7 +19,13 @@ end
 exports("GetData", GetData)
 
 function GetComponents(playerId)
-    return lib.callback.await("skinchanger:getNetComponents", playerId)
+    return Components
 end
 
 exports("GetComponents", GetComponents)
+
+function GetComponent(playerId, componentName)
+    return lib.callback.await("skinchanger:getNetComponent", playerId, componentName)
+end
+
+exports("GetComponent", GetComponent)

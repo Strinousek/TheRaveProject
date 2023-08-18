@@ -1,10 +1,55 @@
 local call_index = 0
 
+Citizen.CreateThread(function()
+    MySQL.query.await(([[
+		CREATE TABLE `user_mdt` (
+			`id` INT(11) NOT NULL AUTO_INCREMENT,
+			`char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+			`notes` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+			`mugshot_url` VARCHAR(255) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
+			`bail` BIT(1) NULL DEFAULT NULL,
+			`wanted` BIT(1) NULL DEFAULT NULL,
+			PRIMARY KEY (`id`) USING BTREE
+		)
+		COLLATE='utf8mb4_bin'
+		ENGINE=InnoDB
+		AUTO_INCREMENT=3;		
+    ]]))
+    MySQL.query.await(([[
+        ALTER TABLE `user_mdt`
+			ADD IF NOT EXISTS `id` INT(11) NOT NULL AUTO_INCREMENT,
+			ADD IF NOT EXISTS `char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+			ADD IF NOT EXISTS `notes` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+			ADD IF NOT EXISTS `mugshot_url` VARCHAR(255) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
+			ADD IF NOT EXISTS `bail` BIT(1) NULL DEFAULT NULL,
+			ADD IF NOT EXISTS `wanted` BIT(1) NULL DEFAULT NULL;
+    ]]))
+end)
+
+local function IsPedNearAnyStation(pedHandle, stations)
+	local isNear = false
+	local coords = GetEntityCoords(pedHandle)
+	for i=1, #stations do
+		if(#(coords - stations[i].coords) < 100) then
+			isNear = true
+			break
+		end
+	end
+	return isNear
+end
+
 RegisterServerEvent("mdt:hotKeyOpen")
 AddEventHandler("mdt:hotKeyOpen", function()
 	local usource = source
     local xPlayer = ESX.GetPlayerFromId(source)
+	local ped = GetPlayerPed(usource)
+	local vehicle = GetVehiclePedIsIn(GetPlayerPed(ped))
     if xPlayer.job.name == 'police' then
+		local jobConfig = exports.strin_jobs:GetJobConfig(xPlayer.job.name)
+		if((vehicle == 0 and not IsPedNearAnyStation(jobConfig.StaticBlips))) then
+			xPlayer.showNotification("MDT nelze otevřít!", { type = "error" })
+			return
+		end
     	MySQL.Async.fetchAll("SELECT * FROM (SELECT * FROM `mdt_reports` ORDER BY `id` DESC LIMIT 3) sub ORDER BY `id` DESC", {}, function(reports)
     		for r = 1, #reports do
     			reports[r].charges = json.decode(reports[r].charges)
@@ -87,10 +132,12 @@ AddEventHandler("mdt:getOffenderDetails", function(offender)
 	offender.notes = ""
 	offender.mugshot_url = ""
 	offender.bail = false
+	offender.wanted = false
 	if result[1] then
 		offender.notes = result[1].notes
 		offender.mugshot_url = result[1].mugshot_url
 		offender.bail = result[1].bail
+		offender.wanted = result[1].wanted
 	end
 
 	local convictions = MySQL.Sync.fetchAll('SELECT * FROM `user_convictions` WHERE `char_id` = @id', {
@@ -116,21 +163,21 @@ AddEventHandler("mdt:getOffenderDetails", function(offender)
 		if(offenderxPlayer.get("char_id") == offender.char_id) then
 			offender.phone_number = offenderxPlayer.get("phone_number")
 		else
-			offender.phone_number = MySQL.scalar.await("SELECT `phone_number` FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
-				offenderxPlayer.identifier,
+			offender.phone_number = MySQL.prepare.await("SELECT `phone_number` FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
+				offender.identifier,
 				offender.char_id
 			})
 		end
 	else
-		local activeCharId = MySQL.scalar.await("SELECT `char_id` FROM `users` WHERE `identifier` = ?", {
+		local activeCharId = MySQL.prepare.await("SELECT `char_id` FROM `users` WHERE `identifier` = ?", {
 			offender.identifier
 		})
 		if(activeCharId == offender.char_id) then
-			offender.phone_number = MySQL.scalar.await("SELECT `phone_number` FROM `users` WHERE `identifier` = ?", {
+			offender.phone_number = MySQL.prepare.await("SELECT `phone_number` FROM `users` WHERE `identifier` = ?", {
 				offender.identifier
 			})
 		else
-			offender.phone_number = MySQL.scalar.await("SELECT `phone_number` FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
+			offender.phone_number = MySQL.prepare.await("SELECT `phone_number` FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
 				offender.identifier,
 				offender.char_id
 			})
@@ -195,10 +242,12 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_identifier)
 	offender.notes = ""
 	offender.mugshot_url = ""
 	offender.bail = false
+	offender.wanted = false
 	if result[1] then
 		offender.notes = result[1].notes
 		offender.mugshot_url = result[1].mugshot_url
 		offender.bail = result[1].bail
+		offender.wanted = result[1].wanted
 	end
 
 	local convictions = MySQL.Sync.fetchAll('SELECT * FROM `user_convictions` WHERE `char_id` = @id', {
@@ -224,21 +273,21 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_identifier)
 		if(offenderxPlayer.get("char_id") == offender.char_id) then
 			offender.phone_number = offenderxPlayer.get("phone_number")
 		else
-			offender.phone_number = MySQL.scalar.await("SELECT `phone_number` FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
+			offender.phone_number = MySQL.prepare.await("SELECT `phone_number` FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
 				offenderxPlayer.identifier,
 				offender.char_id
 			})
 		end
 	else
-		local activeCharId = MySQL.scalar.await("SELECT `char_id` FROM `users` WHERE `identifier` = ?", {
+		local activeCharId = MySQL.prepare.await("SELECT `char_id` FROM `users` WHERE `identifier` = ?", {
 			offender.identifier
 		})
 		if(activeCharId == offender.char_id) then
-			offender.phone_number = MySQL.scalar.await("SELECT `phone_number` FROM `users` WHERE `identifier` = ?", {
+			offender.phone_number = MySQL.prepare.await("SELECT `phone_number` FROM `users` WHERE `identifier` = ?", {
 				offender.identifier
 			})
 		else
-			offender.phone_number = MySQL.scalar.await("SELECT `phone_number` FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
+			offender.phone_number = MySQL.prepare.await("SELECT `phone_number` FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
 				offender.identifier,
 				offender.char_id
 			})
@@ -282,18 +331,20 @@ AddEventHandler("mdt:saveOffenderChanges", function(id, changes, identifier)
 		['@id']  = id
 	}, function(result)
 		if result[1] then
-			MySQL.Async.execute('UPDATE `user_mdt` SET `notes` = @notes, `mugshot_url` = @mugshot_url, `bail` = @bail WHERE `char_id` = @id', {
+			MySQL.Async.execute('UPDATE `user_mdt` SET `notes` = @notes, `mugshot_url` = @mugshot_url, `bail` = @bail, `wanted` = @wanted WHERE `char_id` = @id', {
 				['@id'] = id,
 				['@notes'] = changes.notes,
 				['@mugshot_url'] = changes.mugshot_url,
-				['@bail'] = changes.bail
+				['@bail'] = changes.bail,
+				['@wanted'] = changes.wanted,
 			})
 		else
-			MySQL.Async.insert('INSERT INTO `user_mdt` (`char_id`, `notes`, `mugshot_url`, `bail`) VALUES (@id, @notes, @mugshot_url, @bail)', {
+			MySQL.Async.insert('INSERT INTO `user_mdt` (`char_id`, `notes`, `mugshot_url`, `bail`, `wanted`) VALUES (@id, @notes, @mugshot_url, @bail, @wanted)', {
 				['@id'] = id,
 				['@notes'] = changes.notes,
 				['@mugshot_url'] = changes.mugshot_url,
 				['@bail'] = changes.bail
+				['@wanted'] = changes.wanted,
 			})
 		end
 		local characterId
@@ -486,10 +537,20 @@ AddEventHandler("mdt:getVehicle", function(vehicle)
 		vehicle.haswarrant = true
 	end
 
-	local bail = MySQL.Sync.fetchAll('SELECT `bail` FROM user_mdt WHERE `char_id` = @id', {
+	local custody = MySQL.Sync.fetchAll('SELECT `bail`, `wanted` FROM user_mdt WHERE `char_id` = @id', {
 		['@id'] = vehicle.owner_id
 	})
-	if bail and bail[1] and bail[1].bail == 1 then vehicle.bail = true else vehicle.bail = false end
+	if custody and custody[1] then 
+		if(custody[1].bail == 1) then
+			vehicle.bail = true 
+		end
+		if(custody[1].wanted == 1) then
+			vehicle.wanted = true 
+		end
+	else 
+		vehicle.bail = false 
+		vehicle.wanted = false
+	end
 
 	vehicle.type = types[vehicle.type]
 	TriggerClientEvent("mdt:returnVehicleDetails", usource, vehicle)

@@ -11,6 +11,16 @@ return {
 		}
 	},
 
+	['armour'] = {
+		label = 'Neprůstřelná vesta',
+		weight = 3000,
+		stack = false,
+		client = {
+			anim = { dict = 'clothingshirt', clip = 'try_shirt_positive_d' },
+			usetime = 3500
+		}
+	},
+
 	['parachute'] = {
 		label = 'Padák',
 		weight = 8000,

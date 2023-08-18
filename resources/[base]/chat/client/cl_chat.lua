@@ -102,6 +102,10 @@ AddEventHandler('chat:client:ClearChat', function(name)
   })
 end)
 
+RegisterCommand("clear", function()
+    TriggerEvent("chat:client:ClearChat")
+end)
+
 RegisterNUICallback('chatResult', function(data, cb)
   chatInputActive = false
   SetNuiFocus(false)

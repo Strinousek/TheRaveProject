@@ -122,7 +122,7 @@ RegisterNetEvent("strin_characters:requestCharacterCreator", function()
         xPlayer.showNotification("Nemáte žádné volné sloty na postavu.")
         return
     end
-	ExpectedRegisters[xPlayer.identifier] = true
+	ExpectedRegisters[_source] = true
 	TriggerClientEvent('strin_characters:register', xPlayer.source)
 end)
 
@@ -259,7 +259,7 @@ end
 function SwitchCharacter(identifier, characterId)
     SaveLastCharacter(identifier, function()
         local character = GetSpecificCharacter(identifier, characterId, true)
-        MySQL.query(GenerateUsersUpdateQuery(identifier), {
+        MySQL.prepare(GenerateUsersUpdateQuery(identifier), {
             character.job,
             character.job_grade,
             character.other_jobs,
@@ -330,24 +330,25 @@ function DeleteCharacter(identifier, characterId)
     local character = GetSpecificCharacter(identifier, characterId, true)
     cachedCharacters[#cachedCharacters + 1] = character
     SaveResourceFile("strin_characters", "server/cache.json", json.encode(cachedCharacters), -1)
-    local result = MySQL.query.await("DELETE FROM characters WHERE `identifier` = ? AND `char_id` = ?", {
+    MySQL.prepare("DELETE FROM characters WHERE `identifier` = ? AND `char_id` = ?", {
         identifier,
         characterId
-    })
-    Base:DiscordLog("CHARACTER_DELETE", "THE RAVE PROJECT - SMAZÁNÍ POSTAVY", {
-        { name = "Identifikace hráče", value = identifier },
-        { name = "Jméno smazané postavy", value = character.firstname.." "..character.lastname },
-        { name = "ID smazané postavy", value = character.char_id },
-        { name = "Typ smazané postavy", value = character.char_type }
-    }, {
-        fields = true
-    })
-    TriggerEvent("strin_characters:characterDeleted", identifier, characterId)
-    local xPlayer = ESX.GetPlayerFromIdentifier(identifier)
-    if(not xPlayer) then
-        return
-    end
-    xPlayer.showNotification("Postava s ID: "..characterId.." | Úspěšně smazána!", {type = "success"})
+    }, function()
+        Base:DiscordLog("CHARACTER_DELETE", "THE RAVE PROJECT - SMAZÁNÍ POSTAVY", {
+            { name = "Identifikace hráče", value = identifier },
+            { name = "Jméno smazané postavy", value = character.firstname.." "..character.lastname },
+            { name = "ID smazané postavy", value = character.char_id },
+            { name = "Typ smazané postavy", value = character.char_type }
+        }, {
+            fields = true
+        })
+        TriggerEvent("strin_characters:characterDeleted", identifier, characterId)
+        local xPlayer = ESX.GetPlayerFromIdentifier(identifier)
+        if(not xPlayer) then
+            return
+        end
+        xPlayer.showNotification("Postava s ID: "..characterId.." | Úspěšně smazána!", {type = "success"})
+    end)
 end
 
 exports("DeleteCharacter", DeleteCharacter)
@@ -401,7 +402,7 @@ function SetPlayerInventory(playerId, inventory)
 end
 
 function GetCurrentCharacter(identifier, jsonify)
-    local result = MySQL.single.await("SELECT inventory, skin, accounts, job, job_grade, other_jobs, phone_number, char_id FROM users WHERE `identifier` = ?", {
+    local result = MySQL.prepare.await("SELECT `inventory`, `skin`, `accounts`, `job`, `job_grade`, `other_jobs`, `phone_number`, `char_id` FROM `users` WHERE `identifier` = ?", {
         identifier
     })
 
@@ -409,7 +410,7 @@ function GetCurrentCharacter(identifier, jsonify)
         return nil
     end
 
-    local character = MySQL.single.await("SELECT * FROM characters WHERE `identifier` = ? AND `char_id` = ?", {
+    local character = MySQL.prepare.await("SELECT * FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
         identifier,
         result?.char_id
     })
@@ -422,11 +423,10 @@ function GetCurrentCharacter(identifier, jsonify)
 
     if(xPlayer) then
         local inventory = xPlayer.getInventory(true)
-        local skin = SkinChanger:GetSkin(xPlayer.source) or {}
         local other_jobs = json.decode(result?.other_jobs or "{}") or {}
         local accounts = xPlayer.getAccounts(true)
         character.inventory = (jsonify) and json.encode(inventory) or inventory
-        character.skin = (jsonify) and json.encode(skin) or skin
+        character.skin = (jsonify) and result.skin or json.decode(result.skin or "{}")
         character.accounts = (jsonify) and json.encode(accounts) or accounts
         character.job = xPlayer.getJob().name
         character.job_grade = xPlayer.getJob().grade
@@ -450,7 +450,7 @@ exports("GetCurrentCharacter", GetCurrentCharacter)
 function GetSpecificCharacter(identifier, characterId, jsonify)
     local xPlayer = ESX.GetPlayerFromIdentifier(identifier)
     if(not xPlayer) then
-        local currentCharacterId = MySQL.scalar.await("SELECT `char_id` FROM users WHERE `identifier` = ?", {
+        local currentCharacterId = MySQL.prepare.await("SELECT `char_id` FROM `users` WHERE `identifier` = ?", {
             identifier
         })
         if(currentCharacterId and currentCharacterId == characterId) then
@@ -464,7 +464,7 @@ function GetSpecificCharacter(identifier, characterId, jsonify)
         end
     end
     
-    local character = MySQL.single.await("SELECT * FROM characters WHERE `identifier` = ? AND `char_id` = ?", {
+    local character = MySQL.prepare.await("SELECT * FROM `characters` WHERE `identifier` = ? AND `char_id` = ?", {
         identifier,
         characterId
     })
@@ -486,27 +486,27 @@ end
 exports("GetSpecificCharacter", GetSpecificCharacter)
 
 function GetUser(identifier)
-    local result = MySQL.single.await("SELECT * FROM users WHERE `identifier` = ?", {identifier}) 
-    return result
+    local result = MySQL.prepare.await("SELECT * FROM `users` WHERE `identifier` = ?", { identifier }) 
+    return result or nil
 end
 
 exports("GetUser", GetUser)
 
 function GetCharacterSlots(identifier)
-    local slots = MySQL.scalar.await("SELECT character_slots FROM users WHERE `identifier` = ?", {
+    local slots = MySQL.prepare.await("SELECT `character_slots` FROM `users` WHERE `identifier` = ?", {
         identifier
     })
-    return slots
+    return slots or 2
 end
 
 exports("GetCharacterSlots", GetCharacterSlots)
 
 function GetCharacters(identifier)
-    local result = MySQL.query.await("SELECT * FROM characters WHERE `identifier` = ?", {
+    local results = MySQL.rawExecute.await("SELECT * FROM characters WHERE `identifier` = ?", {
         identifier
     })
-    if(result and next(result)) then
-        local activeCharId = MySQL.scalar.await("SELECT `char_id` FROM users WHERE `identifier` = ?", {
+    if(results and next(results)) then
+        local activeCharId = MySQL.prepare.await("SELECT `char_id` FROM users WHERE `identifier` = ?", {
             identifier
         })
         for i=1, #result do
@@ -516,13 +516,40 @@ function GetCharacters(identifier)
             end
         end
     end
-    return result
+    return results
 end
 
 exports("GetCharacters", GetCharacters)
 
 function GetAllCharacters()
-    return MySQL.query.await("SELECT * FROM `characters`")
+    local characters = MySQL.rawExecute.await("SELECT * FROM characters", {
+        identifier
+    })
+    local users = MySQL.rawExecute.await("SELECT * FROM `users`")
+    for i=1, #users do
+        local user = users[i]
+        local xPlayer = ESX.GetPlayerFromIdentifier(user.identifier)
+        if(xPlayer) then
+            user.job = xPlayer.job.name
+            user.job_grade = xPlayer.job.grade
+            user.inventory = json.encode(xPlayer.getInventory(true))
+            user.accounts = json.encode(xPlayer.getAccounts(true))
+        end
+    end
+    for i=1, #characters do
+        local character = characters[i]
+        for j=1, #users do
+            local user = users[i]
+            if(character.identifier == user.identifier and character.char_id == user.char_id) then
+                for k,v in pairs(user) do
+                    if(character[k]) then
+                        character[k] = v
+                    end
+                end
+            end
+        end
+    end
+    return characters
 end
 
 exports("GetAllCharacters", GetAllCharacters)

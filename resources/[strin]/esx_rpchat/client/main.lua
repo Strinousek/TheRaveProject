@@ -306,6 +306,9 @@ RegisterNetEvent('3dme:triggerDisplayProS')
 AddEventHandler('3dme:triggerDisplayProS', function(text, source)
     local myId = PlayerId()
     local pid = GetPlayerFromServerId(source)
+    if not show3d then
+        return
+    end
     if(pid == -1) then
         return
     end
@@ -319,7 +322,7 @@ AddEventHandler('3dme:triggerDisplayProS', function(text, source)
 end)
 
 
-/*RegisterNetEvent('sendProximityMessage3D')
+RegisterNetEvent('sendProximityMessage3D')
 AddEventHandler('sendProximityMessage3D', function(id)
     local myId = PlayerId()
     if show3d then
@@ -329,7 +332,7 @@ AddEventHandler('sendProximityMessage3D', function(id)
         show3d = true
         TriggerEvent("chatMessage", "^1System", {255, 0, 0}, "Zobrazování 3D textů zapnuto.")
     end
-end)*/
+end)
 
 function Display(mePlayer, text, offset)
     displaying[mePlayer.."player"] = true

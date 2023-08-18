@@ -98,7 +98,8 @@ const mdtApp = new Vue({
             licenses_removed: [],
             convictions: [],
             convictions_removed: [],
-            bail: false
+            bail: false,
+            wanted: false,
         },
 
         vehicle_search: "",
@@ -214,6 +215,7 @@ const mdtApp = new Vue({
             this.offender_selected.licenses = this.offender_changes.licenses;
             this.offender_selected.convictions = this.offender_changes.convictions;
             this.offender_selected.bail = this.offender_changes.bail;
+            this.offender_selected.wanted = this.offender_changes.wanted;
             return;
         },
         ReportSearch() {

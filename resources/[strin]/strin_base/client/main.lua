@@ -36,6 +36,10 @@ function SetShuffDisabled(flag)
 	IsShuffleDisabled = flag
 end
 
+RegisterNetEvent("strin_base:executeCommand", function(commandName, message)
+    ExecuteCommand(commandName.." "..message)
+end)
+
 RegisterNetEvent("strin_base:seatShuffle", function()
 	if cache.vehicle then
 		SetShuffDisabled(false)
@@ -94,6 +98,12 @@ lib.onCache("vehicle", function(value)
     end
 end)
 
+local ShowBlackBars = false
+
+RegisterCommand("bb", function()
+    ShowBlackBars = not ShowBlackBars
+end)
+
 local DENSITY_MULTIPLIER = 0.5
 Citizen.CreateThread(function()
 	while true do
@@ -105,6 +115,11 @@ Citizen.CreateThread(function()
         
 		if IsControlPressed(0, 25) then
             DisableControlAction(0, 22, true)
+        end
+
+        if(ShowBlackBars) then
+            DrawRect(1.0, 1.0, 2.0, 0.25, 0, 0, 0, 255)
+            DrawRect(1.0, 0.0, 2.0, 0.25, 0, 0, 0, 255)
         end
 
 	    SetVehicleDensityMultiplierThisFrame(DENSITY_MULTIPLIER)

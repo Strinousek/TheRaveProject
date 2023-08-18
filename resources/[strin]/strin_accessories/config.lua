@@ -14,13 +14,25 @@ Labels = {
     ["Bagss"] = "Batohy",
     ["Helmets"] = "Helmy",
     ["Earss"] = "Doplnky na hlavu",
-    ["Armss"] = "Rukavice",
+    --["Armss"] = "Rukavice",
+
+    ["Chains"] = "Řetízky",
+    ["Chain"] = "Řetízek",
+
+    ["Braceletss"] = "Náramky",
+    ["Bracelets"] = "Náramek",
+
+
+    ["Watchess"] = "Hodinky",
+    ["Watches"] = "Hodinky",
+
+
     ["Mask"] = "Maska",
     ["Glasses"] = "Brýle",
     ["Bags"] = "Batoh",
     ["Gelmet"] = "Helma",
     ["Ears"] = "Doplnky na hlavu",
-    ["Arms"] = "Rukavice",
+    --["Arms"] = "Rukavice",
     /*["newmask"] = "Nová maska",
     ["newglasses"] = "Nové brýle",
     ["newbags"] = "Nový batoh",
@@ -70,7 +82,7 @@ AccessoryShops = {
         vector3(-3173.1,  1038.2, 20.9),
         vector3(-1100.4, 2712.4, 19.2),
     },
-    /*Watches = {},*/
+    Watches = {},
     Ears = {
         vector3(80.3, -1389.4, 28.4),
         vector3(-163.0, -302.0, 38.8),
@@ -87,11 +99,11 @@ AccessoryShops = {
         vector3(-3171.8, 1059.6, 20.9),
         vector3(-1095.6, 2709.2, 19.2),
     },
-    /*Chain = {},
-    Bracelets = {},*/
-    Arms = {
+    Chain = {},
+    Bracelets = {},
+    /*Arms = {
         vector3(422.22128295898,-803.95837402344,29.502626419067),
-    }, 
+    },*/
     Bags = {
         vector3(419.96517944336,-805.14050292969,29.491123199463)
     },

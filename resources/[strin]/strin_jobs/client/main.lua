@@ -127,6 +127,7 @@ Citizen.CreateThread(function()
                     ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "dialog_bill_amount", {
                         title = "Částka"
                     }, function(data2, menu2)
+                        TriggerEvent("strin_base:executeCommand", "me", "vystavuje fakturu")
                         TriggerServerEvent("strin_jobs:billPlayer", netId, data.value or "", tonumber(data2.value or ""))
                         menu2.close()
                     end,function(data2, menu2)
@@ -150,6 +151,7 @@ Citizen.CreateThread(function()
                     Citizen.Wait(2000)
                     local playerId = NetworkGetPlayerIndexFromPed(entity)
                     local netId = GetPlayerServerId(playerId)
+                    TriggerEvent("strin_base:executeCommand", "me", "ošetřuje osobu")
                     TriggerServerEvent("strin_jobs:healPlayer", netId)
                     ClearPedTasksImmediately(ped)
                 end
@@ -170,6 +172,7 @@ Citizen.CreateThread(function()
                     Citizen.Wait(2000)
                     local playerId = NetworkGetPlayerIndexFromPed(entity)
                     local netId = GetPlayerServerId(playerId)
+                    TriggerEvent("strin_base:executeCommand", "me", "začíná resuscitovat osobu")
                     TriggerServerEvent("strin_jobs:revivePlayer", netId)
                     ClearPedTasksImmediately(ped)
                 end
@@ -184,20 +187,20 @@ Citizen.CreateThread(function()
                 local entity = data.entity
                 local playerId = NetworkGetPlayerIndexFromPed(entity)
                 local netId = GetPlayerServerId(playerId)
-                if(lib.progressBar({
-                    label = "Skenování otisků",
-                    duration = 10000,
-                    canCancel = true,
-                })) then
-                    lib.callback("strin_jobs:scanFingerprints", false, function(scan, scanName)
+                
+                lib.callback("strin_jobs:scanFingerprints", false, function(scan, scanName)
+                    if(lib.progressBar({
+                        label = "Skenování otisků",
+                        duration = 10000,
+                    })) then
                         if(not scan or not scanName) then
                             ESX.ShowNotification("Skenování se nezdařilo!", { type = "error" })
                             return
                         end
                         lib.setClipboard(scan)
                         ESX.ShowNotification(("Scan: %s - %s - Zkopírováno!"):format(scan, scanName))
-                    end, netId)
-                end
+                    end
+                end, netId)
             end,
             canInteract = function()
                 return lib.table.contains(LawEnforcementJobs, ESX?.PlayerData?.job?.name)

@@ -20,6 +20,16 @@ RegisterCommand('mdt', function()
     end
 end, false)
 
+exports.ox_target:addModel({
+    `v_res_monitor`,
+    `v_res_monitorsquare`,
+}, {
+    {
+        label = "MDT",
+        command = "mdt"
+    }
+})
+
 TriggerServerEvent("mdt:getOffensesAndOfficer")
 
 RegisterNetEvent("mdt:toggleVisibilty")

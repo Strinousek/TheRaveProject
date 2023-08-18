@@ -77,6 +77,14 @@ AddEventHandler('strin_characters:register', function()
 	SendNUIMessage({
 		action = "open"
 	})
+	while true do
+		if(not isFocused) then
+			SetEntityInvincible(cache.ped, false)
+			break
+		end
+		SetEntityInvincible(cache.ped, true)
+		Citizen.Wait(0)
+	end
 end)
 
 RegisterNUICallback("register", function(data, cb)
@@ -96,7 +104,7 @@ Citizen.CreateThread(function()
 		if(isFocused or isMenuOpen) then
 			sleep = 0
 			DisableControlAction(0, 24, true) -- Attack
-			DisablePlayerFiring(PlayerPedId(), true) -- Disable weapon firing
+			DisablePlayerFiring(cache.ped, true) -- Disable weapon firing
 			DisableControlAction(0, 142, true) -- MeleeAttackAlternate
 			DisableControlAction(0, 106, true) -- VehicleMouseControlOverride
 		end

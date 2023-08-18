@@ -97,6 +97,21 @@ lib.callback.register("strin_jobs:scanFingerprints", function(source, targetId)
         return false
     end
 
+    math.randomseed(GetGameTimer() + math.random(1000,9999))
+    local chanceOnFailure = math.random(1, 100)
+    
+    Citizen.CreateThread(function()
+        TriggerClientEvent("strin_base:executeCommand", _source, "me", "zapíná Fingerprint Scanner")
+        Citizen.Wait(2000)
+        TriggerClientEvent("strin_base:executeCommand", targetPlayer.source, "me", "přikládá prst")
+        Citizen.Wait(8000)
+        TriggerClientEvent("strin_base:executeCommand", _source, "do", chanceOnFailure < 20 and "Sken se povedl" or "Sken se nepovedl")
+    end)
+
+    if(chanceOnFailure < 20) then
+        return false
+    end
+
     return targetPlayer.get("char_identifier"), targetPlayer.get("fullname")
 end)
 
@@ -188,4 +203,8 @@ exports("HasAccessToAction", HasAccessToAction)
 
 exports("GetDistressJobs", function()
     return DistressJobs
+end)
+
+exports("GetJobConfig", function(jobName)
+    return Jobs[jobName]
 end)

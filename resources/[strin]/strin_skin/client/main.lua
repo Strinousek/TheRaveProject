@@ -5,7 +5,7 @@ local currentPromise = nil
 local currentOnConfirmCallback = nil
 local currentOnCancelCallback = nil
 
-function GetSkinParts(restrict)
+function GetSkinParts(restrict, exclude)
     local components, maxValues = SkinChanger:GetData()
     for dataKey, dataValue in pairs(maxValues) do
         for i=1, #components do
@@ -18,6 +18,9 @@ function GetSkinParts(restrict)
     for i=1, #components do
         local component = components[i]
         if(not restrict) then
+            if(exclude and next(exclude) and lib.table.contains(exclude, component.name)) then
+                goto skipLoop
+            end
             local value = component.componentId == 0 and GetPedPropIndex(PlayerPedId(), component.componentId) or component.value
             skinParts[#skinParts + 1] = {
                 label = component.label,
@@ -42,19 +45,20 @@ function GetSkinParts(restrict)
                 end
             end
         end
+        ::skipLoop::
     end
     return skinParts
 end
 
 -- if callbacks are omitted then return promise
-function OpenSkinMenu(onConfirmCallback, onCancelCallback, restrict)
+function OpenSkinMenu(onConfirmCallback, onCancelCallback, restrict, exclude)
     if(InMenu or Camera.active) then
         return
     end
     
     SetNUIStatus(true)
     Camera.Activate(500)
-    local parts = GetSkinParts(restrict)
+    local parts = GetSkinParts(restrict, exclude)
     lastSkin = SkinChanger:GetSkin()
     SendNUIMessage({
         action = "showMenu",
@@ -163,20 +167,36 @@ end)*/
     SetEntityHealth(PlayerPedId(), tonumber(args[1]))
 end)*/
 
+local function ReloadPed(previousHealth)
+    local ped = PlayerPedId()
+    ClearPedBloodDamage(ped)
+    ResetPedVisibleDamage(ped)
+    ClearPedLastWeaponDamage(ped)
+    NetworkSetFriendlyFireOption(true)
+    SetCanAttackFriendly(ped, true, true)     
+    if(previousHealth) then
+        SetEntityHealth(ped, previousHealth)
+    end
+end
+
 RegisterCommand('reloadchar', function()
     local ped = PlayerPedId()
     local previousHealth  = GetEntityHealth(ped)
     lib.callback("strin_skin:getSavedSkin", false, function(skin)
+        if(skin?.model) then
+            RequestModel(skin?.model)
+            while not HasModelLoaded(skin?.model) do
+                Citizen.Wait(0)
+            end
+            SetPlayerModel(PlayerId(), skin?.model)
+            SetPedDefaultComponentVariation(PlayerPedId())
+            ReloadPed(previousHealth)
+            return
+        end
         local isMale = skin.sex == 0
         TriggerEvent('skinchanger:loadDefaultModel', isMale, function()
-            TriggerEvent('skinchanger:loadSkin', skin, function()
-                local ped = PlayerPedId()
-                ClearPedBloodDamage(ped)
-                ResetPedVisibleDamage(ped)
-                ClearPedLastWeaponDamage(ped)
-                NetworkSetFriendlyFireOption(true)
-                SetCanAttackFriendly(ped, true, true)     
-                SetEntityHealth(ped, previousHealth)     
+            TriggerEvent('skinchanger:loadSkin', skin, function() 
+                ReloadPed(previousHealth)     
             end)
             TriggerEvent('esx:restoreLoadout')
         end)

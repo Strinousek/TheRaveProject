@@ -68,24 +68,15 @@ RegisterNetEvent("strin_jobs:startDistress", function()
     if(not xPlayer) then
         return
     end
-
     if(not DeadPlayers[xPlayer.identifier]) then
         return
     end
-
     if(DeadPlayers[xPlayer.identifier].distress) then
         return
     end
     local ped = GetPlayerPed(_source)
     local coords = GetEntityCoords(ped)
     DeadPlayers[xPlayer.identifier].distress = true
-    /*for _,jobName in pairs(DistressJobs) do
-        TriggerEvent("esx_addons_gcphone:startCallWithIdentifier", xPlayer.identifier, jobName, "Tísňový signál", coords)
-        local xPlayers = ESX.GetExtendedPlayers("job", jobName)
-        for _, xPlayer in pairs(xPlayers) do
-            TriggerClientEvent("strin_jobs:addDistressBlip", xPlayer.source, DeadPlayers[xPlayer.identifier])
-        end
-    end*/
     xPlayer.showNotification("Zavolal jste o pomoc!", {type = "success"})
 end)
 
@@ -116,10 +107,14 @@ RegisterNetEvent("strin_jobs:playerHealed", function()
     if(not AllowedHeals[xPlayer.identifier]) then
         lib.callback("strin_jobs:setHealth", _source, function()
             print(("Hráč %s (%s) se pokusil ošetřit!"):format(xPlayer.identifier, _source))
-        end, AllowedHeals[xPlayer.identifier].lastHealth)
+        end, AllowedHeals?[xPlayer.identifier]?.lastHealth or 0)
         return
     end
     AllowedHeals[xPlayer.identifier] = nil
+end)
+
+AddEventHandler("strin_jobs:allowHeal", function(identifier)
+    AllowedHeals[identifier] = { lastHealth = 0 }
 end)
 
 RegisterNetEvent("strin_jobs:revivePlayer", function(targetNetId)

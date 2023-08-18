@@ -1,8 +1,8 @@
 AddEventHandler("strin_characters:characterDeleted", function(identifier, characterId)
-    MySQL.query.await("DELETE FROM character_outfits WHERE `identifier` = ? AND `char_id` = ?", {
+    MySQL.prepare("DELETE FROM character_outfits WHERE `identifier` = ? AND `char_id` = ?", {
         identifier,
         characterId
-    })
+    }, function() end)
 end)
 
 RegisterNetEvent("strin_clotheshop:buyOutfit", function(outfit)
@@ -37,13 +37,24 @@ RegisterNetEvent("strin_clotheshop:buyOutfit", function(outfit)
         xPlayer.showNotification("Outfit je neplatný!", { type = "error" })
         return
     end
-    MySQL.insert.await("INSERT INTO character_outfits SET `identifier` = ?, `char_id` = ?, `outfit` = ?", {
+    local skin = exports.skinchanger:GetSkin(_source)
+    if(not skin or not next(skin)) then
+        xPlayer.showNotification("Nelze načíst skin!", { type = "error" })
+        return
+    end
+    for k,v in pairs(validatedOutfit) do
+        skin[k] = v
+    end
+    exports.strin_skin:CheckForAccessories(xPlayer, skin)
+    MySQL.prepare("INSERT INTO character_outfits SET `identifier` = ?, `char_id` = ?, `outfit` = ?", {
         xPlayer.identifier,
         xPlayer.get("char_id"),
         json.encode(validatedOutfit)
-    })
-    xPlayer.removeMoney(OutfitPrice)
-    xPlayer.showNotification("Zakoupil/a jste si nový outfit!", { type = "success" })
+    }, function()
+        xPlayer.removeMoney(OutfitPrice)
+        xPlayer.showNotification("Zakoupil/a jste si nový outfit!", { type = "success" })
+        TriggerClientEvent("skinchanger:loadSkin", _source, skin)
+    end)
 end)
 
 RegisterNetEvent("strin_clotheshop:deleteOutfit", function(outfitId)
@@ -72,12 +83,13 @@ RegisterNetEvent("strin_clotheshop:deleteOutfit", function(outfitId)
         xPlayer.showNotification("Nejste poblíž žádnému obchodu!", { type = "error" })
         return
     end
-    MySQL.query.await("DELETE FROM character_outfits WHERE `identifier` = ? AND `char_id` = ? AND `id` = ?", {
+    MySQL.prepare("DELETE FROM character_outfits WHERE `identifier` = ? AND `char_id` = ? AND `id` = ?", {
         xPlayer.identifier,
         xPlayer.get("char_id"),
         outfitId
-    })
-    xPlayer.showNotification(("Odstranil/a jste outfit ze své šatny."), { type = "inform" })
+    }, function()
+        xPlayer.showNotification(("Odstranil/a jste outfit ze své šatny."), { type = "inform" })
+    end)
 end)
 
 RegisterNetEvent("strin_clotheshop:renameOutfit", function(outfitId, outfitLabel)
@@ -107,13 +119,14 @@ RegisterNetEvent("strin_clotheshop:renameOutfit", function(outfitId, outfitLabel
         return
     end
 
-    MySQL.update.await("UPDATE character_outfits SET `label` = ? WHERE `identifier` = ? AND `char_id` = ? AND `id` = ?", {
+    MySQL.prepare("UPDATE character_outfits SET `label` = ? WHERE `identifier` = ? AND `char_id` = ? AND `id` = ?", {
         string.len(outfitLabel) <= 0 and nil or ESX.SanitizeString(outfitLabel),
         xPlayer.identifier,
         xPlayer.get("char_id"),
         outfitId
-    })
-    xPlayer.showNotification(("Přejmenoval/a jste outfit ze své šatny."), { type = "inform" })
+    }, function()
+        xPlayer.showNotification(("Přejmenoval/a jste outfit ze své šatny."), { type = "inform" })
+    end)
 end)
 
 RegisterNetEvent("strin_clotheshop:wearOutfit", function(outfitId)
@@ -161,11 +174,12 @@ RegisterNetEvent("strin_clotheshop:wearOutfit", function(outfitId)
 
     TriggerClientEvent("skinchanger:loadSkin", _source, skin)
 
-    MySQL.update.await("UPDATE users SET `skin` = ? WHERE `identifier` = ?", {
+    MySQL.prepare("UPDATE users SET `skin` = ? WHERE `identifier` = ?", {
         json.encode(skin),
         xPlayer.identifier
-    })
-    xPlayer.showNotification("Převlékl/a jste se.", { type = "inform" })
+    }, function()
+        xPlayer.showNotification("Převlékl/a jste se.", { type = "inform" })
+    end)
 end)
 
 lib.callback.register("strin_clotheshop:getOutfits", function(source)
@@ -214,7 +228,7 @@ function GetCharacterOutfit(identifier, characterId, outfitId)
 end
 
 function GetCharacterOutfits(identifier, characterId)
-    return MySQL.query.await(
+    return MySQL.rawExecute.await(
         ("SELECT `id`, `outfit`, `label` FROM character_outfits WHERE `identifier` = ? AND `char_id` = ?")
     ,{
         identifier,

@@ -216,10 +216,11 @@
                         <h3>JMÉNO</h3>
                         <h4 v-if="offender_selected.firstname"> {{ offender_selected.firstname }} {{ offender_selected.lastname }} </h4>
                         <h4 v-else-if="offender_selected.name == null"> ... </h4>
-                        <h3 v-if="offender_selected.firstname == null || offender_selected.notes || offender_selected.haswarrant || offender_selected.bail">POZNÁMKY</h3>
+                        <h3 v-if="offender_selected.firstname == null || offender_selected.notes || offender_selected.haswarrant || offender_selected.bail || offender_selected.wanted">POZNÁMKY</h3>
                         <h4 v-if="offender_selected.notes"> {{ offender_selected.notes }} </h4>
                         <h4 v-if="offender_selected.haswarrant" v-bind:class="getClass('important')"> {{ offender_selected.firstname}} {{offender_selected.lastname}} má aktivní warrant. </h4>
                         <h4 v-if="offender_selected.bail" v-bind:class="getClass('important')"> {{ offender_selected.firstname}} {{offender_selected.lastname}} je v podmínce. </h4>
+                        <h4 v-if="offender_selected.wanted" v-bind:class="getClass('important')"> {{ offender_selected.firstname}} {{offender_selected.lastname}} je hledaný/á. </h4>
                         <h4 v-if="offender_selected.firstname == null"> ... </h4>
                         <h3>TELEFONNÍ ČÍSLO</h3>
                         <h4 v-if="offender_selected.phone_number"> {{offender_selected.phone_number}} </h4>
@@ -255,6 +256,7 @@
 
                         <div v-else-if="offender_results.results == false">
                             <span v-if="offender_selected.bail" v-bind:class="getClass('img-block')">PODMÍNKA</span>
+                            <span v-if="offender_selected.wanted" v-bind:class="getClass('red-img-block')">HLEDANÝ/Á</span>
                             <span v-if="offender_selected.haswarrant" v-bind:class="getClass('img-block')" style="top: 12%;">WARRANT</span>
                             <img v-if="offender_selected.mugshot_url" v-bind:src="offender_selected.mugshot_url" alt="mugshot" v-bind:class="getClass('mugshot')">
                             <img v-else-if="offender_selected.mugshot_url == ''" src="mugshot.png" alt="mugshot" v-bind:class="getClass('mugshot')">
@@ -295,7 +297,10 @@
 		                            <br />
 		                            <button v-if="offender_changes.bail == true" type="button" style="margin: 10px 0;" v-on:click="offender_changes.bail = false">V PODMÍNCE</button>
 		                        	<button v-else-if="offender_changes.bail == false" type="button" style="margin: 10px 0;" v-on:click="offender_changes.bail = true">NENÍ V PODMÍNCE</button>
-		                            <h3 style="margin-top: 20px">LICENCE</h3>
+		                            <button v-if="offender_changes.wanted == true" type="button" style="margin: 10px 0;" v-on:click="offender_changes.wanted = false">JE HLEDANÝ/Á</button>
+		                        	<button v-else-if="offender_changes.wanted == false" type="button" style="margin: 10px 0;" v-on:click="offender_changes.wanted = true">NENÍ HLEDANÝ/Á</button>
+		                            <br />
+                                    <h3 style="margin-top: 20px">LICENCE</h3>
 		                            <h4 v-if="offender_changes.licenses == false"> ... </h4>
 		                            <span v-else-if="offender_changes.licenses" v-for="license in offender_changes.licenses">
 		                                <h4>
@@ -417,10 +422,11 @@
                         <h3>TYP</h3>
                         <h4 v-if="vehicle_selected.type"> {{vehicle_selected.type}} </h4>
                         <h4 v-else-if="vehicle_selected.type == null"> ... </h4>
-                        <h3 v-if="vehicle_selected.plate == null || vehicle_selected.notes || vehicle_selected.haswarrant || vehicle_selected.bail || vehicle_selected.stolen">POZNÁMKY</h3>
+                        <h3 v-if="vehicle_selected.plate == null || vehicle_selected.notes || vehicle_selected.haswarrant || vehicle_selected.bail || vehicle_selected.stolen || vehicle_selected.wanted">POZNÁMKY</h3>
                         <h4 v-if="vehicle_selected.notes"> {{vehicle_selected.notes}}</h4>
                         <h4 v-if="vehicle_selected.haswarrant">{{vehicle_selected.owner}} má aktivní warrant.</h4>
                         <h4 v-if="vehicle_selected.bail">{{vehicle_selected.owner}} je v podmínce.</h4>
+                        <h4 v-if="vehicle_selected.wanted">{{vehicle_selected.owner}} je hledaný/á.</h4>
                         <h4 v-if="vehicle_selected.stolen">Toto vozidlo je nahlášeno jako ukradené.</h4>
                         <h4 v-else-if="vehicle_selected.plate == null"> ... </h4>
                         <h3>MAJITEL</h3>

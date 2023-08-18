@@ -53,7 +53,8 @@ RegisterNetEvent("strin_actions:drag", function(targetNetId)
         TriggerClientEvent("esx:showNotification", _source, "Nejste dostatečně blízko hráči.", {type = "error"})
         return
     end
-
+    
+    TriggerClientEvent("strin_base:executeCommand", _source, "me", "bere osobu za rameno a vede ji")
     TriggerClientEvent("strin_actions:drag", targetPlayer.source, _source)
 end)
 
@@ -82,6 +83,8 @@ RegisterNetEvent("strin_actions:putInVehicle", function(targetNetId)
         TriggerClientEvent("esx:showNotification", _source, "Nejste dostatečně blízko hráči.", {type = "error"})
         return
     end
+
+    TriggerClientEvent("strin_base:executeCommand", _source, "me", "dává osobu do vozidla")
 
     TriggerClientEvent("strin_actions:putInVehicle", targetPlayer.source)
 end)
@@ -112,6 +115,7 @@ RegisterNetEvent("strin_actions:putOutOfVehicle", function(targetNetId)
         return
     end
 
+    TriggerClientEvent("strin_base:executeCommand", _source, "me", "vytahuje osobu z vozidla")
     TriggerClientEvent("strin_actions:putOutOfVehicle", targetPlayer.source)
 end)
 

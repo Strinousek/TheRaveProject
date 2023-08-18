@@ -196,6 +196,8 @@ RegisterNetEvent("strin_hud:seatbelt", function(toggle)
     else
         hasSeatbelt = false
     end
+    local message = hasSeatbelt and "poutá se bezpečnostní pásem" or "odpoutává bezpečnostní pás"
+    TriggerEvent("strin_base:executeCommand", "me", message)
     SendNUIMessage({
         action = "updateSeatbelt",
         hasSeatbelt = hasSeatbelt

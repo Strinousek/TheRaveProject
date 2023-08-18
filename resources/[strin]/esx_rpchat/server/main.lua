@@ -191,7 +191,7 @@ RegisterCommand('pd', function(source, args)
     local message = table.concat(args, " ")
     if lib.table.contains(LawEnforcementJobs, job.name) then
         TriggerClientEvent('chat:addMessage', -1, {
-            template = '<div style="padding: 0.5vw; margin: 0.05vw; background-color: rgba(0, 0, 255, 0.6);"><i class="fas fa-briefcase"></i> <b>LSPD</b><br> {0}</div>',
+            template = '<div style="padding: 0.5vw; margin: 0.05vw; background-color: rgba(41, 128, 185, 0.6);"><i class="fas fa-briefcase"></i> <b>LSPD</b><br> {0}</div>',
             args = { message }
         })
         Base:DiscordLog("RP", "PD Chat", {
@@ -211,6 +211,10 @@ RegisterCommand('pd', function(source, args)
     end   
 end, false)
 
+RegisterCommand("3d", function(source)
+    TriggerClientEvent("sendProximityMessage3D", source)
+end)
+
 RegisterCommand('ems', function(source, args)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
@@ -218,7 +222,7 @@ RegisterCommand('ems', function(source, args)
     local message = table.concat(args, " ")
     if lib.table.contains({"ambulance", "fire"}, job.name) then
         TriggerClientEvent('chat:addMessage', -1, {
-            template = '<div style="padding: 0.5vw; margin: 0.05vw; background: linear-gradient( to bottom, rgba( 255, 0, 0, 0.69 ), rgba( 255, 255, 255, 0.66 ) );"><i class="fas fa-briefcase"></i> <b>LSPD</b><br> {0}</div>',
+            template = '<div style="padding: 0.5vw; margin: 0.05vw; background-color: rgba(231, 76, 60, 0.6)"><i class="fas fa-briefcase"></i> <b>EMS</b><br> {0}</div>',
             args = { message }
         })
         Base:DiscordLog("RP", "EMS Chat", {
@@ -232,7 +236,7 @@ RegisterCommand('ems', function(source, args)
             message,
         })
 	    TriggerClientEvent('chat:addMessage', _source, {
-            template = '<div style="padding: 0.5vw; margin: 0.05vw; background: linear-gradient( to bottom, rgba( 255, 0, 0, 0.69 ), rgba( 255, 255, 255, 0.66 ) );"><i class="fas fa-exclamation-triangle"></i> <b>TO MYSLÍŠ VÁŽNĚ?</b> <i class="fas fa-exclamation-triangle"></i><br>^7 PŘIPADÁŠ SI SNAD JAKO POLICISTA?</div>',
+            template = '<div style="padding: 0.5vw; margin: 0.05vw; background-color: rgba(255, 0, 0, 0.7);"><i class="fas fa-exclamation-triangle"></i> <b>TO MYSLÍŠ VÁŽNĚ?</b> <i class="fas fa-exclamation-triangle"></i><br>^7 PŘIPADÁŠ SI SNAD JAKO DOKTOR?</div>',
             args = { message }
         })
     end   

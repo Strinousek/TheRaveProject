@@ -9,12 +9,13 @@ version '1.0.3'
 
 shared_scripts {
 	'config.lua',
+	'locale.lua',
+	'locales/*.lua',
+	'components.lua',
 	'@ox_lib/init.lua'
 }
 
 client_scripts {
-	'locale.lua',
-	'locales/*.lua',
 	'client/main.lua'
 }
 

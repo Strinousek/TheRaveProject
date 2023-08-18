@@ -75,11 +75,6 @@ function RestrainPlayer(source, targetNetId, itemName, restrainType)
         return false
     end
 
-    if(GetEntityAttachedTo(entity) ~= 0) then
-        TriggerClientEvent("esx:showNotification", _source, "Hráče již někdo táhne, a proto nemůžete ho osvobodit.", {type = "error"})
-        return false
-    end
-
     if(Inventory:GetItemCount(_source, itemName) <= 0) then
         TriggerClientEvent("esx:showNotification", _source, "Nemáte dostatečný počet předmětu.", {type = "error"})
         return false
@@ -99,6 +94,9 @@ function RestrainPlayer(source, targetNetId, itemName, restrainType)
     RestrainedPlayers[targetPlayer.identifier] = {
         type = itemName
     }
+
+    local message = (itemName == "handcuffs" and "poutá" or "svazuje").." osobu"
+    TriggerClientEvent("strin_base:executeCommand", _source, "me", message)
 
     TriggerEvent("strin_actions:playerRestrained", targetNetId, RestrainedPlayers[targetPlayer.identifier], _source)
     if(restrainType == "aggressive") then
@@ -134,6 +132,11 @@ function UnrestrainPlayer(source, targetNetId)
         TriggerClientEvent("esx:showNotification", _source, "Cílová entita neexistuje.", {type = "error"})
         return false
     end
+    
+    if(GetEntityAttachedTo(entity) ~= 0) then
+        TriggerClientEvent("esx:showNotification", _source, "Hráče již někdo táhne, a proto nemůžete ho osvobodit.", {type = "error"})
+        return false
+    end
 
     if(not RestrainedPlayers[targetPlayer.identifier]) then
         TriggerClientEvent("esx:showNotification", _source, "Hráč není omezen.", {type = "error"})
@@ -162,12 +165,15 @@ function UnrestrainPlayer(source, targetNetId)
         TriggerEvent("strin_actions:playerUnrestrained", targetNetId, {
             type = "handcuffs"
         }, _source)
+        
+        TriggerClientEvent("strin_base:executeCommand", _source, "me", "odpoutává osobu")
         return true, "handcuffs"
     end
     RestrainedPlayers[targetPlayer.identifier] = nil
     TriggerEvent("strin_actions:playerUnrestrained", targetNetId, {
         type = "zipties"
     }, _source)
+    TriggerClientEvent("strin_base:executeCommand", _source, "me", "trhá pásky a rozvazuje osobu")
     TriggerClientEvent("strin_actions:unrestrain", targetNetId)
     return true, "zipties"
 end

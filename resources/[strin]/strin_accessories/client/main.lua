@@ -136,12 +136,10 @@ end
 
 function OpenAccessoryMenu(accessoryType, accessoryId, accessory)
     local skin = SkinChanger:GetSkin()
-    local variationComponent = SkinChanger:GetComponent(accessoryType ~= "arms" and accessoryType.."_1" or accessoryType)
-    local textureComponent = SkinChanger:GetComponent(accessoryType.."_2")
     local elements = {
         { label = (((skin[
             accessoryType ~= "arms" and accessoryType.."_1" or accessoryType
-        ] ~= variationComponent.value) and (skin[accessoryType.."_2"] ~= textureComponent.value or accessory.texture == textureComponent.value)) and "Sundat" or "Nasadit").." doplněk", value = "wear" },
+        ] == accessory.variation) and (skin[accessoryType.."_2"] == accessory.texture)) and "Sundat" or "Nasadit").." doplněk", value = "wear" },
         { label = "Přejmenovat doplněk", value = "rename" },
         { label = "Smazat doplněk", value = "delete" },
     }
@@ -152,17 +150,7 @@ function OpenAccessoryMenu(accessoryType, accessoryId, accessory)
     }, function(data, menu)
         menu.close()
         if(data.current.value == "wear") then
-            if(data.current.label:find("Sundat")) then
-                TriggerEvent("skinchanger:loadClothes", skin, {
-                    [variationComponent.name] = variationComponent.value,
-                    [textureComponent.name] = textureComponent.value
-                })
-            else
-                TriggerEvent("skinchanger:loadClothes", skin, {
-                    [accessoryType == "arms" and accessoryType or accessoryType.."_1"] = accessory.variation,
-                    [accessoryType.."_2"] = accessory.texture
-                })
-            end
+            TriggerServerEvent("strin_accessories:wearAccessory", accessoryType, tonumber(accessoryId))
         elseif(data.current.value == "rename") then
             ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "accessory_label", {
                 title = "Text (nechte prázdné pro reset)",

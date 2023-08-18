@@ -24,14 +24,14 @@ end)*/
 end)*/
 
 AddEventHandler("strin_characters:characterCreated", function(identifier, characterId)
-    MySQL.insert.await("INSERT INTO character_tattoos SET `identifier` = ?, `char_id` = ?", {
+    MySQL.prepare.await("INSERT INTO character_tattoos SET `identifier` = ?, `char_id` = ?", {
         identifier,
         characterId
     })
 end)
 
 AddEventHandler("strin_characters:characterDeleted", function(identifier, characterId)
-    MySQL.query.await("DELETE FROM character_tattoos WHERE `identifier` = ? AND `char_id` = ?", {
+    MySQL.prepare.await("DELETE FROM character_tattoos WHERE `identifier` = ? AND `char_id` = ?", {
         identifier,
         characterId
     })

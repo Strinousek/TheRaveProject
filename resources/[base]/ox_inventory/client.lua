@@ -262,6 +262,10 @@ function client.openInventory(inv, data)
 				}
 			})
 
+			if(inv == "player") then
+				TriggerEvent("strin_base:executeCommand", "me", "prohledává osobu")
+			end
+
 			if not currentInventory.coords and not inv == 'container' then
 				currentInventory.coords = GetEntityCoords(playerPed)
 			end

@@ -205,7 +205,7 @@
     text-decoration: underline; 
     text-decoration-color: #fbbe28;
 }
-.img-block {
+.img-block, .red-img-block {
     padding: 5px;
     color: #011b37;
     background-color: #fbbe28;
@@ -215,6 +215,13 @@
     font-weight: bold;
     text-decoration: underline;
 }
+
+
+.red-img-block {
+    background-color: #fb2828;
+    border: 2px solid rgb(254, 40, 40);
+}
+
 .textarea {
     font-size: 14px; 
     border: 2px solid #fbbe28; 
