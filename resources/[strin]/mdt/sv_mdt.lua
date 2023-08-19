@@ -2,7 +2,7 @@ local call_index = 0
 
 Citizen.CreateThread(function()
     MySQL.query.await(([[
-		CREATE TABLE `user_mdt` (
+		CREATE TABLE IF NOT EXISTS `user_mdt` (
 			`id` INT(11) NOT NULL AUTO_INCREMENT,
 			`char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
 			`notes` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
@@ -343,7 +343,7 @@ AddEventHandler("mdt:saveOffenderChanges", function(id, changes, identifier)
 				['@id'] = id,
 				['@notes'] = changes.notes,
 				['@mugshot_url'] = changes.mugshot_url,
-				['@bail'] = changes.bail
+				['@bail'] = changes.bail,
 				['@wanted'] = changes.wanted,
 			})
 		end
