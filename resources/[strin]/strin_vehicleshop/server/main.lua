@@ -25,7 +25,7 @@ RegisterNetEvent("strin_vehicleshop:buyVehicle", function(vehicleName)
         return
     end
 
-    local shop = GetNearestVehicleShop(_source)
+    local shop = GetNearestVehicleShop(_source) or VehicleShops["PDM"]
     if(not shop) then
         xPlayer.showNotification("Nejste blízko žádné prodejny vozidel!", {type = "error"})
         return

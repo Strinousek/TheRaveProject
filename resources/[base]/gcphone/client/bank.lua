@@ -54,10 +54,12 @@ end)
 --===============================================
 --==         Transfer Event                    ==
 --===============================================
---[[AddEventHandler('gcphone:bankTransfer', function(data)
-   TriggerServerEvent('bank:transfer', data.id, data.amount)
-    TriggerServerEvent('bank:balance')
-end)]]
+AddEventHandler('gcphone:bankTransfer', function(data)
+      ESX.ShowNotification("Bankovní převody nejsou aktuálně dostupné, kontaktujte Fleeca Bank.", { type = "error" })
+      return
+      /*TriggerServerEvent('bank:transfer', data.id, data.amount)
+      TriggerServerEvent('bank:balance')*/
+end)
 
 
 

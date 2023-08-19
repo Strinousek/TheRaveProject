@@ -634,7 +634,7 @@ function CalculateTunningPrice(properties, vehicleModelName)
                 if(v == -1) then
                     mod.price = 1.0
                 end
-                print(json.encode(mod.price))
+                --.print(json.encode(mod.price))
                 local modPrice = math.floor(vehiclePrice * mod.price / 100) 
                 price += modPrice
             end

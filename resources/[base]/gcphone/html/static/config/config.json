@@ -197,6 +197,18 @@
       "inHomePage": false
     },
     {
+      "name": "Bank",
+      "fr_FR__name": "Wallet",
+      "en_US__name": "Wallet",
+      "cs_CZ__name": "Wallet",
+      "de_DE__name": "Wallet",
+      "pl_PL__name": "Wallet",
+      "es_ES__name": "Wallet",
+      "icons": "/html/static/img/icons_app/banco.png",
+      "routeName": "bank",
+      "inHomePage": false
+    },
+    {
       "name": "Camera",
       "fr_FR__name": "Photo",
       "cs_CZ__name": "Fotoaparát",
@@ -927,6 +939,10 @@
       "APP_TWITTER_NOTIF_NEW_PASSWORD_ERROR": "Oops.... Tvé heslo nemohlo být změněno.",
       "APP_TWITTER_NOTIF_NEW_PASSWORD_MISS_MATCH": "Hesla se neshodují",
       "APP_TWITTER_NOTIF_NEW_PASSWORD_LENGTH_ERROR": "Heslo je příliš krátké",
+      "APP_BANK_TITLE_BALANCE": "Bankovní zůstatek: ",
+      "APP_BANK_TITLE_ENTER_MONEY": "Zadejte částku",
+      "APP_BANK_BUTTON_TRANSFER": "Převést",
+      "APP_BANK_BUTTON_CANCEL": "Zrušit",
       "APP_DARKTCHAT_NEW_NOTE": "Nová poznámka",
       "APP_DARKTCHAT_DELETE_NOTE": "Smažte poznámku",
 

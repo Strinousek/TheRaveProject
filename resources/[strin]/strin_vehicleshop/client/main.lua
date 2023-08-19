@@ -36,6 +36,10 @@ Citizen.CreateThread(function()
     end
 end)
 
+RegisterCommand("pdm", function()
+    OpenVehicleShop(VehicleShops["PDM"], "PDM")
+end)
+
 function OpenVehicleShop(shop, shopId)
     SetNUIStatus(true)
     local convertedCatalog = ConvertVehicleShopCatalog(shop.catalog)
