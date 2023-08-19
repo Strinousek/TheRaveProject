@@ -20,19 +20,21 @@ RegisterCommand('mdt', function()
     end
 end, false)
 
-exports.ox_target:addModel({
-    `v_res_monitor`,
-    `v_res_monitorsquare`,
-    `prop_monitor_01a`,
-    `v_serv_ct_monitor01`,
-}, {
-    {
-        label = "MDT",
-        onSelect = function()
-            TriggerServerEvent("mdt:hotKeyOpen")
-        end,
-    }
-})
+Citizen.CreateThread(function()
+    exports.ox_target:addModel({
+        `v_res_monitor`,
+        `v_res_monitorsquare`,
+        `prop_monitor_01a`,
+        `v_serv_ct_monitor01`,
+    }, {
+        {
+            label = "MDT",
+            onSelect = function()
+                TriggerServerEvent("mdt:hotKeyOpen")
+            end,
+        }
+    })
+end)
 
 TriggerServerEvent("mdt:getOffensesAndOfficer")
 
