@@ -1,8 +1,8 @@
 local ShowAxon = false
 local LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
 
-RegisterNetEvent("esx:playerLoaded", function()
-    if(lib.table.contains(LawEnforcementJobs, ESX?.PlayerData?.job?.name)) then
+RegisterNetEvent("esx:playerLoaded", function(xPlayer)
+    if(lib.table.contains(LawEnforcementJobs, xPlayer.job?.name)) then
         lib.callback("strin_axon:getCode", false, function(code)
             ShowAxon = true
             SendNUIMessage({
@@ -14,7 +14,7 @@ RegisterNetEvent("esx:playerLoaded", function()
 end)
 
 RegisterNetEvent('esx:setJob', function(job)
-    if(not lib.table.contains(LawEnforcementJobs, ESX?.PlayerData?.job?.name)) then
+    if(not lib.table.contains(LawEnforcementJobs, job?.name)) then
         if(ShowAxon) then
             ShowAxon = false
             SendNUIMessage({
