@@ -183,9 +183,25 @@ function AddBasketItemsToStash(jobName, basket, stashType)
     local addedItems = {}
     for basketId, item in pairs(basket) do
         if(Inventory:CanCarryItem(stashId, item.name, item.count)) then
-            success = Inventory:AddItem(stashId, item.name, item.count)
+            local metadata = nil
+            local isGhost = false
+            if(item.name:find("WEAPON_") and Items[item.name].ammoname) then
+                if(lib.table.contains(LawEnforcementJobs, jobName)) then
+                    metadata = { registered = jobName, serial = "POL" }
+                else
+                    metadata = { registered = true }
+                    isGhost = true
+                end
+            end
+            success, response = Inventory:AddItem(stashId, item.name, item.count, metadata)
             if(not success) then
                 break
+            end
+            if(isGhost) then
+                for i=1, #response do
+                    response[i].metadata.registered = false
+                    Inventory:SetMetadata(stashId, response[i].slot, response[i].metadata)
+                end
             end
             totalSpent += (item.count * item.price)
             addedItems[#addedItems + 1 ] = { name = item.name, count = item.name, item.count, price = item.price }
