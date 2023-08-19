@@ -19,7 +19,7 @@ AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
 end)
 
 AddEventHandler("esx:setJob", function(playerId, job, lastJob)
-
+    Citizen.Wait(500)
     local blipId = GetPlayerBlipIndex(playerId)
     if(blipId and (not Jobs[job.name] or not Jobs[job.name].Blips)) then
         local registeredJob = JobBlips[blipId].job
