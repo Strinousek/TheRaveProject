@@ -673,11 +673,11 @@ function TooglePhone()
   if menuIsOpen == true then 
     PhonePlayIn()
     TriggerEvent('gcPhone:setMenuStatus', true)
-    SetBigmapActive(1,0)
+    --SetBigmapActive(1,0)
   else
     PhonePlayOut()
     TriggerEvent('gcPhone:setMenuStatus', false)
-    SetBigmapActive(0,0)
+    --SetBigmapActive(0,0)
   end
 end
 RegisterNUICallback('faketakePhoto', function(data, cb)

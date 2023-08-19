@@ -191,7 +191,7 @@ RegisterCommand('pd', function(source, args)
     local message = table.concat(args, " ")
     if lib.table.contains(LawEnforcementJobs, job.name) then
         TriggerClientEvent('chat:addMessage', -1, {
-            template = '<div style="padding: 0.5vw; margin: 0.05vw; background-color: rgba(41, 128, 185, 0.6);"><i class="fas fa-briefcase"></i> <b>LSPD</b><br> {0}</div>',
+            template = '<div style="padding: 0.5vw; margin: 0.05vw; background-color: rgba(41, 128, 185, 0.6);"><i class="fas fa-briefcase"></i> <b>Los Santos Police Department</b><br> {0}</div>',
             args = { message }
         })
         Base:DiscordLog("RP", "PD Chat", {
@@ -222,7 +222,7 @@ RegisterCommand('ems', function(source, args)
     local message = table.concat(args, " ")
     if lib.table.contains({"ambulance", "fire"}, job.name) then
         TriggerClientEvent('chat:addMessage', -1, {
-            template = '<div style="padding: 0.5vw; margin: 0.05vw; background-color: rgba(231, 76, 60, 0.6)"><i class="fas fa-briefcase"></i> <b>EMS</b><br> {0}</div>',
+            template = '<div style="padding: 0.5vw; margin: 0.05vw; background-color: rgba(231, 76, 60, 0.6)"><i class="fas fa-briefcase"></i> <b>Emergency Medical Services</b><br> {0}</div>',
             args = { message }
         })
         Base:DiscordLog("RP", "EMS Chat", {
