@@ -36,6 +36,7 @@ const mdtApp = new Vue({
         },
         report_selected: {
             id: null,
+            char_id: null,
             date: null,
             name: null,
             title: null,
@@ -230,6 +231,7 @@ const mdtApp = new Vue({
                 this.report_results.results = false;
                 this.report_selected = {
                     id: null,
+                    char_id: null,
                     date: null,
                     name: null,
                     title: null,
@@ -327,6 +329,7 @@ const mdtApp = new Vue({
             this.changePage("Search Reports");
             this.report_selected = {
                 id: null,
+                char_id: null,
                 date: null,
                 name: null,
                 title: null,
@@ -384,6 +387,7 @@ const mdtApp = new Vue({
                 this.report_results.results = false;
                 this.report_selected = {
                     id: null,
+                    char_id: null,
                     date: null,
                     name: null,
                     title: null,

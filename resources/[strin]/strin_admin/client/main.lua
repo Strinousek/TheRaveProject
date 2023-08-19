@@ -811,6 +811,16 @@ end
 
 local PlayerNamesRange = 0
 local DisplayCoords = false
+local DebugEntityOnAim = false
+
+/*
+    0 = none
+    1 = vehicles
+    2 = props
+    3 = peds
+    4 = all
+*/
+local DrawDimensionsType = 0
 
 function OpenMiscMenu()
     local elements = {}
@@ -825,6 +835,8 @@ function OpenMiscMenu()
     table.insert(elements, { label = "Teleport ke koordinacím (VECTOR)", key = "teleport_to_coords_vector" })
 
     table.insert(elements, { label = "Zkopírovat koordinace", key = "clipboard_coords" })
+    table.insert(elements, { label = "Entity AIM Debug (OFF, ON)", min = 0, value = ((not DebugEntityOnAim) and 0 or 1), max = 1, key = "debug_entity_on_aim", type = "slider"})
+    --table.insert(elements, { label = "Entity Debug (OFF, VEH, PROP, PED, ALL)", min = 0, value = DrawDimensionsType, max = 4, key = "show_dimensions_type", type = "slider"})
     ESX.UI.Menu.Open("default", GetCurrentResourceName(), "misc_menu", {
         title = "Ostatní možnosti",
         align = "center",
@@ -923,6 +935,10 @@ function OpenMiscMenu()
             PlayerNamesRange = data.current.value
         elseif(data.current.key == "display_coords") then
             DisplayCoords = data.current.value == 1 and true or false
+        elseif(data.current.key == "debug_entity_on_aim") then
+            DebugEntityOnAim = data.current.value == 1 and true or false
+        elseif(data.current.key == "show_dimensions_type") then
+            DrawDimensionsType = data.current.value
         end
     end)
 end
@@ -971,9 +987,9 @@ end
 Citizen.CreateThread(function()
     while true do
         local sleep = 1000
-        if(PlayerNamesRange > 0 or DisplayCoords) then
+        if(PlayerNamesRange > 0 or DisplayCoords or DrawDimensionsType > 0 or DebugEntityOnAim) then
             sleep = 0
-            local ped = PlayerPedId()
+            local ped = cache.ped
             local coords = GetEntityCoords(ped)
             if(PlayerNamesRange > 0) then
                 local players = GetActivePlayers()
@@ -988,6 +1004,22 @@ Citizen.CreateThread(function()
                     if(distanceToPlayer < (PlayerNamesRange * 32)) then
                         DrawText3D(playerCoords + vector3(0, 0, 1.0), CachedPlayerNames[serverId])
                     end
+                end
+            end
+            if(DrawDimensionsType > 0) then
+                ModelDrawDimensions(coords)
+            end
+            if(DebugEntityOnAim) then
+                local hit, entity = GetEntityPlayerIsFreeAimingAt(cache.playerId)
+                if(hit) then
+                    local message = "Entity Handle: %s | Hash: %s | Model: %s | Net. Owner: %s | Entity Type: %s"
+                    DrawText3D(GetEntityCoords(entity), message:format(
+                        entity,
+                        GetEntityModel(entity),
+                        GetEntityArchetypeName(entity),
+                        NetworkGetEntityOwner(entity),
+                        entityType
+                    ))
                 end
             end
             if(DisplayCoords) then
@@ -1107,5 +1139,171 @@ function FreezePlayer(state, vehicle)
 
         FreezeEntityPosition(vehicle, state)
         SetEntityCollision(vehicle, not state, true)
+    end
+end
+
+/*
+function GetEntityBoundingBox(entity)
+    local min, max = GetModelDimensions(GetEntityModel(entity))
+    local pad = 0.001
+    return {
+        -- Bottom
+        GetOffsetFromEntityInWorldCoords(entity, min.X - pad, min.Y - pad, min.Z - pad),
+        GetOffsetFromEntityInWorldCoords(entity, max.X + pad, min.Y - pad, min.Z - pad),
+        GetOffsetFromEntityInWorldCoords(entity, max.X + pad, max.Y + pad, min.Z - pad),
+        GetOffsetFromEntityInWorldCoords(entity, min.X - pad, max.Y + pad, min.Z - pad),
+
+        -- Top
+        GetOffsetFromEntityInWorldCoords(entity, min.X - pad, min.Y - pad, max.Z + pad),
+        GetOffsetFromEntityInWorldCoords(entity, max.X + pad, min.Y - pad, max.Z + pad),
+        GetOffsetFromEntityInWorldCoords(entity, max.X + pad, max.Y + pad, max.Z + pad),
+        GetOffsetFromEntityInWorldCoords(entity, min.X - pad, max.Y + pad, max.Z + pad)
+    }
+end
+
+function DrawBoundingBox(box, r, g, b, a)
+    local polyMatrix = GetBoundingBoxPolyMatrix(box)
+    local edgeMatrix = GetBoundingBoxEdgeMatrix(box)
+
+    DrawPolyMatrix(polyMatrix, r, g, b, a)
+    DrawEdgeMatrix(polyMatrix, 255, 255, 255, 255)
+end
+
+function GetBoundingBoxPolyMatrix(box)
+    return {
+        vector3( box[2], box[1], box[0] ),
+        vector3( box[3], box[2], box[0] ),
+
+        vector3( box[4], box[5], box[6] ),
+        vector3( box[4], box[6], box[7] ),
+
+        vector3( box[2], box[3], box[6] ),
+        vector3( box[7], box[6], box[3] ),
+
+        vector3( box[0], box[1], box[4] ),
+        vector3( box[5], box[4], box[1] ),
+
+        vector3( box[1], box[2], box[5] ),
+        vector3( box[2], box[6], box[5] ),
+
+        vector3( box[4], box[7], box[3] ),
+        vector3( box[4], box[3], box[0] )
+    }
+end
+
+function GetBoundingBoxEdgeMatrix(box)
+    return {
+        vector3( box[0], box[1] ),
+        vector3( box[1], box[2] ),
+        vector3( box[2], box[3] ),
+        vector3( box[3], box[0] ),
+
+        vector3( box[4], box[5] ),
+        vector3( box[5], box[6] ),
+        vector3( box[6], box[7] ),
+        vector3( box[7], box[4] ),
+
+        vector3( box[0], box[4] ),
+        vector3( box[1], box[5] ),
+        vector3( box[2], box[6] ),
+        vector3( box[3], box[7] )
+    }
+end
+
+function DrawPolyMatrix(polyCollection, r, g, b, a)
+    for i=1, #polyCollection do
+        local poly = polyCollection[i]
+        local x1 = poly[0].x
+        local y1 = poly[0].y
+        local z1 = poly[0].z
+
+        local x2 = poly[1].x
+        local y2 = poly[1].y
+        local z2 = poly[1].z
+
+        local x3 = poly[2].x
+        local y3 = poly[2].y
+        local z3 = poly[2].z
+        DrawPoly(x1, y1, z1, x2, y2, z2, x3, y3, z3, r, g, b, a)
+    end
+end
+
+function DrawEdgeMatrix(linesCollection, r, g, b, a)
+    for i=1, #linesCollection do
+        local line = linesCollection[i]
+        local x1 = line[0].x
+        local y1 = line[0].y
+        local z1 = line[0].z
+
+        local x2 = line[1].x
+        local y2 = line[1].y
+        local z2 = line[1].z
+
+        DrawLine(x1, y1, z1, x2, y2, z2, r, g, b, a)
+    end
+end
+
+function DrawEntityBoundingBox(entity, r, g, b, a)
+    local box = GetEntityBoundingBox(entity)
+    DrawBoundingBox(box, r, g, b, a)
+end
+*/
+
+local recentlyDrawed = false
+function ModelDrawDimensions(playerCoords)
+    if(DrawDimensionsType > 0) then
+        local entities = {}
+        if(DrawDimensionsType == 1 or DrawDimensionsType == 5) then
+            local vehicles = GetGamePool("CVehicle")
+            for i=1, #vehicles do
+                table.insert(entities, vehicles[i])
+            end
+        end
+        if(DrawDimensionsType == 2 or DrawDimensionsType == 5) then
+            local objects = GetGamePool("CObject")
+            for i=1, #objects do
+                table.insert(entities, objects[i])
+            end
+        end
+        if(DrawDimensionsType == 3 or DrawDimensionsType == 5) then
+            local peds = GetGamePool("CPed")
+            for i=1, #peds do
+                table.insert(entities, peds[i])
+            end
+        end
+
+        for i=1, #entities do
+            local entity = entities[i]
+            local entityCoords = GetEntityCoords(entity)
+            if(#(playerCoords - entityCoords) > 5) then
+                SetEntityDrawOutline(entity, false)
+                goto skipLoop
+            end
+            local message = "Entity Handle: %s | Hash: %s | Model: %s | Net. Owner: %s | Entity Type: %s"
+            local entityType = GetEntityType(entity)
+            local r, g, b = 250, 150, 0
+            if(entityType == 1) then
+                r, g, b = 50, 255, 50
+            elseif(entityType == 3) then
+                r, g, b = 255, 0, 0
+            end
+            recentlyDrawed = true
+            SetEntityDrawOutline(entity, true)
+            SetEntityDrawOutlineColor(r, g, b, 255)
+            --local drawingSettings = entityType == 2 and { 250, 150, 0 } or (entityType == 1 and { 50, 255, 50 } or (entityType == 3 and { 255, 0, 0 }))
+            --DrawEntityBoundingBox(entity, table.unpack(drawingSettings), 100)
+            DrawText3D(GetEntityCoords(entity), message:format(
+                entity,
+                GetEntityModel(entity),
+                GetEntityArchetypeName(entity),
+                NetworkGetEntityOwner(entity),
+                entityType
+            ))
+            ::skipLoop::
+        end
+    else
+        if(recentlyDrawed) then
+            recentlyDrawed = false
+        end
     end
 end

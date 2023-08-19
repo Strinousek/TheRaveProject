@@ -23,10 +23,14 @@ end, false)
 exports.ox_target:addModel({
     `v_res_monitor`,
     `v_res_monitorsquare`,
+    `prop_monitor_01a`,
+    `v_serv_ct_monitor01`,
 }, {
     {
         label = "MDT",
-        command = "mdt"
+        onSelect = function()
+            TriggerServerEvent("mdt:hotKeyOpen")
+        end,
     }
 })
 
@@ -100,7 +104,7 @@ RegisterNUICallback("performReportSearch", function(data, cb)
 end)
 
 RegisterNUICallback("getOffender", function(data, cb)
-    TriggerServerEvent("mdt:getOffenderDetailsById", data.char_identifier)
+    TriggerServerEvent("mdt:getOffenderDetailsById", data.char_identifier or data.char_id)
     cb('ok')
 end)
 

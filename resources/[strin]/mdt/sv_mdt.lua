@@ -43,13 +43,13 @@ AddEventHandler("mdt:hotKeyOpen", function()
 	local usource = source
     local xPlayer = ESX.GetPlayerFromId(source)
 	local ped = GetPlayerPed(usource)
-	local vehicle = GetVehiclePedIsIn(GetPlayerPed(ped))
+	local vehicle = GetVehiclePedIsIn(ped)
     if xPlayer.job.name == 'police' then
 		local jobConfig = exports.strin_jobs:GetJobConfig(xPlayer.job.name)
-		if((vehicle == 0 and not IsPedNearAnyStation(jobConfig.StaticBlips))) then
+		/*if((vehicle == 0 and not IsPedNearAnyStation(jobConfig.StaticBlips))) then
 			xPlayer.showNotification("MDT nelze otevřít!", { type = "error" })
 			return
-		end
+		end*/
     	MySQL.Async.fetchAll("SELECT * FROM (SELECT * FROM `mdt_reports` ORDER BY `id` DESC LIMIT 3) sub ORDER BY `id` DESC", {}, function(reports)
     		for r = 1, #reports do
     			reports[r].charges = json.decode(reports[r].charges)
@@ -217,6 +217,8 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_identifier)
 		['@id'] = char_identifier
 	})
 	local offender = result[1]
+
+	offender.id = offender.char_identifier
 
 	if not offender then
 		TriggerClientEvent("mdt:closeModal", usource)
@@ -405,7 +407,7 @@ AddEventHandler("mdt:submitNewReport", function(data)
 	charges = json.encode(data.charges)
 	data.date = os.date('%m-%d-%Y %H:%M:%S', os.time())
 	MySQL.Async.insert('INSERT INTO `mdt_reports` (`char_id`, `title`, `incident`, `charges`, `author`, `name`, `date`) VALUES (@id, @title, @incident, @charges, @author, @name, @date)', {
-		['@id']  = data.char_identifier,
+		['@id']  = data.char_id,
 		['@title'] = data.title,
 		['@incident'] = data.incident,
 		['@charges'] = charges,

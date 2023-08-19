@@ -256,7 +256,7 @@
 
                         <div v-else-if="offender_results.results == false">
                             <span v-if="offender_selected.bail" v-bind:class="getClass('img-block')">PODMÍNKA</span>
-                            <span v-if="offender_selected.wanted" v-bind:class="getClass('red-img-block')">HLEDANÝ/Á</span>
+                            <div v-if="offender_selected.wanted" v-bind:class="getClass('red-img-block')" style="left: 22%;">HLEDANÝ/Á</div>
                             <span v-if="offender_selected.haswarrant" v-bind:class="getClass('img-block')" style="top: 12%;">WARRANT</span>
                             <img v-if="offender_selected.mugshot_url" v-bind:src="offender_selected.mugshot_url" alt="mugshot" v-bind:class="getClass('mugshot')">
                             <img v-else-if="offender_selected.mugshot_url == ''" src="mugshot.png" alt="mugshot" v-bind:class="getClass('mugshot')">
@@ -333,7 +333,7 @@
                         <h4 v-if="report_selected.date"> {{ report_selected.date }} </h4>
                         <h4 v-else-if="report_selected.date == null"> ... </h4>
                         <h3>JMÉNO</h3>
-                        <h4 v-if="report_selected.name" v-on:click="OpenOffenderDetailsById(report_selected.char_id)" v-bind:class="getClass('clickable')"> {{ report_selected.name }} </h4>
+                        <h4 v-if="report_selected.name" v-on:click="OpenOffenderDetailsById(report_selected.id)" v-bind:class="getClass('clickable')"> {{ report_selected.name }} </h4>
                         <h4 v-else-if="report_selected.name == null"> ... </h4>
                         <template v-if="report_edit.enable == false">
                             <h3>INCIDENT #{{report_selected.id}}</h3>
