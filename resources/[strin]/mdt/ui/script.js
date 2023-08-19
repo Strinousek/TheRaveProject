@@ -110,6 +110,7 @@ const mdtApp = new Vue({
         },
         vehicle_selected: {
             plate: null,
+            vehicle_identifier: null,
             type: null,
             owner: null,
             owner_id: null,
@@ -610,6 +611,7 @@ document.onreadystatechange = () => {
                 mdtApp.vehicle_results.results = event.data.matches;
                 mdtApp.vehicle_selected = {
                     plate: null,
+                    vehicle_identifier: null,
                     type: null,
                     owner: null,
                     owner_id: null,
@@ -633,6 +635,7 @@ document.onreadystatechange = () => {
                 mdtApp.vehicle_search = event.data.plate;
                 mdtApp.vehicle_selected = {
                     plate: null,
+                    vehicle_identifier: null,
                     type: null,
                     owner: null,
                     owner_id: null,

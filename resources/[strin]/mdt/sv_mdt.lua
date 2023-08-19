@@ -30,7 +30,7 @@ local function IsPedNearAnyStation(pedHandle, stations)
 	local isNear = false
 	local coords = GetEntityCoords(pedHandle)
 	for i=1, #stations do
-		if(#(coords - stations[i].coords) < 100) then
+		if(#(coords - stations[i].coords) < 50) then
 			isNear = true
 			break
 		end
@@ -46,10 +46,10 @@ AddEventHandler("mdt:hotKeyOpen", function()
 	local vehicle = GetVehiclePedIsIn(ped)
     if xPlayer.job.name == 'police' then
 		local jobConfig = exports.strin_jobs:GetJobConfig(xPlayer.job.name)
-		/*if((vehicle == 0 and not IsPedNearAnyStation(jobConfig.StaticBlips))) then
+		if((vehicle == 0 and not IsPedNearAnyStation(ped, jobConfig.StaticBlips))) then
 			xPlayer.showNotification("MDT nelze otevřít!", { type = "error" })
 			return
-		end*/
+		end
     	MySQL.Async.fetchAll("SELECT * FROM (SELECT * FROM `mdt_reports` ORDER BY `id` DESC LIMIT 3) sub ORDER BY `id` DESC", {}, function(reports)
     		for r = 1, #reports do
     			reports[r].charges = json.decode(reports[r].charges)
@@ -183,6 +183,8 @@ AddEventHandler("mdt:getOffenderDetails", function(offender)
 			})
 		end
 	end
+
+	print(json.encode(offender))
 
 	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM `owned_vehicles` WHERE `owner` = @identifier AND `job` IS NULL', {
 		['@identifier'] = offender.identifier..":"..offender.char_id
@@ -462,7 +464,7 @@ RegisterServerEvent("mdt:performVehicleSearch")
 AddEventHandler("mdt:performVehicleSearch", function(query)
 	local usource = source
 	local matches = {}
-	MySQL.Async.fetchAll("SELECT * FROM `owned_vehicles` WHERE LOWER(`plate`) LIKE @query", {
+	MySQL.Async.fetchAll("SELECT * FROM `owned_vehicles` WHERE LOWER(`plate`) LIKE @query OR LOWER(`vehicle_identifier`) LIKE @query", {
 		['@query'] = string.lower('%'..query..'%') -- % wildcard, needed to search for all alike results
 	}, function(result)
 
@@ -520,6 +522,11 @@ AddEventHandler("mdt:getVehicle", function(vehicle)
 		vehicle.owner = result[1].firstname .. ' ' .. result[1].lastname
 		vehicle.owner_id = result[1].char_identifier
 	end
+
+
+	vehicle.vehicle_identifier = MySQL.prepare.await("SELECT `vehicle_identifier` FROM `owned_vehicles` WHERE `plate` = ?", {
+		vehicle.plate
+	})
 
 	local data = MySQL.Sync.fetchAll('SELECT * FROM `vehicle_mdt` WHERE `plate` = @plate', {
 		['@plate'] = vehicle.plate

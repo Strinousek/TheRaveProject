@@ -271,11 +271,13 @@
                                 <table style="width: 95%;">
                                     <tr>
                                         <th>Značka</th>
+                                        <th>VIN</th>
                                         <th>Model</th>
                                         <th>Farba</th>
                                     </tr>
                                     <tr v-for="vehicle in offender_selected.vehicles" v-on:click="OpenVehicleDetails(vehicle)">
                                         <td>{{vehicle.plate}}</td>
+                                        <td>{{vehicle.vehicle_identifier}}</td>
                                         <td>{{vehicle.model}}</td>
                                         <td>{{vehicle.color}}</td>
                                     </tr>
@@ -409,13 +411,16 @@
                     <h2 class="page-title">VYHLEDAT V DATABÁZI</h2>
 
                     <el-form @keyup.enter.native>
-                        <input v-on:keyup.enter="VehicleSearch()" v-model="vehicle_search" type="text" placeholder="Celé nebo část jména" required>
+                        <input v-on:keyup.enter="VehicleSearch()" v-model="vehicle_search" type="text" placeholder="SPZ nebo VIN" required>
                         <button v-on:click="VehicleSearch()" type="button" >VYHLEDAT</button>
                     </el-form>
                     
                     <br />
 
                     <div class="left-side">
+                        <h3>VIN</h3>
+                        <h4 v-if="vehicle_selected.vehicle_identifier"> {{vehicle_selected.vehicle_identifier}} </h4>
+                        <h4 v-else-if="vehicle_selected.vehicle_identifier == null"> ... </h4>
                         <h3>ZNAČKA</h3>
                         <h4 v-if="vehicle_selected.plate"> {{vehicle_selected.plate}} </h4>
                         <h4 v-else-if="vehicle_selected.plate == null"> ... </h4>
