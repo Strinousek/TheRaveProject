@@ -509,9 +509,9 @@ function GetCharacters(identifier)
         local activeCharId = MySQL.prepare.await("SELECT `char_id` FROM users WHERE `identifier` = ?", {
             identifier
         })
-        for i=1, #result do
-            if(result[i].char_id == activeCharId) then
-                result[i] = GetCurrentCharacter(identifier, true)
+        for i=1, #results do
+            if(results[i].char_id == activeCharId) then
+                results[i] = GetCurrentCharacter(identifier, true)
                 break
             end
         end
