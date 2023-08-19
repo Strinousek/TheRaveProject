@@ -47,7 +47,7 @@ RegisterCommand("accessories", function()
         ESX.ShowNotification("Pro tento typ postavy nelze mít doplňky!", { type = "error" })
         return
     end
-    local playerAccessories = lib.callback.await("strin_accessories:getAccessories", 1000)
+    local playerAccessories = lib.callback.await("strin_accessories:getAccessories", false)
     if(not playerAccessories or not next(playerAccessories)) then
         ESX.ShowNotification("Provádíte akce moc rychle!", { type = "error" })
         return

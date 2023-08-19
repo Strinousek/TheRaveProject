@@ -64,6 +64,25 @@ function OpenSkinMenu(onConfirmCallback, onCancelCallback, restrict, exclude)
         action = "showMenu",
         parts = parts
     })
+    if(not restrict or #restrict > 6) then
+        Citizen.CreateThread(function()
+            lib.showTextUI([[
+                Kliknutím myši ve volném prostoru a tažení myši = Pohyb kamery
+                Tlačítka nad výběrem = Změna pohledu
+                W = Pohyb nahoru | S = Pohyb dolu
+                A | D = -+1 číslo v komponentě
+                Kliknutí na čísla = zaměření / přepsaní hodnoty
+            ]], {
+                style = {
+                    fontSize = "16px"
+                }
+            })
+            Citizen.Wait(6000)
+            if(lib.isTextUIOpen()) then
+                lib.hideTextUI()
+            end
+        end)
+    end
     currentOnConfirmCallback = onConfirmCallback or nil
     currentOnCancelCallback = onCancelCallback or nil
     if(not onConfirmCallback and not onCancelCallback) then
@@ -82,6 +101,9 @@ function CloseSkinMenu(action)
     })
     local savedLastSkin = lib.table.deepclone(lastSkin)
     lastSkin = nil
+    if(lib.isTextUIOpen()) then
+        lib.hideTextUI()
+    end
     if(action == "confirm") then
         local skin = SkinChanger:GetSkin()
         if(currentOnConfirmCallback) then

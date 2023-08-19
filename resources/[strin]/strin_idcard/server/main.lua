@@ -74,9 +74,11 @@ function ShowCard(__type, cardId, playerId)
     if(__type == "driving_license") then
         data.classes = card.metadata?.classes
     end
-    local cardShortcut = __type == "identification_card" and "ID" or "DL"
-    local message = ("vytahuje %s a ukazuje"):format(cardShortcut)
-    TriggerClientEvent("strin_base:executeCommand", _source, "me", message)
+    if(_source ~= playerId) then
+        local cardShortcut = __type == "identification_card" and "ID" or "DL"
+        local message = ("vytahuje %s a ukazuje"):format(cardShortcut)
+        TriggerClientEvent("strin_base:executeCommand", _source, "me", message)
+    end
     TriggerClientEvent("strin_idcard:showCard", targetPlayer.source, __type, data)
 end
 
