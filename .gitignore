@@ -9,6 +9,6 @@ rave_server.cfg
 /*.lua
 
 /resources/\[_kokotiny\]/*
-/resources/\[_clothes\]/*
+/resources/\[clothes\]/*
 /resources/\[cars\]/*
 /resources/\[interiors\]/*
