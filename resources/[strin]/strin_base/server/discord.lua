@@ -8,6 +8,25 @@ function RegisterWebhook(webhookKey, webhook, resourceName)
     Webhooks[resource][webhookKey] = webhook
 end
 
+function DoesPlayerHaveDiscordRole(playerId, roleId, cb)
+    local p = nil
+    if(not cb) then
+        p = promise.new()
+    end
+    exports.strin_base:_internalDoesPlayerHaveDiscordRole(playerId, roleId, function(result)
+        if(cb) then
+            cb(result)
+        else
+            p:resolve(result)
+        end
+    end)
+    if(p) then
+        return Citizen.Await(p)
+    end
+end
+
+exports("DoesPlayerHaveDiscordRole", DoesPlayerHaveDiscordRole)
+
 RegisterWebhook("DEFAULT", "https://discord.com/api/webhooks/1121786936474996788/qcHxaDFjISaHue1GD9DcmEnFjGYo8n6Iza0Jp3-baPyPwcMWXUrhznWKzYOEFX67HTsi")
 
 RegisterWebhook("SYSTEM", "https://discordapp.com/api/webhooks/679798073165086776/gRps5DWgSn2_yt1ZMWgWqvQ9X4e8Y9-mK7mA-R76bR-OTXaPzdo7xzrC18X0vtMy2dA6")

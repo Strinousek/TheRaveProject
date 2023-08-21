@@ -64,7 +64,7 @@ lib.onCache("vehicle", function(value)
         end
         while(true) do
             Citizen.Wait(0)
-            local ped = PlayerPedId()
+            local ped = cache.ped or PlayerPedId()
             if(not cache.vehicle) then
                 break
             end
@@ -79,13 +79,20 @@ lib.onCache("vehicle", function(value)
             end
 
             if(IsControlPressed(2, 75) and not IsEntityDead(ped)) then
-                SetVehicleEngineOn(vehicle, true, true, false)
-                TaskLeaveVehicle(ped, vehicle, 0)
+                Citizen.Wait(150)
+                if(IsControlPressed(2, 75) and not IsEntityDead(ped)) then
+                    SetVehicleEngineOn(vehicle, true, true, false)
+                    if(IsControlPressed(2, 21)) then
+                        TaskLeaveVehicle(ped, vehicle, 256)
+                    else
+                        TaskLeaveVehicle(ped, vehicle, 0)
+                    end
+                end
             end
             local roll = GetEntityRoll(vehicle)
             if (roll > 75.0 or roll < -75.0) and GetEntitySpeed(vehicle) < 2 then
-                DisableControlAction(2,59,true) -- Disable left/right
-                DisableControlAction(2,60,true) -- Disable up/down
+                DisableControlAction(2, 59, true) -- Disable left/right
+                DisableControlAction(2, 60, true) -- Disable up/down
             end
     
             local vehicleHealth = GetVehicleEngineHealth(vehicle)
@@ -110,12 +117,11 @@ Citizen.CreateThread(function()
 		Citizen.Wait(0)
 		if(not cache.vehicle) then
             DisableControlAction(0, 26, true)
+            if IsPlayerFreeAiming(cache.playerId) and IsControlPressed(0, 25) then
+                DisableControlAction(0, 22, true)
+            end
         end
 		--DisableControlAction(0, 36, true)
-        
-		if IsControlPressed(0, 25) then
-            DisableControlAction(0, 22, true)
-        end
 
         if(ShowBlackBars) then
             DrawRect(1.0, 1.0, 2.0, 0.25, 0, 0, 0, 255)
@@ -178,32 +184,37 @@ function Handsup()
     end
 end
 
+AddEventHandler("strin_base:cancelledAnimation", function()
+    if(not WasEventCanceled()) then
+        local ped = PlayerPedId()
+        if(IsRestrained) then
+            return
+        end
+        if(inHandsup) then
+            inHandsup = false
+        end
+        if(crouched) then
+            crouched = false
+            local animSet = "move_ped_crouched"
+            SetPedMaxMoveBlendRatio(ped, 1.0)
+            ResetPedMovementClipset(ped, 0.55)
+            ResetPedStrafeClipset(ped)		
+            SetPedCanPlayAmbientAnims(ped, true)
+            SetPedCanPlayAmbientBaseAnims(ped, true)	
+            ResetPedWeaponMovementClipset(ped)
+            RemoveAnimSet(animSet)
+        end
+        RPEmotes:CanCancelEmote(true)
+        RPEmotes:EmoteCancel(true)
+        ClearPedTasks(ped)
+    end
+end)
+
 RegisterCommand("cancelanim", function()
     if(IsControlPressed(0, 21)) then
         return
     end
 
-    local ped = PlayerPedId()
-    if(IsRestrained) then
-        return
-    end
-    if(inHandsup) then
-        inHandsup = false
-    end
-    if(crouched) then
-        crouched = false
-        local animSet = "move_ped_crouched"
-		SetPedMaxMoveBlendRatio(ped, 1.0)
-		ResetPedMovementClipset(ped, 0.55)
-		ResetPedStrafeClipset(ped)		
-		SetPedCanPlayAmbientAnims(ped, true)
-		SetPedCanPlayAmbientBaseAnims(ped, true)	
-		ResetPedWeaponMovementClipset(ped)
-		RemoveAnimSet(animSet)
-    end
-    RPEmotes:CanCancelEmote(true)
-    RPEmotes:EmoteCancel(true)
-    ClearPedTasks(ped)
     TriggerEvent("strin_base:cancelledAnimation")
 end)
 
@@ -246,6 +257,52 @@ RegisterCommand("crouch", function()
 		end
 	end
 end)
+
+RegisterCommand("+takeplayerout", function()
+    if(cache.vehicle) then
+        return
+    end
+    local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), 2.5)
+    if(not vehicle) then
+        return
+    end
+    if(IsControlPressed(0, 21) and GetRelationshipBetweenGroups("player", "player") == 1) then
+        local closestPedDistance = 2.0
+        local closestPed = nil
+        local closestOccupiedSeat = nil
+        for i=-1, GetVehicleMaxNumberOfPassengers(vehicle) - 1 do
+            local ped = GetPedInVehicleSeat(vehicle, i)
+            if(ped ~= 0) then
+                local distance = #(GetEntityCoords(ped) - GetEntityCoords(cache.ped))
+                if(distance < closestPedDistance and IsPedAPlayer(ped)) then
+                    closestPedDistance = distance
+                    closestPed = ped
+                    closestOccupiedSeat = i
+                end
+            end
+        end
+        if(not closestPed or not closestOccupiedSeat) then
+            ESX.ShowNotification("Nebylo nalezené žádné okupované místo ve vozidle!", { type = "error" })
+            return
+        end
+        SetRelationshipBetweenGroups(2, 'player', 'player')
+        TaskEnterVehicle(cache.ped, vehicle, -1, closestOccupiedSeat, 1.0)
+        Citizen.Wait(1000)
+        ClearPedTasks(cache.ped)
+    end
+end)
+
+RegisterCommand("-takeplayerout", function()
+    if(cache.vehicle) then
+        return
+    end
+    Citizen.Wait(3000)
+    if(GetRelationshipBetweenGroups("player", "player") == 2) then
+        SetRelationshipBetweenGroups(1, 'player', 'player')
+    end
+end)
+
+RegisterKeyMapping('+takeplayerout', '<FONT FACE="Righteous">Vytáhnout hráče z vozidla (SHIFT +)</FONT>', 'KEYBOARD', "J")
 
 RegisterKeyMapping('crouch', '<FONT FACE="Righteous">Skrčit se</FONT>', 'KEYBOARD', "C")
 RegisterKeyMapping("handsup", "<FONT FACE='Righteous'>Zvednout ruce (LSHIFT +)~</FONT>", "keyboard", "X")

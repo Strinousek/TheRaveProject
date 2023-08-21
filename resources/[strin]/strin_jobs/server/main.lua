@@ -105,7 +105,7 @@ lib.callback.register("strin_jobs:scanFingerprints", function(source, targetId)
         Citizen.Wait(2000)
         TriggerClientEvent("strin_base:executeCommand", targetPlayer.source, "me", "přikládá prst")
         Citizen.Wait(8000)
-        TriggerClientEvent("strin_base:executeCommand", _source, "do", chanceOnFailure < 20 and "Sken se povedl" or "Sken se nepovedl")
+        TriggerClientEvent("strin_base:executeCommand", _source, "do", chanceOnFailure > 20 and "Sken se povedl" or "Sken se nepovedl")
     end)
 
     if(chanceOnFailure < 20) then

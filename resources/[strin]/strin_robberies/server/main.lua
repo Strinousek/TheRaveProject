@@ -6,8 +6,30 @@ Base:RegisterWebhook("DEFAULT", "https://discord.com/api/webhooks/69179416787720
 
 local LawEnforcementJobs = Jobs:GetLawEnforcementJobs()
 
+local IsDebugModeOn = false
+local DefaultConfigFile = LoadResourceFile(GetCurrentResourceName(), "config.lua")
+
+AddEventHandler("strin_base:debugStateChange", function(state, onChange)
+    IsDebugModeOn = state
+    if(not state) then
+        load(DefaultConfigFile)()
+    else
+        CashRegistersRequiredCops = 0
+        CashRegistersRefreshTime = 5 * 60000
+        CashRegistersRobberyTime = 120 * 1000
+
+        JeweleryRefreshTime = 5 * 60000
+        JeweleryRequiredCops = 0
+
+        BanksRobTime = 2 * 60000
+        BanksRequiredCops = 0
+        BanksRefreshTime = 5 * 60000
+    end
+    onChange()
+end)
+
 function IsPlayerACop(job)
-    if(lib.table.contains(LawEnforcementJobs, job)) then
+    if(lib.table.contains(LawEnforcementJobs, job) and not IsDebugModeOn) then
         return true
     end
     return false
@@ -16,18 +38,20 @@ end
 function CheckBasicRobberyAvailability(requiredCops)
     local isAvailable, message = true, ""
 
-    -- Check robbery timer
-    local timer, remainingTimeFormatted = Base:GetTimer()
-    if(timer) then
-        isAvailable = false
-        message = ("Nelegální činnosti jsou pozdržené, zbývá %s!"):format(remainingTimeFormatted)
-    end
+    if(not IsDebugModeOn) then
+        -- Check robbery timer
+        local timer, remainingTimeFormatted = Base:GetTimer()
+        if(timer) then
+            isAvailable = false
+            message = ("Nelegální činnosti jsou pozdržené, zbývá %s!"):format(remainingTimeFormatted)
+        end
 
-    -- Check Cop Count
-    local copCount = Base:CountCops()
-    if(copCount < requiredCops) then
-        isAvailable = false
-        message = ("Ve městě není dostatek strážníků!")
+        -- Check Cop Count
+        local copCount = Base:CountCops()
+        if(copCount < requiredCops) then
+            isAvailable = false
+            message = ("Ve městě není dostatek strážníků!")
+        end
     end
 
     return isAvailable, message

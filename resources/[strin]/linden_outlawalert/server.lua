@@ -14,7 +14,8 @@ lib.callback.register("linden_outlawalert:getCharData", function(source)
 	return {
 		firstname = xPlayer.get("firstname"),
 		lastname = xPlayer.get("lastname"),
-		phone_number = xPlayer.get("phone_number")
+		phone_number = xPlayer.get("phone_number"),
+		job = xPlayer.getJob()
 	}
 end)
 
@@ -61,25 +62,25 @@ end
 local dispatchCodes = {
 
 	melee = { displayCode = '10-10', description = _U('melee'), isImportant = 0, recipientList = LawEnforcementJobs or {'police', "sheriff"},
-	blipSprite = 310, blipColour = 84, blipScale = 1.5 },
+	blipSprite = 310, blipColour = 84, blipScale = 1.5, length = 8000 },
 
 	officerdown = {displayCode = '10-99', description = _U('officerdown'), isImportant = 1, recipientList = DistressJobs or {'police', 'ambulance', "sheriff"},
-	blipSprite = 161, blipColour = 84, blipScale = 1.5, infoM = 'fa-portrait'},
+	blipSprite = 161, blipColour = 84, blipScale = 1.5, infoM = 'fa-portrait', length = 8000},
 
 	persondown = {displayCode = '10-52', description = _U('persondown'), isImportant = 0, recipientList = DistressJobs or {'police', 'ambulance', "sheriff"},
-	blipSprite = 310, blipColour = 84, blipScale = 1.5, infoM = 'fa-portrait'},
+	blipSprite = 310, blipColour = 84, blipScale = 1.5, infoM = 'fa-portrait', length = 8000},
 
 	autotheft = {displayCode = '10-16', description = _U('autotheft'), isImportant = 0, recipientList = LawEnforcementJobs or {'police', "sheriff"},
-	blipSprite = 645, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
+	blipSprite = 645, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette', length = 8000 },
 
 	speeding = {displayCode = '10-66', description = _U('speeding'), isImportant = 0, recipientList = LawEnforcementJobs or {'police', "sheriff"},
-	blipSprite = 488, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
+	blipSprite = 488, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette', length = 8000 },
 
 	shooting = { displayCode = '10-13', description = _U('shooting'), isImportant = 0, recipientList = LawEnforcementJobs or {'police', "sheriff"}, length = 11000,
 	blipSprite = 110, blipColour = 84, blipScale = 1.5 },
 
 	driveby = { displayCode = '10-13', description = _U('driveby'), isImportant = 0, recipientList = LawEnforcementJobs or{'police', "sheriff"},
-	blipSprite = 229, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette' },
+	blipSprite = 229, blipColour = 84, blipScale = 1.5, infoM = 'fa-car', infoM2 = 'fa-palette', length = 8000 },
 }
 
 

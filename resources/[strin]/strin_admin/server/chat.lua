@@ -15,8 +15,8 @@ ESX.RegisterCommand("at", "admin", function(xPlayer, args)
     for _,xAdmin in pairs(xAdmins) do
         if(not StreamerModes[xAdmin.identifier]) then
             TriggerClientEvent('chat:addMessage', xAdmin.source, {
-                template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b>ACHAT: {0} - {1}</b></div>',
-                args = { name, message }
+                template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b>ACHAT: {0} [ID: {1}] - {2}</b></div>',
+                args = { name, xPlayer.source, message }
             })
         end
     end
@@ -35,17 +35,19 @@ ESX.RegisterCommand("report", "user", function(xPlayer, args)
 
     local name = ESX.SanitizeString(GetPlayerName(xPlayer.source))
     TriggerClientEvent('chat:addMessage', xPlayer.source, {
-        template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} - {1}</b></div>',
-        args = { name, message }
+        template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} [ID: {1}] - {2}</b></div>',
+        args = { name, xPlayer.source, message }
     })
 
     local xAdmins = ESX.GetExtendedPlayers("group", "admin")
     for _,xAdmin in pairs(xAdmins) do
         if(not StreamerModes[xAdmin.identifier]) then
-            TriggerClientEvent('chat:addMessage', xAdmin.source, {
-                template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} - {1}</b></div>',
-                args = { name, message }
-            })
+            if(xAdmin.source ~= xPlayer.source) then
+                TriggerClientEvent('chat:addMessage', xAdmin.source, {
+                    template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} [ID: {1}] - {2}</b></div>',
+                    args = { name, xPlayer.source, message }
+                })
+            end
         end
     end
 end, false)
@@ -66,17 +68,17 @@ ESX.RegisterCommand("reply", "admin", function(xPlayer, args)
     local message = table.concat(args, " "):sub(args[1]:len() + 1)
 
     local name = ESX.SanitizeString(GetPlayerName(xPlayer.source))
-    /*TriggerClientEvent('chat:addMessage', xTarget.source, {
-        template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} - {1} [{2}]</b></div>',
-        args = { name, message, targetId }
-    })*/
+    TriggerClientEvent('chat:addMessage', xTarget.source, {
+        template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} [ID: {1}] - {2}</b></div>',
+        args = { name, xPlayer.source, message }
+    })
     
     local xAdmins = ESX.GetExtendedPlayers("group", "admin")
     for _,xAdmin in pairs(xAdmins) do
         if(not StreamerModes[xAdmin.identifier]) then
             TriggerClientEvent('chat:addMessage', xAdmin.source, {
-                template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} - {1} [{2}]</b></div>',
-                args = { name, message, targetId }
+                template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} [ID: {1}] - {2} [ID: {3}]</b></div>',
+                args = { name, xPlayer.source, message, targetId }
             })
         end
     end

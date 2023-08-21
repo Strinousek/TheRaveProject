@@ -217,7 +217,10 @@ return {
 		label = 'Radio',
 		weight = 1000,
 		stack = false,
-		allowArmed = true
+		allowArmed = true,
+		client = {
+			event = "ac_radio:openRadio",
+		}
 	},
 
 	['armour'] = {

@@ -81,7 +81,7 @@ Citizen.CreateThread(function()
             RefreshBlips(jobs[i])
         end
         local endTime = GetGameTimer()
-        Citizen.Wait(3000 - (endTime - startTime))
+        Citizen.Wait(2500 - (endTime - startTime))
     end
 end)
 

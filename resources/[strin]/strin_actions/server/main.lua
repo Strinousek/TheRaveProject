@@ -53,8 +53,15 @@ RegisterNetEvent("strin_actions:drag", function(targetNetId)
         TriggerClientEvent("esx:showNotification", _source, "Nejste dostatečně blízko hráči.", {type = "error"})
         return
     end
-    
-    TriggerClientEvent("strin_base:executeCommand", _source, "me", "bere osobu za rameno a vede ji")
+
+    local entityAttachedToHandle = GetEntityAttachedTo(targetPed)
+    if(entityAttachedToHandle == 0) then
+        TriggerClientEvent("strin_base:executeCommand", _source, "me", "bere osobu za rameno a vede ji")
+    else
+        if(entityAttachedToHandle == GetPlayerPed(_source)) then
+            TriggerClientEvent("strin_base:executeCommand", _source, "me", "pouští osobu")
+        end
+    end
     TriggerClientEvent("strin_actions:drag", targetPlayer.source, _source)
 end)
 
@@ -71,6 +78,12 @@ RegisterNetEvent("strin_actions:putInVehicle", function(targetNetId)
     local targetPed = GetPlayerPed(targetPlayer.source)
     if(not DoesEntityExist(targetPed)) then
         TriggerClientEvent("esx:showNotification", _source, "Cílová entita neexistuje.")
+        return
+    end
+
+    local vehicle = GetVehiclePedIsIn(targetPed)
+    if(vehicle ~= 0) then
+        TriggerClientEvent("esx:showNotification", _source, "Hráč již je ve vozidle.", { type = "error" })
         return
     end
 
@@ -102,6 +115,12 @@ RegisterNetEvent("strin_actions:putOutOfVehicle", function(targetNetId)
     local targetPed = GetPlayerPed(targetPlayer.source)
     if(not DoesEntityExist(targetPed)) then
         TriggerClientEvent("esx:showNotification", _source, "Cílová entita neexistuje.")
+        return
+    end
+
+    local vehicle = GetVehiclePedIsIn(targetPed)
+    if(vehicle == 0) then
+        TriggerClientEvent("esx:showNotification", _source, "Hráč není ve vozidle.", { type = "error" })
         return
     end
 

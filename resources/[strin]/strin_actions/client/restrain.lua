@@ -68,7 +68,7 @@ Target:addGlobalPlayer({
         label = "Osvobodit",
 		distance = 1.5,
         canInteract = function(entity)
-            return IsPlayerRestrained(entity)
+            return IsPlayerRestrained(entity) and GetEntityAttachedTo(entity) == 0
         end,
 		onSelect = function(data)
 			UnrestrainPlayer(data.entity)
@@ -87,7 +87,7 @@ Target:addGlobalPlayer({
         end
     },
 	{
-        label = "Táhnout",
+        label = "Vzít za rameno",
 		distance = 1.5,
 		canInteract = function(entity)
             return IsPlayerRestrained(entity)

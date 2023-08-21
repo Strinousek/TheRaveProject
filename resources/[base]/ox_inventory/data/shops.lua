@@ -112,8 +112,11 @@ return {
 			{ name = "ammobox", price = 330, metadata = { ammoType = "50"}, license = "fsc" },
 
 			{ name = 'ammo-shotgun', price = 130, license = "fsc" },
-			{ name = "ammobox", price = 840, metadata = { ammoType = "shotgun"}, license = "fsc" }, -- 8 nábojů
+			{ name = "ammobox", price = 840, metadata = { ammoType = "shotgun"}, license = "fsc" }, -- 8 nábojů¨
+
 			
+			{ name = 'ammo-flare', price = 30 },
+			{ name = "ammobox", price = 300, metadata = { ammoType = "flare"} }, -- 8 nábojů
 			
 			{ name = 'WEAPON_BATTLEAXE', price = 370 },
 			{ name = 'WEAPON_HATCHET', price = 370 },

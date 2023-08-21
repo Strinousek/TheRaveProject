@@ -612,7 +612,7 @@ function CalculateTunningPrice(properties, vehicleModelName)
                     mod = CarParts.Upgrades[k]
                     if(k ~= "modTurbo") then
                         if(v > -1) then
-                            mod.price = type(mod.price) == "table" and mod.price[v + 1] or mod.price
+                            mod.price = type(mod.price) == "table" and (mod.price[v + 1] or (mod.price[#mod.price] * 1.2)) or mod.price
                         end
                     else
                         mod.price = type(mod.price) == "table" and mod.price[1] or mod.price

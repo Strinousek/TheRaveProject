@@ -16,8 +16,8 @@ end)
 
 RegisterNetEvent('esx:setJob')
 AddEventHandler('esx:setJob', function(job)
-    job = ESX.PlayerData.job.name
-    rank = ESX.PlayerData.job.grade_label
+    job = job.name
+    rank = job.grade_label
     isPlayerWhitelisted = refreshPlayerWhitelisted()
 end)
 
@@ -26,11 +26,10 @@ function GetPlayerInfo()
         firstname = chardata.firstname
         lastname = chardata.lastname
         phone = chardata.phone_number
-        if firstname == nil then Citizen.Wait(1000) end
+        job = chardata.job.name
+        rank = chardata.job.grade_label
+        isPlayerWhitelisted = refreshPlayerWhitelisted()
     end)
-	job = ESX.PlayerData.job.name
-    rank = ESX.PlayerData.job.grade_label
-    isPlayerWhitelisted = refreshPlayerWhitelisted()
 end
 
 AddEventHandler('esx:onPlayerDeath', function(data)
@@ -43,4 +42,14 @@ end)
 
 AddEventHandler('playerSpawned', function(data)
 	playerIsDead = false
+end)
+
+AddEventHandler("onResourceStart", function(resourceName)
+    if(GetCurrentResourceName() ~= resourceName) then
+        return
+    end
+    Citizen.Wait(10000)
+    if(not firstname) then
+        GetPlayerInfo()
+    end
 end)

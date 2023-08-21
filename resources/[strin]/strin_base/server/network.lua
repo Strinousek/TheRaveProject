@@ -1,71 +1,71 @@
 local WhitelistedEntities = {
-    'prop_v_cam_01',
-    'p_ing_microphonel_01',
-    'apa_mp_apa_yacht_jacuzzi_ripple1',
-    'xm_prop_x17_l_door_glass_01',
-    'xm_prop_x17_l_glass_01',
-    'xm_prop_x17_l_glass_02',
-    'xm_prop_x17_l_glass_03',
-    'prop_cs_burger_01',
-    'prop_ld_flow_bottle',
-    'prop_tool_pickaxe',
-    'prop_cs_remote_01',
-    'prop_cs_hand_radio',
-    'prop_v_bmike_01',
-    'hei_p_m_bag_var22_arm_s',
-    'hei_prop_heist_thermite',
-    'hei_prop_hst_laptop',
-    'hei_prop_heist_card_hack_02',
-    'p_ld_id_card_01',
-    'hei_prop_heist_cash_pile',
-    'prop_amb_phone',
-    'ng_proc_sodabot_01a',
-    'ng_proc_box_01a',
-    'ng_proc_food_burg01a',
-    'ba_prop_battle_glowstick_01',
-    'ba_prop_battle_hobby_horse',
-    'p_amb_brolly_01',
-    'prop_notepad_01',
-    'prop_pencil_01',
-    'hei_prop_heist_box',
-    'prop_single_rose',
-    'prop_cs_ciggy_01',
-    'hei_heist_sh_bong_01',
-    'prop_ld_suitcase_01',
-    'prop_security_case_01',
-    'prop_police_id_board',
-    'p_amb_coffeecup_01',
-    'prop_drink_whisky',
-    'prop_amb_beer_bottle',
-    'prop_plastic_cup_02',
-    'prop_amb_donut',
-    'prop_sandwich_01',
-    'prop_ecola_can',
-    'prop_choc_ego',
-    'prop_drink_redwine',
-    'prop_champ_flute',
-    'prop_drink_champ',
-    'prop_cigar_02',
-    'prop_cigar_01',
-    'prop_acc_guitar_01',
-    'prop_el_guitar_01',
-    'prop_el_guitar_03',
-    'prop_novel_01',
-    'prop_snow_flower_02',
-    'v_ilev_mr_rasberryclean',
-    'p_michael_backpack_s',
-    'p_amb_clipboard_01',
-    'prop_tourist_map_01',
-    'prop_beggers_sign_03',
-    'prop_anim_cash_pile_01',
-    'prop_pap_camera_01',
-    'ba_prop_battle_champ_open',
-    'p_cs_joint_02',
-    'prop_amb_ciggy_01',
-    'prop_ld_case_01',
-    'prop_cs_tablet',
-    'prop_npc_phone_02',
-    'prop_sponge_01',
+    `prop_v_cam_01`,
+    `p_ing_microphonel_01`,
+    `apa_mp_apa_yacht_jacuzzi_ripple1`,
+    `xm_prop_x17_l_door_glass_01`,
+    `xm_prop_x17_l_glass_01`,
+    `xm_prop_x17_l_glass_02`,
+    `xm_prop_x17_l_glass_03`,
+    `prop_cs_burger_01`,
+    `prop_ld_flow_bottle`,
+    `prop_tool_pickaxe`,
+    `prop_cs_remote_01`,
+    `prop_cs_hand_radio`,
+    `prop_v_bmike_01`,
+    `hei_p_m_bag_var22_arm_s`,
+    `hei_prop_heist_thermite`,
+    `hei_prop_hst_laptop`,
+    `hei_prop_heist_card_hack_02`,
+    `p_ld_id_card_01`,
+    `hei_prop_heist_cash_pile`,
+    `prop_amb_phone`,
+    `ng_proc_sodabot_01a`,
+    `ng_proc_box_01a`,
+    `ng_proc_food_burg01a`,
+    `ba_prop_battle_glowstick_01`,
+    `ba_prop_battle_hobby_horse`,
+    `p_amb_brolly_01`,
+    `prop_notepad_01`,
+    `prop_pencil_01`,
+    `hei_prop_heist_box`,
+    `prop_single_rose`,
+    `prop_cs_ciggy_01`,
+    `hei_heist_sh_bong_01`,
+    `prop_ld_suitcase_01`,
+    `prop_security_case_01`,
+    `prop_police_id_board`,
+    `p_amb_coffeecup_01`,
+    `prop_drink_whisky`,
+    `prop_amb_beer_bottle`,
+    `prop_plastic_cup_02`,
+    `prop_amb_donut`,
+    `prop_sandwich_01`,
+    `prop_ecola_can`,
+    `prop_choc_ego`,
+    `prop_drink_redwine`,
+    `prop_champ_flute`,
+    `prop_drink_champ`,
+    `prop_cigar_02`,
+    `prop_cigar_01`,
+    `prop_acc_guitar_01`,
+    `prop_el_guitar_01`,
+    `prop_el_guitar_03`,
+    `prop_novel_01`,
+    `prop_snow_flower_02`,
+    `v_ilev_mr_rasberryclean`,
+    `p_michael_backpack_s`,
+    `p_amb_clipboard_01`,
+    `prop_tourist_map_01`,
+    `prop_beggers_sign_03`,
+    `prop_anim_cash_pile_01`,
+    `prop_pap_camera_01`,
+    `ba_prop_battle_champ_open`,
+    `p_cs_joint_02`,
+    `prop_amb_ciggy_01`,
+    `prop_ld_case_01`,
+    `prop_cs_tablet`,
+    `prop_npc_phone_02`,
+    `prop_sponge_01`,
     269934519,
     2007413986,
     881130828,
@@ -74,26 +74,26 @@ local WhitelistedEntities = {
 }
 
 local BlacklistedVehicles = {
-    "vigilante",
-    "hydra",
-    "buzzard",
-    "deluxo",
-    "freight",
-    "avenger",
-    "akula",
-    "apc",
-    "barrage",
-    "caracara",
-    "cargobob",
-    "chernobog",
-    "hunter",
-    "insurgent",
-    "starling",
-    "lazer",
-    "bombushka",
-    "savage",
-    "rhino",
-    "khanjali"
+    `vigilante`,
+    `hydra`,
+    `buzzard`,
+    `deluxo`,
+    `freight`,
+    `avenger`,
+    `akula`,
+    `apc`,
+    `barrage`,
+    `caracara`,
+    `cargobob`,
+    `chernobog`,
+    `hunter`,
+    `insurgent`,
+    `starling`,
+    `lazer`,
+    `bombushka`,
+    `savage`,
+    `rhino`,
+    `khanjali`
 }
 
 local CONST_POPULATION_TYPE_MISSION = 7
@@ -106,29 +106,32 @@ AddEventHandler('entityCreating', function(entity)
     local entityType = GetEntityType(entity)
     if entityType == CONST_ENTITY_TYPE_OBJECT then
         local model = GetEntityModel(entity)
-        for i, v in pairs(WhitelistedEntities) do
-            local v = (type(v) == 'number' and v or GetHashKey(v))
-            if v == model then
+        for i=1, #WhitelistedEntities do
+            if(model == WhitelistedEntities[i]) then
                 return
             end
         end
         CancelEvent()
     elseif entityType == CONST_ENTITY_TYPE_VEHICLE then
         local model = GetEntityModel(entity)
-        for i, v in pairs(BlacklistedVehicles) do
-            local v = (type(v) == 'number' and v or GetHashKey(v))
-            if v == model then
+        for i=1, #BlacklistedVehicles do
+            if(model == BlacklistedVehicles[i]) then
                 CancelEvent()
+                return
             end
         end
-        local speed = GetEntityVelocity(id)
-        if #(speed - vector3(0,0,0)) > 35.0 then
+        local speed = GetEntityVelocity(entity)
+        if #(speed - vector3(0, 0, 0)) > 35.0 then
             CancelEvent()
+            return
         end
     end
 end)
 
 function RegisterWhitelistedEntity(entity)
+    if(type(entity) == "string") then
+        entity = GetHashKey(entity)
+    end
     table.insert(WhitelistedEntities, entity)
 end
 

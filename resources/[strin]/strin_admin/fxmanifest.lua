@@ -7,11 +7,6 @@ shared_scripts {
     "@ox_lib/init.lua",
 }
 
-client_scripts {
-    "client/noclip.lua",
-    "client/main.lua",
-}
-
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
     "server/admins.lua",
@@ -19,4 +14,9 @@ server_scripts {
     "server/bans.lua",
     "server/honeypot.lua",
     "server/chat.lua"
+}
+
+client_scripts {
+    "client/noclip.lua",
+    "client/main.lua",
 }

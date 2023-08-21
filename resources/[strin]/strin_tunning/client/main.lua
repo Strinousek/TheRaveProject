@@ -12,6 +12,10 @@ local FAIcons = {
     ["spray-can"] = "fas fa-spray-can",
 }
 
+lib.callback.register("strin_tunning:showTicketInfo", function()
+    -- to/do
+end)
+
 lib.callback.register("strin_tunning:getVehicleProperties", function()
     local ped = PlayerPedId()
     local vehicle = GetVehiclePedIsIn(ped)
@@ -62,29 +66,10 @@ Citizen.CreateThread(function()
 			DisableControlAction(0, 23, true)  -- Disable exit vehicle
 			DisableControlAction(0, 75, true)  -- Disable exit vehicle
 			DisableControlAction(27, 75, true) -- Disable exit vehicle
-            /*
-                DisableAllControlActions(0)
-                EnableControlAction(0, 1) -- mouse - left rotation
-                EnableControlAction(0, 2) -- mouse - right rotation
-                EnableControlAction(0, 32) -- W - forward - for tyre smoke
-                EnableControlAction(0, 33) -- S - back - for tyre smoke
-                EnableControlAction(0, 38) -- E - horn
-                EnableControlAction(0, 320) -- V 1 - view
-                EnableControlAction(0, 325) -- V 2 - view
-                EnableControlAction(0, 337) -- X - hydraulics
-                EnableControlAction(0, 338) -- A - hydraulics - left
-                EnableControlAction(0, 339) -- D - hydraulics - right
-                EnableControlAction(0, 340) -- LEFT SHIFT - hydraulics up
-                EnableControlAction(0, 341) -- LEFT CTRL - hydraulics down
-            */
         end
         Citizen.Wait(sleep)
     end
 end)
-
-/*RegisterCommand("tunningtest", function()
-    lib.setClipboard(ESX.DumpTable(lib.getVehicleProperties(GetVehiclePedIsIn(PlayerPedId()))))
-end)*/
 
 RegisterNetEvent("strin_tunning:stopTunning", function(vehicleNetId, vehicleProperties)
     if(
@@ -96,11 +81,6 @@ RegisterNetEvent("strin_tunning:stopTunning", function(vehicleNetId, vehicleProp
     ESX.UI.Menu.CloseAll()
     IsInMenu = false
     RequestedServer = false
-    /*local vehicle = NetworkGetEntityFromNetworkId(vehicleNetId)
-    if(vehicleProperties) then
-        lib.setVehicleProperties(vehicle, vehicleProperties)
-    end
-    FreezeEntityPosition(vehicle, false)*/
 end)
 
 RegisterNetEvent("strin_tunning:startTunning", function(tunningZoneId, vehicleNetId, vehicleProperties)
@@ -414,10 +394,11 @@ function OpenCosmeticsSubMenu(tunningZoneId, vehicle, modKey, mods, onAdminClose
                         ["modSmokeEnabled"] = (not isNeonOff) and true or false,
                         [data.current.value] = { neon.r, neon.g, neon.b }
                     })
+                else
+                    lib.setVehicleProperties(vehicle, {
+                        [data.current.value] = changedValue
+                    })
                 end
-                lib.setVehicleProperties(vehicle, {
-                    [data.current.value] = changedValue
-                })
             end
             OpenCosmeticsSubMenu(tunningZoneId, vehicle, modKey, mods, onAdminCloseCallback)
         end, onAdminCloseCallback ~= nil)
@@ -440,7 +421,7 @@ function OpenModMenu(tunningZoneId, vehicle, modKey, mod, onCloseCallback, isAdm
             if(level == 0) then
                 mod.price[level] = 1
             end
-            local modPrice = math.floor(vehiclePrice * mod.price[level] / 100)
+            local modPrice = math.floor(vehiclePrice * (mod.price[level] or (mod.price[#mod.price] * 1.2)) / 100)
             table.insert(elements, {label = "Level - "..(level == 0 and "Základní" or level).." - "..(
                 i == currentVehicleProperties[modKey] and
                 "Nainstalováno" or

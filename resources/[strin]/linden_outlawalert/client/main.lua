@@ -130,9 +130,11 @@ function createBlip(data)
 			BeginTextCommandSetBlipName('STRING')
 			AddTextComponentString("<FONT FACE='Righteous'>"..data.displayCode..' - '..data.dispatchMessage.."<FONT/>")
 			EndTextCommandSetBlipName(blip)
-			Citizen.Wait(data.length)
+			--Citizen.Wait(data.length)
+			Citizen.Wait(1000)
 			RemoveBlip(blip)
 			Citizen.Wait(0)
+			data.netId = nil
 			blip = AddBlipForCoord(GetEntityCoords(entId))
 		else
 			data.netId = nil

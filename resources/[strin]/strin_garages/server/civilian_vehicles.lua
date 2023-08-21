@@ -3,7 +3,7 @@ local ClientCreatedVehicles = {}
 
 local VehicleShop = exports.strin_vehicleshop
 
-AddEventHandler("entityCreated", function(entity)
+AddEventHandler("entityCreating", function(entity)
     if(GetEntityType(entity) ~= 2) then
         return
     end

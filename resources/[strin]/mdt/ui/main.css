@@ -5,6 +5,11 @@
     width: 80%;
     margin: auto;
 }
+
+#container {
+    transition: 0.2s all;
+}
+
 #banner {
     position: fixed;
     display: inline-block;

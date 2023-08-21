@@ -31,4 +31,5 @@ files({
 
     "client/html/sounds/coin_machine.ogg",
     "client/html/sounds/hang_up.ogg",
+    "client/html/sounds/easteregg1.ogg",
 })

@@ -63,6 +63,8 @@ end)
 Citizen.CreateThread(function()
     local lockpickCount = 0
 
+    AddTextEntry("STRIN_ROBBERIES:CASH_REGISTERS:INTERACT", "<FONT FACE='Righteous'>~g~<b>[E]</b>~s~ Vykrást kasu</FONT>")
+
     for registerId,registerLocation in pairs(CashRegisters) do
         local registerPoint = lib.points.new({
             coords = registerLocation,
@@ -71,16 +73,16 @@ Citizen.CreateThread(function()
         
         function registerPoint:onEnter()
             lockpickCount = Inventory:GetItemCount("lockpick")
-            if(not IsRegisterInUse(registerId) and lockpickCount > 0) then
+            /*if(not IsRegisterInUse(registerId) and lockpickCount > 0) then
                 lib.showTextUI("[E] Vykrást kasu", {
                     position = "left-center"
                 })
-            end
+            end*/
         end
 
         function registerPoint:onExit()
             CurrentCashRegister = { entity = nil, coords = nil }
-            lib.hideTextUI()
+            --lib.hideTextUI()
         end
 
         function registerPoint:nearby()
@@ -102,6 +104,7 @@ Citizen.CreateThread(function()
                         CurrentCashRegister.coords.z + 0.5
                     )
                     DrawMarker(0, markerCoords, 0, 0, 0, 0, 0, 0, 0.1, 0.1, 0.1, 255, 0, 0, 255, true)
+                    DisplayHelpTextThisFrame("STRIN_ROBBERIES:CASH_REGISTERS:INTERACT")
                     if(IsControlJustReleased(0, 38)) then
                         TriggerServerEvent("strin_robberies:robCashRegister")
                     end

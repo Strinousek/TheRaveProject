@@ -51,6 +51,16 @@ ESX.RegisterCommand("id", "user", function(xPlayer)
     xPlayer.showNotification("Vaše ID: "..xPlayer.source, { duration = 10000 })
 end)
 
+
+local DEBUG_MODE_ON = false
+ESX.RegisterCommand("debugmode", "admin", function(xPlayer)
+    DEBUG_MODE_ON = not DEBUG_MODE_ON
+    xPlayer.showNotification("Debug Mode: "..(DEBUG_MODE_ON and "ON" or "OFF"))
+    TriggerEvent("strin_base:debugStateChange", DEBUG_MODE_ON, function()
+        print((GetInvokingResource() or GetCurrentResourceName())..": DEBUG MODE - "..(DEBUG_MODE_ON and "ON" or "OFF"))
+    end)
+end)
+
 lib.callback.register("strin_base:getPhoneNumber", function(source)
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)

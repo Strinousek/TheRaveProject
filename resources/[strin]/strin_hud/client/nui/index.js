@@ -1,5 +1,5 @@
 $(() => {
-    const backgroundElems = ["#option-container"];
+    const backgroundElems = ["#option-container", "#street-container"];
     const bars = ["#health-progress", "#armor-progress", "#energy-progress", "#breath-progress"]
     const backgroundClass = [".info-icon", ".info-bar"];
     let madeDraggables = false;

@@ -716,6 +716,16 @@ document.onreadystatechange = () => {
     };
 };
 
+const MDTContainer = document.getElementById("container");
+
+MDTContainer.addEventListener("mouseover", (e) =>  {
+    MDTContainer.style.opacity = "1.0";
+});
+
+MDTContainer.addEventListener("mouseleave", (e) =>  {
+    MDTContainer.style.opacity = "0.2";
+});
+
 document.onkeydown = function (data) {
     if (data.which == 27 || data.which == 112) { // ESC or F1
         $.post('http://mdt/close', JSON.stringify({}));
