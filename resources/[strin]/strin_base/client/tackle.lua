@@ -14,7 +14,7 @@ RegisterCommand("tackle", function()
         return
     end
 
-    local playerId, playerPed = lib.getClosestPlayer(GetEntityCoords(cache.ped), 4.0)
+    local playerId, playerPed = lib.getClosestPlayer(GetEntityCoords(cache.ped), 6.0)
     if(not playerPed) then
         return
     end
@@ -23,8 +23,8 @@ RegisterCommand("tackle", function()
         return
     end
 
-
     local playerServerId = GetPlayerServerId(playerId)
+
     TriggerServerEvent("strin_base:tacklePlayer", playerServerId)
 end)
 

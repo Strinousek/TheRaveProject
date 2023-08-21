@@ -1,8 +1,7 @@
 notLoaded, currentStreetName, intersectStreetName, lastStreet, speedlimit, nearbyPeds, isPlayerWhitelisted, playerPed, playerCoords, job, rank, firstname, lastname, phone = true
 playerIsDead = false
 
-RegisterNetEvent('esx:playerLoaded')
-AddEventHandler('esx:playerLoaded', function()
+RegisterNetEvent('esx:playerLoaded', function()
 	GetPlayerInfo()
 end)
 
@@ -14,8 +13,7 @@ RegisterNetEvent("strin_characters:characterSwitched", function()
 	GetPlayerInfo()
 end)
 
-RegisterNetEvent('esx:setJob')
-AddEventHandler('esx:setJob', function(job)
+RegisterNetEvent('esx:setJob', function(job)
     job = job.name
     rank = job.grade_label
     isPlayerWhitelisted = refreshPlayerWhitelisted()

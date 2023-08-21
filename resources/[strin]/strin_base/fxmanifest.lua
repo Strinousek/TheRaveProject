@@ -26,6 +26,7 @@ server_scripts {
     'server/identifiers.lua',
     'server/doctor.lua',
     'server/carry.lua',
+    'server/tackle.lua',
     'server/trunk.lua',
 }
 

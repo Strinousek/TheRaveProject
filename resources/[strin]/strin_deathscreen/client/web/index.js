@@ -27,11 +27,12 @@ window.onload = () => {
     };
 
     const ChangeDistress = () => {
-        distress.innerHTML = '<span class="deathscreen-colored-text">Pomoc zavolána</span>,';
+        distress.innerHTML = '<span class="deathscreen-colored-text">Pomoc zavolána.</span>';
     };
 
     const HideDistress = () => {
         distress.innerHTML = "";
+        control.innerHTML = "";
     };
     
     

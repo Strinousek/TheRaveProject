@@ -262,33 +262,31 @@ RegisterCommand("+takeplayerout", function()
     if(cache.vehicle) then
         return
     end
-    local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), 2.5)
+    local vehicle = lib.getClosestVehicle(GetEntityCoords(cache.ped), 3.0)
     if(not vehicle) then
         return
     end
     if(IsControlPressed(0, 21) and GetRelationshipBetweenGroups("player", "player") == 1) then
-        local closestPedDistance = 2.0
-        local closestPed = nil
-        local closestOccupiedSeat = nil
+        local playerId, playerPed = lib.getClosestPlayer(GetEntityCoords(cache.ped), 3.0)
+        if(not playerId) then
+            return
+        end
+        local closestOccupiedSeatIndex = nil
         for i=-1, GetVehicleMaxNumberOfPassengers(vehicle) - 1 do
             local ped = GetPedInVehicleSeat(vehicle, i)
-            if(ped ~= 0) then
-                local distance = #(GetEntityCoords(ped) - GetEntityCoords(cache.ped))
-                if(distance < closestPedDistance and IsPedAPlayer(ped)) then
-                    closestPedDistance = distance
-                    closestPed = ped
-                    closestOccupiedSeat = i
-                end
+            if(ped ~= 0 and ped == playerPed) then
+                closestOccupiedSeatIndex = i
+                break
             end
         end
-        if(not closestPed or not closestOccupiedSeat) then
+        if(not closestOccupiedSeat) then
             ESX.ShowNotification("Nebylo nalezené žádné okupované místo ve vozidle!", { type = "error" })
             return
         end
         SetRelationshipBetweenGroups(2, 'player', 'player')
-        TaskEnterVehicle(cache.ped, vehicle, -1, closestOccupiedSeat, 1.0)
-        Citizen.Wait(1000)
-        ClearPedTasks(cache.ped)
+        TaskEnterVehicle(cache.ped, vehicle, 0.0, closestOccupiedSeatIndex, 2.0, 8, 0)
+        /*Citizen.Wait(1000)
+        ClearPedTasks(cache.ped)*/
     end
 end)
 

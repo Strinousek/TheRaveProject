@@ -76,8 +76,8 @@ RegisterNetEvent('strin_base:carry', function(carryType)
 		return
 	end
 
-	TriggerClientEvent('strin_base:syncTarget', closestPlayer.id, _source)
-	TriggerClientEvent('strin_base:syncSource', _source)
+	TriggerClientEvent('strin_base:syncTarget', closestPlayer.id, _source, carryType)
+	TriggerClientEvent('strin_base:syncSource', _source, carryType)
 
 	CarryInProgress[_source] = closestPlayer.id
 end)

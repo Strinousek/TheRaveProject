@@ -8,7 +8,7 @@ lib.callback.register("linden_outlawalert:getCharData", function(source)
 	local _source = source
 	local xPlayer = ESX.GetPlayerFromId(source)
 	if not xPlayer then
-		return
+		return nil
 	end
 
 	return {

@@ -166,6 +166,9 @@ RegisterNetEvent('wf-alerts:clNotify')
 AddEventHandler('wf-alerts:clNotify', function(pData)
 	if pData ~= nil then
 		local sendit = false
+		if(not pData.recipientList) then
+			return
+		end
 		for i=1, #pData.recipientList do
 			if pData.recipientList[i] == ESX.PlayerData.job.name then sendit = true break end
 		end

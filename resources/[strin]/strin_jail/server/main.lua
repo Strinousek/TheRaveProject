@@ -37,7 +37,7 @@ AddEventHandler("esx:playerLoaded", function(playerId, xPlayer)
         return
     end
     data.jailed_on = tonumber(data.jailed_on) 
-    JailPlayer(targetPlayer.source, data)
+    JailPlayer(xPlayer.source, data)
 end)
 
 ESX.RegisterCommand("jail", "admin", function(xPlayer, args)
