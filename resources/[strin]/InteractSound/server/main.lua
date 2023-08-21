@@ -13,7 +13,9 @@ end)
 local Cooldowns = {}
 
 function PlayWithinDistance(maxDistance, soundFile, soundVolume, coords)
-    if(type(maxDistance) ~= "number" or type(soundFile) ~= "string")
+    if(type(maxDistance) ~= "number" or type(soundFile) ~= "string") then
+        return
+    end
     if(maxDistance > 10) then
         maxDistance = 10
     end
