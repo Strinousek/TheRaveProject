@@ -1,6 +1,10 @@
 SkinChanger = exports.skinchanger
 IsSpectating = false
 
+Citizen.CreateThread(function()
+	ESX.FontId = RegisterFontId('Righteous')
+end)
+
 RegisterCommand("adminmenu", function()
     local isAdmin = lib.callback.await("strin_admin:isPlayerAdmin", 500)
     if(isAdmin) then

@@ -1,6 +1,10 @@
 Target = exports.ox_target
 Inventory = exports.ox_inventory
 
+Citizen.CreateThread(function()
+	ESX.FontId = RegisterFontId('Righteous')
+end)
+
 local HoldupBlips = {}
 
 Citizen.CreateThread(function()

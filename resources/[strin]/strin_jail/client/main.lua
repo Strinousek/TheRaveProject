@@ -3,6 +3,10 @@ local LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
 
 local IsTimerDisplayed = false
 
+Citizen.CreateThread(function()
+	ESX.FontId = RegisterFontId('Righteous')
+end)
+
 RegisterNetEvent("strin_jail:cancelTimer", function()
     if(source == "" or GetInvokingResource() ~= nil) then
         return

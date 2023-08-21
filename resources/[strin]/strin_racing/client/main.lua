@@ -8,6 +8,10 @@ local RacingPoints = {}
 local RacingPointBlip = nil
 local IsRacing = false
 
+Citizen.CreateThread(function()
+	ESX.FontId = RegisterFontId('Righteous')
+end)
+
 RegisterNetEvent("strin_racing:syncRaces", function(races)
     
     for k,v in pairs(OngoingRaces) do

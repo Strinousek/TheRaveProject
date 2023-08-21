@@ -274,12 +274,13 @@ RegisterCommand("+takeplayerout", function()
         local closestOccupiedSeatIndex = nil
         for i=-1, GetVehicleMaxNumberOfPassengers(vehicle) - 1 do
             local ped = GetPedInVehicleSeat(vehicle, i)
+            print(ped, playerPed)
             if(ped ~= 0 and ped == playerPed) then
                 closestOccupiedSeatIndex = i
                 break
             end
         end
-        if(not closestOccupiedSeat) then
+        if(not closestOccupiedSeatIndex) then
             ESX.ShowNotification("Nebylo nalezené žádné okupované místo ve vozidle!", { type = "error" })
             return
         end
