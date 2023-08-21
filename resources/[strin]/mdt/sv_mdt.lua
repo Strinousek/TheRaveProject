@@ -13,7 +13,7 @@ Citizen.CreateThread(function()
 		)
 		COLLATE='utf8mb4_bin'
 		ENGINE=InnoDB
-		AUTO_INCREMENT=3;		
+		AUTO_INCREMENT=1;		
     ]]))
     MySQL.query.await(([[
         ALTER TABLE `user_mdt`
@@ -184,7 +184,7 @@ AddEventHandler("mdt:getOffenderDetails", function(offender)
 		end
 	end
 
-	print(json.encode(offender))
+	--print(json.encode(offender))
 
 	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM `owned_vehicles` WHERE `owner` = @identifier AND `job` IS NULL', {
 		['@identifier'] = offender.identifier..":"..offender.char_id
