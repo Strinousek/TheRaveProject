@@ -56,7 +56,9 @@ RegisterNetEvent('strin_base:carry', function(carryType)
 		return
 	end
 	local _source = source
-	local closestPlayer = ESX.OneSync.GetClosestPlayer(_source, 10.0)
+	local closestPlayer = ESX.OneSync.GetClosestPlayer(_source, 10.0, {
+		[_source] = true
+	})
 	
 	if(not closestPlayer?.id) then
 		TriggerClientEvent("esx:showNotification", _source, "Není žádný hráč poblíž!", { type = "error" })
@@ -76,8 +78,8 @@ RegisterNetEvent('strin_base:carry', function(carryType)
 		return
 	end
 
-	TriggerClientEvent('strin_base:syncTarget', closestPlayer.id, _source, carryType)
 	TriggerClientEvent('strin_base:syncSource', _source, carryType)
+	TriggerClientEvent('strin_base:syncTarget', closestPlayer.id, _source, carryType)
 
 	CarryInProgress[_source] = closestPlayer.id
 end)
@@ -88,7 +90,7 @@ RegisterNetEvent('strin_base:stopCarry', function()
 	if(not carryId) then
 		return
 	end
-	local players = carryType == "source" and { _source, CarryInProgress[carryId] } or { _source, carryId}
+	local players = carryType == "source" and { _source, CarryInProgress[carryId] } or { _source, carryId }
 	for _, playerId in pairs(players) do
 		TriggerClientEvent('strin_base:stopCarry', playerId)
 	end

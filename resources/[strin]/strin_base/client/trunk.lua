@@ -285,7 +285,7 @@ AddEventHandler('strin_base:forceTrunkSelf', function()
 			ESX.ShowNotification("Zamčeno!", { type = "error" })
 			return
 		end
-		DecorSetInt(vehicle, "GamemodeCar", 955)
+		--DecorSetInt(vehicle, "GamemodeCar", 955)
 		--SetEntityAsMissionEntity(vehicle, false, true)
 
 		PutInTrunk(vehicle)
@@ -321,7 +321,7 @@ RegisterNetEvent('strin_base:forceTrunk', function()
 			ESX.ShowNotification("Zamčeno!", { type = "error" })
 			return
 		end
-		DecorSetInt(vehicle, "GamemodeCar", 955)
+		--DecorSetInt(vehicle, "GamemodeCar", 955)
 		--SetEntityAsMissionEntity(vehicle, false, true)
 
         local vehicleNetId = NetworkGetNetworkIdFromEntity(vehicle)

@@ -130,6 +130,16 @@ RegisterNUICallback("getVehicle", function(data, cb)
     cb('ok')
 end)
 
+RegisterNUICallback("weaponSearch", function(data, cb)
+    TriggerServerEvent("mdt:performWeaponSearch", data.serial)
+    cb('ok')
+end)
+
+RegisterNUICallback("getWeapon", function(data, cb)
+    TriggerServerEvent("mdt:getWeapon", data.weapon)
+    cb('ok')
+end)
+
 RegisterNUICallback("getWarrants", function(data, cb)
     TriggerServerEvent("mdt:getWarrants")
 end)
@@ -266,6 +276,20 @@ AddEventHandler("mdt:returnVehicleSearchResults", function(results)
     SendNUIMessage({
         type = "returnedVehicleMatches",
         matches = results
+    })
+end)
+
+RegisterNetEvent("mdt:returnWeaponSearchResults", function(results)
+    SendNUIMessage({
+        type = "returnedWeaponMatches",
+        matches = results
+    })
+end)
+
+RegisterNetEvent("mdt:returnWeaponDetails", function(data)
+    SendNUIMessage({
+        type = "returnedWeaponDetails",
+        details = data
     })
 end)
 

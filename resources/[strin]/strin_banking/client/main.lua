@@ -16,6 +16,7 @@ Citizen.CreateThread(function()
     Target:addModel(ATMHashes, {
         {
             label = "Bankomat",
+            icon = "fa-solid fa-money-bill-transfer",
             onSelect = function()
                 OpenBankingMenu(nil, "ATM")
             end
@@ -31,6 +32,7 @@ Citizen.CreateThread(function()
             options = {
                 {
                     label = "Banka",
+                    icon = "fa-solid fa-building-columns",
                     onSelect = function()
                         OpenBankingMenu(i, "BANK")
                     end

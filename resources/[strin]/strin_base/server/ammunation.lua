@@ -12,16 +12,28 @@ local AmmunationHookId = Inventory:registerHook("buyItem", function(payload)
         local xPlayer = ESX.GetPlayerFromId(payload?.toInventory)
         if(xPlayer) then
             if((payload?.itemName or ""):find("WEAPON_") and payload?.metadata.serial) then
-                DiscordLog("AMMUNATION", "Ammu-nation", {
-                    { name = "Jméno kupujícího", value = xPlayer.get("fullname") },
-                    { name = "DOB kupujícího", value = xPlayer.get("dateofbirth") },
-                    { name = "CitizenID", value = xPlayer.get("char_identifier") },
-                    { name = "Zakoupená střelná zbraň", value = Items[payload?.itemName].label },
-                    { name = "Sériové číslo", value = payload?.metadata.serial }
-                }, {
-                    fields = true,
-                    resource = GetCurrentResourceName(),
-                })
+                local date = os.date('%m-%d-%Y %H:%M:%S', os.time())
+                MySQL.prepare([[
+                    INSERT INTO `mdt_weapons` 
+                    SET `char_id` = ?, `owner` = ?, `weapon_name` = ?, `serial` = ?, `date` = ? 
+                ]], {
+                    xPlayer.get("char_identifier"),
+                    xPlayer.get("fullname"),
+                    payload?.itemName,
+                    payload?.metadata.serial,
+                    date
+                }, function()
+                    DiscordLog("AMMUNATION", "Ammu-nation", {
+                        { name = "Jméno kupujícího", value = xPlayer.get("fullname") },
+                        { name = "DOB kupujícího", value = xPlayer.get("dateofbirth") },
+                        { name = "CitizenID", value = xPlayer.get("char_identifier") },
+                        { name = "Zakoupená střelná zbraň", value = Items[payload?.itemName].label },
+                        { name = "Sériové číslo", value = payload?.metadata.serial }
+                    }, {
+                        fields = true,
+                        resource = GetCurrentResourceName(),
+                    })
+                end)
             end
         end
     end

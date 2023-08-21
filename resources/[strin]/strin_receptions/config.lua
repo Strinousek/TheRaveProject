@@ -8,26 +8,32 @@ RECEPTIONS = {
         options = {
             {
                 label = "Přivolat Officera",
+                icon = "fa-solid fa-phone-volume",
                 serverEvent = "strin_receptions:callOfficer",
             },
             {
                 label = "Podat stížnost",
+                icon = "fa-solid fa-file-circle-exclamation",
                 event = "strin_receptions:fileComplain",
             },
             {
                 label = "Nahlásit zločin",
+                icon = "fa-solid fa-gun",
                 event = "strin_receptions:reportCrime",
             },
             {
                 label = "CCW Permit / FSC Karta",
+                icon = "fa-solid fa-id-card",
                 event = "strin_receptions:openPermitsMenu",
             },
             {
                 label = "Vyžádání FSC",
+                icon = "fa-solid fa-clipboard-list",
                 serverEvent = "strin_receptions:requestFSCPermit", 
             },
             {
                 label = "Veřejná LSPD aplikace",
+                icon = "fa-brands fa-app-store-ios",
                 event = "strin_receptions:copyLSPDDiscord",
             },
         },

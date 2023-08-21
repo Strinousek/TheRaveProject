@@ -11,6 +11,7 @@ Citizen.CreateThread(function()
             options = {
                 {
                     label = "Zastavárna",
+                    icon = "fa-solid fa-shop",
                     onSelect = function()
                         OpenPawnShopMenu()
                     end

@@ -18,6 +18,7 @@ Citizen.CreateThread(function()
             options = {
                 {
                     label = "Oblečení",
+                    icon = "fa-solid fa-shirt",
                     onSelect = function()
                         OpenCloakroomMenu(cloakroomId, cloakroom)
                     end,

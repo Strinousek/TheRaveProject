@@ -126,6 +126,7 @@ RegisterNetEvent("strin_sidejobs:attachLogToPed", function(logNetId)
                 {
                     name = "strin_sidejobs:takeWoodLog",
                     label = "Vzít kládu",
+                    icon = "fa-solid fa-hand",
                     onSelect = function(data)
                         TriggerEvent("strin_sidejobs:attachLogToPed", logNetId)
                     end,
@@ -169,6 +170,7 @@ RegisterNetEvent("strin_sidejobs:initTrees", function(data)
         {
             name = "strin_sidejobs:putLogInVehicle",
             label = "Naložit kládu",
+            icon = "fa-solid fa-hand",
             bones = { "boot" },
             onSelect = function(data)
                 lib.callback("strin_sidejobs:putLogInVehicle", 500, function(success)
@@ -189,6 +191,7 @@ function AddEntityTargetToTree(treeIndex, netId)
     Target:addEntity(netId, {
         {
             label = "Pokácet strom",
+            icon = "fa-solid fa-tree",
             distance = 2.0,
             onSelect = function()
                 ChopTree(treeIndex)

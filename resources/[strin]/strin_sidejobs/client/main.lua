@@ -18,6 +18,7 @@ Citizen.CreateThread(function()
             Target:addLocalEntity(JobCenterNPCEntity, {
                 {
                     label = "Zeptat se na práci",
+                    icon = "fa-solid fa-briefcase",
                     distance = 1.5,
                     onSelect = function()
                         OpenSideJobListMenu()

@@ -35,6 +35,7 @@ end)
 Target:addGlobalVehicle({
     {
         label = "Zamaskovat SPZ",
+        icon = "fa-solid fa-screwdriver",
         bones = { "platelight" },
         onSelect = function(data)
             local netId = NetworkGetNetworkIdFromEntity(data.entity)
@@ -51,6 +52,7 @@ Target:addGlobalVehicle({
     },
     {
         label = "Odmaskovat SPZ",
+        icon = "fa-solid fa-screwdriver",
         bones = { "platelight" },
         onSelect = function(data)
             local netId = NetworkGetNetworkIdFromEntity(data.entity)

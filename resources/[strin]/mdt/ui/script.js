@@ -90,7 +90,8 @@ const mdtApp = new Vue({
             id: null,
             identifier: null,
             haswarrant: false,
-            vehicles: {}
+            vehicles: {},
+            weapons: {},
         },
         offender_changes: {
             notes: "",
@@ -120,6 +121,21 @@ const mdtApp = new Vue({
         edit_vehicle: {
             stolen: false,
             notes: ""
+        },
+
+        weapon_search: "",
+        weapon_results: {
+            query: "",
+            results: false
+        },
+        weapon_selected: {
+            id: null,
+            char_id: null,
+            owner: null,
+            weapon_name: null,
+            weapon_label: null,
+            serial: null,
+            date: null
         },
 
         warrants: [],
@@ -161,6 +177,8 @@ const mdtApp = new Vue({
                 $("#search-offenders").addClass("nav-active");
             } else if (page == "Search Vehicles") {
                 $("#search-vehicles").addClass("nav-active");
+            } else if (page == "Search Weapons") {
+                $("#search-weapons").addClass("nav-active");
             } else if (page == "Warrants") {
                 $.post('http://mdt/getWarrants');
                 $("#warrants").addClass("nav-active");
@@ -372,6 +390,26 @@ const mdtApp = new Vue({
         OpenVehicleDetails(result) {
             $.post('http://mdt/getVehicle', JSON.stringify({
                 vehicle: result
+            }));
+
+            this.modal = 'loading';
+            return;
+        },
+        WeaponSearch() {
+            if (this.weapon_search) {
+
+                this.weapon_results.query = this.weapon_search;
+                $.post('http://mdt/weaponSearch', JSON.stringify({
+                    serial: this.weapon_search
+                }));
+
+                this.weapon_results.results = false;
+                return;
+            }
+        },
+        OpenWeaponDetails(result) {
+            $.post('http://mdt/getWeapon', JSON.stringify({
+                weapon: result
             }));
 
             this.modal = 'loading';
@@ -618,6 +656,23 @@ document.onreadystatechange = () => {
                     model: null,
                     color: null
                 };
+            } else if (event.data.type == "returnedWeaponMatches") {
+                mdtApp.weapon_results.results = event.data.matches;
+                mdtApp.weapon_selected = {
+                    id: null,
+                    char_id: null,
+                    owner: null,
+                    weapon_name: null,
+                    weapon_label: null,
+                    serial: null,
+                    date: null
+                };
+            } else if (event.data.type == "returnedWeaponDetails") {
+                mdtApp.weapon_selected = event.data.details;
+                mdtApp.weapon_search = mdtApp.weapon_selected.serial;
+                mdtApp.changePage("Search Weapons");
+
+                mdtApp.modal = null;
             } else if (event.data.type == "returnedVehicleDetails") {
                 mdtApp.vehicle_selected = event.data.details;
                 mdtApp.vehicle_search = mdtApp.vehicle_selected.plate;

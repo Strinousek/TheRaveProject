@@ -26,6 +26,7 @@
                     <li v-on:click="changePage('Home')" id="home" >Domov</li>
                     <li v-on:click="changePage('Search Offenders')" id="search-offenders" >Vyhledat Osoby</li>
                     <li v-on:click="changePage('Search Vehicles')" id="search-vehicles" >Vyhledat Vozidla</li>
+                    <li v-on:click="changePage('Search Weapons')" id="search-weapons" >Vyhledat Zbraně</li>
                     <li v-on:click="changePage('Search Reports')" id="search-reports" >Vyhledat Reporty</li>
                     <li v-on:click="changePage('Submit Report')" id="submit-report" >Vytvořit Report</li>
                     <li v-on:click="changePage('Calls')" id="calls" >Cally</li>
@@ -241,6 +242,7 @@
                         <br />
                         <button v-if="offender_selected.firstname" type="button" v-on:click="modal = 'edit_offender'" id="edit-offender" >UPRAVIT PROFIL</button>
                         <button v-if="Object.keys(offender_selected.vehicles).length > 0" type="button" v-on:click="modal = 'vehiclelist'" >VOZIDLA</button>
+                        <button v-if="Object.keys(offender_selected.weapons).length > 0" type="button" v-on:click="modal = 'weaponlist'" >ZBRANĚ</button>
                         <button v-if="offender_selected.firstname" type="button" v-on:click="changePage('Submit Report'); report_new.char_id = offender_selected.id; report_new.name = offender_selected.firstname + ' ' + offender_selected.lastname; report_new.focus = 'charges'" >NOVÝ REPORT</button>
                     </div>
 
@@ -285,6 +287,28 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="modal" v-if="modal == 'weaponlist'">
+                        <div v-bind:class="getClass('modal-content')" style="width: 50%; padding: 15px; margin-top: 120px;">
+                            <span v-bind:class="getClass('close')" v-on:click="modal = null"><i class="fas fa-times"></i></span>
+                            <h3 style="text-align: left; margin: 0; padding: 0; margin-bottom: 15px;">ZBRANĚ</h3>
+                            <div style="max-height: 68%; overflow-y: auto; margin-right: 10px;">
+                                <table style="width: 95%;">
+                                    <tr>
+                                        <th>Serial</th>
+                                        <th>Model</th>
+                                        <th>Pořízeno dne</th>
+                                    </tr>
+                                    <tr v-for="weapon in offender_selected.weapons" v-on:click="OpenWeaponDetails(weapon)">
+                                        <td>{{weapon.serial}}</td>
+                                        <td>{{weapon.weapon_label}}</td>
+                                        <td>{{weapon.date}}</td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="modal" v-if="modal == 'edit_offender'">
 						<div v-bind:class="getClass('modal-content')" style="width: 50%; padding: 15px; margin-top: 120px; height: auto; text-align: left;">
 							<span v-bind:class="getClass('close')" v-on:click="modal = null"><i class="fas fa-times"></i></span>
@@ -473,6 +497,43 @@
                         </div>
                     </div>
 
+                </div>
+
+                <div v-if="page == 'Search Weapons'">
+                    <h2 class="page-title">VYHLEDAT V DATABÁZI</h2>
+
+                    <el-form @keyup.enter.native>
+                        <input v-on:keyup.enter="WeaponSearch()" v-model="weapon_search" type="text" placeholder="Serial nebo CitizenID" required>
+                        <button v-on:click="WeaponSearch()" type="button" >VYHLEDAT</button>
+                    </el-form>
+                    
+                    <br />
+                    <div class="left-side">
+                        <h3>SERIAL</h3>
+                        <h4 v-if="weapon_selected.serial"> {{weapon_selected.serial}} </h4>
+                        <h4 v-else-if="weapon_selected.serial == null"> ... </h4>
+                        <h3>MODEL</h3>
+                        <h4 v-if="weapon_selected.weapon_label"> {{weapon_selected.weapon_label}} </h4>
+                        <h4 v-else-if="weapon_selected.weapon_label == null"> ... </h4>
+                        <h3>MAJITEL</h3>
+                        <h4 v-if="weapon_selected.owner" v-on:click="OpenOffenderDetailsById(weapon_selected.char_id)" v-bind:class="getClass('clickable')"> {{weapon_selected.owner}} </h4>
+                        <h4 v-else-if="weapon_selected.owner == null"> ... </h4>
+                        <h3>POŘÍZENO DNE</h3>
+                        <h4 v-if="weapon_selected.date"> {{weapon_selected.date}} </h4>
+                        <h4 v-else-if="weapon_selected.date == null"> ... </h4>
+                    </div>
+                    <br />
+                    
+                    <div class="right-side" style="max-height: 435px">
+                        <div v-if="weapon_results.results">
+                            <h3>VÝSLEDKY VYHLEDÁVÁNÍ</h3>
+                            <h4 style="margin: 10px 1px 30px 1px;">Výsledky vyhledávání pro '{{ weapon_results.query }}'...</h4>
+                            <span v-if="weapon_results.results" v-for="result in weapon_results.results">
+                                <button type="button" v-on:click="OpenWeaponDetails(result)" style="margin-bottom: 10px; width: 100%; padding: unset;"> {{ result.serial }}  </button>
+                                <br />
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <div v-if="page == 'Submit Warrant'">

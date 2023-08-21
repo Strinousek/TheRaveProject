@@ -9,6 +9,7 @@ Citizen.CreateThread(function()
             exports.ox_target:addModel(v.models, {
                 {
                     label = _U(k),
+                    icon = "fa-solid fa-dumbbell",
                     onSelect = function(data)
                         StartExercise(k, {
                             entity = data.entity

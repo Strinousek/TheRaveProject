@@ -12,16 +12,16 @@ CarryTypes = {
 	Fireman = {
 		Source = {
 			Dict = "missfinale_c2mcs_1",
-			Anim = "fin_c2_mcs_1_camman",
+			Clip = "fin_c2_mcs_1_camman",
 			ControlFlag = 49,
 			Distance = 0.15
 		},
 		Target = {
 			Dict = "nm",
-			Anim = "firemans_carry",
+			Clip = "firemans_carry",
 			Distance = 0.27,
 			ControlFlag = 33,
-			AnimFlag = 1
+			--AnimFlag = 1
 		},
 		Height = 0.63,
 		Spin = 0.0,
@@ -30,21 +30,39 @@ CarryTypes = {
 	Piggy = {
 		Source = {
 			Dict = "anim@arena@celeb@flat@paired@no_props@",
-			Anim = "piggyback_c_player_a",
+			Clip = "piggyback_c_player_a",
 			Distance = -0.07,
 			ControlFlag = 49,
 		},
 		Target = {
 			Dict = "anim@arena@celeb@flat@paired@no_props@",
-			Anim = "piggyback_c_player_b",
+			Clip = "piggyback_c_player_b",
 			Distance = 0.0,
 			ControlFlag = 33,
-			AnimFlag = 1
+			--AnimFlag = 1
 		},
 		Height = 0.45,
 		Spin = 0.0,
 		Length = 100000
 	},
+	Arms = {
+		Source = {
+			Dict = "anim@heists@box_carry@",
+			Clip = "idle",
+			Distance = 0.015,
+			ControlFlag = 50,
+		},
+		Target = {
+			Dict = "amb@code_human_in_car_idles@generic@ps@base",
+			Clip = "base",
+			ControlFlag = 33,
+			Distance = 0.38,
+		},
+		BoneIndex = 9816,
+		Height = 0.11,
+		Spin = 90.0,
+		Length = -1,
+	}
 }
 
 /*

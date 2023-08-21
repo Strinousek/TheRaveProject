@@ -24,6 +24,7 @@ Citizen.CreateThread(function()
         Target:addModel(modelHash, {
             {
                 label = "Sednout si",
+                icon = "fa-solid fa-chair",
                 distance = 1.5,
                 onSelect = function(data)
                     local entity = data.entity

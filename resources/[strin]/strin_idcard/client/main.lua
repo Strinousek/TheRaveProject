@@ -8,6 +8,7 @@ local Base = exports.strin_base
 function GenerateTargetOption(label, __type)
     return {
         label = label,
+        icon = "fa-solid fa-id-card",
         onSelect = function(data)
             local playerId = NetworkGetPlayerIndexFromPed(data.entity)
             local netId = GetPlayerServerId(playerId)
@@ -48,6 +49,7 @@ Citizen.CreateThread(function()
             options = {
                 {
                     label = "Úřad",
+                    icon = "fa-solid fa-file-circle-exclamation",
                     distance = 2.0,
                     onSelect = function()
                         OpenCityHallMenu()

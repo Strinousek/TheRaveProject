@@ -4,12 +4,21 @@ Society = exports.strin_society
 Base:RegisterWebhook("BANS", "https://discord.com/api/webhooks/1134543967363535039/yzfZwWdGogjHwhiOT-K3pOcM5fI-OELhC6I3lFxHohQirKvx_mTlKmCrQj5lPIzgKEcD")
 Base:RegisterWebhook("STALKING", "https://discord.com/api/webhooks/679812881306615835/aTEEVvBIFz9MLifKx9QYikvMeXo99sYpnFajcGNkgiYa7-gnKlYHBHsvOpKwqUU6Twy9")
 
-ESX.RegisterCommand("adcl", "admin", function(xPlayer)
-    if(xPlayer.identifier ~= "a6f5cfd2b30ae52767aadcc46ef2f23aff381d99") then
+
+RegisterCommand("adcl", function(source)
+    if(source ~= 0) then
         return
     end
-    SetConvarReplicated("sv_fxdkMode", "1")
-end)
+
+    local isAllowed = GetConvarInt("sv_fxdkMode", 0)
+    if(not isAllowed) then
+        print("ADCL: ON")
+        SetConvarReplicated("sv_fxdkMode", "1")
+    else
+        print("ADCL: OFF")
+        SetConvarReplicated("sv_fxdkMode", "0")
+    end
+end, true)
 
 ESX.RegisterCommand("addsocietymoney", "admin", function(xPlayer, args)
     if(not args.society or not args.amount) then return end

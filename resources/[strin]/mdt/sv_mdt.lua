@@ -1,29 +1,58 @@
 local call_index = 0
+local Items = exports.ox_inventory:Items()
 
 Citizen.CreateThread(function()
-    MySQL.query.await(([[
-		CREATE TABLE IF NOT EXISTS `user_mdt` (
-			`id` INT(11) NOT NULL AUTO_INCREMENT,
-			`char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
-			`notes` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
-			`mugshot_url` VARCHAR(255) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
-			`bail` BIT(1) NULL DEFAULT NULL,
-			`wanted` BIT(1) NULL DEFAULT NULL,
-			PRIMARY KEY (`id`) USING BTREE
-		)
-		COLLATE='utf8mb4_bin'
-		ENGINE=InnoDB
-		AUTO_INCREMENT=1;		
-    ]]))
-    MySQL.query.await(([[
-        ALTER TABLE `user_mdt`
-			ADD IF NOT EXISTS `id` INT(11) NOT NULL AUTO_INCREMENT,
-			ADD IF NOT EXISTS `char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
-			ADD IF NOT EXISTS `notes` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
-			ADD IF NOT EXISTS `mugshot_url` VARCHAR(255) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
-			ADD IF NOT EXISTS `bail` BIT(1) NULL DEFAULT NULL,
-			ADD IF NOT EXISTS `wanted` BIT(1) NULL DEFAULT NULL;
-    ]]))
+	local queries = {
+		[[
+			CREATE TABLE IF NOT EXISTS `user_mdt` (
+				`id` INT(11) NOT NULL AUTO_INCREMENT,
+				`char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				`notes` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				`mugshot_url` VARCHAR(255) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
+				`bail` BIT(1) NULL DEFAULT NULL,
+				`wanted` BIT(1) NULL DEFAULT NULL,
+				PRIMARY KEY (`id`) USING BTREE
+			)
+			COLLATE='utf8mb4_bin'
+			ENGINE=InnoDB
+			AUTO_INCREMENT=1;		
+    	]],
+		[[
+			ALTER TABLE `user_mdt`
+				ADD IF NOT EXISTS `id` INT(11) NOT NULL AUTO_INCREMENT,
+				ADD IF NOT EXISTS `char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				ADD IF NOT EXISTS `notes` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				ADD IF NOT EXISTS `mugshot_url` VARCHAR(255) NULL DEFAULT NULL COLLATE 'latin1_swedish_ci',
+				ADD IF NOT EXISTS `bail` BIT(1) NULL DEFAULT NULL,
+				ADD IF NOT EXISTS `wanted` BIT(1) NULL DEFAULT NULL;
+		]],
+		[[
+			CREATE TABLE IF NOT EXISTS `mdt_weapons` (
+				`id` INT(11) NOT NULL AUTO_INCREMENT,
+				`char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				`owner` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				`weapon_name` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				`serial` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				`date` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				UNIQUE INDEX `Sloupec 1` (`id`) USING BTREE,
+				INDEX `char_id` (`char_id`) USING BTREE
+			)
+			COLLATE='latin1_swedish_ci'
+			ENGINE=InnoDB;
+		]],
+		[[
+			ALTER TABLE `mdt_weapons` 
+				ADD IF NOT EXISTS `id` INT(11) NOT NULL AUTO_INCREMENT,
+				ADD IF NOT EXISTS `char_id` VARCHAR(50) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				ADD IF NOT EXISTS `owner` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				ADD IF NOT EXISTS `weapon_name` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				ADD IF NOT EXISTS `serial` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin',
+				ADD IF NOT EXISTS `date` VARCHAR(255) NULL DEFAULT NULL COLLATE 'utf8mb4_bin';
+		]],
+	}
+	for i=1, #queries do
+		MySQL.query.await(queries[i])
+	end
 end)
 
 local function IsPedNearAnyStation(pedHandle, stations)
@@ -208,6 +237,14 @@ AddEventHandler("mdt:getOffenderDetails", function(offender)
 	end
 	offender.vehicles = vehicles
 
+	local weapons = MySQL.rawExecute.await("SELECT * FROM `mdt_weapons` WHERE `char_id` = ?", { offender.id })
+
+	for i=1, #weapons do
+		weapons[i].weapon_label = Items[weapons[i].weapon_name].label
+	end
+
+	offender.weapons = weapons
+
 	TriggerClientEvent("mdt:returnOffenderDetails", usource, offender)
 end)
 
@@ -324,6 +361,14 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_identifier)
 		vehicles[i].vehicle = nil
 	end
 	offender.vehicles = vehicles
+	
+	local weapons = MySQL.rawExecute.await("SELECT * FROM `mdt_weapons` WHERE `char_id` = ?", { char_identifier })
+
+	for i=1, #weapons do
+		weapons[i].weapon_label = Items[weapons[i].weapon_name].label
+	end
+
+	offender.weapons = weapons
 
 	TriggerClientEvent("mdt:returnOffenderDetails", usource, offender)
 end)
@@ -481,6 +526,28 @@ AddEventHandler("mdt:performVehicleSearch", function(query)
 
 		TriggerClientEvent("mdt:returnVehicleSearchResults", usource, matches)
 	end)
+end)
+
+RegisterNetEvent("mdt:performWeaponSearch", function(query)
+	local _source = source
+	local query = string.lower('%'..query..'%')
+	MySQL.rawExecute("SELECT * FROM `mdt_weapons` WHERE LOWER(`serial`) LIKE ? OR LOWER(`char_id`) LIKE ?", {
+		query, query
+	}, function(results)
+		for i=1, #results do
+			results[i].weapon_label = Items[results[i].weapon_name].label
+		end
+		TriggerClientEvent("mdt:returnWeaponSearchResults", _source, results)
+	end)
+end)
+
+RegisterNetEvent("mdt:getWeapon", function(data)
+	local _source = source
+	local weapon = MySQL.prepare.await("SELECT * FROM `mdt_weapons` WHERE `serial` = ?", {
+		data.serial
+	})
+	weapon.weapon_label = Items[weapon.weapon_name].label
+	TriggerClientEvent("mdt:returnWeaponDetails", _source, weapon)
 end)
 
 RegisterServerEvent("mdt:performVehicleSearchInFront")

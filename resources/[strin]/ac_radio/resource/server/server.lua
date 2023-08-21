@@ -54,7 +54,7 @@ for frequency, allowed in pairs(ac.restrictedChannels) do
 		end
 
 		if type(allowed) == 'table' then
-			if(allowed[1] == "string") then
+			if(type(allowed[1]) == "string") then
 				for _,name in pairs(allowed) do
 					if groups[name] then
 						TriggerClientEvent('ac_radio:notify', source, 'success', locale('channel_join', frequency))

@@ -16,6 +16,7 @@ Citizen.CreateThread(function()
                 Target:addLocalEntity(VehicleShopNPCs[shopId], {
                     {
                         label = "Vzít si katalog",
+                        icon = "fa-solid fa-clipboard-list",
                         distance = 1.5,
                         onSelect = function()
                             OpenVehicleShop(shop, shopId)

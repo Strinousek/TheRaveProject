@@ -23,6 +23,7 @@ Citizen.CreateThread(function()
     Target:addModel(BedHashes, {
         {
             label = "Lehnout si na postel",
+            icon = "fa-solid fa-bed-pulse",
             onSelect = function(data)
                 local bedEntity = data.entity
                 CurrentBed = bedEntity

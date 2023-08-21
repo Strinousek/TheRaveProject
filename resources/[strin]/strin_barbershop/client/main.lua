@@ -18,6 +18,7 @@ Citizen.CreateThread(function()
             options = {
                 {
                     label = "Kadeřnictví",
+                    icon = "fa-solid fa-scissors",
                     onSelect = function()
                         OpenBarberShopMenu(barberShopId)
                     end,

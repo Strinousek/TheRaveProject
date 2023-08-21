@@ -14,6 +14,7 @@ Citizen.CreateThread(function()
                 options = {
                     {
                         label = Labels[accessory.."s"].." - "..AccessoryPrice.."$",
+                        icon = "fa-solid fa-ring",
                         onSelect = function()
                             OpenAccessoryShopMenu(accessory:lower())
                         end,

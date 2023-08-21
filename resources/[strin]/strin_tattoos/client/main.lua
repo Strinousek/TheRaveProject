@@ -32,6 +32,7 @@ Citizen.CreateThread(function()
             options = {
                 {
                     label = "Tatérství",
+                    icon = "fa-solid fa-user-pen",
                     onSelect = function()
                         OpenTattooShopMenu(tattooShopId)
                     end,

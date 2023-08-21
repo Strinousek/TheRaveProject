@@ -34,6 +34,7 @@ Citizen.CreateThread(function()
             if(point.type == "Armories") then
                 options[#options + 1] = {
                     label = "Otevřít zbrojnici",
+                    icon = "fa-solid fa-person-rifle",
                     onSelect = function()
                         TriggerServerEvent("strin_jobs:requestStash", k, point.type)
                     end
@@ -42,6 +43,7 @@ Citizen.CreateThread(function()
             if(point.type == "BossOffices") then
                 options[#options + 1] = {
                     label = "Správa společnosti",
+                    icon = "fa-solid fa-network-wired",
                     onSelect = function()
                         TriggerServerEvent("strin_jobs:requestBossOffice", k)
                     end,
@@ -55,8 +57,13 @@ Citizen.CreateThread(function()
             end
             if(point.type == "Shops") then
                 local target = Jobs[k].Zones["Shops"][point.id].target
+                local icon = nil
+                if(target == "Armories") then
+                    icon = "fa-solid fa-person-rifle"
+                end
                 options[#options + 1] = {
                     label = ShopLabels[target],
+                    icon = icon,
                     onSelect = function()
                         OpenShopMenu(point.id)
                     end,
@@ -90,9 +97,12 @@ Citizen.CreateThread(function()
                 end
             end
             for optionIndex, option in pairs(options) do
-                if(options[optionIndex].canInteract == nil) then
-                    options[optionIndex].canInteract = function()
-                        return ESX.PlayerData.job and ESX.PlayerData.job.name == k 
+                if(option.icon == nil) then
+                    option.icon = "fa-solid fa-clipboard-list"
+                end
+                if(option.canInteract == nil) then
+                    option.canInteract = function()
+                        return ESX.PlayerData.job and next(ESX.PlayerData.job) and ESX.PlayerData.job.name == k 
                     end
                 end
             end
@@ -117,6 +127,7 @@ Citizen.CreateThread(function()
     Target:addGlobalPlayer({
         {
             label = "Fakturovat",
+            icon = "fa-solid fa-file-invoice-dollar",
             onSelect = function(data)
                 local playerId = NetworkGetPlayerIndexFromPed(data.entity)
                 local netId = GetPlayerServerId(playerId)
@@ -143,6 +154,7 @@ Citizen.CreateThread(function()
         },
         {
             label = "Ošetřit",
+            icon = "fa-solid fa-hand-holding-medical",
             onSelect = function(data)
                 local entity = data.entity
                 if(not IsEntityDead(entity) and IsPedInjured(entity)) then
@@ -164,6 +176,7 @@ Citizen.CreateThread(function()
         },
         {
             label = "Resuscitovat",
+            icon = "fa-solid fa-hand-holding-medical",
             onSelect = function(data)
                 local entity = data.entity
                 if(IsEntityDead(entity)) then
@@ -183,6 +196,7 @@ Citizen.CreateThread(function()
         },
         {
             label = "Skenovat otisky prstů", 
+            icon = "fa-solid fa-fingerprint",
             onSelect = function(data)
                 local entity = data.entity
                 local playerId = NetworkGetPlayerIndexFromPed(entity)
@@ -211,6 +225,7 @@ Citizen.CreateThread(function()
     Target:addGlobalVehicle({
         {
             label = "Opravit vozidlo",
+            icon = "fa-solid fa-screwdriver-wrench",
             onSelect = function(data)
                 local entity = data.entity
                 if(GetVehicleBodyHealth(entity) < 1000) then
@@ -237,6 +252,7 @@ Citizen.CreateThread(function()
         },
         {
             label = "Umýt vozidlo",
+            icon = "fa-solid fa-soap"
             onSelect = function(data)
                 local entity = data.entity
                 if(GetVehicleDirtLevel(entity) > 0.0) then
@@ -260,6 +276,7 @@ Citizen.CreateThread(function()
         },
         {
             label = "Vypáčit vozidlo",
+            icon = "fa-solid fa-unlock",
             onSelect = function(data)
                 local entity = data.entity
                 if(GetVehicleDoorLockStatus(entity) == 2) then
@@ -294,6 +311,7 @@ Citizen.CreateThread(function()
         },
         {
             label = "Zkopírovat VIN",
+            icon = "fa-solid fa-pen",
             onSelect = function(data)
                 local netId = NetworkGetNetworkIdFromEntity(data.entity)
                 lib.callback("strin_garages:getVehicleIdentifier", false, function(vehicleIdentifier)

@@ -25,6 +25,7 @@ DragStatus = {
 Target:addGlobalVehicle({
 	{
 		label = "Dát do auta",
+		icon = "fa-solid fa-car-side",
 		canInteract = function(entity)
 			local players = GetActivePlayers()
 			local ped = PlayerPedId()
@@ -58,6 +59,7 @@ Target:addGlobalVehicle({
 	},
 	{
 		label = "Vytáhnout z auta",
+		icon = "fa-solid fa-car-side",
 		canInteract = function(entity)
 			local maxSeats, restrainedPlayerId = GetVehicleMaxNumberOfPassengers(entity)
 			for i=maxSeats - 1, 0, -1 do

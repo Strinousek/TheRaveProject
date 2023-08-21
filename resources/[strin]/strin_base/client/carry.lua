@@ -20,9 +20,12 @@ RegisterCommand("carry", function(source, args)
 	if(not IsBeingCarried) then
 		if not IsCarrying then
 			local carryType = "Fireman"
-			if(args[1] and tonumber(args[1])) then
-				if(tonumber(args[1]) == 2) then
+			local arg = tonumber(args[1])
+			if(arg) then
+				if(arg == 2) then
 					carryType = "Piggy"
+				elseif(arg == 3) then
+					carryType = "Arms"
 				end
 			end
 			TriggerServerEvent("strin_base:carry", carryType)
@@ -34,11 +37,11 @@ RegisterCommand("carry", function(source, args)
 	end
 end,false)
 
-RegisterNetEvent('strin_base:syncTarget')
-AddEventHandler('strin_base:syncTarget', function(carrierServerId, carryType)
+RegisterNetEvent('strin_base:syncTarget', function(carrierServerId, carryType)
 	if(source == "" or GetInvokingResource() ~= nil) then
 		return
 	end
+
 	local ped = PlayerPedId()
 	local carrierPlayerId = GetPlayerFromServerId(carrierServerId)
 	if(carrierPlayerId == -1) then
@@ -61,7 +64,7 @@ AddEventHandler('strin_base:syncTarget', function(carrierServerId, carryType)
 	AttachEntityToEntity(
 		ped,
 		carrierPed,
-		0,
+		animation?.BoneIndex or 0,
 		animation.Source.Distance,
 		targetAnimation.Distance,
 		animation.Height,
@@ -81,21 +84,21 @@ AddEventHandler('strin_base:syncTarget', function(carrierServerId, carryType)
 	TaskPlayAnim(
 		ped,
 		targetAnimation.Dict,
-		targetAnimation.Name,
+		targetAnimation.Clip,
 		8.0,
 		-8.0,
 		animation.Length,
-		controlFlag,
+		targetAnimation.ControlFlag,
 		0,
 		false,
 		false,
 		false
 	)
 	IsBeingCarried = true
+	RemoveAnimDict(targetAnimation.Dict)
 end)
 
-RegisterNetEvent('strin_base:syncSource')
-AddEventHandler('strin_base:syncSource', function(carryType)
+RegisterNetEvent('strin_base:syncSource', function(carryType)
 	if(source == "" or GetInvokingResource() ~= nil) then
 		return
 	end
@@ -108,14 +111,17 @@ AddEventHandler('strin_base:syncSource', function(carryType)
 	while not HasAnimDictLoaded(sourceAnimation.Dict) do
 		Citizen.Wait(0)
 	end
+
 	if sourceAnimation.ControlFlag == nil then
 		sourceAnimation.ControlFlag = 0
 	end
 
+	Citizen.Wait(500)
+
 	TaskPlayAnim(
 		ped,
 		sourceAnimation.Dict,
-		sourceAnimation.Name,
+		sourceAnimation.Clip,
 		8.0,
 		-8.0,
 		animation.Length,
@@ -126,6 +132,7 @@ AddEventHandler('strin_base:syncSource', function(carryType)
 		false
 	)
 	IsCarrying = true
+	RemoveAnimDict(sourceAnimation.Dict)
 end)
 
 RegisterNetEvent('strin_base:stopCarry')

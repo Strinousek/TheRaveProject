@@ -80,14 +80,11 @@ function CreateNewSociety(name, label, balance, grades)
     if(Societies[name]) then
         return
     end
-    local insertId = MySQL.prepare.await("INSERT IGNORE INTO `jobs` SET `name` = ?, `label` = ?, `balance` = ?", {
+    MySQL.prepare.await("INSERT IGNORE INTO `jobs` SET `name` = ?, `label` = ?, `balance` = ?", {
         name,
         ESX.SanitizeString(label),
         balance,
     })
-    if(insertId == 0) then
-        return
-    end
     for k,v in pairs(grades) do
         MySQL.prepare.await("INSERT INTO job_grades SET `job_name` = ?, `grade` = ?, `name` = ?, `label` = ?, `salary` = ?", {
             name,

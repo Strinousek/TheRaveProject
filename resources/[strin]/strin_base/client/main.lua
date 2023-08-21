@@ -274,7 +274,6 @@ RegisterCommand("+takeplayerout", function()
         local closestOccupiedSeatIndex = nil
         for i=-1, GetVehicleMaxNumberOfPassengers(vehicle) - 1 do
             local ped = GetPedInVehicleSeat(vehicle, i)
-            print(ped, playerPed)
             if(ped ~= 0 and ped == playerPed) then
                 closestOccupiedSeatIndex = i
                 break
@@ -285,9 +284,18 @@ RegisterCommand("+takeplayerout", function()
             return
         end
         SetRelationshipBetweenGroups(2, 'player', 'player')
-        TaskEnterVehicle(cache.ped, vehicle, 0.0, closestOccupiedSeatIndex, 2.0, 8, 0)
-        /*Citizen.Wait(1000)
-        ClearPedTasks(cache.ped)*/
+        TaskEnterVehicle(cache.ped, vehicle, 1.0, closestOccupiedSeatIndex, 1.0, 8, 0)
+        local touchCount = 0
+        while true do
+            if(IsEntityTouchingEntity(cache.ped, playerPed)) then
+                touchCount += 1
+            end
+            if(touchCount >= 4) then
+                ClearPedTasksImmediately(cache.ped)
+                break
+            end
+            Citizen.Wait(200)
+        end
     end
 end)
 

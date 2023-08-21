@@ -130,6 +130,7 @@ Citizen.CreateThread(function()
     Target:addModel(MicrowavesModelHashes, {
         {
             label = "Vysušit palice konopí",
+            icon = "fa-solid fa-cannabis",
             onSelect = function()
                 weedBudsDrying = true
                 local input = lib.inputDialog('Množství', {
@@ -162,6 +163,7 @@ Citizen.CreateThread(function()
         },
         {
             label = "Vytáhnout vysušené palice konopí",
+            icon = "fa-solid fa-cannabis",
             onSelect = function()
                 TriggerServerEvent("strin_drugs:retrieveDriedWeedBuds")
                 weedBudsReady = false
@@ -179,6 +181,7 @@ Citizen.CreateThread(function()
     Target:addGlobalPed({
         {
             label = "Nabídnout joint",
+            icon = "fa-solid fa-joint",
             onSelect = function(data)
                 local isAnimal = GetPedType(data.entity) == 28
                 if(isAnimal) then
@@ -249,6 +252,7 @@ Citizen.CreateThread(function()
                         Target:addLocalEntity(WeedPlants[k].entity, {
                             {
                                 label = "Rostlina",
+                                icon = "fa-solid fa-joint",
                                 onSelect = function()
                                     OpenWeedPlantMenu(k)
                                 end,

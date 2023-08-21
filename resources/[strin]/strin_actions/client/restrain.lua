@@ -45,6 +45,7 @@ Target:addGlobalPlayer({
     {
         label = "Svázat",
 		distance = 1.5,
+		icon = "fa-solid fa-handcuffs",
         items = { ["zipties"] = 1 },
 		canInteract = function(entity)
             return not IsPlayerRestrained(entity)
@@ -55,6 +56,7 @@ Target:addGlobalPlayer({
     },
     {
         label = "Spoutat",
+		icon = "fa-solid fa-handcuffs",
 		distance = 1.5,
         items = { ["handcuffs"] = 1 },
 		canInteract = function(entity)
@@ -66,6 +68,7 @@ Target:addGlobalPlayer({
     },
     {
         label = "Osvobodit",
+		icon = "fa-solid fa-handcuffs",
 		distance = 1.5,
         canInteract = function(entity)
             return IsPlayerRestrained(entity) and GetEntityAttachedTo(entity) == 0
@@ -76,6 +79,7 @@ Target:addGlobalPlayer({
     },
     {
         label = "Prohledat",
+		icon = "fa-solid fa-people-robbery",
 		distance = 1.5,
 		canInteract = function(entity)
             return IsPlayerRestrained(entity) or IsEntityDead(entity) or IsPlayerSurrending(entity)
@@ -88,6 +92,7 @@ Target:addGlobalPlayer({
     },
 	{
         label = "Vzít za rameno",
+		icon = "fa-solid fa-person-walking",
 		distance = 1.5,
 		canInteract = function(entity)
             return IsPlayerRestrained(entity)
