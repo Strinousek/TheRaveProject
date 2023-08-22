@@ -1,4 +1,5 @@
 Inventory = exports.ox_inventory
+Base = exports.strin_base
 
 WeedModelHashes = {
     `bkr_prop_weed_bud_02a`,
@@ -37,10 +38,10 @@ if(IsDuplicityVersion()) then
         [3] = 60
     }
 
-    WeedJointPrice = { 200, 400 }
+    WeedJointPrice = { 20, 40 }
 else
     Target = exports.ox_target
-    Inventory:displayMetadata({
+    /*Inventory:displayMetadata({
         state = "Stav"
-    })
+    })*/
 end

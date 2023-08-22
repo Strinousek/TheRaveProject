@@ -1,5 +1,12 @@
 local call_index = 0
-local Items = exports.ox_inventory:Items()
+local Items = {}
+
+Citizen.CreateThread(function()
+	while GetResourceState("ox_inventory") ~= "started" do
+		Citizen.Wait(0)
+	end
+	Items = exports.ox_inventory:Items()
+end)
 
 Citizen.CreateThread(function()
 	local queries = {

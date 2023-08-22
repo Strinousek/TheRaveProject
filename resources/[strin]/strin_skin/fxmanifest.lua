@@ -24,11 +24,6 @@ files {
     'client/nui/*.html',
     'client/nui/css/*.css',
     'client/nui/*.js',
-    'client/nui/webfonts/*.ttf',
-    'client/nui/webfonts/*.eot',
-    'client/nui/webfonts/*.svg',
-    'client/nui/webfonts/*.woff',
-    'client/nui/webfonts/*.woff2',
 }
 
 dependencies {

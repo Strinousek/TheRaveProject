@@ -252,7 +252,7 @@ Citizen.CreateThread(function()
         },
         {
             label = "Umýt vozidlo",
-            icon = "fa-solid fa-soap"
+            icon = "fa-solid fa-soap",
             onSelect = function(data)
                 local entity = data.entity
                 if(GetVehicleDirtLevel(entity) > 0.0) then

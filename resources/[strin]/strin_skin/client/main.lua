@@ -50,6 +50,8 @@ function GetSkinParts(restrict, exclude)
     return skinParts
 end
 
+-- SetResourceKvpInt("tipShown", 0)
+
 -- if callbacks are omitted then return promise
 function OpenSkinMenu(onConfirmCallback, onCancelCallback, restrict, exclude)
     if(InMenu or Camera.active) then
@@ -64,20 +66,21 @@ function OpenSkinMenu(onConfirmCallback, onCancelCallback, restrict, exclude)
         action = "showMenu",
         parts = parts
     })
-    if(not restrict or #restrict > 6) then
+    if(GetResourceKvpInt("tipShown") == 0) then
         Citizen.CreateThread(function()
-            lib.showTextUI([[
-                Kliknutím myši ve volném prostoru a tažení myši = Pohyb kamery
-                Tlačítka nad výběrem = Změna pohledu
-                W = Pohyb nahoru | S = Pohyb dolu
-                A | D = -+1 číslo v komponentě
-                Kliknutí na čísla = zaměření / přepsaní hodnoty
-            ]], {
-                style = {
-                    fontSize = "16px"
-                }
-            })
-            Citizen.Wait(6000)
+            local lines = {
+                "Kliknutím myši ve volném prostoru a tažení myši = Pohyb kamery",
+                "Tlačítka 1 - 4 nad výběrem = Změna pohledu",
+                "Tlačítko 5 nad výběrem = Zvednutí rukou",
+                "W = Pohyb nahoru",
+                "S = Pohyb dolu",
+                "A = -1 číslo v komponentě",
+                "D = +1 číslo v komponentě",
+                "Kliknutí na čísla = zaměření / přepsaní hodnoty",
+            }
+            lib.showTextUI(table.concat(lines, "  \n"))
+            SetResourceKvpInt("tipShown", 1)
+            Citizen.Wait(20000)
             if(lib.isTextUIOpen()) then
                 lib.hideTextUI()
             end
@@ -148,6 +151,11 @@ end)
 
 RegisterNUICallback('setCameraView', function(data, cb)
     Camera.SetView(data.view or "head")
+    cb("ok")
+end)
+
+RegisterNUICallback('handsup', function(data, cb)
+    TriggerEvent("strin_base:handsup")
     cb("ok")
 end)
 

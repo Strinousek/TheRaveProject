@@ -37,7 +37,7 @@ RegisterNetEvent("strin_clotheshop:buyOutfit", function(outfit)
         xPlayer.showNotification("Outfit je neplatný!", { type = "error" })
         return
     end
-    local skin = exports.skinchanger:GetSkin(_source)
+    local skin = json.decode(MySQL.prepare.await("SELECT `skin` FROM `users` WHERE `identifier` = ?", { xPlayer.identifier }) or "{}")
     if(not skin or not next(skin)) then
         xPlayer.showNotification("Nelze načíst skin!", { type = "error" })
         return
@@ -51,9 +51,11 @@ RegisterNetEvent("strin_clotheshop:buyOutfit", function(outfit)
         xPlayer.get("char_id"),
         json.encode(validatedOutfit)
     }, function()
-        xPlayer.removeMoney(OutfitPrice)
-        xPlayer.showNotification("Zakoupil/a jste si nový outfit!", { type = "success" })
-        TriggerClientEvent("skinchanger:loadSkin", _source, skin)
+        MySQL.prepare("UPDATE `users` SET `skin` = ? WHERE `identifier` = ?", { json.encode(skin), xPlayer.identifier }, function()
+            xPlayer.removeMoney(OutfitPrice)
+            xPlayer.showNotification("Zakoupil/a jste si nový outfit!", { type = "success" })
+            TriggerClientEvent("skinchanger:loadSkin", _source, skin)
+        end)
     end)
 end)
 
@@ -218,7 +220,7 @@ function ValidateOutfit(outfit)
 end
 
 function GetCharacterOutfit(identifier, characterId, outfitId)
-    return MySQL.single.await(
+    return MySQL.prepare.await(
         ("SELECT * FROM character_outfits WHERE `identifier` = ? AND `char_id` = ? AND `id` = ?")
     , {
         identifier,

@@ -13,7 +13,7 @@ LOCALES = {
         ["reverse_barbell_curl"] = "Reverse Barbell Curl",
         ["chin_up"] = "Přítah podhmatem",
         ["push_up"] = "Klik",
-        ["crunch"] = "Sedleh",
+        ["situp"] = "Sedleh",
         ["squat"] = "Dřep",
         ["jumping_jack"] = "Jumping Jack",
     }
@@ -22,6 +22,11 @@ LOCALES = {
 EXERCISE_TYPES = {
     ["barbell_curl"] = {
         requiresGym = true,
+        models = {
+            `prop_barbell_01`,
+            `prop_weight_rack_02`,
+            `prop_weight_rack_01`,  
+        },
         prop = {
             model = `prop_curl_bar_01`,
             bone = 28422,
@@ -41,6 +46,11 @@ EXERCISE_TYPES = {
     },
     ["reverse_barbell_curl"] = {
         requiresGym = true,
+        models = {
+            `prop_barbell_01`,
+            `prop_weight_rack_02`,
+            `prop_weight_rack_01`,  
+        },
         prop = {
             model = `prop_curl_bar_01`,
             bone = 28422,

@@ -32,14 +32,19 @@ $(async () => {
         },
         {
             label: "Cars",
-            content: ["Nannie", "Kerb", "Midget"].join("<br/>"),
+            content: ["Nannie", "Kerb", "Yakk3r"].join("<br/>"),
             side: "right",
         },
         {
             label: "Clothing",
-            content: ["Nannie", "iVolneck"].join("<br/>"),
+            content: ["iVolneck", "Nannie"].join("<br/>"),
             side: "left",
-        }
+        },
+        {
+            label: "Special Thanks",
+            content: ["Cekutka", "Vendyska", "Zone", "Midget"].join("<br/>"),
+            side: "right",
+        },
     ];
     let AudioContext = window.AudioContext || window.webkitAudioContext;
     const context = new AudioContext();
@@ -57,7 +62,7 @@ $(async () => {
 
     const SetupAudioNodes = () => {
 	    const analyser = context.createAnalyser();
-        gainNode.gain.value = 0.25;
+        gainNode.gain.value = 0.1;
         gainNode.connect(context.destination);
 	    sourceNode = context.createBufferSource();	
 	    sourceNode.connect(analyser);
@@ -118,8 +123,12 @@ $(async () => {
         const startTextAnimations = async () => {
             for(let i=0; i < Sections.length; i++) {
                 const {side, label, content} = Sections[i];
+                $(`#${side}-head-title`).hide();
+                $(`#${side}-bottom-title`).hide();
+
                 $(`#${side}-head-title`).text(label);
                 $(`#${side}-bottom-title`).html(content);
+
                 $(`#${side}-head-title`).fadeIn(1500);
                 $(`#${side}-bottom-title`).fadeIn(1500, async () => {
                     await Wait(4000);
@@ -145,9 +154,7 @@ $(async () => {
                 }
             }
         };
-        centerTitle.fadeIn(5000, async () => {
-            await startTextAnimations()
-        });
+        centerTitle.fadeIn(5000, () => startTextAnimations());
     };
 
     window.addEventListener("message", (e) =>{

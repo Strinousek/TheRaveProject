@@ -65,7 +65,7 @@ lib.callback.register("strin_barbershop:buyHaircut", function(source, haircut)
         haircut = MergeHaircutValues(haircut, defaultHaircut)
     end
 
-    local savedSkin = json.decode(MySQL.scalar.await("SELECT `skin` FROM `users` WHERE `identifier` = ?", { xPlayer.identifier }))
+    local savedSkin = json.decode(MySQL.scalar.await("SELECT `skin` FROM `users` WHERE `identifier` = ?", { xPlayer.identifier }) or "{}")
     local mergedSkin = MergeSkinAndHaircut(savedSkin, haircut)
     MySQL.update.await("UPDATE `users` SET `skin` = ? WHERE `identifier` = ?", {
         json.encode(mergedSkin),
@@ -83,7 +83,6 @@ function ValidateHaircut(haircut)
     end
     local isValid, validatedHaircut = true, {}
     for k,v in pairs(haircut) do
-        print(not lib.table.contains(BarberShopPieces, k), not tonumber(v))
         if(not lib.table.contains(BarberShopPieces, k) or not tonumber(v)) then
             isValid = false
             break

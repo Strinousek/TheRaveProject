@@ -23,11 +23,10 @@ Citizen.CreateThread(function()
                         OpenCloakroomMenu(cloakroomId, cloakroom)
                     end,
                     canInteract = function()
-                        return not Base:IsPlayerAPed() and (
-                            (restrictedJobs and next(restrictedJobs)) and 
-                            lib.table.contains(restrictedJobs, ESX.PlayerData.job?.name) or
-                            true
-                        )
+                        if(restrictedJobs and next(restrictedJobs) and not lib.table.contains(restrictedJobs, ESX?.PlayerData?.job?.name)) then
+                            return false
+                        end
+                        return not Base:IsPlayerAPed()
                     end,
                 }
             }
@@ -57,7 +56,8 @@ function OpenCloakroomMenu(cloakroomId, cloakroom)
             value = "shop_save_current"
         })
     end
-    local outfits = lib.callback.await("strin_clotheshop:getOutfits", 1000)
+    
+    local outfits = lib.callback.await("strin_clotheshop:getOutfits", false)
 
     table.insert(elements, {
         label = ([[<div style="display: flex; justify-content: space-between; align-items: center">

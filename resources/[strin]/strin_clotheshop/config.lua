@@ -8,16 +8,15 @@ ClotheShopPieces = {
     'pants_1', 'pants_2',
     'shoes_1', 'shoes_2',
     'chain_1', 'chain_2',
-    'bags_1', 'bags_2'
+    'bags_1', 'bags_2',
+    'bproof_1', "bproof_2",
 }
 
 Cloakrooms = {
     {
         coords = vector3(72.18017578125,-1399.1474609375,29.376148223877),
-        label = "Maggi",
         includeShop = true,
         showBlip = true,
-        restrictedJobs = {"police"}
     },
     {
         coords = vector3(-703.87078857422,-152.17935180664,37.415176391602),

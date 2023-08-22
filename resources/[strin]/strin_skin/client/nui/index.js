@@ -245,12 +245,18 @@ $(() => {
 
     $(".menu-view-button").on('click', (e) => {
         const view = e.currentTarget.id.replace("menu-", "");
-        fetch(`https://strin_skin/setCameraView`, {
-            method: "POST",
-            body: JSON.stringify({
-                view,
-            })
-        });
+        if(view != "handsup") 
+            fetch(`https://strin_skin/setCameraView`, {
+                method: "POST",
+                body: JSON.stringify({
+                    view,
+                })
+            });
+        else 
+            fetch(`https://strin_skin/handsup`, {
+                method: "POST",
+                body: JSON.stringify({})
+            });
     });
 
     $('#camera-view').on('mousedown', (e) => {

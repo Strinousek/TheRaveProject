@@ -218,6 +218,14 @@ RegisterCommand("cancelanim", function()
     TriggerEvent("strin_base:cancelledAnimation")
 end)
 
+AddEventHandler("strin_base:handsup", function()
+    if(IsPedInAnyVehicle(PlayerPedId())) then
+        return
+    end
+    
+    Handsup()
+end)
+
 RegisterCommand("handsup", function()
     if(not IsControlPressed(0, 21) or IsPedInAnyVehicle(PlayerPedId())) then
         return

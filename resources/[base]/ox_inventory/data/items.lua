@@ -139,7 +139,7 @@ return {
 		weight = 25,
 		consume = 0,
 		server = {
-			export = "strin_drugs.weed_shredder"
+			export = "strin_base.use_item"
 		}
 	},
 
@@ -157,7 +157,7 @@ return {
 			usetime = 1000
 		},*/
 		server = {
-			export = "strin_drugs.weed_seed"
+			export = "strin_base.use_item"
 		}
 	},
 
@@ -177,19 +177,18 @@ return {
 		close = true,
 		consume = 0,
 		server = {
-			export = "strin_drugs.smoke_papers"
+			export = "strin_base.use_item"
 		}
 	},
 
 	["joint"] = {
 		label = "Joint",
-		stack = true
-		/*
-			close = true,
-			server = {
-				export = "strin_drugs.joint"
-			}
-		*/
+		stack = true,
+		close = true,
+		consume = 1,
+		server = {
+			export = "strin_base.use_item"
+		}
 	},
 
 	["ticket"] = {

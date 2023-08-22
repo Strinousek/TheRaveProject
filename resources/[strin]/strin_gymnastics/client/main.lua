@@ -2,6 +2,9 @@ local Fatigue = 0.0
 local StrengthBuffer = 0.0
 local IsExercising = false
 local CurrentProp = nil
+local Base = exports.strin_base
+
+local GymBlips = {}
 
 Citizen.CreateThread(function()
     for k,v in pairs(EXERCISE_TYPES) do
@@ -11,9 +14,17 @@ Citizen.CreateThread(function()
                     label = _U(k),
                     icon = "fa-solid fa-dumbbell",
                     onSelect = function(data)
-                        StartExercise(k, {
-                            entity = data.entity
-                        })
+                        local exerciseData = {}
+                        if(v.requiresGym) then
+                            local gymIndex, gym = GetNearestGym()
+                            if(not gym) then
+                                ESX.ShowNotification("Takové cviky lze pouze provádět v posilovně!", { type = "error" })
+                                return
+                            end
+                            exerciseData = { gymIndex = gymIndex, gym = gym }
+                        end
+                        exerciseData.entity = data.entity
+                        StartExercise(k, exerciseData)
                     end,
                     canInteract = function()
                         return not IsExercising
@@ -26,8 +37,8 @@ Citizen.CreateThread(function()
                 return
             end
             local data = nil
-            if(v.models) then
-                ESX.ShowNotification("Takové cviky lze pouze provádět přes stroje!", { type = "error" })
+            if(v.models and not v.requiresGym) then
+                ESX.ShowNotification("Takové cviky lze pouze provádět přes stroje / kladky / činky!", { type = "error" })
                 return
             end
             if(v.requiresGym) then
@@ -43,12 +54,86 @@ Citizen.CreateThread(function()
         ::skipLoop::
     end
 
+    for i=1, #GYMS do
+        GymBlips[i] = Base:CreateBlip({
+            id = "gym_"..i,
+            coords = GYMS[i].coords,
+            sprite = 311,
+            colour = 41,
+            label = "Posilovna",
+        })
+        local gymPoint = lib.points.new({
+            coords = GYMS[i].coords,
+            distance = GYMS[i].radius,
+        })
+
+        function gymPoint:onEnter()
+            if(GetResourceKvpInt("tipShown") ~= 0) then
+                return
+            end
+            local lines = {
+                "V posilovně lze cvičit přes oko a příkazy.",
+                "Platí zde systém progresivního přetížení a vyčerpání.",
+                "Pro více informací -> /cviky",
+            }
+            lib.showTextUI(table.concat(lines, "  \n"))
+            SetResourceKvpInt("tipShown", 1)
+            Citizen.Wait(12500)
+            if(lib.isTextUIOpen()) then
+                lib.hideTextUI()
+            end
+        end
+
+        function gymPoint:onExit()
+            if(lib.isTextUIOpen()) then
+                lib.hideTextUI()
+            end
+        end
+    end
     while true do
         if(Fatigue > 0) then
             Fatigue -= 1.0
         end
+        if(StrengthBuffer > 0) then
+            StrengthBuffer -= 0.01
+        end
         Citizen.Wait(1500)
     end
+end)
+
+RegisterCommand("cviky", function()
+    local elements = {}
+    table.insert(elements, {
+        label = [[<div style="display: flex; justify-content: space-between; align-items: center; min-width: 400px;">
+            <div>Název</div><div>Posilovna</div><div>Stroj</div><div>Příkaz</div>
+        </div>]],
+        value = "xxx"
+    })
+    for k,v in pairs(EXERCISE_TYPES) do
+        table.insert(elements, {
+            label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>%s</div><div>%s</div><div>%s</div><div>/%s</div>
+            </div>]]):format(
+                _U(k),
+                (v.requiresGym and '<i class="fa-solid fa-check"></i>' or '<i class="fa-solid fa-xmark"></i>'),
+                ((v.models and next(v.models)) and '<i class="fa-solid fa-check"></i>' or '<i class="fa-solid fa-xmark"></i>'),
+                k:gsub("%_", "")
+            ),
+            value = k
+        })
+    end
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "exercises", {
+        title = "Cviky",
+        align = "center",
+        elements = elements,
+    }, function(data, menu)
+        if(data.current.value ~= "xxx") then
+            menu.close()
+            ExecuteCommand(data.current.value:gsub("%_", ""))
+        end
+    end, function(data, menu)
+        menu.close()
+    end)
 end)
 
 AddEventHandler("strin_base:cancelledAnimation", function()
@@ -86,6 +171,7 @@ function StartExercise(exerciseType, data)
                 ESX.ShowNotification("Jste vyčerpaný/á, dejte si chvilku pauzu.")
             else
                 Fatigue += math.floor((totalReps * 40 / 10) * 2.0)
+                StrengthBuffer += ESX.Math.Round(math.floor(((totalReps * 40 / 10) * 2.0)) / 75, 2)
             end
             IsExercising = false
         end)
@@ -134,6 +220,7 @@ function StartExercise(exerciseType, data)
                     ESX.ShowNotification("Jste vyčerpaný/á, dejte si chvilku pauzu.")
                 else
                     Fatigue += math.floor((totalReps * 30 / 10) * 1.75)
+                    StrengthBuffer += ESX.Math.Round(math.floor(((totalReps * 40 / 10) * 1.75)) / 75, 2)
                 end
                 IsExercising = false
             end)
@@ -184,17 +271,14 @@ function CalculateMaxReps(repsPerSet, startingFatigue)
     return math.ceil((repsPerSet + (repsPerSet * StrengthBuffer)) - (startingFatigue / 10))
 end
 
-/*StartExercise("chin_up", {
-    entity = 947202
-})
-
-Citizen.CreateThread(function()
-    while true do
-        Citizen.Wait(3000)
-        ExecuteCommand("ensure "..GetCurrentResourceName())
-    end
-end)*/
-
 function _U(entry, ...)
     return LOCALES[LOCALE][entry]:format(...) 
 end
+
+AddEventHandler("onResourceStop", function(resourceName)
+    if(GetCurrentResourceName() == resourceName) then
+        for i=1, #GymBlips do
+            Base:DeleteBlip("gym_"..i)
+        end
+    end
+end)

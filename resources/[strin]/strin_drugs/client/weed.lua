@@ -1,6 +1,50 @@
 local WeedPlants = {}
 
 /*
+    drug_drive_blend01 -- hromada modré a je to insane
+
+*/
+
+local DrugEffectStrength = 0.0
+
+RegisterNetEvent("strin_drugs:smokeJoint", function()      
+    TaskStartScenarioInPlace(cache.ped, "WORLD_HUMAN_SMOKING_POT", 0, 1)
+    Citizen.Wait(3000)
+    ESX.ShowNotification("Tahle šmakuládá pořádně dává! Na omezenou dobu jsi rychlejší a dáváš větší údery!")
+    ClearPedTasksImmediately(cache.ped)
+    SetTimecycleModifier("NG_filmic07")
+    ShakeGameplayCam("DRUNK_SHAKE", 0.1)
+    SetPlayerMeleeWeaponDamageModifier(cache.playerId, 1.1)
+    SetRunSprintMultiplierForPlayer(cache.playerId, 1.1) 
+    local startingStrength = DrugEffectStrength
+    while startingStrength < startingStrength + 0.5 do
+        DrugEffectStrength += 0.001
+        SetTimecycleModifierStrength(baseTimeCycleStrength)
+        Citizen.Wait(0)
+    end
+    
+    Citizen.Wait(45000)
+    SetPedMoveRateOverride(playerId, 1.0)
+    SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
+    SetPlayerMeleeWeaponDamageModifier(cache.playerId, 1.0)
+
+    while DrugEffectStrength > 0 do
+        DrugEffectStrength -= 0.001
+        SetTimecycleModifierStrength(baseTimeCycleStrength)
+        Citizen.Wait(0)
+    end
+    DrugEffectStrength = 0.0
+    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    ClearTimecycleModifier()
+end)
+
+/*Citizen.CreateThread(function()
+    TriggerEvent("strin_drugs:smokeJoint")
+    Citizen.Wait(5000)
+    ExecuteCommand("ensure "..GetCurrentResourceName())
+end)*/
+
+/*
     Weed Plant:
     @property stage number
     @property point CPoint | nil
@@ -35,9 +79,11 @@ RegisterNetEvent("strin_drugs:syncWeedPlants", function(weedPlants)
     for k,v in pairs(weedPlants) do
         -- If plant is cached on the client, but is not available on the server
         if((WeedPlants[k] and not v)) then
+            local plant = WeedPlants[k]
+
             -- If player is near and has the entity spawned then delete it
-            if(WeedPlants[k].entity) then
-                DeleteEntity(WeedPlants[k].entity)
+            if(plant.entity) then
+                DeleteEntity(plant.entity)
             end
 
             -- Remove the plant from cache
@@ -52,25 +98,25 @@ RegisterNetEvent("strin_drugs:syncWeedPlants", function(weedPlants)
             if(plant.stage ~= v.stage) then
 
                 -- Set the cached stage to the server received one
-                WeedPlants[k].stage = v.stage
+                plant.stage = v.stage
 
                 -- If player is near and has the entity spawned then delete it and spawn a new one
                 if(plant.entity) then
                     DeleteEntity(plant.entity)
-                    WeedPlants[k].entity = CreatePlantObject(plant.coords, v.stage)
+                    plant.entity = CreatePlantObject(plant.coords, v.stage)
                 end
             end
 
             -- If water status differs from client cache and server
             if(plant.water ~= v.water) then
                 -- Set the cached water status to the server received one
-                WeedPlants[k].water = v.water
+                plant.water = v.water
             end
 
             -- If fertilizer status differs from client cache and server
             if(plant.fertilizer ~= v.fertilizer) then
                 -- Set the cached fertilizer status to the server received one
-                WeedPlants[k].fertilizer = v.fertilizer
+                plant.fertilizer = v.fertilizer
             end
         end
 
@@ -102,7 +148,7 @@ RegisterNetEvent("strin_drugs:receiveWeedOffer", function(offer)
         end,
         options = {
             {
-                title = ("Přijmout (%sx - %s$)"):format(offer.amount, offer.total),
+                title = ("Přijmout (%sx - %s$)"):format(offer.amount, ESX.Math.GroupDigits(offer.total)),
                 icon = "fas fa-dollar-sign",
                 iconColor = "#2ecc71",
                 onSelect = function()
@@ -247,9 +293,9 @@ Citizen.CreateThread(function()
             if(v) then
                 local distance = #(coords - v.coords)
                 if(distance < 20) then
-                    if(not WeedPlants[k].entity) then
-                        WeedPlants[k].entity = CreatePlantObject(v.coords, v.stage)
-                        Target:addLocalEntity(WeedPlants[k].entity, {
+                    if(not v.entity) then
+                        v.entity = CreatePlantObject(v.coords, v.stage)
+                        Target:addLocalEntity(v.entity, {
                             {
                                 label = "Rostlina",
                                 icon = "fa-solid fa-joint",
@@ -262,8 +308,8 @@ Citizen.CreateThread(function()
                 elseif(distance > 20) then
                     if(v.entity) then
                         DeleteEntity(v.entity)
-                        Target:removeLocalEntity(WeedPlants[k].entity)
-                        WeedPlants[k].entity = nil
+                        Target:removeLocalEntity(v.entity)
+                        v.entity = nil
                     end
                 end
             end

@@ -1,4 +1,4 @@
-local StrinJobs = exports.strin_jobs
+local LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs() or { "police" }
 
 function getSpeed() return speedlimit end
 function getStreet() return currentStreetName end
@@ -11,11 +11,10 @@ function getStreetandZone(coords)
 end
 
 function refreshPlayerWhitelisted()
-	if not ESX.PlayerData then return false end
-	if not ESX.PlayerData.job then return false end
+	if not job then return false end
 	if Config.Debug then return true end
-	for k,v in ipairs(StrinJobs:GetLawEnforcementJobs() or {'police'}) do
-		if v == ESX.PlayerData.job.name then
+	for i=1, #LawEnforcementJobs do
+		if (LawEnforcementJobs[i] == job) then
 			return true
 		end
 	end

@@ -8,9 +8,9 @@ local WeedPlantCheckInterval = SetInterval(function()
         if(v) then
             if(v.stage < 3) then
                 local deleted = false
-                WeedPlants[k].fertilizer -= 1 -- -180 after 90 minutes - 2 fertilizers needed per plant?
-                WeedPlants[k].water -= 2 -- -360 after 90 minutes - 4 waters needed per plant?
-                if(WeedPlants[k].fertilizer <= 0 or WeedPlants[k].water <= 0) then
+                v.fertilizer -= 1 -- -180 after 90 minutes - 2 fertilizers needed per plant?
+                v.water -= 2 -- -360 after 90 minutes - 4 waters needed per plant?
+                if(v.fertilizer <= 0 or v.water <= 0) then
                     deleted = true
                     DeletePlant(k, v.id)
                 end
@@ -22,6 +22,13 @@ local WeedPlantCheckInterval = SetInterval(function()
                     end
                 end
                 changed = true
+            else
+                local deleted = false
+                v.water -= 2 -- -360 after 90 minutes - 4 waters needed per plant?
+                if(v.water <= 0) then
+                    deleted = true
+                    DeletePlant(k, v.id)
+                end
             end
         end
     end
@@ -30,8 +37,6 @@ local WeedPlantCheckInterval = SetInterval(function()
     end
 end, 30000)
 
-
-local Base = exports.strin_base
 Base:RegisterWebhook("WEED_PLANT", "https://discord.com/api/webhooks/885287209916334100/duF25VkXgjFKz94RrDXch8s7B9tTNy0R-1MyH-Lw58-QdJ7kufhxh2gBfMap39nWxDPk")
 Base:RegisterWebhook("WEED_HARVEST", "https://discord.com/api/webhooks/1136083276822499428/bgsYFZN8tZFO6MSPe0VZnLmtcAQmw4L8hBakJMjJ9zZEtHs3rW_tudG5m41syw8Fz_pZ")
 Base:RegisterWebhook("WEED_PROCESS", "https://discord.com/api/webhooks/679799729273700364/wtiSlpTnWZNsm_Tn2kd68naU25_qB7Xdh2osJ3wev2fTd9x2ew6Q7QWHJWpSzaYIlFou")
@@ -70,14 +75,10 @@ RegisterNetEvent("esx:playerLoaded", function(playerId)
     SyncWeedPlants(playerId)
 end)
 
-exports("weed_seed", function(event, item, inventory, slot, data)
-    if(event ~= "usingItem") then
-        return
-    end
-
+Base:RegisterItemListener("weed_seed", function(item, inventory, slot, data)
     local xPlayer = ESX.GetPlayerFromId(inventory.id)
     if(not xPlayer) then
-        return
+        return false
     end
 
     local _source = xPlayer.source
@@ -85,7 +86,7 @@ exports("weed_seed", function(event, item, inventory, slot, data)
     lib.callback("strin_drugs:getGroundMaterial", _source, function(material)
         if(not lib.table.contains(SoilMaterials, material)) then
             xPlayer.showNotification("Špatný povrch pro rostlinu!", { type = "error" })
-            return
+            return false
         end
         local ped = GetPlayerPed(_source)
         local heading = GetEntityHeading(ped)
@@ -98,7 +99,7 @@ exports("weed_seed", function(event, item, inventory, slot, data)
 
         if(IsPlantCloseToOtherPlants(weedCoords)) then
             xPlayer.showNotification("Rostlina je až moc blízko jiné rostliny!", { type = "error" })
-            return
+            return false
         end
 
         local time = os.time()
@@ -128,16 +129,14 @@ exports("weed_seed", function(event, item, inventory, slot, data)
 
         SyncWeedPlants()
     end)
-end)
+end, {
+    event = "usingItem"
+})
 
-exports("weed_shredder", function(event, item, inventory, slot, data)
-    if(event ~= "usingItem") then
-        return
-    end
-
+Base:RegisterItemListener("weed_shredder", function(item, inventory, slot, data)
     local xPlayer = ESX.GetPlayerFromId(inventory.id)
     if(not xPlayer) then
-        return
+        return false
     end
 
     local _source = xPlayer.source
@@ -146,8 +145,9 @@ exports("weed_shredder", function(event, item, inventory, slot, data)
     })
     if(driedWeedBudCount <= 0) then
         xPlayer.showNotification("Nemáte u sebe žádné vysušené palice konopí!", { type = "error" })
-        return
+        return false
     end
+
     lib.callback("strin_drugs:shredWeed", _source, function(success)
         if(success) then
             local driedWeedBudCount = Inventory:GetItemCount(_source, "weed_bud", {
@@ -155,67 +155,62 @@ exports("weed_shredder", function(event, item, inventory, slot, data)
             })
             if(driedWeedBudCount <= 0) then
                 xPlayer.showNotification("Nemáte u sebe žádné vysušené palice konopí!", { type = "error" })
-                return
+                return false
             end
             Inventory:RemoveItem(_source, "weed_bud", driedWeedBudCount, {
                 state = "dried"
             })
-            Inventory:AddItem(_source, "weed", math.floor(driedWeedBudCount * 1.7))
+            Inventory:AddItem(_source, "weed", math.floor(driedWeedBudCount * 1.5))
             Base:DiscordLog("WEED_PROCESS", "THE RAVE PROJECT - WEED PROCESS - SHRED", {
                 { name = "Jméno hráče", value = ESX.SanitizeString(GetPlayerName(_source)) },
                 { name = "Identifikace hráče", value = xPlayer.identifier },
                 { name = "Množství sušených palic", value = driedWeedBudCount },
-                { name = "Množství získané trávy", value = math.floor(driedWeedBudCount * 1.7) },
+                { name = "Množství získané trávy", value = math.floor(driedWeedBudCount * 1.5) },
             }, {
                 fields = true,
             })
         end
     end, driedWeedBudCount)
-end)
+end, {
+    event = "usingItem"
+})
 
-exports("smoke_papers", function(event, item, inventory, slot, data)
-    if(event ~= "usingItem") then
-        return
-    end
-
+Base:RegisterItemListener("smoke_papers", function(item, inventory, slot, data)
     local xPlayer = ESX.GetPlayerFromId(inventory.id)
     if(not xPlayer) then
-        return
+        return false
     end
 
     local _source = xPlayer.source
     local weedCount = Inventory:GetItemCount(_source, "weed")
-    if(weedCount < 10) then
+    if(weedCount < 1) then
         xPlayer.showNotification("Nemáte u sebe dostatek žádné substance k ubalení!", { type = "error" })
         return
     end
     
-    Inventory:RemoveItem(_source, "weed", 10)
+    Inventory:RemoveItem(_source, "weed", 1)
     Inventory:AddItem(_source, "joint", 1)
     Base:DiscordLog("WEED_PROCESS", "THE RAVE PROJECT - WEED PROCESS - PAPER", {
         { name = "Jméno hráče", value = ESX.SanitizeString(GetPlayerName(_source)) },
         { name = "Identifikace hráče", value = xPlayer.identifier },
-        { name = "Množství použité trávy", value = 10 },
+        { name = "Množství použité trávy", value = 1 },
         { name = "Množství získaných jointů", value = 1 },
     }, {
         fields = true,
     })
-    /*lib.callback("strin_drugs:shredWeed", _source, function(success)
-        if(success) then
-            local driedWeedBudCount = Inventory:GetItemCount(_source, "weed_bud", {
-                state = "dried"
-            })
-            if(driedWeedBudCount <= 0) then
-                xPlayer.showNotification("Nemáte u sebe žádné vysušené palice konopí!", { type = "error" })
-                return
-            end
-            Inventory:RemoveItem(_source, "weed_bud", driedWeedBudCount, {
-                state = "dried"
-            })
-            Inventory:AddItem(_source, "weed", math.floor(driedWeedBudCount * 1.2))
-        end
-    end, driedWeedBudCount)*/
-end)
+end, {
+    event = "usingItem"
+})
+
+Base:RegisterItemListener("joint", function(item, inventory, slot, data)
+    local xPlayer = ESX.GetPlayerFromId(inventory.id)
+    if(not xPlayer) then
+        return false
+    end
+    TriggerClientEvent("strin_drugs:smokeJoint", xPlayer.source)
+end, {
+    event = "usedItem"
+})
 
 RegisterNetEvent("strin_drugs:refreshWeedPlant", function(plantId, refresher)
     if(type(plantId) ~= "number" or (refresher ~= "FERTILIZER" and refresher ~= "WATER")) then
@@ -552,7 +547,7 @@ end
 
 function DeletePlant(plantId, databaseId)
     WeedPlants[plantId] = false
-    MySQL.query.await("DELETE FROM `weed_plants` WHERE `id` = ?", {
+    MySQL.prepare.await("DELETE FROM `weed_plants` WHERE `id` = ?", {
         databaseId
     })
 end
@@ -575,7 +570,7 @@ end
 
 function UpdateWeedPlantStage(plantId, databaseId, stage)
     WeedPlants[plantId].stage = stage
-    MySQL.update.await("UPDATE `weed_plants` SET `stage` = ? WHERE `id` = ?", {
+    MySQL.prepare.await("UPDATE `weed_plants` SET `stage` = ? WHERE `id` = ?", {
         stage,
         databaseId
     })
