@@ -2,10 +2,7 @@ local WeedPlants = {}
 
 /*
     drug_drive_blend01 -- hromada modré a je to insane
-
 */
-
-local DrugEffectStrength = 0.0
 
 RegisterNetEvent("strin_drugs:smokeJoint", function()      
     TaskStartScenarioInPlace(cache.ped, "WORLD_HUMAN_SMOKING_POT", 0, 1)
@@ -17,9 +14,9 @@ RegisterNetEvent("strin_drugs:smokeJoint", function()
     SetPlayerMeleeWeaponDamageModifier(cache.playerId, 1.1)
     SetRunSprintMultiplierForPlayer(cache.playerId, 1.1) 
     local startingStrength = DrugEffectStrength
-    while startingStrength < startingStrength + 0.5 do
+    while DrugEffectStrength < (startingStrength + 0.5) do
         DrugEffectStrength += 0.001
-        SetTimecycleModifierStrength(baseTimeCycleStrength)
+        SetTimecycleModifierStrength(DrugEffectStrength)
         Citizen.Wait(0)
     end
     
@@ -30,19 +27,13 @@ RegisterNetEvent("strin_drugs:smokeJoint", function()
 
     while DrugEffectStrength > 0 do
         DrugEffectStrength -= 0.001
-        SetTimecycleModifierStrength(baseTimeCycleStrength)
+        SetTimecycleModifierStrength(DrugEffectStrength)
         Citizen.Wait(0)
     end
     DrugEffectStrength = 0.0
     ShakeGameplayCam("DRUNK_SHAKE", 0.0)
     ClearTimecycleModifier()
 end)
-
-/*Citizen.CreateThread(function()
-    TriggerEvent("strin_drugs:smokeJoint")
-    Citizen.Wait(5000)
-    ExecuteCommand("ensure "..GetCurrentResourceName())
-end)*/
 
 /*
     Weed Plant:
@@ -100,10 +91,11 @@ RegisterNetEvent("strin_drugs:syncWeedPlants", function(weedPlants)
                 -- Set the cached stage to the server received one
                 plant.stage = v.stage
 
-                -- If player is near and has the entity spawned then delete it and spawn a new one
+                -- If player is near and has the entity spawned then delete it
                 if(plant.entity) then
                     DeleteEntity(plant.entity)
-                    plant.entity = CreatePlantObject(plant.coords, v.stage)
+                    plant.entity = nil
+                    --plant.entity = CreatePlantObject(plant.coords, v.stage)
                 end
             end
 
@@ -171,13 +163,24 @@ RegisterNetEvent("strin_drugs:receiveWeedOffer", function(offer)
 end)
 
 Citizen.CreateThread(function()
+    for i=0, 100, 25 do
+        AddTextEntry("STRIN_DRUGS:DEHYDRATOR"..i, "<FONT FACE='Righteous'>Sušička - Použitelnost: ~g~<b>"..i.."%</b>~w~</FONT>")
+    end
     local weedBudsDrying = false
     local weedBudsReady = false
-    Target:addModel(MicrowavesModelHashes, {
+    local dryerModelHashes = lib.table.deepclone(MicrowavesModelHashes)
+    table.insert(dryerModelHashes, DehydratorModelHash)
+    Target:addModel(dryerModelHashes, {
         {
             label = "Vysušit palice konopí",
             icon = "fa-solid fa-cannabis",
-            onSelect = function()
+            onSelect = function(data)
+                local entity = data.entity
+                local isDehydrator = GetEntityModel(entity) == DehydratorModelHash
+                if(isDehydrator) then
+                    local durability = Entity(entity)?.state?.durability
+                    ESX.ShowNotification("Sušička - Použitelnost: "..tostring(durability).."%")
+                end
                 weedBudsDrying = true
                 local input = lib.inputDialog('Množství', {
                     {
@@ -197,14 +200,22 @@ Citizen.CreateThread(function()
                     end
                 end, input[1])
             end,
-            canInteract = function()
+            canInteract = function(entity)
                 local property, hasKey = exports.esx_property:GetPropertyPlayerIsIn()
-                if(not hasKey and property?.Owner:find(ESX.PlayerData.identifier)) then
+                if(not hasKey and property?.Owner and property?.Owner:find(ESX?.PlayerData?.identifier)) then
                     hasKey = true
                 end
-                return Inventory:GetItemCount("weed_bud", {
+                local hasWeedBuds = Inventory:GetItemCount("weed_bud", {
                     state = "fresh"
-                }) > 0 and property and hasKey and not weedBudsReady and not weedBudsDrying
+                }) > 0
+                local isDehydrator = GetEntityModel(entity) == DehydratorModelHash
+                if(isDehydrator) then
+                    local durability = Entity(entity)?.state?.durability
+                    if(not durability) then
+                        isDehydrator = false
+                    end
+                end
+                return hasWeedBuds and not weedBudsReady and not weedBudsDrying and ((property and hasKey) or isDehydrator)
             end,
         },
         {
@@ -215,12 +226,12 @@ Citizen.CreateThread(function()
                 weedBudsReady = false
                 weedBudsDrying = false
             end,
-            canInteract = function()
+            canInteract = function(entity)
                 local property, hasKey = exports.esx_property:GetPropertyPlayerIsIn()
-                if(not hasKey and property?.Owner:find(ESX.PlayerData.identifier)) then
+                if(not hasKey and property?.Owner and property?.Ownerfind(ESX?.PlayerData?.identifier)) then
                     hasKey = true
                 end
-                return property and hasKey and weedBudsReady
+                return weedBudsReady and ((property and hasKey) or GetEntityModel(entity) == DehydratorModelHash)
             end,
         }
     })

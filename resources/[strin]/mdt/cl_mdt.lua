@@ -6,7 +6,7 @@ local zones = { ['AIRP'] = "Los Santos International Airport", ['ALAMO'] = "Alam
 RegisterCommand('mdt', function()
     local playerPed = PlayerPedId()
     local playerVeh = GetVehiclePedIsIn(playerPed, false)
-    if not isVisible and IsPedInAnyPoliceVehicle(playerPed) and GetEntitySpeed(playerVeh) < 5.0 then
+    if not isVisible and IsPedInAnyPoliceVehicle(playerPed) and (GetEntitySpeed(playerVeh) < 5.0 or (seat and seat ~= -1)) then
         if GetVehicleNumberPlateText(getVehicleInFront()) then
             TriggerServerEvent("mdt:performVehicleSearchInFront", GetVehicleNumberPlateText(getVehicleInFront()))
         else
@@ -418,7 +418,7 @@ function getVehicleInFront()
 end
 
 function getVehicleInDirection(coordFrom, coordTo)
-    local rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 10, GetPlayerPed(-1), 0)
+    local rayHandle = CastRayPointToPoint(coordFrom.x, coordFrom.y, coordFrom.z, coordTo.x, coordTo.y, coordTo.z, 20.0, PlayerPedId(), 0)
     local a, b, c, d, vehicle = GetRaycastResult(rayHandle)
     return vehicle
 end

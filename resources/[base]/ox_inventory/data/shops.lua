@@ -16,6 +16,8 @@ return {
 		blip = {
 			id = 59, colour = 69, scale = 0.8
 		}, inventory = {
+			{ name = 'water', price = 50 },
+			{ name = 'fertilizer', price = 75 },
 			{ name = 'lighter', price = 50 },
 			{ name = 'phone', price = 100 },
 			{ name = 'radio', price = 350 },
@@ -26,6 +28,7 @@ return {
 			{ name = 'weed_seed', price = 30 },
 			{ name = 'lockpick', price = 70 },
 			{ name = 'zipties', price = 30 },
+			{ name = 'dehydrator', price = 1000 },
 		}, locations = {
 			vec3(25.7, -1347.3, 29.49),
 			vec3(-3038.71, 585.9, 7.9),

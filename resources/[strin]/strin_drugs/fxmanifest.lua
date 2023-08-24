@@ -9,10 +9,14 @@ shared_scripts {
 }
 
 client_scripts {
-    "client/*.lua",
+    "client/main.lua",
+    "client/weed.lua",
+    "client/lsd.lua",
 }
 
 server_scripts {
     "@oxmysql/lib/MySQL.lua",
-    "server/*.lua",
+    "server/main.lua",
+    "server/weed.lua",
+    "server/lsd.lua",
 }

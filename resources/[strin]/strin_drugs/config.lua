@@ -1,5 +1,6 @@
 Inventory = exports.ox_inventory
 Base = exports.strin_base
+LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
 
 WeedModelHashes = {
     `bkr_prop_weed_bud_02a`,
@@ -21,9 +22,11 @@ MicrowavesModelHashes = {
     `prop_micro_cs_01_door`,
 }
 
+DehydratorModelHash = `bkr_prop_coke_dehydrator_01`
+LSDPrice = 200
+
 if(IsDuplicityVersion()) then
     Property = exports.esx_property
-    LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
     SoilMaterials = {
         2409420175, 3008270349, 3833216577, 223086562,
         1333033863, 4170197704, 3594309083, 2461440131,
@@ -39,6 +42,8 @@ if(IsDuplicityVersion()) then
     }
 
     WeedJointPrice = { 20, 40 }
+
+    WeedBudHarvestAmount = { 1, 3 }
 else
     Target = exports.ox_target
     /*Inventory:displayMetadata({

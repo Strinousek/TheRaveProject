@@ -191,6 +191,16 @@ return {
 		}
 	},
 
+	["lsd"] = {
+		label = "LSD",
+		stack = true,
+		close = true,
+		consume = 1,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
 	["ticket"] = {
 		label = "Lístek",
 		stack = false,
@@ -237,6 +247,25 @@ return {
 		weight = 100,
 		stack = false,
 		consume = 0,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	['water'] = {
+		label = 'Voda',
+		weight = 500,
+	},
+
+	['fertilizer'] = {
+		label = 'Voda',
+		weight = 500,
+	},
+
+	['dehydrator'] = {
+		label = 'Sušička',
+		weight = 6500,
+		consume = 1,
 		server = {
 			export = "strin_base.use_item"
 		}

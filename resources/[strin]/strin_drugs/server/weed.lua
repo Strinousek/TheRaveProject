@@ -311,7 +311,7 @@ RegisterNetEvent("strin_drugs:harvestWeedPlant", function(plantId)
     end
 
     math.randomseed(os.time())
-    local amount = math.random(1,3)
+    local amount = math.random(table.unpack(WeedBudHarvestAmount))
     Inventory:AddItem(_source, "weed_bud", amount, {
         state = "fresh"
     })
@@ -349,11 +349,26 @@ lib.callback.register("strin_drugs:dryWeedBuds", function(source, amount)
         return false
     end
 
-    local isInProperty = IsPlayerInValidProperty(_source, xPlayer.identifier..":"..xPlayer.get("char_id"))
+    local canDry, dehydratorIndex = IsPlayerInValidProperty(_source, xPlayer.identifier..":"..xPlayer.get("char_id"))
 
-    if(not isInProperty) then
-        xPlayer.showNotification("Nejste v platné nemovitosti!", { type = "error" })
+    if(not canDry) then
+        canDry, dehydratorIndex = GetNearestDehydrator(_source)
+    end
+
+    if(not canDry) then
+        xPlayer.showNotification("Nejste v blízkostí platného sušícího nástroje!", { type = "error" })
         return false
+    end
+
+    if(dehydratorIndex) then
+        local dehydrator = SpawnedDehydrators[dehydratorIndex]
+        if(dehydrator.durability == 0) then
+            xPlayer.showNotification("Tahle sušička už je nepoužitelná!", { type = "error" })
+            return false
+        end
+        local entity = NetworkGetEntityFromNetworkId(dehydrator.netId)
+        dehydrator.durability -= 25.0
+        Entity(entity).state.durability = dehydrator.durability
     end
 
     DriedWeedBuds[xPlayer.identifier] = amount
@@ -363,7 +378,7 @@ lib.callback.register("strin_drugs:dryWeedBuds", function(source, amount)
     })
     xPlayer.showNotification("Palice se suší, vyčkejte chvíli.")
     Citizen.Wait(3000)
-    xPlayer.showNotification("Palice jsou vysušeny, vemte si je z mikrovlnné trouby.")
+    xPlayer.showNotification("Palice jsou vysušeny, vemte si je ze šušícího stroje.")
     return true
 end)
 
@@ -378,11 +393,23 @@ RegisterNetEvent("strin_drugs:retrieveDriedWeedBuds", function()
         return
     end
 
-    local isInProperty = IsPlayerInValidProperty(_source, xPlayer.identifier..":"..xPlayer.get("char_id"))
+    local canDry, dehydratorIndex = IsPlayerInValidProperty(_source, xPlayer.identifier..":"..xPlayer.get("char_id"))
 
-    if(not isInProperty) then
-        xPlayer.showNotification("Nejste v platné nemovitosti!", { type = "error" })
+    if(not canDry) then
+        canDry, dehydratorIndex = GetNearestDehydrator(_source)
+    end
+
+    if(not canDry) then
+        xPlayer.showNotification("Nejste v blízkostí platného sušícího nástroje!", { type = "error" })
         return
+    end
+
+    if(dehydratorIndex) then
+        local dehydrator = SpawnedDehydrators[dehydratorIndex]
+        if(dehydrator.durability == 0) then
+            local entity = NetworkGetEntityFromNetworkId(dehydrator.netId)
+            DeleteEntity(entity)
+        end
     end
 
     Inventory:AddItem(_source, "weed_bud", DriedWeedBuds[xPlayer.identifier], {

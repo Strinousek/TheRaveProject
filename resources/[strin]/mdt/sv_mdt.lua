@@ -8,6 +8,11 @@ Citizen.CreateThread(function()
 	Items = exports.ox_inventory:Items()
 end)
 
+/*Citizen.CreateThread(function()
+	local result = MySQL.rawExecute.await("SELECT `label`, `amount`, `category` FROM `fine_types`")
+	SaveResourceFile(GetCurrentResourceName(), "fines.json", json.encode(result), -1)
+end)*/
+
 Citizen.CreateThread(function()
 	local queries = {
 		[[
@@ -220,8 +225,6 @@ AddEventHandler("mdt:getOffenderDetails", function(offender)
 		end
 	end
 
-	--print(json.encode(offender))
-
 	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM `owned_vehicles` WHERE `owner` = @identifier AND `job` IS NULL', {
 		['@identifier'] = offender.identifier..":"..offender.char_id
 	})
@@ -341,11 +344,6 @@ AddEventHandler("mdt:getOffenderDetailsById", function(char_identifier)
 			})
 		end
 	end
-	
-	/*local phone_number = MySQL.Sync.fetchAll('SELECT `phone_number` FROM `users` WHERE `identifier` = @identifier', {
-		['@identifier'] = offender.identifier
-	})
-	offender.phone_number = phone_number[1].phone_number*/
 
 	local vehicles = MySQL.Sync.fetchAll('SELECT * FROM `owned_vehicles` WHERE `owner` = @identifier AND `job` IS NULL', {
 		['@identifier'] = offender.identifier..":"..offender.char_id
@@ -585,16 +583,18 @@ end)
 RegisterServerEvent("mdt:getVehicle")
 AddEventHandler("mdt:getVehicle", function(vehicle)
 	local usource = source
-	local separatorIndex = vehicle.owner:find(":")
-	local identifier = vehicle.owner:sub(1, separatorIndex - 1)
-	local char_id = tonumber(vehicle.owner:sub(separatorIndex + 1, string.len(vehicle.owner)))
-	local result = MySQL.Sync.fetchAll("SELECT * FROM `characters` WHERE `identifier` = @query AND `char_id` = @char_id", {
-		['@query'] = identifier,
-		["@char_id"] = char_id
-	})
-	if result[1] then
-		vehicle.owner = result[1].firstname .. ' ' .. result[1].lastname
-		vehicle.owner_id = result[1].char_identifier
+	if(vehicle.owner and vehicle.owner:find(":")) then
+		local separatorIndex = vehicle.owner:find(":")
+		local identifier = vehicle.owner:sub(1, separatorIndex - 1)
+		local char_id = tonumber(vehicle.owner:sub(separatorIndex + 1, string.len(vehicle.owner)))
+		local result = MySQL.Sync.fetchAll("SELECT * FROM `characters` WHERE `identifier` = @query AND `char_id` = @char_id", {
+			['@query'] = identifier,
+			["@char_id"] = char_id
+		})
+		if result[1] then
+			vehicle.owner = result[1].firstname .. ' ' .. result[1].lastname
+			vehicle.owner_id = result[1].char_identifier
+		end
 	end
 
 
@@ -613,25 +613,33 @@ AddEventHandler("mdt:getVehicle", function(vehicle)
 		vehicle.notes = ''
 	end
 
-	local warrants = MySQL.Sync.fetchAll('SELECT * FROM `mdt_warrants` WHERE `char_id` = @id', {
-		['@id'] = vehicle.owner_id
-	})
-	if warrants[1] then
-		vehicle.haswarrant = true
-	end
+	if(vehicle.owner_id) then
+		local warrants = MySQL.Sync.fetchAll('SELECT * FROM `mdt_warrants` WHERE `char_id` = @id', {
+			['@id'] = vehicle.owner_id
+		})
+		if warrants[1] then
+			vehicle.haswarrant = true
+		end
 
-	local custody = MySQL.Sync.fetchAll('SELECT `bail`, `wanted` FROM user_mdt WHERE `char_id` = @id', {
-		['@id'] = vehicle.owner_id
-	})
-	if custody and custody[1] then 
-		if(custody[1].bail == 1) then
-			vehicle.bail = true 
+		local custody = MySQL.Sync.fetchAll('SELECT `bail`, `wanted` FROM user_mdt WHERE `char_id` = @id', {
+			['@id'] = vehicle.owner_id
+		})
+		if custody and custody[1] then 
+			if(custody[1].bail == 1) then
+				vehicle.bail = true 
+			end
+			if(custody[1].wanted == 1) then
+				vehicle.wanted = true 
+			end
+		else 
+			vehicle.bail = false 
+			vehicle.wanted = false
 		end
-		if(custody[1].wanted == 1) then
-			vehicle.wanted = true 
-		end
-	else 
+	end
+	if(vehicle.bail == nil) then
 		vehicle.bail = false 
+	end
+	if(vehicle.wanted == nil) then
 		vehicle.wanted = false
 	end
 
