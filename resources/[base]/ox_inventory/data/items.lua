@@ -232,16 +232,6 @@ return {
 		}
 	},
 
-	['armour'] = {
-		label = 'Neprůstřelná vesta',
-		weight = 3000,
-		stack = false,
-		client = {
-			anim = { dict = 'clothingshirt', clip = 'try_shirt_positive_d' },
-			usetime = 3500
-		}
-	},
-
 	["ammobox"] = {
 		label = 'Krabice s náboji',
 		weight = 100,
@@ -258,13 +248,13 @@ return {
 	},
 
 	['fertilizer'] = {
-		label = 'Voda',
+		label = 'Hnojivo',
 		weight = 500,
 	},
 
 	['dehydrator'] = {
 		label = 'Sušička',
-		weight = 6500,
+		weight = 20000,
 		consume = 1,
 		server = {
 			export = "strin_base.use_item"

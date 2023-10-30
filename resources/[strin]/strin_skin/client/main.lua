@@ -96,6 +96,12 @@ end
 
 exports("OpenSkinMenu", OpenSkinMenu)
 
+AddEventHandler("esx:onPlayerDeath", function()
+    if(lastSkin) then
+        CloseSkinMenu("cancel")
+    end
+end)
+
 function CloseSkinMenu(action)
     SetNUIStatus(false)
     Camera.Deactivate()

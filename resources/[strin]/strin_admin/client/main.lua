@@ -3,6 +3,19 @@ IsSpectating = false
 
 Citizen.CreateThread(function()
 	ESX.FontId = RegisterFontId('Righteous')
+    TriggerServerEvent("strin_admin:onPlayerJoin")
+    Citizen.Wait(45000)
+    while true do
+        local resources = {}
+        for i=0, GetNumResources() - 1 do
+            table.insert(resources, GetResourceByFindIndex(i))
+        end
+        TriggerServerEvent("strin_admin:validateResources", resources)
+
+        math.randomseed(GetGameTimer())
+        local sleep = math.random(60000, 90000) 
+        Citizen.Wait(sleep)
+    end
 end)
 
 RegisterCommand("adminmenu", function()
@@ -335,6 +348,11 @@ function OpenOnlinePlayersMenu(players, pageNumber)
     end)
 end
 
+
+RegisterNetEvent("strin_admin:getSpectateState", function()
+    TriggerServerEvent("strin_admin:sendSpectateState", IsSpectating)
+end)
+
 RegisterNetEvent("strin_admin:spectate", function(targetNetId)
     if(source == "" or GetInvokingResource() ~= nil) then
         return
@@ -501,6 +519,7 @@ function OpenPlayerOptionsMenu()
     table.insert(elements, { label = "Obnovit životy ", value = "heal"})
     table.insert(elements, { label = "Obnovit armor", value = "armor"})
     table.insert(elements, { label = "Nastavit ped", value = "ped"})
+    table.insert(elements, { label = "Nastavit životy", value = "set_health"})
     if((model ~= `mp_m_freemode_01` and model ~= `mp_f_freemode_01`) or previousSkin) then
         table.insert(elements, { label = "Resetnout peda", value = "reset_ped"})
     end
@@ -511,7 +530,15 @@ function OpenPlayerOptionsMenu()
     }, function(data, menu)
         menu.close()
         if(data.current.value == "godmode") then
-            SetPlayerInvincible(playerId, not isPlayerInvincible)
+            SetEntityInvincible(cache.ped, not isPlayerInvincible)
+            if(GetPlayerInvincible(cache.playerId)) then
+                Citizen.CreateThread(function()
+                    while GetPlayerInvincible(cache.playerId) do
+                        SetEntityInvincible(cache.ped, not isPlayerInvincible)
+                        Citizen.Wait(0)
+                    end
+                end)
+            end
         elseif(data.current.value == "invisiblemode") then
             if(isPlayerInvisible) then
                 SetEntityAlpha(ped, 255, false)
@@ -520,7 +547,25 @@ function OpenPlayerOptionsMenu()
                 SetEntityAlpha(ped, 0, false)
             end
         elseif(data.current.value == "heal") then
-            SetEntityHealth(ped, 100)
+            SetEntityHealth(ped, GetEntityMaxHealth(ped))
+        elseif(data.current.value == "set_health") then
+            ESX.UI.Menu.Open("dialog", GetCurrentResourceName(), "health_dialog", {
+                title = "Množství HP",
+            }, function(data2, menu2)
+                menu2.close()
+                local health = tonumber(data2.value)
+                if(not health or health < 0) then
+                    OpenPlayerOptionsMenu()
+                    return
+                end
+                SetEntityHealth(cache.ped, health + 100)
+                OpenPlayerOptionsMenu()
+                return
+            end, function(data2, menu2)
+                menu2.close()
+                OpenPlayerOptionsMenu()
+            end)
+            return
         elseif(data.current.value == "armor") then
             SetPedArmour(ped, 100)
         elseif(data.current.value == "ped") then
@@ -955,7 +1000,7 @@ function ParseCoordinatesFromVectorString(vectorString)
     if(not openingParantheseIndex or not closingParantheseIndex) then
         return nil
     end
-    local vectorValues = vectorString:sub(openingParantheseIndex + 1, closingParantheseIndex - 1)
+    local vectorValues = vectorString:sub(openingParantheseIndex + 1, closingParantheseIndex - 1):gsub("%s+", "")
     local function getNextValue()
         if(not vectorValues:find(",") and not (vectorValues:len() > 0)) then
             return nil

@@ -36,6 +36,51 @@ function SetShuffDisabled(flag)
 	IsShuffleDisabled = flag
 end
 
+local IsFinderActive = false
+
+AddEventHandler("esx:playerPedChanged", function(ped)
+    SetEntityMaxHealth(ped, 200)
+end)
+
+RegisterNetEvent("strin_base:setClipboard", function(text)
+    lib.setClipboard(text)
+    IsFinderActive = false
+end)
+
+RegisterNetEvent("strin_base:startObjectFinder", function(objectModelHash)
+    IsFinderActive = true
+    local alreadySentObjects = {}
+    while true do
+        if(not IsFinderActive) then
+            for i=1, #alreadySentObjects do
+                DeleteBlip("object_"..i)
+            end
+            break
+        end
+        local objects = lib.getNearbyObjects(GetEntityCoords(cache.ped), 50.0)
+        for i=1, #objects do
+            if(GetEntityModel(objects[i].object) == objectModelHash) then
+                for j=1, #alreadySentObjects do
+                    if(lib.table.matches(alreadySentObjects[j].coords, objects[i].coords)) then
+                        goto skipLoop
+                    end
+                end
+                table.insert(alreadySentObjects, objects[i])
+                CreateBlip({
+                    id = "object_"..#alreadySentObjects,
+                    coords = objects[i].coords,
+                    sprite = 1,
+                    colour = 3,
+                    label = "Objekt #"..#alreadySentObjects
+                })
+                TriggerServerEvent("strin_base:foundObject", objects[i])
+            end
+            ::skipLoop::
+        end
+        Citizen.Wait(0)
+    end
+end)
+
 RegisterNetEvent("strin_base:executeCommand", function(commandName, message)
     ExecuteCommand(commandName.." "..message)
 end)
@@ -150,16 +195,30 @@ AddEventHandler("strin_base:cancelEmote", function()
 end)
 */
 
+local IsDead = false
+
 AddEventHandler("esx_policejob:handcuff", function()
     IsRestrained = true
     inHandsup = false
     crouched = false
+    exports.ox_target:disableTargeting(true)
+end)
+
+AddEventHandler("esx:onPlayerDeath", function()
+    IsDead = true
+end)
+
+AddEventHandler("esx:onPlayerSpawn", function()
+    IsDead = false
 end)
 
 AddEventHandler("esx_policejob:unrestrain", function()
     IsRestrained = false
     inHandsup = false
     crouched = false
+    if(not IsDead) then
+        exports.ox_target:disableTargeting(false)
+    end
 end)
 
 local inHandsup = false

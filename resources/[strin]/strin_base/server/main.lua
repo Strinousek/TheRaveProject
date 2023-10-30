@@ -27,12 +27,48 @@ AddEventHandler("playerDropped", function()
     }
 end)
 
-/*ESX.RegisterCommand("showentity", "admin", function(xPlayer, args)
-    local id = tonumber(args[1]) or 1
-    if(id and (id == 1 or id == 2)) then
-        TriggerClientEvent('strin_base:showEntity', xPlayer.source, id)
+local FoundObjects = {}
+RegisterNetEvent("strin_base:foundObject", function(object)
+    local _source = source
+    if(not FoundObjects[_source]) then
+        return
     end
-end)*/
+
+    table.insert(FoundObjects[_source], object)
+end)
+
+ESX.RegisterCommand("objfind", "admin", function(xPlayer, args)
+    if(not args.object and not FoundObjects[xPlayer.source]) then
+        return
+    end
+    if(not args.object and FoundObjects[xPlayer.source]) then
+        TriggerClientEvent("strin_base:setClipboard", xPlayer.source, json.encode(FoundObjects[xPlayer.source], { indent = true }))
+        FoundObjects[xPlayer.source] = nil
+        return
+    end
+    local hash = tonumber(args.object)
+    if(not hash) then
+        hash = GetHashKey(args.object)
+    end
+    FoundObjects[xPlayer.source] = {}
+    TriggerClientEvent("strin_base:startObjectFinder", xPlayer.source, hash)
+end, false, {
+    help = "Hledač objektů",
+    arguments = {
+        {
+            name = "object",
+            help = "Název objektu / hash",
+            type = "any"
+        }
+    }
+})
+
+AddEventHandler("playerDropped", function()
+    local _source = source
+    if(FoundObjects[_source]) then
+        FoundObjects[_source] = nil
+    end
+end)
 
 function LoadJSONFile(resourceName, filePath, defaultValue, returnInJSON)
     local content = type(defaultValue) == "string" and defaultValue or json.encode(defaultValue)
@@ -50,7 +86,6 @@ exports("LoadJSONFile", LoadJSONFile)
 ESX.RegisterCommand("id", "user", function(xPlayer)
     xPlayer.showNotification("Vaše ID: "..xPlayer.source, { duration = 10000 })
 end)
-
 
 local DEBUG_MODE_ON = false
 ESX.RegisterCommand("debugmode", "admin", function(xPlayer)

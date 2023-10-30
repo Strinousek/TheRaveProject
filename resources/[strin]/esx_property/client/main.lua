@@ -308,8 +308,13 @@ function PropertyMenuElements(PropertyId)
     end
   else
     if not PM.Enabled then
+      local vip = lib.callback.await("strin_base:getVIP", false)
+      local price = Property.Price
+      if(vip?.propertyDiscountPercentage) then
+          price -= price * (vip?.propertyDiscountPercentage / 100)
+      end
       table.insert(elements,
-        {title = TranslateCap("buy_title"), description = TranslateCap("buy_desc", ESX.Math.GroupDigits(ESX.Round(Property.Price))), icon = "fas fa-shopping-cart",
+        {title = TranslateCap("buy_title"), description = TranslateCap("buy_desc", ESX.Math.GroupDigits(ESX.Round(price))), icon = "fas fa-shopping-cart",
          value = 'property_buy'})
     else
       if ESX.PlayerData.job.name == PM.job and ESX.PlayerData.job.grade >= PM.Permissions.SellProperty then

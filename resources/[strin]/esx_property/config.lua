@@ -59,8 +59,8 @@ Config.Garage = {
 --------------------- Log Settings ---------------------------------
 if IsDuplicityVersion() then 
   Config.Logs = {
-    Webhook = "",
-    LogLevel = 1
+    Webhook = "https://discord.com/api/webhooks/1145664976065929267/Qyky-bPu5l8tkgv7KGC3AC35ywpwxKQzqg0tizzS6YJIPghQHZxuDArB_-I2gdfISzS2",
+    LogLevel = 3
 
     ----------- Log Levels ------------
     -- 0 = No Logs

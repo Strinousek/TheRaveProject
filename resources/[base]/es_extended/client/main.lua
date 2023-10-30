@@ -688,11 +688,11 @@ AddEventHandler("esx:freezePlayer", function(input)
 	if input == 'freeze' then
 		SetEntityCollision(ESX.PlayerData.ped, false)
 		FreezeEntityPosition(ESX.PlayerData.ped, true)
-		SetPlayerInvincible(player, true)
+		--SetPlayerInvincible(player, true)
 	elseif input == 'unfreeze' then
 		SetEntityCollision(ESX.PlayerData.ped, true)
 		FreezeEntityPosition(ESX.PlayerData.ped, false)
-		SetPlayerInvincible(player, false)
+		--SetPlayerInvincible(player, false)
 	end
 end)
 

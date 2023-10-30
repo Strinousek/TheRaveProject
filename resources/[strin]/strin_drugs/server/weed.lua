@@ -1,7 +1,7 @@
 local WeedPlants = {}
 local WeedIndex = 1
-local LoadedPlantsFromDatabase = false
-local WeedPlantCheckInterval = SetInterval(function()
+
+SetInterval(function()
     local currentTime = os.time()
     local changed = false
     for k,v in pairs(WeedPlants) do
@@ -68,7 +68,6 @@ Citizen.CreateThread(function()
     if(playerCount > 0) then
         SyncWeedPlants()
     end
-    LoadedPlantsFromDatabase = true
 end)
 
 RegisterNetEvent("esx:playerLoaded", function(playerId)

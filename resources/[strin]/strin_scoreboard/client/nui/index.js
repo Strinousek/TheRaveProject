@@ -5,11 +5,31 @@ $(() => {
     let transition = false;
 
     const AddPlayerIntoScoreboard = (columnId, player) => {
-        $(`#players-column-${columnId}`).append(`
-            <div class="player">
-                ${player.name}<span class="player-id">${player.id}</span>
-            </div>
-        `);
+        $(`#players-column-${columnId}`).append(`<div class="player"></div>`);
+        $(`#players-column-${columnId} > div`).text(player.name);
+        $(`#players-column-${columnId} > div`).append(`<span class="player-id">${player.id}</span>`);
+        if(player.backgroundImage) {
+            $(`#players-column-${columnId} > div`).css({
+                "position": "relative",
+                "background": `transparent`,
+                "z-index": 2, 
+            });
+            $(`#players-column-${columnId} > div`).append(`<div></div>`);
+            $(`#players-column-${columnId} > div > div`).css({
+                "position": "absolute",
+                "top": 0,
+                "left": 0,
+                "width": "100%", 
+                "height": "100%",  
+                "opacity": ".4",
+                "z-index": -1,
+                "background": `url(${player.backgroundImage})`,
+                "text-shadow": "0px 0px 6px #000000, 0px 0px 6px #000000, 0px 0px 6px #000000, 0px 0px 6px #000000",
+                "background-position": "center",
+                "background-repeat": "no-repeat",
+                "background-size": "cover",
+            });
+        }
     };
 
     const CreateScoreboard = (receivedPlayers) => {
@@ -97,14 +117,18 @@ $(() => {
         let testPlayers = [];
         for(i=1; i < 5; i++) {
             const randomNum = Math.floor(1 + Math.random() * 20);
-            testPlayers.push({name: GenerateRandomName(randomNum), id: Math.floor(1 + Math.random() * 64)});
+            testPlayers.push({
+                name: GenerateRandomName(randomNum), 
+                id: Math.floor(1 + Math.random() * 64), 
+                backgroundImage: "https://imgur.com/SHF8VMJ.gif"
+            });
         }
         return testPlayers
     };
 
     let testPlayers = MakeTestPlayers()
     CreateScoreboard(testPlayers);
-    */
+    */    
 
     window.addEventListener("message", (event) => {
         let {action, players, side} = event.data;

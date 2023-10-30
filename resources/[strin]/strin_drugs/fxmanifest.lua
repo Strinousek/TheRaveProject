@@ -12,6 +12,7 @@ client_scripts {
     "client/main.lua",
     "client/weed.lua",
     "client/lsd.lua",
+    "client/synthetics.lua",
 }
 
 server_scripts {
@@ -19,4 +20,5 @@ server_scripts {
     "server/main.lua",
     "server/weed.lua",
     "server/lsd.lua",
+    "server/synthetics.lua",
 }

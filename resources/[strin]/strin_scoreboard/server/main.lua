@@ -57,13 +57,19 @@
 		return changed
 	end
 ]]
-local connectedPlayers, maxPlayers = {}, GetConvarInt('sv_maxclients', 64)
+local ConnectedPlayers, MAX_PLAYERS = {}, GetConvarInt('sv_maxclients', 64)
+
+AddEventHandler("strin_scoreboard:refresh", function()
+	ConnectedPlayers = {}
+	AddPlayersToScoreboard()
+end)
 
 lib.callback.register("strin_scoreboard:getPlayers", function(source)
-	return connectedPlayers
+	return ConnectedPlayers
 end)
 
 AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
+	Citizen.Wait(500)
 	AddPlayerToScoreboard(playerId, true)
 end)
 
@@ -73,29 +79,29 @@ end)
 
 RegisterNetEvent("strin_scoreboard:requestUpdatePlayers", function()
 	local _source = source
-	TriggerClientEvent('strin_scoreboard:updatePlayers', _source, connectedPlayers)
+	TriggerClientEvent('strin_scoreboard:updatePlayers', _source, ConnectedPlayers)
 end)
 
 function RemovePlayerFromScoreboard(playerId, update)
 	local newPlayers = {}
-	for i=1, #connectedPlayers do
-		if(connectedPlayers[i]) then
-			local player = connectedPlayers[i]
+	for i=1, #ConnectedPlayers do
+		if(ConnectedPlayers[i]) then
+			local player = ConnectedPlayers[i]
 			if(player?.id ~= playerId) then
 				table.insert(newPlayers, player)
 			end
 		end
 	end
-	connectedPlayers = newPlayers
+	ConnectedPlayers = newPlayers
 	if update then
-		TriggerClientEvent('strin_scoreboard:updatePlayers', -1, connectedPlayers)
+		TriggerClientEvent('strin_scoreboard:updatePlayers', -1, ConnectedPlayers)
 	end
 end
 
 function AddPlayerToScoreboard(playerId, update)
 
-	local newPlayerIndex = #connectedPlayers + 1
-	connectedPlayers[newPlayerIndex] = {
+	local xPlayer = ESX.GetPlayerFromId(playerId)
+	local data = {
 		id = playerId,
 		name = ESX.SanitizeString(GetPlayerName(playerId) or "Neznámý hráč", {
 			html = true,
@@ -103,9 +109,15 @@ function AddPlayerToScoreboard(playerId, update)
 			cc = true
 		})
 	}
+	
+	local vipData = xPlayer.get("vip")
+	if(vipData?.backgroundImage and type(vipData?.backgroundImage) == "string") then
+		data.backgroundImage = vipData?.backgroundImage
+	end
+	table.insert(ConnectedPlayers, data)
 
 	if update then
-		TriggerClientEvent('strin_scoreboard:updatePlayers', -1, connectedPlayers)
+		TriggerClientEvent('strin_scoreboard:updatePlayers', -1, ConnectedPlayers)
 	end
 end
 
@@ -115,7 +127,7 @@ function AddPlayersToScoreboard()
 		AddPlayerToScoreboard(playerId, false)
 	end
 
-	TriggerClientEvent('strin_scoreboard:updatePlayers', -1, connectedPlayers)
+	TriggerClientEvent('strin_scoreboard:updatePlayers', -1, ConnectedPlayers)
 end
 
 AddEventHandler('onResourceStart', function(resource)

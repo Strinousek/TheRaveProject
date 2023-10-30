@@ -347,8 +347,21 @@ lib.callback.register("strin_admin:requestVehicle", function(source, hash)
     return NetworkGetNetworkIdFromEntity(vehicle)
 end)
 
-local CurrentTime = { hour = 0, minute = 0, second = 0 }
-local TimeInterval = nil
+local CurrentTime = { hour = 12, minute = 30, second = 0 }
+local TimeInterval = SetInterval(function()
+    CurrentTime.second += 1
+    if(CurrentTime.second == 60) then
+        CurrentTime.second = 0
+        CurrentTime.minute += 1
+        if(CurrentTime.minute == 60) then
+            CurrentTime.minute = 0
+            CurrentTime.hour += 1
+            if(CurrentTime.hour == 24) then
+                CurrentTime.hour = 0
+            end
+        end
+    end
+end, 1000)
 
 RegisterNetEvent("strin_admin:setTime", function(hour, minute)
     if(type(hour) ~= "number" or type(minute) ~= "number") then
@@ -371,22 +384,6 @@ RegisterNetEvent("strin_admin:setTime", function(hour, minute)
     CurrentTime.minute = minute
     CurrentTime.second = 0
 
-    if(not TimeInterval) then
-        TimeInterval = SetInterval(function()
-            CurrentTime.second += 1
-            if(CurrentTime.second == 60) then
-                CurrentTime.second = 0
-                CurrentTime.minute += 1
-                if(CurrentTime.minute == 60) then
-                    CurrentTime.minute = 0
-                    CurrentTime.hour += 1
-                    if(CurrentTime.hour == 24) then
-                        CurrentTime.hour = 0
-                    end
-                end
-            end
-        end, 1000)
-    end
     TriggerClientEvent("strin_admin:setTime", -1, CurrentTime.hour, CurrentTime.minute, CurrentTime.second)
 end)
 
@@ -463,9 +460,150 @@ AddEventHandler("esx:playerLoaded", function(playerId)
     end
 end)
 
+
+local RecentlyHealedPlayers = {}
+local RecentlyRevivedPlayers = {}
+
+local CachedPlayersHealth = {}
+
 AddEventHandler("playerDropped", function()
     local _source = source
     if(Spectates[_source]) then
         Spectates[_source] = nil
+    end
+    if(RecentlyHealedPlayers[_source]) then
+        RecentlyHealedPlayers[_source] = nil
+    end
+    if(RecentlyRevivedPlayers[_source]) then
+        RecentlyRevivedPlayers[_source] = nil
+    end
+    if(CachedPlayersHealth[_source]) then
+        CachedPlayersHealth[_source] = nil
+    end
+end)
+
+AddEventHandler("strin_jobs:playerHealedSuccessfully", function(xPlayer)
+    RecentlyHealedPlayers[xPlayer.source] = true
+    SetTimeout(6000, function()
+        RecentlyHealedPlayers[xPlayer.source] = nil
+    end)
+end)
+
+AddEventHandler("strin_jobs:playerRevivedSuccessfully", function(xPlayer)
+    RecentlyRevivedPlayers[xPlayer.source] = true
+    SetTimeout(6000, function()
+        RecentlyRevivedPlayers[xPlayer.source] = nil
+    end)
+end)
+
+Citizen.CreateThread(function()
+    while true do
+        local xPlayers = ESX.GetExtendedPlayers()
+        for i=1, #xPlayers do
+            local xPlayer = xPlayers[i]
+            local hasGodMode = GetPlayerInvincible(xPlayer.source)
+            if(hasGodMode and not xPlayer.get("isAdmin")) then
+                BanOnlinePlayer(nil, xPlayer.source, -1, "Detekován God Mode")
+                goto skipLoop
+            end
+            local ped = GetPlayerPed(xPlayer.source)
+            local playerHealth = GetEntityHealth(ped) - 100
+            if(CachedPlayersHealth[xPlayer.source] and not xPlayer.get("isAdmin")) then
+                local maxHealth = GetEntityMaxHealth(ped) - 100
+                if(CachedPlayersHealth[xPlayer.source] <= (maxHealth / 2) and playerHealth > (maxHealth * 0.8)) then
+                    if(not RecentlyHealedPlayers[xPlayer.source] and not RecentlyRevivedPlayers[xPlayer.source]) then
+                        BanOnlinePlayer(nil, xPlayer.source, -1, "Detekována manipulace s HP")
+                    end
+                end
+            end
+            CachedPlayersHealth[xPlayer.source] = playerHealth
+            ::skipLoop::
+        end
+        Citizen.Wait(3000)
+    end
+end)
+
+local RequestedHeartbeat = false
+local ReceivedPlayerHeartbeats = {}
+local IgnoredPlayerHeartbeats = {}
+
+AddEventHandler("playerJoining", function()
+    local _source = source
+    local name = GetPlayerName(_source)
+    IgnoredPlayerHeartbeats[name] = true
+end)
+
+RegisterNetEvent("strin_admin:onPlayerJoin", function(playerId)
+    local _source = source
+    local name = GetPlayerName(_source)
+    IgnoredPlayerHeartbeats[name] = nil
+end)
+
+RegisterNetEvent("esx:playerLoaded", function(playerId)
+    Citizen.Wait(5 * 60000)
+    local _source = playerId
+    local name = GetPlayerName(_source)
+    if(name and IgnoredPlayerHeartbeats[name]) then
+        IgnoredPlayerHeartbeats[name] = nil
+    end
+end)
+
+RegisterNetEvent("strin_admin:sendSpectateState", function()
+    local _source = source
+    local name = GetPlayerName(_source)
+    if(not RequestedHeartbeat and not IgnoredPlayerHeartbeats[name]) then
+        BanOnlinePlayer(nil, _source, -1, "Nejste admin")
+        return
+    end
+    ReceivedPlayerHeartbeats[_source] = true
+end)
+
+Citizen.CreateThread(function()
+    Citizen.Wait(30000)
+    while true do
+        RequestedHeartbeat = true
+        local start = GetGameTimer()
+        for _, playerId in pairs(GetPlayers()) do
+            local playerId = tonumber(playerId)
+            ReceivedPlayerHeartbeats[playerId] = false
+            TriggerClientEvent("strin_admin:getSpectateState", playerId)
+        end
+        Citizen.Wait(4000)
+        for playerId, response in pairs(ReceivedPlayerHeartbeats) do
+            local name = GetPlayerName(playerId)
+            if(not response and name and not IgnoredPlayerHeartbeats[name]) then
+                BanOnlinePlayer(nil, playerId, -1, "Vypnutí ochrany na klientovi")
+            end
+        end
+        ReceivedPlayerHeartbeats = {}
+        RequestedHeartbeat = false
+        Citizen.Wait(30000 - (GetGameTimer() - start))
+    end
+end)
+
+local RegisteredResources = {}
+
+function CollectResources()
+    for i = 0, GetNumResources() - 1 do
+        RegisteredResources[GetResourceByFindIndex(i)] = true
+    end
+end
+
+CollectResources()
+
+AddEventHandler("onResourceListRefresh", CollectResources)
+
+RegisterNetEvent("strin_admin:validateResources", function(resources)
+    local _source = source
+
+    local invalidResources = {}
+    for i=1, #resources do
+        if(not RegisteredResources[resources[i]]) then
+            table.insert(invalidResources, resources[i])
+        end
+    end
+
+    if #invalidResources > 0 then
+        BanOnlinePlayer(nil, _source, -1, "Nepovolené assety nalezeny - "..json.encode(invalidResources))
     end
 end)

@@ -145,9 +145,8 @@ RegisterNetEvent("strin_sidejobs:dropOffClient", function()
         return
     end
 
-    local payout = math.floor(distance * TAXI_DISTANCE_MULTIPLIER)
+    local payout = PayoutSideJob(_source, math.floor(distance * TAXI_DISTANCE_MULTIPLIER))
     xPlayer.showNotification(("Zákazník Vám vyplatil %s$"):format(ESX.Math.GroupDigits(payout)), { type = "success" })
-    xPlayer.addMoney(payout)
 
     Base:DiscordLog("DEFAULT", "THE RAVE PROJECT - SIDE JOBS", {
         { name = "Typ", value = SideJobModuleName },

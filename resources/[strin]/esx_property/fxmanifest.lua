@@ -25,7 +25,7 @@ description 'Official ESX-Legacy Property System'
 version '2.0'
 legacyversion '1.9.1'
 
-shared_scripts {'@es_extended/imports.lua', '@es_extended/locale.lua', 'locales/*.lua'}
+shared_scripts {'@es_extended/imports.lua', '@es_extended/locale.lua', 'locales/*.lua', "@ox_lib/init.lua"}
 file "client/html/copy.html"
 ui_page "client/html/copy.html"
 

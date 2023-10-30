@@ -575,7 +575,7 @@ function OnEmotePlay(EmoteName, name, textureVariation)
 
     local animOption = EmoteName.AnimationOptions
     if InVehicle then
-        if animOption and animOption.NotInVehicle then
+        if animOption and (animOption.NotInVehicle or not animOption.onlyInVehicle) then
             return EmoteChatMessage(Config.Languages[lang]['not_in_a_vehicle'])
         end
     elseif animOption and animOption.onlyInVehicle then

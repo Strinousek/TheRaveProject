@@ -231,14 +231,14 @@ Citizen.CreateThread(function()
                 if(GetVehicleBodyHealth(entity) < 1000) then
                     local ped = PlayerPedId()
                     TaskStartScenarioInPlace(ped, 'PROP_HUMAN_BUM_BIN', 0, true)
-                    SetEntityInvincible(ped, true)
+                    --SetEntityInvincible(ped, true)
                     Citizen.Wait(7000)
                     SetVehicleFixed(entity)
                     SetVehicleDeformationFixed(entity)
                     SetVehicleUndriveable(entity, false)
                     SetVehicleEngineOn(entity, true, true)
                     ClearPedTasksImmediately(ped)
-                    SetEntityInvincible(ped, false)
+                    --SetEntityInvincible(ped, false)
                     ESX.ShowNotification("Vozidlo úspešně opraveno!", {type = "success"})
                 end
             end,
@@ -257,12 +257,12 @@ Citizen.CreateThread(function()
                 local entity = data.entity
                 if(GetVehicleDirtLevel(entity) > 0.0) then
                     local ped = PlayerPedId()
-                    SetEntityInvincible(ped, true)
+                    --SetEntityInvincible(ped, true)
                     TaskStartScenarioInPlace(ped, 'WORLD_HUMAN_MAID_CLEAN', 0, true)
                     Citizen.Wait(2000)
                     SetVehicleDirtLevel(entity, 0.0)
                     ClearPedTasksImmediately(ped)
-                    SetEntityInvincible(ped, false)
+                    --SetEntityInvincible(ped, false)
                     ESX.ShowNotification("Vozidlo úspěšně umyto!", {type = "success"})
                 end
             end,
@@ -290,13 +290,13 @@ Citizen.CreateThread(function()
                     end
                     local dict = "mp_arresting"
                     LoadAnimationDict(dict)
-                    SetEntityInvincible(ped, true)
+                    --SetEntityInvincible(ped, true)
 					TaskPlayAnim(ped, dict, 'a_uncuff', 8.0, -8, 2000, 49, 0, 0, 0, 0)
                     Citizen.Wait(2000)
 					SetVehicleDoorsLocked(entity, 1)
 					SetVehicleDoorsLockedForAllPlayers(entity, false)
                     ClearPedTasksImmediately(ped)
-                    SetEntityInvincible(ped, false)
+                    --SetEntityInvincible(ped, false)
                     RemoveAnimDict(dict)
                     ESX.ShowNotification("Vozidlo úspěšně odemknuto!", {type = "success"})
                 end

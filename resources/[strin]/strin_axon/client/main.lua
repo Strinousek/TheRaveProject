@@ -2,7 +2,7 @@ local ShowAxon = false
 local LawEnforcementJobs = exports.strin_jobs:GetLawEnforcementJobs()
 
 RegisterNetEvent("esx:playerLoaded", function(xPlayer)
-    if(lib.table.contains(LawEnforcementJobs, xPlayer.job?.name)) then
+    if(lib.table.contains(LawEnforcementJobs, xPlayer?.job?.name)) then
         lib.callback("strin_axon:getCode", false, function(code)
             ShowAxon = true
             SendNUIMessage({

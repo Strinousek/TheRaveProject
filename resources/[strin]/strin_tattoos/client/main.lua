@@ -122,6 +122,13 @@ function OpenTattooShopMenu(tattooShopId)
     end)
 end
 
+AddEventHandler("esx:onPlayerDeath", function()
+    if(LastSkin) then
+        ClearPedFromEffects()
+        ESX.UI.Menu.CloseAll()
+    end
+end)
+
 function ClearPedFromEffects()
     local ped = PlayerPedId()
     if(next(CurrentPreviewTattoos)) then
@@ -137,7 +144,7 @@ function ClearPedFromEffects()
         end
     end
     FreezeEntityPosition(ped, false)
-    SetEntityInvincible(ped, false)
+    --SetEntityInvincible(ped, false)
     TriggerEvent("skinchanger:loadSkin", LastSkin)
     CurrentPreviewTattoos = {}
     LastSkin = nil

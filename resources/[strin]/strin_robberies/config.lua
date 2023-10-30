@@ -482,6 +482,80 @@ Banks = {
     }
 }
 
+/*
+  HOUSES
+*/
+
+HousesTypes = {
+  ["Low Tier"] = {
+      ReportChance = 5,
+      ChanceToFindNothing = 55,
+      Items = {
+          {Item = "highgrademaleseed", Chance = 5, MinCount = 1, MaxCount = 5},
+          {Item = "lowgrademaleseed", Chance = 10, MinCount = 1, MaxCount = 6},
+          {Item = "highgradefemaleseed", Chance = 5, MinCount = 1, MaxCount = 4},
+          {Item = "lowgradefemaleseed", Chance = 10, MinCount = 1, MaxCount = 6},
+          {Item = "lotteryticket", Chance = 30, MinCount = 1, MaxCount = 3},
+          {Item = "food_apple", Chance = 25, MinCount = 1, MaxCount = 5},
+          {Item = "drink_ecola", Chance = 20, MinCount = 1, MaxCount = 3}
+      },
+      NeedPoliceCount = 2,
+      InsidePositions = {
+          ["Exit"] = vec4(265.01303100586, -1001.1868286132, -99.008689880372, 0.83740812540054),
+          ["Saffron"] = vec3(265.937714, -999.368348, -99.008666),
+          ["Kitchen"] = vec3(265.805358, -996.243408, -99.008666),
+          ["Shelves"] = vec3(262.050964, -995.239990, -99.008666),
+          ["TV"] = vec3(256.789948, -996.051270, -99.008666),
+          ["Bedroom"] = vec3(262.027314, -1002.559998, -99.008666),
+          ["Mirror"] = vec3(255.623292, -1000.462220, -99.009842)
+      }
+  },
+  ["Mid Tier"] = {
+      ReportChance = 80,
+      ChanceToFindNothing = 55,
+      Items = {
+          {Item = "highgrademaleseed", Chance = 15, MinCount = 1, MaxCount = 5},
+          {Item = "lowgrademaleseed", Chance = 20, MinCount = 1, MaxCount = 6},
+      },
+      NeedPoliceCount = 5,
+      InsidePositions = {
+          ["Exit"] = vector4(346.752106, -1002.687072, -99.196258, 357.81),
+          ["Saffron"] = vector3(342.23, -1003.29, -99.0),
+          ["Speaker"] = vector3(338.14, -997.69, -99.2),
+          ["Laptop"] = vector3(350.91, -999.26, -99.2),
+          ["Bag of Cocaine"] = vector3(349.19, -994.83, -99.2),
+          ["Book"] = vector3(345.3, -995.76, -99.2),
+          ["Coupon"] = vector3(346.14, -1001.55, -99.2),
+          ["Toothpaste"] = vector3(347.23, -994.09, -99.2),
+          ["Lottery Ticket"] = vector3(339.23, -1003.35, -99.2)
+      }
+  },
+  ["High Tier"] = {
+      ReportChance = 95,
+      ChanceToFindNothing = 55,
+      Items = {
+          {Item = "highgrademaleseed", Chance = 20, MinCount = 1, MaxCount = 6},
+          {Item = "lowgrademaleseed", Chance = 25, MinCount = 1, MaxCount = 7},
+          {Item = "highgradefemaleseed", Chance = 20, MinCount = 1, MaxCount = 6},
+      },
+      NeedPoliceCount = 5,
+      InsidePositions = {
+          ["Exit"] = vector4(-787.48413085938, 315.70617675782, 187.9133758545, 270.08288574218),
+          ["Saffron"] = vec3(-788.957886, 320.741302, 187.313248),
+          ["Kitchen #1"] = vec3(-783.327454, 325.411712, 187.313248),
+          ["Kitchen #2"] = vec3(-782.004090, 330.077392, 187.313248),
+          ["TV"] = vec3(-781.370544, 338.451324, 187.113678),
+          ["Books"] = vec3(-792.645020, 329.171875, 187.313400),
+          ["Heist storage"] = vec3(-794.997680, 326.787872, 187.313340),
+          ["Heist computer"] = vec3(-798.083740, 322.035584, 187.313340),
+          ["Stair saffron"] = vec3(-793.373352, 341.711944, 187.113678),
+          ["Bedroom saffron"] = vec3(-800.065612, 338.434052, 190.716018),
+          ["Locker #1"] = vec3(-799.149902, 328.694580, 190.716018),
+          ["Locker #2"] = vec3(-796.366760, 328.144348, 190.716004),
+          ["Bathroom"] = vec3(-806.068360, 332.405182, 190.716004)
+      }
+  }
+}
 
 
     -- létat noclipem kolem mapy fakt nebudu lmao - strin

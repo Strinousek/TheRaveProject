@@ -57,7 +57,7 @@ ESX.RegisterCommand("multichar", "user", function(xPlayer, args)
         xPlayer.showNotification("Menu postav momentálně není dostupné!", { type = "error" })
         return
     end
-    if(not Motels:IsPlayerInMotelRoom(xPlayer.source)) then
+    if(not Motels:IsPlayerInMotelRoom(xPlayer.source) and not xPlayer.get("vip")?.multicharEverywhere) then
         xPlayer.showNotification("Menu postav lze otevřít pouze v motelu!", { type = "error" })
         return
     end
@@ -111,7 +111,7 @@ RegisterNetEvent("strin_characters:requestCharacterCreator", function()
         xPlayer.showNotification("Postavy si nelze aktuálně vytvářet!", { type = "error" })
         return
     end
-    if(not Motels:IsPlayerInMotelRoom(xPlayer.source)) then
+    if(not Motels:IsPlayerInMotelRoom(xPlayer.source) and not xPlayer.get("vip")?.multicharEverywhere) then
         xPlayer.showNotification("Postavy lze tvořit pouze v motelu!", { type = "error" })
         return
     end
@@ -136,7 +136,7 @@ RegisterNetEvent("strin_characters:updateCharacter", function(characterId, mode)
         xPlayer.showNotification("Postavy teď nelze měnit / smazat!", { type = "error" })
         return
     end
-    if(not Motels:IsPlayerInMotelRoom(xPlayer.source)) then
+    if(not Motels:IsPlayerInMotelRoom(xPlayer.source) and not xPlayer.get("vip")?.multicharEverywhere) then
         xPlayer.showNotification("Postavy lze měnit / smazat pouze v motelu!", { type = "error" })
         return
     end

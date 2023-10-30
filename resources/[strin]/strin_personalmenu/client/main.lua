@@ -30,6 +30,75 @@ function OpenCharacterInfoMenu()
     end)
 end
 
+function OpenVIPMenu()
+    local elements = {}
+    local data = lib.callback.await("strin_base:getVIP", false)
+    /*
+        backgroundImage = "https://imgur.com/lLOuaiK.gif",
+        impoundReductionPercentage = 100,
+        propertyDiscountPercentage = 10,
+        sideJobBonusPercentage = 12.5,
+        multicharEverywhere = true,
+        queuePoints = 5000,
+    */
+    local insertSplitElement = function(leftText, rightText, value)
+        table.insert(elements, {
+            label = ([[<div style="display: flex; justify-content: space-between; align-items: center;">
+                %s<div>%s</div>
+            </div>]]):format(leftText, rightText),
+            value = value or "xxx",
+        })
+    end
+    insertSplitElement(
+        "Pozadí v scoreboardu:",
+        data.backgroundImage and (
+            type(data.backgroundImage) == "string" and 
+            "<img src='"..data.backgroundImage.."' width='64px' height='36px'>" or 
+            "Nenastaveno"
+        ) or '<i class="fas fa-times"></i>',
+        "background"
+    )
+    insertSplitElement(
+        "Zkrácení osobní odtahové služby:",
+        data.impoundReductionPercentage.."%"
+    )
+    insertSplitElement(
+        "Zvýšení výdělků ze sidejobů:",
+        data.sideJobBonusPercentage.."%"
+    )
+    insertSplitElement(
+        "Sleva na nemovitosti:",
+        data.propertyDiscountPercentage.."%"
+    )
+    insertSplitElement(
+        "/multichar kdekoliv:",
+        data.multicharEverywhere and '<i class="fas fa-check"></i>' or '<i class="fas fa-times"></i>'
+    )
+    insertSplitElement(
+        "Queue pointy:",
+        ESX.Math.GroupDigits(data.queuePoints)
+    )
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "vip_menu", {
+        title = "VIP",
+        align = "center",
+        elements = elements
+    }, function(menuData, menu)
+        if(menuData.current.value == "xxx") then
+            return
+        elseif(menuData.current.value == "background") then
+            if(data.backgroundImage) then
+                ESX.ShowNotification("O nastavení pozadí si musíte zažádat u admin / dev. týmu.")
+            end
+            return
+        end
+        menu.close()
+        OpenPersonalMenu()
+    end, function(data, menu)
+        menu.close()
+        OpenPersonalMenu()
+    end)
+end
+
 function OpenCharacterBillsMenu()
     local elements = {}
     local bills = lib.callback.await("strin_personalmenu:getCharacterBills")
@@ -339,6 +408,10 @@ function OpenPersonalMenu()
         end
         table.insert(elements, { label = "Faktury", value = "bills" })
     end
+    local hasVIP = lib.callback.await("strin_base:hasVIP", false)
+    if(hasVIP) then
+        table.insert(elements, { label = "VIP", value = "vip_menu" })
+    end
     ESX.UI.Menu.Open("default", GetCurrentResourceName(), "personal_menu", {
         title = "Osobní menu",
         align = "center",
@@ -351,6 +424,8 @@ function OpenPersonalMenu()
             OpenVehicleMenu(data.current.vehicle)
         elseif(data.current.value == "bills") then
             OpenCharacterBillsMenu()
+        elseif(data.current.value == "vip_menu") then
+            OpenVIPMenu()
         end
     end, function(data, menu)
         menu.close()

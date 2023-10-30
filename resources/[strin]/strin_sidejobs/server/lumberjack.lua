@@ -151,9 +151,7 @@ RegisterNetEvent("strin_sidejobs:dropOffLogs", function()
         return
     end
 
-    local totalPayout = math.floor(LUMBERJACK_TREE_LOG_PRICE * logsStored)
-    
-    xPlayer.addMoney(totalPayout)
+    local totalPayout = PayoutSideJob(_source, math.floor(LUMBERJACK_TREE_LOG_PRICE * logsStored))
     xPlayer.showNotification(("Bylo Vám vyplaceno %s$ za dovezení dřeva."):format(ESX.Math.GroupDigits(totalPayout)))
 
     Base:DiscordLog("DEFAULT", "THE RAVE PROJECT - SIDE JOBS", {

@@ -102,6 +102,18 @@ lib.callback.register("strin_sidejobs:canBorrowVehicle", function(source, sideJo
     return true
 end)
 
+function PayoutSideJob(playerId, amount)
+    local xPlayer = ESX.GetPlayerFromId(playerId)
+    local multiplier = 1.00
+    local vipData = xPlayer.get("vip")
+    if(xPlayer.get("vip")?.sideJobBonusPercentage) then
+        multiplier += (sideJobBonusPercentage / 100)
+    end
+    local amount = math.floor(amount * multiplier)
+    xPlayer.addMoney(amount)
+    return amount
+end
+
 function GenerateSideJobModule(sideJobModuleName, privateTable, onInitCommand, onCancelCommand)
     local sideJobModuleName = sideJobModuleName:lower()
     if(onInitCommand) then

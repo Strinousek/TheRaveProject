@@ -28,6 +28,7 @@ server_scripts {
     'server/carry.lua',
     'server/tackle.lua',
     'server/trunk.lua',
+    'server/vip.lua'
 }
 
 files {

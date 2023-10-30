@@ -102,6 +102,15 @@ lib.callback.register("strin_gundealer:isNearPhoneBooth", function()
     return nearbyBooth
 end)
 
+AddEventHandler("esx:onPlayerDeath", function()
+    if(
+        ESX.UI.Menu.IsOpen("default", GetCurrentResourceName(), "landline_menu") or 
+        ESX.UI.Menu.IsOpen("default", GetCurrentResourceName(), "gundealer_stocks_menu")
+    ) then
+        ESX.UI.Menu.CloseAll()
+    end
+end)
+
 function OpenLandlineMenu(entity)
     local elements = {}
     if(not DealerBlip) then

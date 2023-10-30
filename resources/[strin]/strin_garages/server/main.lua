@@ -20,7 +20,7 @@ AddEventHandler("entityRemoved", function(entity)
     if(not vehicleIdentifier) then
         return
     end
-    MySQL.scalar("SELECT `id` FROM `owned_vehicles` WHERE `vehicle_identifier` = ?", {
+    MySQL.prepare("SELECT `id` FROM `owned_vehicles` WHERE `vehicle_identifier` = ?", {
         vehicleIdentifier
     }, function(id)
         if(not id) then
@@ -32,7 +32,7 @@ AddEventHandler("entityRemoved", function(entity)
             CalledImpounds[id] = GetGameTimer() + (2 * 60000)
             SetTimeout(2 * 60000, function()
                 CalledImpounds[id] = nil
-                MySQL.update.await("UPDATE owned_vehicles SET `stored` = 1 WHERE `id` = ?", {
+                MySQL.prepare.await("UPDATE owned_vehicles SET `stored` = 1 WHERE `id` = ?", {
                     id
                 })
             end)
@@ -275,7 +275,7 @@ RegisterNetEvent("strin_garages:storeVehicle", function()
     local plate = GetVehicleNumberPlateText(vehicleEntity):upper()
 
     local owner = xPlayer.identifier..":"..xPlayer.get("char_id")
-    local vehicle = MySQL.single.await("SELECT * FROM owned_vehicles WHERE (`owner` = ? OR `job` = ?) AND `vehicle_identifier` = ?", {
+    local vehicle = MySQL.prepare.await("SELECT * FROM owned_vehicles WHERE (`owner` = ? OR `job` = ?) AND `vehicle_identifier` = ?", {
         owner,
         job.name,
         vehicleIdentifier
@@ -315,7 +315,7 @@ RegisterNetEvent("strin_garages:storeVehicle", function()
             return
         end
         
-        MySQL.update.await("UPDATE owned_vehicles SET `props` = ?, `stored` = 1 WHERE (`owner` = ? OR `job` = ?) AND `id` = ?", {
+        MySQL.prepare.await("UPDATE owned_vehicles SET `props` = ?, `stored` = 1 WHERE (`owner` = ? OR `job` = ?) AND `id` = ?", {
             json.encode(props),
             owner,
             job.name,
@@ -346,7 +346,7 @@ RegisterNetEvent("strin_garages:takeOutVehicle", function(vehicleId)
     end
 
     local owner = xPlayer.identifier..":"..xPlayer.get("char_id")
-    local vehicle = MySQL.single.await("SELECT * FROM owned_vehicles WHERE (`owner` = ? OR `job` = ?) AND `id` = ?", {
+    local vehicle = MySQL.prepare.await("SELECT * FROM owned_vehicles WHERE (`owner` = ? OR `job` = ?) AND `id` = ?", {
         owner,
         job.name,
         vehicleId
@@ -379,7 +379,7 @@ RegisterNetEvent("strin_garages:takeOutVehicle", function(vehicleId)
         return
     end
 
-    MySQL.update.await("UPDATE owned_vehicles SET `stored` = 0 WHERE (`owner` = ? OR `job` = ?) AND `id` = ?", {
+    MySQL.prepare.await("UPDATE owned_vehicles SET `stored` = 0 WHERE (`owner` = ? OR `job` = ?) AND `id` = ?", {
         owner,
         job.name,
         vehicleId
@@ -439,10 +439,14 @@ RegisterNetEvent("strin_garages:callImpound", function(vehicleId)
             SpawnedVehicles[vehicleNetId] = nil
         end
     end
-    CalledImpounds[vehicleId] = GetGameTimer() + (2 * 60000)
-    SetTimeout(2 * 60000, function()
+    local timer = 2 * 60000
+    local reduction = timer / 100 * (xPlayer.get("vip")?.impoundReductionPercentage or 0)
+    timer = (timer - reduction) + 1
+
+    CalledImpounds[vehicleId] = GetGameTimer() + (timer)
+    SetTimeout(timer, function()
         CalledImpounds[vehicleId] = nil
-        MySQL.update.await("UPDATE owned_vehicles SET `stored` = 1 WHERE `id` = ?", {
+        MySQL.prepare.await("UPDATE owned_vehicles SET `stored` = 1 WHERE `id` = ?", {
             vehicleId
         })
     end)
@@ -478,10 +482,14 @@ RegisterNetEvent("strin_garages:renameVehicle", function(vehicleId, vehicleLabel
         return
     end
     
-    local label = string.len(vehicleLabel) == 0 and nil or ESX.SanitizeString(vehicleLabel)
+    local label = nil
+
+    if(string.len(vehicleLabel) > 0) then
+        label = ESX.SanitizeString(vehicleLabel)
+    end
     
     local owner = xPlayer.identifier..":"..xPlayer.get("char_id")
-    MySQL.update.await("UPDATE owned_vehicles SET `label` = ? WHERE `owner` = ? AND `id` = ?", {
+    MySQL.prepare.await("UPDATE owned_vehicles SET `label` = ? WHERE `owner` = ? AND `id` = ?", {
         label,
         owner,
         vehicleId
@@ -541,7 +549,7 @@ function ConvertVehicles(vehicles)
 end
 
 function GetCharacterPersonalVehicles(identifier, characterId)
-    return MySQL.query.await(
+    return MySQL.rawExecute.await(
         ("SELECT * FROM owned_vehicles WHERE `owner` = ? AND `job` IS NULL")
     ,{
         identifier..":"..characterId,
@@ -550,7 +558,7 @@ end
 
 function GetCharacterSocietyVehicles(identifier, characterId, jobName)
     local owner = identifier..":"..characterId
-    return MySQL.query.await(
+    return MySQL.rawExecute.await(
         ("SELECT * FROM owned_vehicles WHERE (`owner` = ? AND `job` IS NOT NULL) OR (`owner` IS NULL AND `job` = ?)")
     ,{
         owner,
@@ -570,7 +578,7 @@ end
 
 function GetCharacterAllCurrentVehicles(identifier, characterId, jobName)
     local owner = identifier..":"..characterId
-    return MySQL.query.await(
+    return MySQL.rawExecute.await(
         ("SELECT * FROM owned_vehicles WHERE (`owner` = ? AND `job` IS NULL) OR (`owner` = ? AND `job` = ?) OR (`owner` IS NULL AND `job` = ?)")
     ,{
         owner,
@@ -581,7 +589,7 @@ function GetCharacterAllCurrentVehicles(identifier, characterId, jobName)
 end
 
 function GetSocietyAllVehicles(jobName)
-    return MySQL.query.await(
+    return MySQL.rawExecute.await(
         ("SELECT * FROM owned_vehicles WHERE `job` = ?")
     ,{
         jobName

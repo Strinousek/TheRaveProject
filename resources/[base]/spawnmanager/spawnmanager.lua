@@ -168,7 +168,7 @@ local function freezePlayer(id, freeze)
 
         FreezeEntityPosition(ped, false)
         --SetCharNeverTargetted(ped, false)
-        SetPlayerInvincible(player, false)
+        --SetPlayerInvincible(player, false)
     else
         if IsEntityVisible(ped) then
             SetEntityVisible(ped, false)
@@ -177,7 +177,7 @@ local function freezePlayer(id, freeze)
         SetEntityCollision(ped, false)
         FreezeEntityPosition(ped, true)
         --SetCharNeverTargetted(ped, true)
-        SetPlayerInvincible(player, true)
+        --SetPlayerInvincible(player, true)
         --RemovePtfxFromPed(ped)
 
         if not IsPedFatallyInjured(ped) then

@@ -42,6 +42,12 @@ Citizen.CreateThread(function()
     end
 end)
 
+AddEventHandler("esx:onPlayerDeath", function()
+    if(ESX.UI.Menu.IsOpen("default", GetCurrentResourceName(), "banking_menu")) then
+        ESX.UI.Menu.CloseAll()
+    end
+end)
+
 function OpenBankingMenu(bankId, bankType)
     local account = {
         money = 0
@@ -68,7 +74,7 @@ function OpenBankingMenu(bankId, bankType)
             value = "withdraw",
         },
     }
-    ESX.UI.Menu.Open("default", GetCurrentResourceName(), (bankType == "bank ") and "bank_"..bankId or "atm", {
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "banking_menu", {
         title = (bankType == "BANK") and "Bankovní účet" or "Bankomat",
         align = "center",
         elements = elements

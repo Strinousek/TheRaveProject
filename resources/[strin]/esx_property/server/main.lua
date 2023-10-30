@@ -185,6 +185,12 @@ end, false,{help = TranslateCap("admin_desc")})
 ESX.RegisterServerCallback("esx_property:buyProperty", function(source, cb, PropertyId)
   local xPlayer = ESX.GetPlayerFromId(source)
   local Price = Properties[PropertyId].Price
+  
+  local vip = xPlayer.get("vip")
+  if(vip?.propertyDiscountPercentage) then
+    Price -= Price * (vip?.propertyDiscountPercentage / 100)
+  end
+  local Price = math.floor(Price)
   if xPlayer.getAccount("bank").money >= Price then
     xPlayer.removeAccountMoney("bank", Price, "Bought Property")
     Properties[PropertyId].Owner = xPlayer.identifier..":"..xPlayer.get("char_id")

@@ -4,8 +4,15 @@ local Skin = exports.strin_skin
 local Base = exports.strin_base
 
 Citizen.CreateThread(function()
+    local registeredLocations = {}
     for accessory, shopLocations in pairs(AccessoryShops) do
         for i=1, #shopLocations do
+            for j=1, #registeredLocations do
+                if(#(registeredLocations[j] - shopLocations[i]) < 5) then
+                    goto skipLoop
+                end
+            end
+            table.insert(registeredLocations, shopLocations[i])
             local shopLocation = shopLocations[i]
             Target:addSphereZone({
                 coords = shopLocation,
@@ -13,10 +20,10 @@ Citizen.CreateThread(function()
                 drawSprite = true,
                 options = {
                     {
-                        label = Labels[accessory.."s"].." - "..AccessoryPrice.."$",
+                        label = "Doplňky",
                         icon = "fa-solid fa-ring",
                         onSelect = function()
-                            OpenAccessoryShopMenu(accessory:lower())
+                            OpenAccessoriesShopMenu()
                         end,
                         canInteract = function()
                             return not Base:IsPlayerAPed()
@@ -24,9 +31,30 @@ Citizen.CreateThread(function()
                     }
                 }
             })
+            ::skipLoop::
         end
     end
 end)
+
+function OpenAccessoriesShopMenu()
+    local elements = {}
+    for accessory, _ in pairs(AccessoryShops) do
+        table.insert(elements, {
+            label = Labels[accessory.."s"].." - "..AccessoryPrice.."$",
+            value = accessory:lower(),
+        })
+    end
+    ESX.UI.Menu.Open("default", GetCurrentResourceName(), "accessories_menu", {
+        title = "Obchod s doplňky",
+        align = "center",
+        elements = elements,
+    }, function(data, menu)
+        menu.close()
+        OpenAccessoriesShopMenu(data.current.value)
+    end, function(data, menu)
+        menu.close()
+    end)
+end
 
 function OpenAccessoryShopMenu(accessory)
     local restrict = {}

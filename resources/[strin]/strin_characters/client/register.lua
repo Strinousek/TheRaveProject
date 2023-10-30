@@ -77,14 +77,14 @@ AddEventHandler('strin_characters:register', function()
 	SendNUIMessage({
 		action = "open"
 	})
-	while true do
+	/*while true do
 		if(not isFocused) then
 			SetEntityInvincible(cache.ped, false)
 			break
 		end
 		SetEntityInvincible(cache.ped, true)
 		Citizen.Wait(0)
-	end
+	end*/
 end)
 
 RegisterNUICallback("register", function(data, cb)

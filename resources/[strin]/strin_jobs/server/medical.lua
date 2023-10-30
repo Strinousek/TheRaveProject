@@ -23,6 +23,7 @@ RegisterNetEvent("esx:onPlayerDeath", function(data)
     if(DeadPlayers[xPlayer.identifier]) then
         return
     end
+    xPlayer.set("is_dead", true)
     DeadPlayers[xPlayer.identifier] = {
         distress = false,
         victimId = _source,
@@ -35,6 +36,7 @@ RegisterNetEvent("esx:onPlayerDeath", function(data)
     local distressJobsPlayerCount = GetDistressJobsPlayerCount()
     local timer = (distressJobsPlayerCount <= 0) and RespawnTimer or (RespawnTimer * 2)
     TriggerClientEvent("strin_jobs:startDeathTimer", _source, timer)
+    TriggerClientEvent("strin_jobs:onPlayerDeath", _source, DeadPlayers[xPlayer.identifier])
     TriggerEvent("strin_jobs:onPlayerDeath", xPlayer.identifier, DeadPlayers[xPlayer.identifier])
 end)
 
@@ -94,6 +96,7 @@ RegisterNetEvent("strin_jobs:playerRevived", function()
         return
     end
 
+    TriggerEvent("strin_jobs:playerRevivedSuccessfully", xPlayer)
     AllowedRevives[xPlayer.identifier] = nil
 end)
 
@@ -110,6 +113,8 @@ RegisterNetEvent("strin_jobs:playerHealed", function()
         end, AllowedHeals?[xPlayer.identifier]?.lastHealth or 0)
         return
     end
+
+    TriggerEvent("strin_jobs:playerHealedSuccessfully", xPlayer)
     AllowedHeals[xPlayer.identifier] = nil
 end)
 
@@ -206,6 +211,7 @@ function RevivePlayer(playerId)
     DeadPlayers[xPlayer.identifier] = nil
     AllowedRevives[xPlayer.identifier] = true
     TriggerClientEvent("strin_jobs:revive", playerId)
+    xPlayer.set("is_dead", false)
     return true
 end
 
