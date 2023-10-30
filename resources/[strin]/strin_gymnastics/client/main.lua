@@ -3,6 +3,7 @@ local StrengthBuffer = 0.0
 local IsExercising = false
 local CurrentProp = nil
 local Base = exports.strin_base
+local Skills = exports.strin_skills
 
 local GymBlips = {}
 
@@ -172,6 +173,7 @@ function StartExercise(exerciseType, data)
             else
                 Fatigue += math.floor((totalReps * 40 / 10) * 2.0)
                 StrengthBuffer += ESX.Math.Round(math.floor(((totalReps * 40 / 10) * 2.0)) / 75, 2)
+                Skills:UpdateSkill("strength", false, 0.1, true)
             end
             IsExercising = false
         end)
@@ -221,6 +223,7 @@ function StartExercise(exerciseType, data)
                 else
                     Fatigue += math.floor((totalReps * 30 / 10) * 1.75)
                     StrengthBuffer += ESX.Math.Round(math.floor(((totalReps * 40 / 10) * 1.75)) / 75, 2)
+                    Skills:UpdateSkill("strength", false, 0.1, true)
                 end
                 IsExercising = false
             end)

@@ -412,6 +412,7 @@ function OpenPersonalMenu()
     if(hasVIP) then
         table.insert(elements, { label = "VIP", value = "vip_menu" })
     end
+    table.insert(elements, { label = "Schopnosti", value = "skills_menu" })
     ESX.UI.Menu.Open("default", GetCurrentResourceName(), "personal_menu", {
         title = "Osobní menu",
         align = "center",
@@ -426,6 +427,8 @@ function OpenPersonalMenu()
             OpenCharacterBillsMenu()
         elseif(data.current.value == "vip_menu") then
             OpenVIPMenu()
+        elseif(data.current.value == "skills_menu") then
+            ExecuteCommand("skills")
         end
     end, function(data, menu)
         menu.close()
