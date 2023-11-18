@@ -1548,7 +1548,7 @@ local function dropItem(source, playerInventory, fromData, data)
 	end
 
 	local dropId = generateInvId('drop')
-	local inventory = Inventory.Create(dropId, ('Drop %s'):format(dropId:gsub('%D', '')), 'drop', shared.playerslots, toData.weight, shared.playerweight, false, {[data.toSlot] = toData})
+	local inventory = Inventory.Create(dropId, ('Drop %s'):format(dropId:gsub('%D', '')), 'drop', shared.playerslots, toData.weight, 150000, false, {[data.toSlot] = toData})
 
 	if not inventory then return end
 
