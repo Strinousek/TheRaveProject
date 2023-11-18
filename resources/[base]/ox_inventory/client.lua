@@ -978,43 +978,33 @@ local function nearbyDrop(point)
 	end
 end
 
+local function spawnDropProp(point, drop)
+	local prop = (drop.weight < 5000) and `prop_food_bag1` or ((drop.weight < 20000) and `prop_cs_rub_binbag_01` or `v_ret_gc_bag02`)
+	if not point.instance or point.instance == currentInstance then
+		if(point.entity) then
+			DeleteEntity(point.entity)
+			point.entity = nil
+		end
+		local model = point.model or prop
+
+		lib.requestModel(model)
+
+		local entity = CreateObject(model, point.coords.x, point.coords.y, point.coords.z, false, true, true)
+
+		SetModelAsNoLongerNeeded(model)
+		PlaceObjectOnGroundProperly(entity)
+		FreezeEntityPosition(entity, true)
+		SetEntityCollision(entity, false, true)
+
+		point.entity = entity
+	end
+end
+
 ---@param point CPoint
 local function onEnterDrop(point)
-
-	local function spawnProp(drop)
-		local prop = (drop.weight < 5000) and `prop_food_bag1` or ((drop.weight < 20000) and `prop_cs_rub_binbag_01` or `v_ret_gc_bag02`)
-		if not point.instance or point.instance == currentInstance then
-			if(point.entity) then
-				DeleteEntity(point.entity)
-				point.entity = nil
-			end
-			local model = point.model or prop
-	
-			lib.requestModel(model)
-	
-			local entity = CreateObject(model, point.coords.x, point.coords.y, point.coords.z, false, true, true)
-	
-			SetModelAsNoLongerNeeded(model)
-			PlaceObjectOnGroundProperly(entity)
-			FreezeEntityPosition(entity, true)
-			SetEntityCollision(entity, false, true)
-	
-			point.entity = entity
-		end
-	end
-	
 	local drop = lib.callback.await('ox_inventory:getInventory', false, point.invId)
-
-	spawnProp(drop)
-	
-	while true do 
-		Citizen.Wait(3500)
-		local fetchedDrop = lib.callback.await('ox_inventory:getInventory', false, point.invId)
-		if(drop.weight ~= fetchedDrop.weight) then
-			spawnProp(fetchedDrop)
-			drop = fetchedDrop
-		end
-	end
+	point.drop = drop
+	spawnDropProp(point, drop)	
 end
 
 local function onExitDrop(point)
@@ -1032,13 +1022,25 @@ local function createDrop(dropId, data)
 		distance = 16,
 		invId = dropId,
 		instance = data.instance,
-		model = data.model
+		model = data.model,
 	})
 
 	if point.model or client.dropprops then
 		point.distance = 30
 		point.onEnter = onEnterDrop
 		point.onExit = onExitDrop
+		point.nearby = function(point)
+			Citizen.Wait(3500)
+			if(point.drop) then
+				local fetchedDrop = lib.callback.await('ox_inventory:getInventory', false, point.invId)
+				if(fetchedDrop?.weight) then
+					if(point.drop.weight ~= fetchedDrop.weight) then
+						point.drop = fetchedDrop
+						spawnDropProp(point, point.drop)
+					end
+				end
+			end
+		end
 	else
 		point.nearby = nearbyDrop
 	end
