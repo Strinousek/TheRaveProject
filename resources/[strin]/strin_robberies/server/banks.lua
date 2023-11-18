@@ -33,10 +33,10 @@ end, 5000)
     bankState: "HACKING" | "HACKED"
 */
 
-RegisterCommand("hackdeck", function(source)
+/*RegisterCommand("hackdeck", function(source)
     local _source = source
     Inventory:AddItem(_source, "hackdeck", 1)
-end)
+end)*/
 
 RegisterNetEvent("strin_robberies:requestBankRobbery", function()
     local _source = source
@@ -251,8 +251,8 @@ function SetupBankInUse(identifier)
 end
 
 -- When player loads in, sync him with Banks In Use
-AddEventHandler("esx:playerLoaded", function()
-    local _source = source
+RegisterNetEvent("esx:playerLoaded", function(playerId)
+    local _source = playerId
     SyncBanksInUse(_source)
 end)
 

@@ -491,13 +491,13 @@ HousesTypes = {
       reportChance = 5,
       chanceToFindNothing = 55,
       items = {
-          { item = "highgrademaleseed", chance = 5, minCount = 1, maxCount = 5 },
-          { item = "lowgrademaleseed", chance = 10, minCount = 1, maxCount = 6 },
-          { item = "highgradefemaleseed", chance = 5, minCount = 1, maxCount = 4 },
-          { item = "lowgradefemaleseed", chance = 10, minCount = 1, maxCount = 6 },
-          { item = "lotteryticket", chance = 30, minCount = 1, maxCount = 3 },
-          { item = "food_apple", chance = 25, minCount = 1, maxCount = 5 },
-          { item = "drink_ecola", chance = 20, minCount = 1, maxCount = 3 }
+          { item = "phone", chance = 5, minCount = 1, maxCount = 1 },
+          { item = "ring", chance = 5, minCount = 1, maxCount = 2 },
+          { item = "watch", chance = 5, minCount = 1, maxCount = 1 },
+          { item = "necklace", chance = 5, minCount = 1, maxCount = 1 },
+          { item = "lockpick", chance = 10, minCount = 1, maxCount = 1 },
+          { item = "toolkit", chance = 20, minCount = 1, maxCount = 1 },
+          { item = "weed_seed", chance = 30, minCount = 1, maxCount = 2 },
       },
       needPoliceCount = 2,
       insidePositions = {
@@ -514,8 +514,11 @@ HousesTypes = {
       reportChance = 80,
       chanceToFindNothing = 55,
       items = {
-          { item = "highgrademaleseed", chance = 15, minCount = 1, maxCount = 5 },
-          { item = "lowgrademaleseed", chance = 20, minCount = 1, maxCount = 6 },
+          { item = "phone", chance = 20, minCount = 1, maxCount = 1 },
+          { item = "ring", chance = 10, minCount = 1, maxCount = 3 },
+          { item = "watch", chance = 10, minCount = 1, maxCount = 2 },
+          { item = "necklace", chance = 10, minCount = 1, maxCount = 2 },
+          { item = "weed_seed", chance = 30, minCount = 1, maxCount = 2 },
       },
       needPoliceCount = 5,
       insidePositions = {
@@ -534,9 +537,12 @@ HousesTypes = {
       reportChance = 95,
       chanceToFindNothing = 55,
       items = {
-          { item = "highgrademaleseed", chance = 20, minCount = 1, maxCount = 6 },
-          { item = "lowgrademaleseed", chance = 25, minCount = 1, maxCount = 7 },
-          { item = "highgradefemaleseed", chance = 20, minCount = 1, maxCount = 6 },
+        { item = "phone", chance = 15, minCount = 1, maxCount = 1 },
+        { item = "ring", chance = 20, minCount = 2, maxCount = 3 },
+        { item = "watch", chance = 20, minCount = 2, maxCount = 3 },
+        { item = "necklace", chance = 20, minCount = 2, maxCount = 4 },
+        { item = "weed_seed", chance = 10, minCount = 2, maxCount = 3 },
+        { item = "joint", chance = 10, minCount = 1, maxCount = 3 },
       },
       needPoliceCount = 5,
       insidePositions = {

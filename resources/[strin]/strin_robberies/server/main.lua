@@ -5,6 +5,7 @@ Jobs = exports.strin_jobs
 Base:RegisterWebhook("DEFAULT", "https://discord.com/api/webhooks/691794167877206056/MBWE8lNNkOURuWxAXPHUA3yR4F1Ta5-taC6Y2DuUsggJRBKAMaRXnAzNjPHIGOelnwVa")
 
 local LawEnforcementJobs = Jobs:GetLawEnforcementJobs()
+local DistressJobs = Jobs:GetDistressJobs()
 
 local IsDebugModeOn = false
 local DefaultConfigFile = LoadResourceFile(GetCurrentResourceName(), "config.lua")
@@ -24,6 +25,10 @@ AddEventHandler("strin_base:debugStateChange", function(state, onChange)
         BanksRobTime = 2 * 60000
         BanksRequiredCops = 0
         BanksRefreshTime = 5 * 60000
+
+        for _, data in each(HousesTypes) do
+            data.needPoliceCount = 0
+        end
     end
     onChange()
 end)
@@ -34,6 +39,14 @@ function IsPlayerACop(job)
     end
     return false
 end
+
+function IsPlayerADistressEmployee(job)
+    if(lib.table.contains(DistressJobs, job) and not IsDebugModeOn) then
+        return true
+    end
+    return false
+end
+
 
 function CheckBasicRobberyAvailability(requiredCops)
     local isAvailable, message = true, ""

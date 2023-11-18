@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800;900&family=Roboto+Mono:wght@600&display=swap');
 
 $mainColor: #D35100;
-$mainColorAlpha: linear-gradient(180deg, rgba(0, 0, 0, 0.312) 39%, rgba(211, 81, 0, 0.283) 100%);
+$mainColorAlpha: linear-gradient(180deg, rgba(0, 0, 0, 0.201) 39%, rgba(211, 81, 0, 0.283) 100%);
 $textColor: white;
 $mainFont: Montserrat;
 
@@ -362,9 +362,9 @@ button:active {
   text-align: center;
   border-bottom-left-radius: 0.25vh;
   border-bottom-right-radius: 0.25vh;
-  border-top-color: rgba(0, 0, 0, 0.2);
+  /*border-top-color: rgba(0, 0, 0, 0.2);
   border-top-style: inset;
-  border-top-width: 1px;
+  border-top-width: 1px;*/
 }
 
 .inventory-slot-label-text {
