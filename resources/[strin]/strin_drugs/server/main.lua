@@ -19,7 +19,6 @@ AddEventHandler("strin_base:debugStateChange", function(state, onChange)
     onChange()
 end)
 
-
 -- Mild alcohol
 Base:RegisterItemListener({ "vine", "gin" }, function (item, inventory)
     local _source = inventory.id

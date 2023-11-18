@@ -36,6 +36,7 @@ return {
 			{ name = 'vine', price = 750 },
 			{ name = 'vodka', price = 750 },
 			{ name = 'gin', price = 500 },
+			{ name = 'pooch', price = 10 },
 		}, locations = {
 			vec3(25.7, -1347.3, 29.49),
 			vec3(-3038.71, 585.9, 7.9),

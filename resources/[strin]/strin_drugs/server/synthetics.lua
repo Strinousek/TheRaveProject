@@ -36,29 +36,73 @@ end)
 
 local PickupablesCounterParts = {}
 
-Base:RegisterItemListener({ "ephedrine", "phenylactic_acid" }, function(item, inventory, slot, data)
-    local xPlayer = ESX.GetPlayerFromId(inventory.id)
-    if(not xPlayer) then
-        return false
+do
+    for drug, data in each(SyntheticDrugs) do
+        for requiredItem, _ in each(data.recipe.requiredItems) do
+            Base:RegisterItemListener(requiredItem, function(__, inventory, slot)
+                local _source = inventory.id
+                local xPlayer = ESX.GetPlayerFromId(_source)
+                if(not xPlayer) then
+                    return false
+                end
+                local itemCounts = lib.table.deepclone(data.recipe.requiredItems)
+                local doesntHaveEnoughItems = false
+                for item, ___ in each(itemCounts) do
+                    itemCounts[item] = itemCounts[item] - Inventory:GetItemCount(_source, item)
+                    if(itemCounts[item] > 0) then
+                        doesntHaveEnoughItems = true
+                        break
+                    end 
+                end
+                if(doesntHaveEnoughItems) then
+                    xPlayer.showNotification("Nemáte dostatek látek na zpracování syntetické drogy!", { type = "error" })
+                    return false
+                end
+                for item, count in each(data.recipe.requiredItems) do
+                    Inventory:RemoveItem(_source, item, count)
+                end
+                math.randomseed(GetGameTimer() + math.random(10000, 99999))
+                Inventory:AddItem(_source, data.recipe.item, type(data.recipe.count) == "table" and math.random(table.unpack(data.recipe.count)) or tonumber(data.recipe.count))
+            end, {
+                event = "usingItem"
+            })
+        end
+        Base:RegisterItemListener(data.recipe.item, function(_, inventory)
+            local _source = inventory.id
+            local xPlayer = ESX.GetPlayerFromId(_source)
+            if(not xPlayer) then
+                return false
+            end
+            if(not Inventory:RemoveItem(_source, data.recipe.item, 1)) then
+                return false
+            end
+            Inventory:AddItem(_source, drug.."_brick", math.random(6,8))
+        end, {
+            event = "usingItem"
+        })
+        Base:RegisterItemListener(drug.."_brick", function(_, inventory)
+            local _source = inventory.id
+            local xPlayer = ESX.GetPlayerFromId(_source)
+            if(not xPlayer) then
+                return false
+            end
+            local poochCount = Inventory:GetItemCount(_source, "pooch")
+            if(poochCount < 20) then
+                xPlayer.showNotification("Nemáte u sebe dostatek sáčků! (20)", { type = "error" })
+                return false
+            end
+            if(not Inventory:RemoveItem(_source, "pooch", 20)) then
+                return false
+            end
+            if(not Inventory:RemoveItem(_source, drug.."_brick", 1)) then
+                return false
+            end
+            Inventory:AddItem(_source, drug.."_pooch", 20)
+        end, {
+            event = "usingItem"
+        })
     end
-
-    local _source = xPlayer.source
-    local otherItem = "ephredrine"
-    if(item.name == "ephedrine") then
-        otherItem = "phenylactic_acid"
-    end
-
-    if(Inventory:GetItemCount(_source, otherItem) <= 0) then
-        xPlayer.showNotification("Nemáte u sebe potřebnou látku na vytvoření dané substance.", { type = "error" })
-        return false
-    end
-
-    Inventory:RemoveItem(_source, item.name, 1)
-    Inventory:RemoveItem(_source, otherItem, 1)
-    xPlayer.showNotification("Získal jste 1x meth")
-end, {
-    event = "usingItem",
-})
+end
 
 function GetNearestPickupable(playerId)
     local ped = GetPlayerPed(playerId)

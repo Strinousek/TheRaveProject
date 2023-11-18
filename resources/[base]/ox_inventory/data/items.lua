@@ -261,26 +261,6 @@ return {
 		}
 	},
 
-	["phenylactic_acid"] = {
-		label = "Kyselina fenolyctová",
-		weight = 5000,
-		consume = 0,
-		server = {
-			export = "strin_base.use_item"
-		}
-	},
-
-	["ephedrine"] = {
-		label = "Efedrin",
-		weight = 5000,
-		consume = 0,
-		stack = true,
-		close = true,
-		server = {
-			export = "strin_base.use_item"
-		}
-	},
-
 	["averagewhisky"] = {
 		label = "Whisky (10 let zrání)",
 		weight = 500,
@@ -358,6 +338,181 @@ return {
 		}
 	},
 
+	["ephedrine"] = {
+		label = "Efedrin",
+		weight = 20000,
+		consume = 0,
+		stack = false,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["phenylactic_acid"] = {
+		label = "Kyselina fenolyctová",
+		weight = 20000,
+		consume = 0,
+		stack = false,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["meth_box"] = {
+		label = "Krabice s methem",
+		weight = 5000,
+		consume = 1,
+		stack = false,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["meth_brick"] = {
+		label = "Cihla methu",
+		weight = 700,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["meth_pooch"] = {
+		label = "Sáček s methem",
+		weight = 1,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["poppy_leaves"] = {
+		label = "Listy máku setýho",
+		weight = 10,
+		consume = 0,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["citric_acid"] = {
+		label = "Kyselina citronová",
+		weight = 20000,
+		consume = 0,
+		stack = false,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["heroin_box"] = {
+		label = "Krabice heroinu",
+		weight = 5000,
+		consume = 1,
+		stack = false,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["heroin_brick"] = {
+		label = "Cihla heroinu",
+		weight = 700,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["heroin_pooch"] = {
+		label = "Sáček s heroinem",
+		weight = 1,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["coca_leaves"] = {
+		label = "Listy koky",
+		weight = 10,
+		consume = 0,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["sulphuric_acid"] = {
+		label = "Kyselina sírová",
+		weight = 20000,
+		consume = 0,
+		stack = false,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["coke_box"] = {
+		label = "Krabice kokainu",
+		weight = 5000,
+		consume = 1,
+		stack = false,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["coke_brick"] = {
+		label = "Cihla kokainu",
+		weight = 700,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["coke_pooch"] = {
+		label = "Sáček s kokainem",
+		weight = 1,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["pooch"] = {
+		label = "Sáček",
+		weight = 0,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
 	--[[['mastercard'] = {
 		label = 'Mastercard',
 		stack = false,

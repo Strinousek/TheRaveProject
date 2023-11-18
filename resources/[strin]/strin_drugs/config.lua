@@ -77,7 +77,83 @@ if(IsDuplicityVersion()) then
                     }
                 }
             },
-        }
+            recipe = {
+                requiredItems = {
+                    ["ephedrine"] = 1,
+                    ["phenylactic_acid"] = 1,
+                },
+                item = "meth_box",
+                count = 1
+            }
+        },
+        coke = {
+            harvestables = {
+                item = "coca_leaves",
+                respawnCount = 1,
+                respawnTimer = 15 * 60 * 1000,
+                locations = {
+                    {
+                        coords = vector3(51.678699493408, -1358.6309814453, 29.288110733032),
+                        radius = 10,
+                        count = 5,
+                    }
+                }
+            },
+            chemicals = {
+                item = "sulphuric_acid",
+                respawnCount = 1,
+                respawnTimer = 15 * 60 * 1000,
+                locations = {
+                    {
+                        coords = vector3(36.708351135254, -1361.1733398438, 29.334371566772),
+                        radius = 10,
+                        count = 5,
+                    }
+                }
+            },
+            recipe = {
+                requiredItems = {
+                    ["coca_leaves"] = 1,
+                    ["sulphuric_acid"] = 1,
+                },
+                item = "coke_box",
+                count = 1
+            }
+        },
+        heroin = {
+            harvestables = {
+                item = "poppy_leaves",
+                respawnCount = 1,
+                respawnTimer = 15 * 60 * 1000,
+                locations = {
+                    {
+                        coords = vector3(165.85035705566, -824.44000244141, 31.167684555054),
+                        radius = 10,
+                        count = 5,
+                    }
+                }
+            },
+            chemicals = {
+                item = "citric_acid",
+                respawnCount = 1,
+                respawnTimer = 15 * 60 * 1000,
+                locations = {
+                    {
+                        coords = vector3(172.92826843262, -844.30364990234, 31.094160079956),
+                        radius = 10,
+                        count = 5,
+                    }
+                }
+            },
+            recipe = {
+                requiredItems = {
+                    ["poppy_leaves"] = 10,
+                    ["citric_acid"] = 1,
+                },
+                item = "heroin_box",
+                count = 1
+            }
+        },
     }
 
     WeightingSpots = {
