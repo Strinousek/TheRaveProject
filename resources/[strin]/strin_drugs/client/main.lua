@@ -12,6 +12,44 @@ local GANG_AREAS = {
     vector3(174.37782287598, -1752.5985107422, 32.94482421875),
 }
 
+RegisterNetEvent("strin_drugs:useAlcohol", function(alcoholStrength)
+    RequestAnimDict("mp_suicide")
+    while not HasAnimDictLoaded("mp_suicide") do
+        Citizen.Wait(0)
+    end
+    TaskStartScenarioInPlace(cache.ped, "WORLD_HUMAN_PARTYING", 0, true)
+    Citizen.Wait(3000)
+    ESX.ShowNotification("Yes! Tohle kope!")
+    ClearPedTasksImmediately(cache.ped)
+    SetTimecycleModifier("spectator5")
+    SetPedIsDrunk(cache.ped, true)
+    SetPedMotionBlur(cache.ped, true)
+    SetPedMovementClipset(cache.ped, "MOVE_M@DRUNK@SLIGHTLYDRUNK", true)
+    ShakeGameplayCam("DRUNK_SHAKE", 0.1)
+    --SetRunSprintMultiplierForPlayer(cache.playerId, 1.2) 
+    local startingStrength = DrugEffectStrength
+    while DrugEffectStrength < (startingStrength + (alcoholStrength / 100)) do
+        DrugEffectStrength += 0.001
+        SetTimecycleModifierStrength(DrugEffectStrength)
+        Citizen.Wait(50)
+    end
+    
+    Citizen.Wait(45000)
+    --SetPedMoveRateOverride(cache.playerId, 1.0)
+    --SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
+
+    while DrugEffectStrength > 0 do
+        DrugEffectStrength -= 0.001
+        SetTimecycleModifierStrength(DrugEffectStrength)
+        Citizen.Wait(0)
+    end
+    DrugEffectStrength = 0.0
+    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    ResetPedMovementClipset(cache.ped, 0)
+    SetPedMotionBlur(cache.ped, false)
+    ClearTimecycleModifier()
+end)
+
 function DrawFloatingText(entry, coords)
 	BeginTextCommandDisplayHelp(entry)
 	SetFloatingHelpTextWorldPosition(1, coords)

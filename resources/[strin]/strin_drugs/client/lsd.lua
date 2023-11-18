@@ -18,7 +18,7 @@ RegisterNetEvent("strin_drugs:takeLSD", function()
     end
     
     Citizen.Wait(45000)
-    SetPedMoveRateOverride(playerId, 1.0)
+    SetPedMoveRateOverride(cache.playerId, 1.0)
     SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
 
     while DrugEffectStrength > 0 do

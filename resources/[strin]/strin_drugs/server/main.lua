@@ -19,6 +19,25 @@ AddEventHandler("strin_base:debugStateChange", function(state, onChange)
     onChange()
 end)
 
+
+-- Mild alcohol
+Base:RegisterItemListener({ "vine", "gin" }, function (item, inventory)
+    local _source = inventory.id
+    TriggerClientEvent("strin_drugs:useAlcohol", _source, 25)
+    return true
+end, {
+    event = "usedItem"
+})
+
+-- Strong ass alcohol
+Base:RegisterItemListener({ "averagewhisky", "goodwhisky", "awesomewhisky", "jager", "vodka" }, function (item, inventory)
+    local _source = inventory.id
+    TriggerClientEvent("strin_drugs:useAlcohol", _source, 50)
+    return true
+end, {
+    event = "usedItem"
+})
+
 Base:RegisterItemListener("dehydrator", function(item, inventory, slot, data)
     local _source = inventory.id
     local ped = GetPlayerPed(_source)

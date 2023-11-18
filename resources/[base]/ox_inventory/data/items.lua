@@ -281,6 +281,83 @@ return {
 		}
 	},
 
+	["averagewhisky"] = {
+		label = "Whisky (10 let zrání)",
+		weight = 500,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["goodwhisky"] = {
+		label = "Whisky (20 let zrání)",
+		weight = 500,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["awesomewhisky"] = {
+		label = "Whisky (30 let zrání)",
+		weight = 500,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["gin"] = {
+		label = "Gin",
+		weight = 100,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["jager"] = {
+		label = "Jagermeister",
+		weight = 500,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["vine"] = {
+		label = "Víno",
+		weight = 1500,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["vodka"] = {
+		label = "Vodka",
+		weight = 1500,
+		consume = 1,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
 	--[[['mastercard'] = {
 		label = 'Mastercard',
 		stack = false,

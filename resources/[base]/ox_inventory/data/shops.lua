@@ -29,6 +29,13 @@ return {
 			{ name = 'lockpick', price = 70 },
 			{ name = 'zipties', price = 30 },
 			{ name = 'dehydrator', price = 1000 },
+			{ name = 'averagewhisky', price = 500 },
+			{ name = 'goodwhisky', price = 750 },
+			{ name = 'awesomewhisky', price = 1000 },
+			{ name = 'jager', price = 750 },
+			{ name = 'vine', price = 750 },
+			{ name = 'vodka', price = 750 },
+			{ name = 'gin', price = 500 },
 		}, locations = {
 			vec3(25.7, -1347.3, 29.49),
 			vec3(-3038.71, 585.9, 7.9),

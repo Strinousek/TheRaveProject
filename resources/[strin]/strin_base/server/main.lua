@@ -27,7 +27,7 @@ AddEventHandler("playerDropped", function()
     }
 end)
 
-local FoundObjects = {}
+/*local FoundObjects = {}
 RegisterNetEvent("strin_base:foundObject", function(object)
     local _source = source
     if(not FoundObjects[_source]) then
@@ -68,7 +68,7 @@ AddEventHandler("playerDropped", function()
     if(FoundObjects[_source]) then
         FoundObjects[_source] = nil
     end
-end)
+end)*/
 
 function LoadJSONFile(resourceName, filePath, defaultValue, returnInJSON)
     local content = type(defaultValue) == "string" and defaultValue or json.encode(defaultValue)
@@ -87,12 +87,29 @@ ESX.RegisterCommand("id", "user", function(xPlayer)
     xPlayer.showNotification("Vaše ID: "..xPlayer.source, { duration = 10000 })
 end)
 
-local DEBUG_MODE_ON = false
+local DebuggedResources = {}
+local DebugModeStatus = false
 ESX.RegisterCommand("debugmode", "admin", function(xPlayer)
-    DEBUG_MODE_ON = not DEBUG_MODE_ON
-    xPlayer.showNotification("Debug Mode: "..(DEBUG_MODE_ON and "ON" or "OFF"))
-    TriggerEvent("strin_base:debugStateChange", DEBUG_MODE_ON, function()
-        print((GetInvokingResource() or GetCurrentResourceName())..": DEBUG MODE - "..(DEBUG_MODE_ON and "ON" or "OFF"))
+    DebugModeStatus = not DebugModeStatus
+    xPlayer.showNotification("Debug Mode: "..(DebugModeStatus and "ON" or "OFF"))
+    TriggerEvent("strin_base:debugStateChange", DebugModeStatus, function()
+        if(DebugModeStatus) then
+            table.insert(DebuggedResources, GetInvokingResource() or GetCurrentResourceName())
+        end
+        print((GetInvokingResource() or GetCurrentResourceName())..": DEBUG MODE - "..(DebugModeStatus and "ON" or "OFF"))
+    end)
+    if(not DebugModeStatus) then
+        DebuggedResources = {}
+    end
+end)
+
+AddEventHandler("onResourceStart", function(resource)
+    if(not lib.table.contains(DebuggedResources, resource)) then
+        return
+    end
+
+    TriggerEvent("strin_base:debugStateChange", DebugModeStatus, function()
+        print((GetInvokingResource() or GetCurrentResourceName())..": DEBUG MODE - "..(DebugModeStatus and "ON" or "OFF"))
     end)
 end)
 

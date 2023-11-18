@@ -5,6 +5,9 @@ local IsDoingAction = false
 
 
 RegisterNetEvent("strin_robberies:syncHouses", function(houses)
+    if(source == "" or GetInvokingResource() ~= nil) then
+        return
+    end
     -- on first resource start, if the player reconnected or sum 
     if(not next(HousesData)) then
         while(not ESX.IsPlayerLoaded()) do
