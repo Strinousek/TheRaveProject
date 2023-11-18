@@ -261,6 +261,26 @@ return {
 		}
 	},
 
+	["phenylactic_acid"] = {
+		label = "Kyselina fenolyctová",
+		weight = 5000,
+		consume = 0,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
+	["ephedrine"] = {
+		label = "Efedrin",
+		weight = 5000,
+		consume = 0,
+		stack = true,
+		close = true,
+		server = {
+			export = "strin_base.use_item"
+		}
+	},
+
 	--[[['mastercard'] = {
 		label = 'Mastercard',
 		stack = false,

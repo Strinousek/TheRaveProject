@@ -1,5 +1,7 @@
 local StreamerModes = {}
 
+Base:RegisterWebhook("REPORTS", "https://discord.com/api/webhooks/679812788016644105/0CEyUhuVzQA43Aq_OuRRPqjAYtUxFQdqSDRgbXDKN_BBlk1p50Re363gfRMZVoZs1q_z")
+
 ESX.RegisterCommand("streamermode", "admin", function(xPlayer, args)
     StreamerModes[xPlayer.identifier] = not StreamerModes[xPlayer.identifier]
     if(StreamerModes[xPlayer.identifier]) then
@@ -10,8 +12,18 @@ ESX.RegisterCommand("streamermode", "admin", function(xPlayer, args)
 end)
 
 ESX.RegisterCommand("at", "admin", function(xPlayer, args)
+    local _source = xPlayer.source
     local message = table.concat(args, " ")
     local xAdmins = ESX.GetExtendedPlayers("group", "admin")
+    
+    Base:DiscordLog("STALKING", "THE RAVE PROJECT - ADMIN CHAT", {
+        { name = "Jméno admina", value = ESX.SanitizeString(_source and GetPlayerName(_source) or "Konzole") },
+        { name = "Identifikace admina", value = _source and xPlayer.identifier or "{}" },
+        { name = "Zpráva", value = ESX.SanitizeString(message) },
+    }, {
+        fields = true,
+    })
+
     for _,xAdmin in pairs(xAdmins) do
         if(not StreamerModes[xAdmin.identifier]) then
             TriggerClientEvent('chat:addMessage', xAdmin.source, {
@@ -23,7 +35,15 @@ ESX.RegisterCommand("at", "admin", function(xPlayer, args)
 end)
 
 ESX.RegisterCommand("announce", "admin", function(xPlayer, args)
+    local _source = xPlayer.source
     local message = table.concat(args, " ")
+    Base:DiscordLog("STALKING", "THE RAVE PROJECT - ANNOUNCE", {
+        { name = "Jméno admina", value = ESX.SanitizeString(_source and GetPlayerName(_source) or "Konzole") },
+        { name = "Identifikace admina", value = _source and xPlayer.identifier or "{}" },
+        { name = "Zpráva", value = ESX.SanitizeString(message) },
+    }, {
+        fields = true,
+    })
     TriggerClientEvent('chat:addMessage', -1, {
         template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b>OZNÁMENÍ: {0}</b></div>',
         args = { message }

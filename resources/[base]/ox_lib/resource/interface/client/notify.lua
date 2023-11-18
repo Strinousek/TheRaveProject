@@ -17,10 +17,6 @@
 ---@diagnostic disable-next-line: duplicate-set-field
 function lib.notify(data)
     TriggerEvent("esx:showNotification", data.description, data)
-    /*SendNUIMessage({
-        action = 'notify',
-        data = data
-    })*/
 end
 
 ---@class DefaultNotifyProps

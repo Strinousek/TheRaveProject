@@ -1,8 +1,12 @@
-$mainColor: #D35100;
-$textColor: white;
-$mainFont: Roboto;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700;800;900&family=Roboto+Mono:wght@600&display=swap');
 
-$seconaryColor:#151515a2;
+$mainColor: #D35100;
+$mainColorAlpha: linear-gradient(180deg, rgba(0, 0, 0, 0.312) 39%, rgba(211, 81, 0, 0.283) 100%);
+$textColor: white;
+$mainFont: Montserrat;
+
+$secondaryColor:#1515155b;
+$secondaryColorHighlight: #33343F;
 $secondaryColorLight: #e67e22;
 $secondaryColorDark: #D35100;
 
@@ -49,25 +53,74 @@ input[type='number']::-webkit-outer-spin-button {
   appearance: none;
 }
 
-.MuiMenuItem-root > div > p {
-  padding: 0!important;
+.app-wrapper {
+  height: 100%;
+  width: 100%;
+  color: white;
 }
 
+.context-menu-list {
+  z-index: 99;
+  min-width: 200px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.5663515406162465) 39%, rgba(211,81,0,0.4907212885154062) 100%);
+  border-color: #d351002b /*#fff*/;
+  box-shadow: 0 0 100px #d3510098 /*#fff*/;
+  color: $textColor;
+  padding: 4px;
+  border-style: inset;
+  border-width: 1px;
+  border-radius: 4px;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.context-menu-item  {
+  padding: 8px;
+  border-radius: 4px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: $textColor;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+  font-family: $mainFont !important;
+  text-transform: uppercase !important;
+  &:active {
+    transform: none;
+  }
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.139);
+    cursor: pointer;
+  }
+}
 
 .MuiMenu-list {
   min-width: 200px;
-  background-color: rgba(0, 0, 0, 0.651);
+  background: linear-gradient(180deg, rgba(0,0,0,0.5663515406162465) 39%, rgba(211,81,0,0.4907212885154062) 100%);
+  border-color: #d351002b /*#fff*/;
+  box-shadow: 0 0 100px #d3510098 /*#fff*/;
   color: $textColor;
   padding: 4px;
-  border-color: rgb(0, 0, 0);
-  border-style: solid;
-  border-width: 2px;
   font-size: 16px !important;
+  text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
 }
 
 .MuiMenuItem-gutters {
   padding: 4px 16px !important;
   font-size: 16px !important;
+}
+
+.MuiMenu-paper, .MuiMenu-root {
+  background-color: transparent !important;
+  border-radius: 2px !important;
+}
+
+.MuiMenuItem-root {
+  font-family: $mainFont !important;
+  text-transform: uppercase !important;
 }
 
 .tooltip-description {
@@ -84,7 +137,6 @@ button:active {
 .item-drag-preview {
   width: 7.7vh;
   height: 7.7vh;
-  z-index: 1;
   position: fixed;
   pointer-events: none;
   top: 0;
@@ -125,14 +177,14 @@ button:active {
     text-align: center;
     outline: none;
     border: solid;
-    border-color: black;
+    border-color: rgba(0, 0, 0, 0.101);
     color: #fff;
-    background-color: $seconaryColor;
+    background-color: $secondaryColor;
     &:focus-within {
-         background-color:#d35100c2 /*#fff*/; 
-      border-color: #d35100 /*#fff*/;
+         background-color:#d351005a /*#fff*/; 
+      border-color: #d351002b /*#fff*/;
       color: #fff;
-      box-shadow: 0 0 100px #D35100 /*#fff*/;
+      box-shadow: 0 0 100px #d3510098 /*#fff*/;
       text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
     }
   }
@@ -140,28 +192,68 @@ button:active {
   .inventory-control-button {
     font-size: 14px;
     color: #fff;        
-    background-color: $seconaryColor;
+    background-color: $secondaryColor;
     transition: 500ms;
     padding: 12px 8px;
     border-radius: 2.5%;
     border-style: solid; 
-    border-color: black;
+    border-color: rgba(0, 0, 0, 0.101);
     text-transform: uppercase;
     font-family: $mainFont;
     width: 100%;
     font-weight: 500;
     &:hover {
-      background-color:#d35100c2 /*#fff*/; 
-      border-color: #d35100 /*#fff*/;
+      background-color:#d351005a /*#fff*/; 
+      border-color: #d351002b /*#fff*/;
       color: #fff;
-      box-shadow: 0 0 100px #D35100 /*#fff*/;
+      box-shadow: 0 0 100px #d3510098 /*#fff*/;
       text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
     }
   }
 }
 
 .useful-controls-dialog {
+  background: linear-gradient(180deg, rgba(0,0,0,0.5663515406162465) 39%, rgba(211,81,0,0.4907212885154062) 100%);
+  border-color: #d351002b /*#fff*/;
+  box-shadow: 0 0 100px #d3510098 /*#fff*/;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: $textColor;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border-radius: 4px;
+  gap: 16px;
+}
+
+.useful-controls-dialog-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.useful-controls-dialog-title {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
   font-size: 18px;
+}
+
+.useful-controls-dialog-close {
+  width: 25px;
+  height: 25px;
+  padding: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 4px;
+  fill: $textColor;
+  &:hover {
+    background-color: $secondaryColorHighlight;
+    cursor: pointer;
+  }
 }
 
 .useful-controls-content-wrapper {
@@ -170,15 +262,30 @@ button:active {
   gap: 20px;
 }
 
+.divider {
+  width: 100%;
+  height: 1px;
+  background-color: rgba(255, 255, 255, 0.12);
+}
+
 .useful-controls-button {
   position: absolute !important;
   bottom: 25px;
   right: 25px;
   transition: 200ms !important;
+  border: none;
+  color: white;
+  width: 52px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  fill: white;
   border-radius: 5% !important;
-  background-color: #151515a2 !important;
+  background-color: #15151573 !important;
   &:hover {
     background-color: $secondaryColorDark !important;       
+    cursor: pointer;
   }
 }
 
@@ -214,8 +321,8 @@ button:active {
 }
 .inventory-grid-header-wrapper {
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
+  align-items: center;
   p {
     font-size: 16px;
   }
@@ -232,7 +339,7 @@ button:active {
 
 // inventory slots
 .inventory-slot {
-  background-color: #0000009d;
+  background-color: rgba(0, 0, 0, 0.171);
   background-repeat: no-repeat;
   background-position: center;
   border-radius: 5%;
@@ -240,14 +347,18 @@ button:active {
   position: relative;
   background-size: 7vh;
   color: $textColor;
-   text-shadow:  0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+  text-shadow:  0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
   border: none;
   border-width: 1px;
 }
 
 .inventory-slot-label-box {
-  background-color: $mainColor;
-  color: $textColor  ;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  /*background-color: $mainColorAlpha;*/
+  color: $textColor;
   text-align: center;
   border-bottom-left-radius: 0.25vh;
   border-bottom-right-radius: 0.25vh;
@@ -258,8 +369,9 @@ button:active {
 
 .inventory-slot-label-text {
   text-transform: uppercase;
-  white-space: nowrap;
-  overflow: hidden;
+  white-space: nowrap !important;
+  overflow: hidden !important;
+  max-width: 100%;
   text-overflow: ellipsis;
   padding: 2px 3px;
   font-weight: 400;
@@ -283,6 +395,7 @@ button:active {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background: $mainColorAlpha;
   height: 100%;
   p {
     font-size: 12px;
@@ -336,7 +449,7 @@ button:active {
 
 // slot tooltip
 .MuiTooltip-tooltip {
-  background-color:#00000088  !important;
+  background-color:#00000053  !important;
   min-width: 100px !important;
   color: $textColor !important;
   font-family: $mainFont !important;
@@ -347,11 +460,25 @@ button:active {
 }
 
 .tooltip-wrapper {
+  pointer-events: none;
   display: flex;
+  background-color: rgba(44, 43, 43, 0.635);
+  border-color: #d351002b /*#fff*/;
+  box-shadow: 0 0 100px #d3510098 /*#fff*/;
+  width: 200px;
+  padding: 8px;
   flex-direction: column;
+  min-width: 200px;
+  color: $textColor;
+  font-family: $mainFont;
+  border-radius: 4px;
+  border-color: rgba(0, 0, 0, 0.2);
+  border-style: inset;
+  border-width: 1px;
   p {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
+    text-shadow:  0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
   }
 }
 
@@ -435,7 +562,7 @@ button:active {
 .item-notification-action-box {
   width: 100%;
   color: $textColor;
-  background-color: $seconaryColor;
+  background-color: $secondaryColor;
   text-transform: uppercase;
   text-align: center;
   border-top-left-radius: 0.25vh;
@@ -456,8 +583,11 @@ button:active {
 
 .durability-bar {
   background: rgba(0, 0, 0, 0.5);
-  height: 3px;
+  height: 6px;
   overflow: hidden;
+  margin: 2px;
+  border: 1px solid black;
+  width: 70%;
 }
 
 .weight-bar {
@@ -465,5 +595,42 @@ button:active {
   border: 1px inset rgba(0, 0, 0, 0.1);
   height: 0.8vh;
   border-radius: 5%;
+  width: 50%;
   overflow: hidden;
+}
+
+.transition-fade-enter {
+  opacity: 0;
+}
+
+.transition-fade-enter-active {
+  opacity: 1;
+  transition: opacity 200ms;
+}
+
+.transition-fade-exit {
+  opacity: 1;
+}
+
+.transition-fade-exit-active {
+  opacity: 0;
+  transition: opacity 200ms;
+}
+
+.transition-slide-up-enter {
+  transform: translateY(200px)
+}
+
+.transition-slide-up-enter-active {
+  transform: translateY(0px);
+  transition: all 200ms;
+}
+
+.transition-slide-up-exit {
+  transform: translateY(0px);
+}
+
+.transition-slide-up-exit-active {
+  transform: translateY(200px);
+  transition: all 200ms;
 }

@@ -187,6 +187,7 @@ Base:RegisterItemListener("smoke_papers", function(item, inventory, slot, data)
         return
     end
     
+    Inventory:RemoveItem(_source, "smoke_papers", 1)
     Inventory:RemoveItem(_source, "weed", 1)
     Inventory:AddItem(_source, "joint", 1)
     Base:DiscordLog("WEED_PROCESS", "THE RAVE PROJECT - WEED PROCESS - PAPER", {

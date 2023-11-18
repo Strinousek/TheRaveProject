@@ -131,6 +131,8 @@ local function loadInventoryData(data, player)
 				if not entity then
 					return shared.info('Failed to load vehicle inventory data (no entity exists with given netid).')
 				end
+
+				data.entityId = entity
 			else
 				local vehicles = GetAllVehicles()
 
@@ -140,6 +142,7 @@ local function loadInventoryData(data, player)
 						local spawnedVehicle = exports.strin_garages:GetSpawnedVehicle("identifier", vehicleIdentifier)
 						if(spawnedVehicle) then
 							entity = vehicle
+							data.entityId = entity
 							data.netid = spawnedVehicle.netId
 							break
 						end
@@ -149,6 +152,7 @@ local function loadInventoryData(data, player)
 
 					if _plate:find(plate) then
 						entity = vehicle
+						data.entityId = entity
 						data.netid = NetworkGetNetworkIdFromEntity(entity)
 						break
 					end
@@ -171,17 +175,9 @@ local function loadInventoryData(data, player)
 			local model, class = lib.callback.await('ox_inventory:getVehicleData', source, data.netid)
 			local storage = Vehicles[data.type].models[model] or Vehicles[data.type][class]
 
-			if Ox then
-				local vehicle = Ox.GetVehicle(entity)
+			local vehicleId = server.getOwnedVehicleId and server.getOwnedVehicleId(entity)
 
-				if vehicle then
-					inventory = Inventory.Create(vehicle.id or vehicle.plate, plate, data.type, storage[1], 0, storage[2], false)
-				end
-			end
-
-			if not inventory then
-				inventory = Inventory.Create(data.id, plate, data.type, storage[1], 0, storage[2], false)
-			end
+            inventory = Inventory.Create(vehicleId or data.id, plate, data.type, storage[1], 0, storage[2], false)
 		end
 	elseif data.type == 'policeevidence' then
 		inventory = Inventory.Create(data.id, locale('police_evidence'), data.type, 100, 0, 100000, false)
@@ -211,6 +207,7 @@ local function loadInventoryData(data, player)
 	end
 
 	if data.netid then
+		inventory.entityId = data.entityId or NetworkGetEntityFromNetworkId(data.netid)
 		inventory.netid = data.netid
 	end
 
@@ -345,8 +342,14 @@ function Inventory.Get(inv, key)
 	end
 end
 
+---@class MinimalInventorySlot
+---@field name string
+---@field count number
+---@field slot number
+---@field metadata? table
+
 ---@param inv inventory
----@return table items table containing minimal inventory data
+---@return MinimalInventorySlot[] items
 local function minimal(inv)
 	inv = Inventory(inv) --[[@as OxInventory]]
 	local inventory, count = {}, 0
@@ -589,14 +592,16 @@ function Inventory.Create(id, label, invType, slots, weight, maxWeight, owner, i
 				self.id = ('%s:%s'):format(self.id, owner)
 			end
 		else
-			if Ox then
-				self.dbId = id
-				self.id = (invType == 'glovebox' and 'glove' or invType)..label
-			else
-				self.dbId = label
-			end
+			if string.find(id, '^glove') or string.find(id, '^trunk') then
+                self.dbId = id:sub(6)
+            else
+                self.dbId = id
+                self.id = (invType == 'glovebox' and 'glove' or invType) .. label
+            end
 		end
 	end
+
+	Inventories[self.id] = setmetatable(self, OxInventory)
 
 	if not items then
 		self.items, self.weight = Inventory.Load(self.dbId or self.id, invType, owner, self.datastore)
@@ -604,7 +609,6 @@ function Inventory.Create(id, label, invType, slots, weight, maxWeight, owner, i
 		self.weight = Inventory.CalculateWeight(items)
 	end
 
-	Inventories[self.id] = setmetatable(self, OxInventory)
 	return Inventories[self.id]
 end
 
@@ -2208,11 +2212,13 @@ end
 
 exports('GetItemCount', Inventory.GetItemCount)
 
+---@alias InventorySaveData { [1]: MinimalInventorySlot, [2]: string | number, [3]: string | number | nil }
+
 ---@param inv OxInventory
 ---@param buffer table
 ---@param time integer
----@return integer | false | nil
----@return table | nil
+---@return integer?
+---@return InventorySaveData?
 local function prepareInventorySave(inv, buffer, time)
     local shouldSave = not inv.datastore and inv.changed
     local n = 0
@@ -2253,6 +2259,7 @@ local function prepareInventorySave(inv, buffer, time)
 end
 
 local isSaving = false
+local inventoryClearTime = GetConvarInt('inventory:cleartime', 5) * 60
 
 local function saveInventories(clearInventories)
 	if isSaving then return end
@@ -2260,21 +2267,28 @@ local function saveInventories(clearInventories)
 	isSaving = true
 	local time = os.time()
 	local parameters = { {}, {}, {}, {} }
-	local size = { 0, 0, 0, 0 }
-    local buffer = {}
-	local total = 0
+	local total = { 0, 0, 0, 0, 0 }
+	local buffer = {}
 
 	for _, inv in pairs(Inventories) do
         local index, data = prepareInventorySave(inv, buffer, time)
 
-        if index then
-			total += 1
-            size[index] += 1
-            parameters[index][size[index]] = data
+        if index and data then
+            total[5] += 1
+
+            if index == 4 and server.bulkstashsave then
+                for i = 1, 3 do
+					total[index] += 1
+                    parameters[index][total[index]] = data[i]
+                end
+            else
+				total[index] += 1
+                parameters[index][total[index]] = data
+            end
         end
 	end
 
-	if total > 0 then
+    if total[5] > 0 then
 	    db.saveInventories(parameters[1], parameters[2], parameters[3], parameters[4], total)
     end
 
@@ -2284,9 +2298,13 @@ local function saveInventories(clearInventories)
 
     for _, inv in pairs(Inventories) do
         if not inv.open and not inv.player then
-            -- clear inventory from memory if unused for 10 minutes, or invalid entity
-            if time - inv.time >= 600 or (inv.netid and NetworkGetEntityFromNetworkId(inv.netid) == 0) then
-                Inventory.Remove(inv)
+			-- clear inventory from memory if unused for x minutes, or on entity/netid mismatch
+			if inv.type == 'glovebox' or inv.type == 'trunk' then
+				if NetworkGetEntityFromNetworkId(inv.netid) ~= inv.entityId then
+					Inventory.Remove(inv)
+				end
+			elseif time - inv.time >= inventoryClearTime then
+				Inventory.Remove(inv)
             end
         end
     end
@@ -2481,6 +2499,10 @@ local function updateWeapon(source, action, value, slot, specialAmmo)
 			elseif action == 'melee' and value > 0 then
 				weapon.metadata.durability = weapon.metadata.durability - ((Items(weapon.name).durability or 1) * value)
 			end
+
+			if (weapon.metadata.durability or 0) < 0 then
+                weapon.metadata.durability = 0
+            end
 
 			if action ~= 'throw' then
 				inventory:syncSlotsWithPlayer({

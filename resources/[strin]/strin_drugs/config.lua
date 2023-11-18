@@ -41,9 +41,9 @@ if(IsDuplicityVersion()) then
     ---If field `item` is not set in `locations` element and neither in `SyntheticDrugLoot`, the `drug key name` is used. Avoid this please.
     ---@class SyntheticDrugLoot
     ---@field item? string Default name of item that will be given to player after he picks up the loot on all locations that don't have the `item` field set.
-    ---@field itemCount? integer Amount of `item` that will be given to player after he picks up the loot. Default is `1`.
-    ---@field respawnCount integer | true `true` to respawn all or `integer` to respawn only specified amount if needed
-    ---@field respawnTimer integer Time in milliseconds for the desired spot to spawn new loot.  
+    ---@field itemCount? number Amount of `item` that will be given to player after he picks up the loot. Default is `1`.
+    ---@field respawnCount number | true `true` to respawn all or `integer` to respawn only specified amount if needed
+    ---@field respawnTimer number Time in milliseconds for the desired spot to spawn new loot.  
     ---@field locations table<integer, { item?: string, coords: vector3, radius: number, count: number }>
 
     ---@class SyntheticDrug
@@ -56,11 +56,11 @@ if(IsDuplicityVersion()) then
             harvestables = {
                 item = "ephedrine",
                 respawnCount = 1,
-                respawnTimer = 6,
+                respawnTimer = 15 * 60 * 1000,
                 locations = {
                     {
-                        coords = vector3(815.80456542969, 156.9449005127, 80.96996307373),
-                        radius = 30,
+                        coords = vector3(165.85035705566, -824.44000244141, 31.167684555054),
+                        radius = 10,
                         count = 5,
                     }
                 }
@@ -68,11 +68,11 @@ if(IsDuplicityVersion()) then
             chemicals = {
                 item = "phenylactic_acid",
                 respawnCount = 1,
-                respawnTimer = 6,
+                respawnTimer = 15 * 60 * 1000,
                 locations = {
                     {
-                        coords = vector3(0, 0, 0),
-                        radius = 30,
+                        coords = vector3(172.92826843262, -844.30364990234, 31.094160079956),
+                        radius = 10,
                         count = 5,
                     }
                 }

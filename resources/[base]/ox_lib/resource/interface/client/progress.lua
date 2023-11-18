@@ -215,4 +215,4 @@ RegisterCommand('cancelprogress', function()
     if progress?.canCancel then progress = false end
 end)
 
-RegisterKeyMapping('cancelprogress', 'Cancel current progress bar', 'keyboard', 'x')
+RegisterKeyMapping('cancelprogress', '<FONT FACE="Righteous">Zrušit aktuální progress bar~</FONT>', 'keyboard', 'x')

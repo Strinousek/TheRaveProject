@@ -70,7 +70,7 @@ end)
 
 AddEventHandler('esx:playerLoaded', function(playerId, xPlayer)
 	Citizen.Wait(500)
-	AddPlayerToScoreboard(playerId, true)
+	AddPlayerToScoreboard(tonumber(playerId), true)
 end)
 
 AddEventHandler('esx:playerDropped', function(playerId)
@@ -124,7 +124,7 @@ end
 function AddPlayersToScoreboard()
 
 	for _,playerId in pairs(GetPlayers()) do
-		AddPlayerToScoreboard(playerId, false)
+		AddPlayerToScoreboard(tonumber(playerId), false)
 	end
 
 	TriggerClientEvent('strin_scoreboard:updatePlayers', -1, ConnectedPlayers)

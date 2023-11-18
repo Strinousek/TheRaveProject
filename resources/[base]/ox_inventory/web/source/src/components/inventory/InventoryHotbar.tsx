@@ -3,11 +3,10 @@ import { getItemUrl, isSlotWithItem } from '../../helpers';
 import useNuiEvent from '../../hooks/useNuiEvent';
 import { Items } from '../../store/items';
 import WeightBar from '../utils/WeightBar';
-import { Slide } from '@mui/material';
 import { useAppSelector } from '../../store';
 import { selectLeftInventory } from '../../store/inventory';
-import { imagepath } from '../../store/imagepath';
 import { SlotWithItem } from '../../typings';
+import SlideUp from '../utils/transitions/SlideUp';
 
 const InventoryHotbar: React.FC = () => {
   const [hotbarVisible, setHotbarVisible] = useState(false);
@@ -26,7 +25,7 @@ const InventoryHotbar: React.FC = () => {
   });
 
   return (
-    <Slide in={hotbarVisible} direction="up" unmountOnExit>
+    <SlideUp in={hotbarVisible}>
       <div className="hotbar-container">
         {items.map((item) => (
           <div
@@ -56,11 +55,11 @@ const InventoryHotbar: React.FC = () => {
                   </div>
                 </div>
                 <div>
-                  {item?.durability !== undefined && <WeightBar percent={item.durability} durability />}
                   <div className="inventory-slot-label-box">
                     <div className="inventory-slot-label-text">
                       {item.metadata?.label ? item.metadata.label : Items[item.name]?.label || item.name}
                     </div>
+                    {item?.durability !== undefined && <WeightBar percent={item.durability} durability />}
                   </div>
                 </div>
               </div>
@@ -68,7 +67,7 @@ const InventoryHotbar: React.FC = () => {
           </div>
         ))}
       </div>
-    </Slide>
+    </SlideUp>
   );
 };
 

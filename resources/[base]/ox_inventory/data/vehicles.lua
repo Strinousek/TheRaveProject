@@ -85,9 +85,6 @@ return {
 		[20] = {61, 488000},	-- Commercial
 		models = {
 			[`xa21`] = {11, 10000}
-		},
-		boneIndex = {
-			[`pounder`] = 'wheel_rr'
 		}
 	}
 }

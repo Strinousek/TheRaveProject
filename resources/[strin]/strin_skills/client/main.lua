@@ -1,6 +1,6 @@
 local skills = {}
 
-Citizen.CreateThread(function()
+RegisterNetEvent("esx:playerLoaded", function ()
     for k, v in pairs(SKILLS) do
         skills[k] = v.default
         UpdateSkill(k, true, v.default, false)
@@ -40,7 +40,7 @@ function UpdateSkill(skillName, setting, amount, save)
         local valueBefore = skills[skillName]
         if amount < 0 or valueBefore <= 99.5 then
             local notificationType = "success"
-            if(amount <= -0.05) then
+            if(amount <= 0) then
                 notificationType = "error"
             end
             
