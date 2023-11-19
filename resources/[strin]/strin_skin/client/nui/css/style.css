@@ -19,6 +19,8 @@
 body {
     display: flex;
     align-items: center;
+    width: 100%;
+    height: 100%;
 }
 
 #camera-view {
@@ -38,10 +40,11 @@ body {
 }
 
 #menu-container {
-    min-width: 475px;
-    max-width: 500px;
-    padding: 20px 16px;
-    max-height: 916px;
+    position: relative;
+    min-width: 300px;
+    max-width: 25%;
+    padding: 16px 14px;
+    max-height: 60%;
     background-color: var(--trans-main-color);
     border-radius: 5px;
     display: flex;
@@ -52,7 +55,7 @@ body {
 }
 
 #menu-title-container {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: 700;
     text-transform: uppercase;
     color: white;
@@ -73,8 +76,8 @@ body {
 }
 
 .menu-view-button {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     color: white;
     border-bottom: 3px solid var(--more-trans-second-color);
     border-top-left-radius: 4px;
@@ -93,8 +96,8 @@ body {
 }
 
 .menu-confirm-button {
-    width: 48px;
-    height: 48px;
+    width: 36px;
+    height: 36px;
     border-top: 3px var(--more-trans-second-color);
     border-left: 3px var(--more-trans-second-color);
     font-size: 24px;
@@ -130,7 +133,7 @@ body {
 
 .skin-part-label {
     width: 100%;
-    padding: 8px;
+    padding: 4px 10px;
     color: white;
     border-left: 3px solid var(--more-trans-second-color);
     text-shadow: 0px 0px 7px #000000;
@@ -140,7 +143,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 8px;
+    margin-top: 4px;
     transition: 0.5s all;
     width: 100%;
 }
@@ -154,7 +157,7 @@ body {
     text-shadow: 0px 0px 7px #000000;
     font-weight: 800;
     width: 100%;
-    font-size: 20px;
+    font-size: 18px;
     padding: 7px;
     transition: 0.5s all;
 }
@@ -165,7 +168,7 @@ body {
 }
 
 .skin-part-button {
-  font-size: 32px;
+  font-size: 18px;
   font-weight: 800;
   color: white;
   cursor: pointer;

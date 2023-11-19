@@ -330,37 +330,6 @@ $(() => {
         };
     };
 
-    /*ShowMenu([
-        {
-            name: "torso_1",
-            label: "Bundy 1",
-            min: 0,
-            value: 2,
-            max: 10
-        },
-        {
-            name: "torso_2",
-            label: "Bundy 2",
-            min: 0,
-            value: 2,
-            max: 10
-        },
-        {
-            name: "arms",
-            label: "Rukavice",
-            min: -10,
-            value: 2,
-            max: 10
-        },
-        {
-            name: "arms_2",
-            label: "Rukavice 2",
-            min: -10,
-            value: 2,
-            max: 10
-        }
-    ]);*/
-
     window.addEventListener("message", (e) => {
         let data = e.data;
         if(data.action == "showMenu") {
