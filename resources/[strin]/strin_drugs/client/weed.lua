@@ -120,48 +120,6 @@ RegisterNetEvent("strin_drugs:syncWeedPlants", function(weedPlants)
     end
 end)
 
-RegisterNetEvent("strin_drugs:receiveWeedOffer", function(offer)
-    if(source == "" or GetInvokingResource() ~= nil) then
-        return
-    end
-        
-
-    local entity = NetworkGetEntityFromNetworkId(offer.pedNetId)
-    local releaseEntity = function()
-        ClearPedTasks(entity)
-        FreezeEntityPosition(entity, false)
-    end
-    lib.registerContext({
-        id = "weed_offer",
-        title = "Nabídka",
-        onExit = function()
-            TriggerServerEvent("strin_drugs:finishWeedOffer", "DECLINE")
-            releaseEntity()
-        end,
-        options = {
-            {
-                title = ("Přijmout (%sx - %s$)"):format(offer.amount, ESX.Math.GroupDigits(offer.total)),
-                icon = "fas fa-dollar-sign",
-                iconColor = "#2ecc71",
-                onSelect = function()
-                    TriggerServerEvent("strin_drugs:finishWeedOffer", "ACCEPT")
-                    releaseEntity()
-                end,
-            },
-            {
-                title = "Odmítnout",
-                icon = "fas fa-times",
-                iconColor = "#e74c3c",
-                onSelect = function()
-                    TriggerServerEvent("strin_drugs:finishWeedOffer", "DECLINE")
-                    releaseEntity()
-                end,
-            },
-        }
-    })
-    lib.showContext("weed_offer")
-end)
-
 Citizen.CreateThread(function()
     for i=0, 100, 25 do
         AddTextEntry("STRIN_DRUGS:DEHYDRATOR"..i, "<FONT FACE='Righteous'>Sušička - Použitelnost: ~g~<b>"..i.."%</b>~w~</FONT>")
@@ -232,68 +190,6 @@ Citizen.CreateThread(function()
                     hasKey = true
                 end
                 return weedBudsReady and ((property and hasKey) or GetEntityModel(entity) == DehydratorModelHash)
-            end,
-        }
-    })
-    Target:addGlobalPed({
-        {
-            label = "Nabídnout joint",
-            icon = "fa-solid fa-joint",
-            onSelect = function(data)
-                local isAnimal = GetPedType(data.entity) == 28
-                if(isAnimal) then
-
-                    RequestAnimDict("dancing_wave_part_one@anim")
-                    while not HasAnimDictLoaded("dancing_wave_part_one@anim") do
-                        Citizen.Wait(0)
-                    end
-                    NetworkRequestControlOfEntity(data.entity)
-                    while NetworkGetEntityOwner(data.entity) ~= NetworkGetEntityOwner(cache.ped) do
-                        Citizen.Wait(0)
-                    end
-                    TaskPlayAnim(
-                        data.entity, 
-                        "dancing_wave_part_one@anim", 
-                        "headspin", 
-                        5.0, 
-                        5.0, 
-                        5000, 
-                        1, 
-                        0, 
-                        false, 
-                        false, 
-                        false
-                    )
-		            TriggerServerEvent('InteractSound_SV:PlayWithinDistance', 4.0, "easteregg1", 0.6)
-                    RemoveAnimDict("dancing_wave_part_one@anim")
-                    ESX.ShowNotification("Už se to roztáčí!")
-                    return
-                end
-                local ped = PlayerPedId()
-                TaskStandStill(data.entity, 1.0)
-                FreezeEntityPosition(data.entity, true)
-                SetEntityHeading(data.entity, GetEntityHeading(ped) + 180.0)
-                local netId = NetworkGetNetworkIdFromEntity(data.entity)
-                local input = lib.inputDialog('Množství', {
-                    {
-                        type = "number",
-                    }
-                })
- 
-                if not input then
-                    ClearPedTasks(data.entity)
-                    FreezeEntityPosition(data.entity, false)
-                    return
-                end
-                TriggerServerEvent("strin_drugs:requestWeedOffer", netId, input[1])
-            end,
-            canInteract = function(entity)
-                local jointCount = Inventory:GetItemCount("joint")
-                /*
-                    local isNotAnimal = GetPedType(entity) ~= 28
-                return not Entity(entity).state.recentlyOffered and not IsEntityDead(entity) and isNotAnimal and jointCount > 0 and NetworkGetEntityOwner(entity) ~= -1
-                */
-                return not Entity(entity).state.recentlyOffered and not IsEntityDead(entity) and jointCount > 0 and NetworkGetEntityOwner(entity) ~= -1
             end,
         }
     })

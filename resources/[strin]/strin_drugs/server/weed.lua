@@ -40,7 +40,6 @@ end, 30000)
 Base:RegisterWebhook("WEED_PLANT", "https://discord.com/api/webhooks/885287209916334100/duF25VkXgjFKz94RrDXch8s7B9tTNy0R-1MyH-Lw58-QdJ7kufhxh2gBfMap39nWxDPk")
 Base:RegisterWebhook("WEED_HARVEST", "https://discord.com/api/webhooks/1136083276822499428/bgsYFZN8tZFO6MSPe0VZnLmtcAQmw4L8hBakJMjJ9zZEtHs3rW_tudG5m41syw8Fz_pZ")
 Base:RegisterWebhook("WEED_PROCESS", "https://discord.com/api/webhooks/679799729273700364/wtiSlpTnWZNsm_Tn2kd68naU25_qB7Xdh2osJ3wev2fTd9x2ew6Q7QWHJWpSzaYIlFou")
-Base:RegisterWebhook("WEED_SELL", "https://discord.com/api/webhooks/1136083529822900325/O1V0ZzMCLppPY9rFsV6j9qRqES1q8TasaoKjh5SJZxFrwhnUHY6EuxQ_0vtCY8xlfYKd")
 
 /*ESX.RegisterCommand("weed", "user", function(xPlayer)
     Inventory:AddItem(xPlayer.source, "weed_bud", 100, {
@@ -425,132 +424,11 @@ RegisterNetEvent("strin_drugs:retrieveDriedWeedBuds", function()
     DriedWeedBuds[xPlayer.identifier] = nil
 end)
 
-local WeedOffers = {}
-
-RegisterNetEvent("strin_drugs:requestWeedOffer", function(pedNetId, amount)
-    if(type(pedNetId) ~= "number" or type(amount) ~= "number" or amount <= 0) then
-        return
-    end
-
-    local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
-    if(not xPlayer) then
-        return
-    end
-
-    local pedEntity = NetworkGetEntityFromNetworkId(pedNetId)
-    if(not DoesEntityExist(pedEntity)) then
-        xPlayer.showNotification("Daný civilista neexistuje!", { type = "error" })
-        return
-    end
-    
-    if(Entity(pedEntity).state.recentlyOffered) then
-        xPlayer.showNotification("Tento civilista již nedávno nabídku dostal!", { type = "error" })
-        return
-    end
-
-    local jointCount = Inventory:GetItemCount(_source, "joint")
-    if((jointCount - amount) < 0) then
-        xPlayer.showNotification("Nemáte u sebe tolik jointů!", { type = "error" })
-        return
-    end
-
-    math.randomseed(os.time())
-    local declineChance = math.random(1, 100)
-    if(declineChance > 60) then -- 60
-        WeedOffers[xPlayer.identifier] = nil
-        Entity(pedEntity).state.recentlyOffered = true
-        ClearPedTasks(pedEntity)
-        FreezeEntityPosition(pedEntity, false)
-        xPlayer.showNotification("Civilista nemá zájem.", { type = "error" })
-        local callCopsChance = math.random(1, 100)
-        if(callCopsChance > 50) then -- 50
-            local recipientJobList = LawEnforcementJobs
-            local data = {
-                displayCode = '10-14',
-                blipSprite = 469,
-                description = "Nelegální činnost",
-                isImportant = 0,
-                recipientList = recipientJobList, 
-                length = '15000',
-                infoM = 'fa-tablets',
-                info = "Prodej drog"
-            }
-            local dispatchData = { dispatchData = data, caller = 'Civilista', coords = GetEntityCoords(pedEntity)}
-            TriggerEvent('wf-alerts:svNotify', dispatchData)
-        end
-        return
-    end
-
-    local total = 0
-    for i=1, amount do
-        total += math.random(WeedJointPrice[1], WeedJointPrice[2])
-    end
-    WeedOffers[xPlayer.identifier] = {
-        total = total,
-        amount = amount,
-        pedNetId = pedNetId
-    }
-    TriggerClientEvent("strin_drugs:receiveWeedOffer", _source, WeedOffers[xPlayer.identifier])
-end)
-
-RegisterNetEvent("strin_drugs:finishWeedOffer", function(finishMethod)
-    if(type(finishMethod) ~= "string" or (finishMethod ~= "ACCEPT" and finishMethod ~= "DECLINE")) then
-        return
-    end
-    local _source = source
-    local xPlayer = ESX.GetPlayerFromId(_source)
-    if(not xPlayer) then
-        return
-    end
-
-    local offer = WeedOffers[xPlayer.identifier]
-    if(not offer) then
-        xPlayer.showNotification("Daná nabídka neexistuje!", { type = "error" })
-        return
-    end
-
-    local pedEntity = NetworkGetEntityFromNetworkId(offer.pedNetId)
-    if(not DoesEntityExist(pedEntity)) then
-        WeedOffers[xPlayer.identifier] = nil
-        xPlayer.showNotification("Daný civilista neexistuje!", { type = "error" })
-        return
-    end
-
-    local jointCount = Inventory:GetItemCount(_source, "joint")
-    if((jointCount - offer.amount) < 0) then
-        WeedOffers[xPlayer.identifier] = nil
-        xPlayer.showNotification("Nemáte u sebe tolik jointů!", { type = "error" })
-        return
-    end
-
-    Entity(pedEntity).state.recentlyOffered = true
-    
-    if(finishMethod == "ACCEPT") then
-        Inventory:RemoveItem(_source, "joint", offer.amount)
-        xPlayer.addMoney(offer.total)
-        Base:DiscordLog("WEED_SELL", "THE RAVE PROJECT - WEED SELL", {
-            { name = "Jméno hráče", value = ESX.SanitizeString(GetPlayerName(_source)) },
-            { name = "Identifikace hráče", value = xPlayer.identifier },
-            { name = "Množství jointů", value = jointCount },
-            { name = "Částka", value = ESX.Math.GroupDigits(offer.total).."$" },
-        }, {
-            fields = true,
-        })
-        return
-    end
-    
-    WeedOffers[xPlayer.identifier] = nil
-end)
-
 AddEventHandler("playerDropped", function()
     local _source = source
     local xPlayer = ESX.GetPlayerFromId(_source)
     if(not xPlayer) then
         return
-    end
-    if(WeedOffers[xPlayer.identifier]) then
-        WeedOffers[xPlayer.identifier] = nil
     end
     if(DriedWeedBuds[xPlayer.identifier]) then
         Inventory:AddItem(_source, "weed_bud", DriedWeedBuds[xPlayer.identifier], {

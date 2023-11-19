@@ -1,7 +1,6 @@
 local SpawnedSyntheticPickupables = {}
 local HarvestablesTimers = {}
 local ChemicalsTimers = {}
-local Items = Inventory:Items()
 
 RegisterNetEvent("strin_drugs:requestSyncSyntheticPickupables", function()
     local _source = source
@@ -30,11 +29,17 @@ RegisterNetEvent("strin_drugs:pickupSyntheticPickupable", function()
     Inventory:AddItem(_source, spot.item, count)
     --TriggerClientEvent("esx:showNotification", _source, spot.item.." x"..count)
     SpawnedSyntheticPickupables[nearestPickupable.drug][nearestPickupable._type][nearestPickupable.locationIndex][nearestPickupable.spotIndex] = false
+    if(nearestPickupable._type == "harvestables") then
+        if(GetGameTimer() - HarvestablesTimers[nearestPickupable.drug] > SyntheticDrugs[nearestPickupable.drug][nearestPickupable._type].respawnTimer) then
+            HarvestablesTimers[nearestPickupable.drug] = GetGameTimer()
+        end
+    else
+        if(GetGameTimer() - HarvestablesTimers[nearestPickupable.drug] > SyntheticDrugs[nearestPickupable.drug][nearestPickupable._type].respawnTimer) then
+            ChemicalsTimers[nearestPickupable.drug] = GetGameTimer()
+        end
+    end
     TriggerClientEvent("strin_drugs:syncSyntheticPickupables", -1, SpawnedSyntheticPickupables)
 end)
-
-
-local PickupablesCounterParts = {}
 
 do
     for drug, data in each(SyntheticDrugs) do
@@ -151,7 +156,7 @@ function GetNearestPickupable(playerId)
     return nearestPickupable
 end
 
-AddEventHandler("esx:playerLoaded", function (playerId)
+RegisterNetEvent("esx:playerLoaded", function (playerId)
     TriggerClientEvent("strin_drugs:syncSyntheticPickupables", playerId, SpawnedSyntheticPickupables)
 end)
 
@@ -181,31 +186,31 @@ end
 ---@param drugType string
 function RespawnPickupable(locationType, drugType)
     local v = SyntheticDrugs[drugType][locationType]
-    for i=1, #SpawnedSyntheticPickupables[drugType][locationType] do
-        local pickupables = SpawnedSyntheticPickupables[drugType][locationType][i]
-        for j=1, #pickupables do
-            local pickupable = pickupables[i]
-            if(not pickupable) then
-                if(((GetGameTimer() - HarvestablesTimers[drugType]) >= v.respawnTimer)) then
-                    local location = v.locations[i]
-                    SpawnedSyntheticPickupables[drugType][locationType][i][j] = {
-                        coords = vector3(location.coords.x + math.random(1, location.radius), location.coords.y + (math.random(1, location.radius)), location.coords.z),
-                        item = location.item or v.item
+    local locations = SpawnedSyntheticPickupables[drugType][locationType]
+    for i=1, #locations do
+        local location = locations[i]
+        for j=1, #location do
+            local spot = location[j]
+            if(not spot) then
+                local timerTable = locationType == "harvestables" and HarvestablesTimers or ChemicalsTimers
+                local defaultLocation = v.locations[i]
+                if(((GetGameTimer() - timerTable[drugType]) >= v.respawnTimer)) then
+                    locations[i][j] = {
+                        coords = vector3(defaultLocation.coords.x + math.random(1, defaultLocation.radius), defaultLocation.coords.y + (math.random(1, defaultLocation.radius)), defaultLocation.coords.z),
+                        item = defaultLocation.item or v.item
                     }
-                    if(locationType == "harvestables") then
-                        HarvestablesTimers[drugType] = GetGameTimer()
-                    else
-                        ChemicalsTimers[drugType] = GetGameTimer()
-                    end
+                    timerTable[drugType] = GetGameTimer()
+                    return true
                 end
             end
         end
     end
+    return false
 end
 
 Citizen.CreateThread(function()
     while true do
-        local respawn = false
+        local sync = false
         for k,_ in pairs(SyntheticDrugs) do
             if(not SpawnedSyntheticPickupables[k]) then
                 SpawnedSyntheticPickupables[k] = {
@@ -214,17 +219,17 @@ Citizen.CreateThread(function()
                 }
                 SetupPickupablesLocations("harvestables", k)
                 SetupPickupablesLocations("chemicals", k)
-                respawn = true
+                sync = true
             end
             if(RespawnPickupable("harvestables", k)) then
-                respawn = true
+                sync = true
             end
             if(RespawnPickupable("chemicals", k)) then
-                respawn = true
+                sync = true
             end
         end
         
-        if(respawn) then
+        if(sync) then
             TriggerClientEvent("strin_drugs:syncSyntheticPickupables", -1, SpawnedSyntheticPickupables)
         end
         Citizen.Wait(3000)

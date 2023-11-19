@@ -34,6 +34,13 @@ if(IsDuplicityVersion()) then
         2128369009, -461750719, -1286696947
     }
 
+    DrugPrices = {
+        ["joint"] = { 20, 40 },
+        ["meth_pooch"] = { 50, 80 },
+        ["heroin_pooch"] = { 70, 80 },
+        ["coke_pooch"] = { 75, 80 },
+    }
+
     WeedPlantStageTimers = { [1] = 0, [2] = 30, [3] = 60 }
     WeedJointPrice = { 20, 40 }
     WeedBudHarvestAmount = { 1, 3 }
