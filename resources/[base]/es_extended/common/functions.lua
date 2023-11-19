@@ -102,7 +102,7 @@ end
 function ESX.SanitizeString(text, options)
 	local settings = (options ~= nil and next(options)) and options or {sql = true, html = true, cc = true}
 	local replacements = {}
-	local sanitizedString = text or ""
+	local sanitizedString = tostring(text) or ""
 	if(settings.sql) then
 		replacements[';'] = ""
 		replacements["="] = ""

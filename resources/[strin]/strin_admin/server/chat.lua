@@ -28,7 +28,7 @@ ESX.RegisterCommand("at", "admin", function(xPlayer, args)
         if(not StreamerModes[xAdmin.identifier]) then
             TriggerClientEvent('chat:addMessage', xAdmin.source, {
                 template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b>ACHAT: {0} [ID: {1}] - {2}</b></div>',
-                args = { name, xPlayer.source, message }
+                args = { ESX.SanitizeString(GetPlayerName(xPlayer.source)), xPlayer.source, message }
             })
         end
     end
@@ -51,12 +51,21 @@ ESX.RegisterCommand("announce", "admin", function(xPlayer, args)
 end)
 
 ESX.RegisterCommand("report", "user", function(xPlayer, args)
+    local _source = xPlayer.source
     local message = table.concat(args, " ")
 
     local name = ESX.SanitizeString(GetPlayerName(xPlayer.source))
     TriggerClientEvent('chat:addMessage', xPlayer.source, {
         template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} [ID: {1}] - {2}</b></div>',
         args = { name, xPlayer.source, message }
+    })
+
+    Base:DiscordLog("REPORTS", "THE RAVE PROJECT - REPORT", {
+        { name = "Jméno hráče", value = ESX.SanitizeString(GetPlayerName(_source) or _source) },
+        { name = "Identifikace hráče", value = _source and xPlayer.identifier or "{}" },
+        { name = "Zpráva", value = ESX.SanitizeString(message) },
+    }, {
+        fields = true,
     })
 
     local xAdmins = ESX.GetExtendedPlayers("group", "admin")
@@ -91,6 +100,17 @@ ESX.RegisterCommand("reply", "admin", function(xPlayer, args)
     TriggerClientEvent('chat:addMessage', xTarget.source, {
         template = '<div style="padding: 0.5vw;margin: 0.05vw;background-color: rgba(192, 57, 43, 0.8);color: white;"><i class="fas fa-comment-alt"></i><b> {0} [ID: {1}] - {2}</b></div>',
         args = { name, xPlayer.source, message }
+    })
+
+    
+    Base:DiscordLog("STALKING", "THE RAVE PROJECT - REPORT REPLY", {
+        { name = "Jméno admina", value = ESX.SanitizeString(GetPlayerName(xPlayer.source) or xPlayer.source) },
+        { name = "Identifikace admina", value = xPlayer.source and xPlayer.identifier or "{}" },
+        { name = "Jméno hráče", value = ESX.SanitizeString(GetPlayerName(targetId) or targetId) },
+        { name = "Identifikace hráče", value = targetId and xTarget.identifier or "{}" },
+        { name = "Zpráva", value = ESX.SanitizeString(message) },
+    }, {
+        fields = true,
     })
     
     local xAdmins = ESX.GetExtendedPlayers("group", "admin")
