@@ -885,12 +885,31 @@ function OpenMiscMenu()
 
     table.insert(elements, { label = "Zkopírovat koordinace", key = "clipboard_coords" })
     table.insert(elements, { label = "Entity AIM Debug (OFF, ON)", min = 0, value = ((not DebugEntityOnAim) and 0 or 1), max = 1, key = "debug_entity_on_aim", type = "slider"})
+
+    table.insert(elements, { label = "R* - Record", key = "record" })
+    table.insert(elements, { label = "R* - Save Clip", key = "save_clip" })
+    table.insert(elements, { label = "R* - Delete Clip", key = "delete_clip" })
+    table.insert(elements, { label = "R* - Editor", key = "editor" })
     --table.insert(elements, { label = "Entity Debug (OFF, VEH, PROP, PED, ALL)", min = 0, value = DrawDimensionsType, max = 4, key = "show_dimensions_type", type = "slider"})
     ESX.UI.Menu.Open("default", GetCurrentResourceName(), "misc_menu", {
         title = "Ostatní možnosti",
         align = "center",
         elements = elements,
     }, function(data, menu)
+        if(data.current.key == "record") then
+            StartRecording(1)
+            return
+        elseif(data.current.key == "save_clip") then
+            StartRecording(0)
+            return
+        elseif(data.current.key == "delete_clip") then
+            StopRecordingAndDiscardClip()
+            return
+        elseif(data.current.key == "editor") then
+            NetworkSessionLeaveSinglePlayer()
+            ActivateRockstarEditor()
+            return
+        end
         menu.close()
         if(data.current.key == "teleport_to_waypoint") then
             TeleportToMarker()
