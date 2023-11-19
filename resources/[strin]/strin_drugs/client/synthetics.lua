@@ -8,6 +8,41 @@ Citizen.CreateThread(function ()
     end
 end)
 
+RegisterNetEvent("strin_drugs:useSyntheticDrug", function(drug, strength)      
+    TaskStartScenarioInPlace(cache.ped, "WORLD_HUMAN_SMOKING_POT", 0, 1)
+    Citizen.Wait(3000)
+    ESX.ShowNotification("Tohle je jinej dělobuch!")
+    ClearPedTasksImmediately(cache.ped)
+    SetTimecycleModifier("drug_drive_blend01")
+    ShakeGameplayCam("DRUNK_SHAKE", 0.1)
+    if(drug:find("coke")) then
+        SetPlayerMeleeWeaponDamageModifier(cache.playerId, 1.1)
+        SetRunSprintMultiplierForPlayer(cache.playerId, 1.1) 
+    end
+    local startingStrength = DrugEffectStrength
+    while DrugEffectStrength < (startingStrength + (strength / 100)) do
+        DrugEffectStrength += 0.001
+        SetTimecycleModifierStrength(DrugEffectStrength)
+        Citizen.Wait(0)
+    end
+    
+    Citizen.Wait(45000)
+    SetPedMoveRateOverride(playerId, 1.0)
+    if(drug:find("coke")) then
+        SetRunSprintMultiplierForPlayer(cache.playerId, 1.0)
+        SetPlayerMeleeWeaponDamageModifier(cache.playerId, 1.0)
+    end
+
+    while DrugEffectStrength > 0 do
+        DrugEffectStrength -= 0.001
+        SetTimecycleModifierStrength(DrugEffectStrength)
+        Citizen.Wait(0)
+    end
+    DrugEffectStrength = 0.0
+    ShakeGameplayCam("DRUNK_SHAKE", 0.0)
+    ClearTimecycleModifier()
+end)
+
 function DeleteOrUpdatePickupables(_type, drug, v, syntheticPickupables)
     for i=1, #v[_type] do
         local location = v[_type][i]

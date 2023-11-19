@@ -207,6 +207,7 @@ Base:RegisterItemListener("joint", function(item, inventory, slot, data)
         return false
     end
     TriggerClientEvent("strin_drugs:smokeJoint", xPlayer.source)
+    return true
 end, {
     event = "usedItem"
 })

@@ -43,6 +43,17 @@ end)
 
 do
     for drug, data in each(SyntheticDrugs) do
+        Base:RegisterItemListener(drug.."_pooch", function(__, inventory)
+            local _source = inventory.id
+            local xPlayer = ESX.GetPlayerFromId(_source)
+            if(not xPlayer) then
+                return false
+            end
+            TriggerClientEvent("strin_drugs:useSyntheticDrug", _source, drug, drug == "coke" and 75 or (drug == "heroin" and 50 or 25))
+            return true
+        end, {
+            event = "usedItem"
+        })
         for requiredItem, _ in each(data.recipe.requiredItems) do
             Base:RegisterItemListener(requiredItem, function(__, inventory, slot)
                 local _source = inventory.id
