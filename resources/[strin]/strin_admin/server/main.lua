@@ -523,6 +523,7 @@ Citizen.CreateThread(function()
     end
 end)
 
+/*
 local RequestedHeartbeat = false
 local ReceivedPlayerHeartbeats = {}
 local IgnoredPlayerHeartbeats = {}
@@ -580,6 +581,7 @@ Citizen.CreateThread(function()
         Citizen.Wait(30000 - (GetGameTimer() - start))
     end
 end)
+*/
 
 local RegisteredResources = {}
 

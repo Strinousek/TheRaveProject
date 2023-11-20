@@ -3,7 +3,7 @@ IsSpectating = false
 
 Citizen.CreateThread(function()
 	ESX.FontId = RegisterFontId('Righteous')
-    TriggerServerEvent("strin_admin:onPlayerJoin")
+    --TriggerServerEvent("strin_admin:onPlayerJoin")
     Citizen.Wait(45000)
     while true do
         local resources = {}
@@ -349,9 +349,9 @@ function OpenOnlinePlayersMenu(players, pageNumber)
 end
 
 
-RegisterNetEvent("strin_admin:getSpectateState", function()
+/*RegisterNetEvent("strin_admin:getSpectateState", function()
     TriggerServerEvent("strin_admin:sendSpectateState", IsSpectating)
-end)
+end)*/
 
 RegisterNetEvent("strin_admin:spectate", function(targetNetId)
     if(source == "" or GetInvokingResource() ~= nil) then
