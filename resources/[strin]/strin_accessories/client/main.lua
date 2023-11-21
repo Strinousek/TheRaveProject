@@ -50,7 +50,7 @@ function OpenAccessoriesShopMenu()
         elements = elements,
     }, function(data, menu)
         menu.close()
-        OpenAccessoriesShopMenu(data.current.value)
+        OpenAccessoryShopMenu(data.current.value)
     end, function(data, menu)
         menu.close()
     end)
