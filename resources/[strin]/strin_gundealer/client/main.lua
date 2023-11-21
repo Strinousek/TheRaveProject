@@ -180,30 +180,39 @@ end)
 function CountGunDealerStocks(stocks)
     local stockCount = 0
     for k,v in pairs(stocks) do
-        stockCount += v.count
+        if(v) then
+            stockCount += v?.count
+        end
     end
     return stockCount
 end
 
 function OpenGunDealerStocks()
-    local stocks = lib.callback.await("strin_gundealer:requestStocks", false)
+    local stocks = lib.callback.await("strin_gundealer:requestStocks", 500)
     if(not stocks or not next(stocks) or (next(stocks) and CountGunDealerStocks(stocks) == 0)) then
         ESX.ShowNotification("Dealer nemá nic na prodej.")
         return
     end
     local elements = {}
     for k,v in pairs(stocks) do
-        table.insert(elements, {
-            label = ([[
-                %s - %s$
-            ]]):format(Items[v?.name].label, ESX.Math.GroupDigits(v?.price)),
-            min = 0,
-            value = 0,
-            max = v?.count,
-            stockName = v?.name,
-            type = "slider",
-        })
+        if(v) then
+            table.insert(elements, {
+                label = ([[
+                    %s - %s$
+                ]]):format(Items[v?.name].label, ESX.Math.GroupDigits(v?.price)),
+                min = 0,
+                value = 0,
+                max = v?.count,
+                stockName = v?.name,
+                type = "slider",
+            })
+        end
     end
+    if(#elements <= 0) then
+        ESX.ShowNotification("Dealer nemá nic na prodej.")
+        return
+    end
+
     table.insert(elements, {
         label = "<span style='color: #2ecc71;'>Potvrdit nákup</span>",
         value = "confirm",

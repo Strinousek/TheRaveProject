@@ -50,7 +50,6 @@ RegisterNetEvent("strin_drugs:useAlcohol", function(alcoholStrength)
     ClearTimecycleModifier()
 end)
 
-
 RegisterNetEvent("strin_drugs:receiveDrugOffer", function(offer)
     if(source == "" or GetInvokingResource() ~= nil) then
         return

@@ -186,7 +186,7 @@ Citizen.CreateThread(function()
             end,
             canInteract = function(entity)
                 local property, hasKey = exports.esx_property:GetPropertyPlayerIsIn()
-                if(not hasKey and property?.Owner and property?.Ownerfind(ESX?.PlayerData?.identifier)) then
+                if(not hasKey and property?.Owner and property?.Owner:find(ESX?.PlayerData?.identifier)) then
                     hasKey = true
                 end
                 return weedBudsReady and ((property and hasKey) or GetEntityModel(entity) == DehydratorModelHash)
