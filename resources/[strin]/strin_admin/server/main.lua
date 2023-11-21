@@ -483,15 +483,19 @@ AddEventHandler("playerDropped", function()
 end)
 
 AddEventHandler("strin_jobs:playerHealedSuccessfully", function(xPlayer)
-    RecentlyHealedPlayers[xPlayer.source] = true
-    SetTimeout(6000, function()
+    if(RecentlyHealedPlayers[xPlayer.source]) then
+        ESX.ClearTimeout(RecentlyHealedPlayers[xPlayer.source])
+    end
+    RecentlyHealedPlayers[xPlayer.source] = ESX.SetTimeout(15000, function()
         RecentlyHealedPlayers[xPlayer.source] = nil
     end)
 end)
 
 AddEventHandler("strin_jobs:playerRevivedSuccessfully", function(xPlayer)
-    RecentlyRevivedPlayers[xPlayer.source] = true
-    SetTimeout(6000, function()
+    if(RecentlyRevivedPlayers[xPlayer.source]) then
+        ESX.ClearTimeout(RecentlyRevivedPlayers[xPlayer.source])
+    end
+    RecentlyRevivedPlayers[xPlayer.source] = ESX.SetTimeout(15000, function()
         RecentlyRevivedPlayers[xPlayer.source] = nil
     end)
 end)
