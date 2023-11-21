@@ -1,0 +1,144 @@
+@import url('https://fonts.googleapis.com/css2?family=Leckerli+One&family=Montserrat:wght@100;300;400;500;600;700;800;900&family=Roboto+Mono:wght@600&display=swap');
+
+html {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content:  center;
+}
+
+#lottery-container {
+    opacity: 0;
+    width: 20%;
+    height: 35%;
+    padding: 16px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.452) 39%, rgba(211, 81, 0, 0.479) 100%);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: 0.5s all;
+}
+
+#lottery-title {
+    margin-top: 8px;
+    font-family: "Leckerli One";
+    font-size: 24px;
+    height: 20%;
+    text-align: center;
+    color: white;
+    text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+    animation: changeSize 0.75s infinite;
+}
+
+#lottery-winning-numbers-title {
+    margin-top: 8px;
+    color: white;
+    text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+    font-family: "Montserrat";
+    font-size: 24px;
+    text-transform: uppercase;
+}
+
+#lottery-winning-numbers {
+    letter-spacing: 16px;
+    color: white;
+    margin-top: 16px;
+    text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+    font-family: "Montserrat";
+    font-size: 24px;
+}
+
+#lottery-slots {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 20%;
+}
+
+.lottery-slot {
+    font-family: "Leckerli One";
+    height: 100%;
+    width: 22.5%;
+    font-size: 28px;
+    border-radius: 8px;
+    color: white;
+    text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(180deg, #000000 39%, rgb(211, 81, 0) 100%);
+    background-size: 112.5% 112.5%;
+    transition: 0.5s all;
+}
+
+#lottery-confirm {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    margin-top: 16px;
+    border: none;
+    outline: none;
+    width: 100%;
+    height: 12.5%;
+    border-radius: 8px;
+    color: white;
+    text-shadow: 0px 0px 30px black, 0px 0px 30px black, 0px 0px 10px black, 0px 0px 10px black, 0px 0px 5px black, 0px 0px 5px black;
+    text-transform: uppercase;
+    font-family: "Montserrat";
+    letter-spacing: 2px;
+    font-size: 18px;
+    background: linear-gradient(180deg, rgba(225, 68, 68, 0.311) 39%, rgba(211, 81, 0, 0.361) 100%);
+    transition: 0.5s all;
+}
+
+#lottery-confirm:hover {
+    font-size: 22px;
+    cursor: pointer;
+}
+
+.lottery-slot > p {
+    opacity: 1;
+    transition: 0.5s all;
+}
+
+.hidden-slot > p {
+    opacity: 0;
+}
+
+.winning-slot > p {
+    color: #27ae60;
+}
+
+.current-slot {
+    animation: gradient 2s ease infinite;
+    transition: 0.5s all;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 0% 50%;
+	}
+	50% {
+		background-position: 100% 50%;
+	}
+	100% {
+		background-position: 0% 50%;
+	}
+}
+
+@keyframes changeSize {
+    0% { font-size: 22px; }
+    50% { font-size: 26px; }
+    100% { font-size: 22px; }
+}
+

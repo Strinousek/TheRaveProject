@@ -506,8 +506,19 @@ return {
 	["pooch"] = {
 		label = "Sáček",
 		weight = 0,
-		consume = 1,
+		--consume = 1,
 		stack = true,
+		close = true,
+		/*server = {
+			export = "strin_base.use_item"
+		}*/
+	},
+
+	["lottery_ticket"] = {
+		label = "LÍstek do loterie",
+		weight = 5,
+		consume = 0,
+		stack = false,
 		close = true,
 		server = {
 			export = "strin_base.use_item"
