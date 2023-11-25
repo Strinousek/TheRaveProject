@@ -524,6 +524,14 @@ return {
 			export = "strin_base.use_item"
 		}
 	},
+
+	["bag"] = {
+		label = "Batoh",
+		weight = 1,
+		consume = 0,
+		stack = false,
+		close = false,
+	},
 	--[[['mastercard'] = {
 		label = 'Mastercard',
 		stack = false,

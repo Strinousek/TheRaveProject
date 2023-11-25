@@ -16,6 +16,7 @@ return {
 		blip = {
 			id = 59, colour = 69, scale = 0.8
 		}, inventory = {
+			{ name = 'bag', price = 1000 },
 			{ name = 'water', price = 50 },
 			{ name = 'fertilizer', price = 75 },
 			{ name = 'lighter', price = 50 },
