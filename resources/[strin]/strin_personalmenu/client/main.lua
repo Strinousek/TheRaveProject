@@ -399,6 +399,7 @@ end
 
 function OpenPersonalMenu()
     local elements = {}
+    table.insert(elements, { label = "Denní odměny / Odehraný čas", value = "rewards" })
     table.insert(elements, { label = "Informace o postavě", value = "character_info" })
     local ped = PlayerPedId()
     if(not IsEntityPlayingAnim(ped, 'mp_arresting', 'idle', 3) and (GetEntityHealth(ped) > 0)) then
@@ -421,6 +422,8 @@ function OpenPersonalMenu()
         menu.close()
         if(data.current.value == "character_info") then
             OpenCharacterInfoMenu()
+        elseif(data.current.value == "rewards") then
+            ExecuteCommand("daily")
         elseif(data.current.value == "vehicle_menu") then
             OpenVehicleMenu(data.current.vehicle)
         elseif(data.current.value == "bills") then
