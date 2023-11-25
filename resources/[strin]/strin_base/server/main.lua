@@ -27,6 +27,106 @@ AddEventHandler("playerDropped", function()
     }
 end)
 
+local PlayerStats = {}
+
+function GetFormattedPlayedTime(time)
+  local days = math.floor(time / 86400)
+  local remaining = time % 86400
+  local hours = math.floor(remaining / 3600)
+  remaining = remaining % 3600
+  local minutes = math.floor(remaining / 60)
+  remaining = remaining % 60
+  local seconds = remaining
+  /*if (hours < 10) then
+    hours = "0" .. tostring(hours)
+  end
+  if (minutes < 10) then
+    minutes = "0" .. tostring(minutes)
+  end
+  if (seconds < 10) then
+    seconds = "0" .. tostring(seconds)
+  end*/
+  return {
+    days = days,
+    hours = hours,
+    minutes = minutes,
+    seconds = seconds
+  }
+end
+
+exports("GetFormattedPlayedTime", GetFormattedPlayedTime)
+
+
+RegisterNetEvent("esx:playerLoaded", function(playerId, xPlayer)
+    if(not PlayerStats[xPlayer.identifier]) then
+        PlayerStats[xPlayer.identifier] = {
+            playedTime = 0,
+        }
+        xPlayer.set("played_time", GetFormattedPlayedTime(0))
+    else
+        xPlayer.set("played_time", GetFormattedPlayedTime(PlayerStats[xPlayer.identifier].playedTime))
+    end
+end)
+
+Citizen.CreateThread(function()
+    MySQL.query.await([[
+        CREATE TABLE IF NOT EXISTS `user_stats` (
+            `identifier` VARCHAR(255) NOT NULL COLLATE 'latin1_swedish_ci',
+            `played_time` BIGINT(20) NOT NULL DEFAULT '0',
+            PRIMARY KEY (`identifier`) USING BTREE,
+            UNIQUE INDEX `identifier` (`identifier`) USING BTREE
+        )
+        COLLATE='latin1_swedish_ci'
+        ENGINE=InnoDB
+        ;
+    ]])
+    MySQL.query.await([[
+        ALTER TABLE `user_stats`
+            ADD IF NOT EXISTS `identifier` VARCHAR(255) NOT NULL COLLATE 'latin1_swedish_ci',
+            ADD IF NOT EXISTS `played_time` BIGINT(20) NOT NULL DEFAULT '0';
+    ]])
+    local results = MySQL.query.await("SELECT * FROM `user_stats`")
+    for i=1, #results do
+        local result = results[i]
+        PlayerStats[result.identifier] = {
+            playedTime = tonumber(result.played_time)
+        }
+    end
+    local currentTick = 1
+    while true do
+        currentTick += 1
+        for identifier, data in each(PlayerStats) do
+            local xPlayer = ESX.GetPlayerFromIdentifier(identifier)
+            if(xPlayer and xPlayer?.source) then
+                data.playedTime += 1
+                if(currentTick >= 30) then
+                    xPlayer.set("played_time", GetFormattedPlayedTime(data.playedTime))
+                    MySQL.prepare("INSERT INTO `user_stats` SET `identifier` = ?, `played_time` = ? ON DUPLICATE KEY UPDATE `identifier` = ?, `played_time` = ?", {
+                        identifier,
+                        data.playedTime,
+                        identifier,
+                        data.playedTime,
+                    })
+                end
+            end
+        end
+        if(currentTick >= 30) then
+            currentTick = 1
+        end
+        Citizen.Wait(2000)
+    end
+end)
+
+lib.callback.register("strin_base:getPlayerStats", function(_source)
+    local xPlayer = ESX.GetPlayerFromId(_source)
+    if(not xPlayer) then
+        return false
+    end
+    local stats = lib.table.deepclone(PlayerStats[xPlayer.identifier])
+    stats.playedTimeTable = GetFormattedPlayedTime(stats.playedTime)
+    return stats
+end)
+
 /*local FoundObjects = {}
 RegisterNetEvent("strin_base:foundObject", function(object)
     local _source = source

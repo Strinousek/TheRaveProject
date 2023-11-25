@@ -1,0 +1,131 @@
+@import url('https://fonts.googleapis.com/css2?family=Leckerli+One&family=Montserrat:wght@100;300;400;500;600;700;800;900&family=Roboto+Mono:wght@600&display=swap');
+
+* {
+    font-family: "Montserrat";
+}
+
+html {
+    height: 100%;
+    width: 100%;
+}
+  
+body {
+    text-align: center;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#board {
+    position: relative;
+    padding: 16px;
+    width: 80%;
+    height: 60%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.452) 39%, rgba(211, 81, 0, 0.479) 100%);
+    border-radius: 8px;
+    display: none;
+    /*justify-content: center;*/
+    flex-direction: column;
+}
+
+#board-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 16px;
+    width: 100%;
+}
+
+#board-header > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: white;
+}
+
+#board-header-divider {
+    width: 65%;
+    margin: 0 8px;
+    height: 4px;
+    background-color: white;
+}
+
+#board-header-title {
+    font-size: 32px;
+    text-transform: uppercase;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+#board-header-time {
+    text-transform: uppercase;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+#board-rewards {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(4, 50%);
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.board-reward {
+    position: relative;
+    padding: 8px;
+    margin: 8px;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.452) 39%, rgba(211, 81, 0, 0.479) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column-reverse;
+    transition: 0.2s all;
+}
+
+.board-reward:hover {
+    cursor: pointer;
+    -webkit-box-shadow: 0px 0px 29px 12px rgba(230,126,34,0.61);
+    -moz-box-shadow: 0px 0px 29px 12px rgba(230,126,34,0.61);
+    box-shadow: 0px 0px 29px 12px rgba(230,126,34,0.61);
+}
+
+.board-reward > * {
+    z-index: 1;
+}
+
+.board-reward-image {
+    opacity: 0.5;
+    width: 128px;
+    height: 128px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.board-reward-status {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 99;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    color: white;
+    border-bottom-right-radius: 8px;
+    top: 0;
+    left: 0;
+}
+
+.board-reward-title {
+    padding: 8px;
+    margin-top: 16px;
+    width: 80%;
+    text-transform: uppercase;
+    font-weight: 800;
+    color: white;
+    background-color: rgba(52, 73, 94, 0.582);
+}
