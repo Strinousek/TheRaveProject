@@ -9,10 +9,10 @@ Here you will find community and my own script solutions for various RP concepts
 
 The main programming language here is **Lua**, with various script solutions that include other languages or tools like **JavaScript, TypeScript, React, jQuery, HTML/CSS**.
 
-This is an older project that I worked on when I was younger and less experienced. You may find **outdated, non-functional, unusual, or otherwise unconventional methodologies** here.
+This is an older project that I worked on when I was younger and less experienced. You may find **outdated, non-functional, unusual, or otherwise unconventional methodologies** and **unprofessional repository management** here.
 
 #### To distinguish between community and my own solutions:
-- Files and directories with names containing **"strin"** / **"rave"** are my own solutions (or heavily tweaked community solutions).
+- Files and directories with names that contain **"strin"** or **"rave"** are my own solutions (or heavily modified community solutions).
 - Other files and directories are community solutions that may contain my modifications, or they are unmarked/general solutions that may or may not have been created by me.
 
 ---

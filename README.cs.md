@@ -9,10 +9,10 @@ Naleznete zde komunitní a mé vlastní skriptové řešení pro různé RP konc
 
 Hlavním programovacím jazykem je zde **Lua**, a jsou zde různá řešení zahrnující i jiné jazyky nebo prostředky, jako jsou **JavaScript, TypeScript, React, jQuery, HTML/CSS**.
 
-Jedná se o **starší projekt**, na kterém jsem pracoval jako mladší a méně zkušený. Můžete zde proto narazit na **zastaralé, nefunkční, neobvyklé či jiné metodiky**.
+Jedná se o **starší projekt**, na kterém jsem pracoval jako mladší a méně zkušený. Můžete zde proto narazit na **zastaralé, nefunkční, neobvyklé či jiné metodiky** a **známky neprofesionální správy repozitáře.**
 
 #### Pro rozlišení komunitních a mých vlastních řešení:
-- Soubory a adresáře, kde se objevuje **"strin"** / **"rave"**, jsou má vlastní řešení (nebo komunitní řešení s výraznými úpravami).
+- Soubory a adresáře, kde se objevuje **"strin"** nebo **"rave"**, jsou má vlastní řešení (nebo komunitní řešení s výraznými úpravami).
 - Jiné soubory a adresáře jsou komunitní řešení, která mohou obsahovat mé úpravy, nebo se jedná o **neoznačené / obecné řešení**, která mohla, ale nemusela být vytvořena mnou.
 
 ---
