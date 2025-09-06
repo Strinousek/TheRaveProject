@@ -69,6 +69,6 @@ I’m leaving it open for anyone to:
 — Jakub "Strin" Mrkáček
 
 #### Special thanks to:
-Kerb, Nannie, feedmyexx, Vilém, Zone642, Midget, Seryozka, Avalanche, alex, hejhulak361, Tomix, and others.
+Kerb, Nannie, feedmyexx, Cekutka, Vilém, Zone642, Midget, Seryozka, Avalanche, alex, hejhulak361, Tomix, and others.
 
 ![The Rave Project End](./rave_end.gif)

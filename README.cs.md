@@ -65,6 +65,6 @@ Repozitář zveřejňuji proto, aby si **kdokoli mohl vzít z řešení to, co p
 — Jakub "Strin" Mrkáček
 
 #### Speciální poděkování:
-Kerb, Nannie, feedmyexx, Vilém, Zone642, Midget, Seryozka, Avalanche, alex, hejhulak361, Tomix a dalším.
+Kerb, Nannie, feedmyexx, Cekutka, Vilém, Zone642, Midget, Seryozka, Avalanche, alex, hejhulak361, Tomix a dalším.
 
 ![The Rave Project End](./rave_end.gif)
