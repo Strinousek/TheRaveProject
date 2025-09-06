@@ -59,9 +59,11 @@ I’m leaving it open for anyone to:
 - Take whatever they need from the solutions
 - Or just look back at the work that was done
 
-**By releasing this repository, I am officially announcing the definitive end and closure of *The Rave Project*.**
-
 ---
+
+## **By releasing this repository, I am officially announcing the definitive end and closure of *The Rave Project*.**
+
+## **If you plan to use anything I created, please consider giving credit or a shoutout.**
 
 ### Thank you all and best of luck.  
 — Jakub "Strin" Mrkáček

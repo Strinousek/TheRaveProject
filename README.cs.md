@@ -57,11 +57,11 @@ Zároveň jsem do tohoto projektu dal **velké množství času a energie**, pro
 
 Repozitář zveřejňuji proto, aby si **kdokoli mohl vzít z řešení to, co potřebuje**, nebo se **jen podíval na vykonanou práci**.
 
-**Zveřejněním tohoto repozitáře oznamuji definitivní konec a zánik projektu *The Rave Project*.**
+## **Zveřejněním tohoto repozitáře oznamuji definitivní konec a zánik projektu *The Rave Project*.**
 
----
+## **Pokud se hodláte použít cokoliv, co jsem vytvořil, prosím o credit v jakékoliv míře.**
 
-### Děkuji všem a hodně štěstí  
+### Děkuji všem a hodně štěstí.
 — Jakub "Strin" Mrkáček
 
 #### Speciální poděkování:
